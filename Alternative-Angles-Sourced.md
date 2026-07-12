@@ -25,11 +25,11 @@
 
 ## 2. 城市品牌与"企业型城市"(entrepreneurial city / city branding)
 
-- Harvey (1989) "从管理主义到企业主义"(From Managerialism to Entrepreneurialism)—— 💭 我的既有知识,未核实。这是城市研究里一篇非常经典的文章(我确信它存在,是城市治理理论的常见基础文献),但具体的期刊、页码信息我没有在本次对话中核实过,建议你自己查一下准确出处(应该是发表在 *Geografiska Annaler B* 上)。
+- Harvey (1989) "从管理主义到企业主义"(From Managerialism to Entrepreneurialism)—— 📄 **已读全文**(用户上传 PDF,存入 `External-Sources/Harvey-1989-From-Managerialism-to-Entrepreneurialism.pdf`,详见 `Bibliography-FuxingIsland.md` D8)。确认出处:*Geografiska Annaler: Series B, Human Geography*, 71(1), 3–17。核心论点:城市治理从"管理主义"转向"企业主义",其中"改善消费空间分工地位"(靠旅游/文化创新/都市奇观/滨水开发引资)这一策略,和 REDLAND/复兴岛的逻辑高度对应;文中巴尔的摩内港案例(形象工程掩盖实质贫困)是复兴岛/REDLAND 的经典西方对照案例。
 - Florida "creative class"(创意阶层理论)—— 💭 我的既有知识,未核实。理查德·佛罗里达的《The Rise of the Creative Class》是一本很有名的书,但具体版本/年份信息建议自查。
 - Sasaki 项目页使用"创新区""创意阶层"话语 —— 🔍 本次网络搜索确认,已在 `Bibliography-FuxingIsland.md` 的 C1 条目,链接可直接打开验证。
 
-**小结**:理论部分(Harvey、Florida)是我的既有知识,**没有在本次对话中核实**;但"复兴岛官方规划话语确实在使用这套语言"这一点,有 Sasaki 项目页作为**已核实的一手证据**支撑,这部分可以放心用。
+**小结**:Harvey (1989) 现已**读过全文并核实**(见上);Florida 部分仍是我的既有知识,**没有核实**;"复兴岛官方规划话语确实在使用这套语言"这一点,有 Sasaki 项目页作为**已核实的一手证据**支撑,这部分可以放心用。
 
 ---
 
@@ -92,10 +92,10 @@
 |---|---|---|
 | 6. 性别化空间 | ⭐⭐⭐ 最强 | 讲义+已读全文双重确认 |
 | 7. 住房/土地资产化 | ⭐⭐⭐ 最强 | 讲义+已读全文双重确认 |
+| 2. 城市品牌/企业型城市 | ⭐⭐⭐ 最强(已升级) | 复兴岛证据(Sasaki)+ Harvey (1989) 已读全文双重确认(Florida 部分仍未核实) |
 | 3. 景观化/Disneyfication | ⭐⭐ 较强 | 已读全文的课程阅读材料里真实出现这个词 |
 | 8. 隔离/准入机制 | ⭐⭐ 较强 | 讲义有直接引用,但原论文未读 |
 | 4. 数据/平台资本主义 | ⭐⭐ 较强 | 中国案例部分(Cao)已核实,但西方理论(Zuboff)未核实 |
-| 2. 城市品牌/企业型城市 | ⭐ 中等 | 复兴岛证据(Sasaki)已核实,但西方理论(Harvey/Florida)未核实 |
 | 5. 岛屿/飞地城市主义 | ⭐ 中等 | "战略留白"表述真实,但理论框架未核实 |
 | 1. 事件驱动型开发 | ☆ 最弱 | 没有任何一篇被我实际读过全文的支撑文献 |
 
