@@ -167,7 +167,7 @@ renaissance narratives erase working-class histories.\"
 **引用4（p. 250）**：
 \"Gentrification does not require individual displacement; it requires 
 the transformation of neighborhood character for new users.\"
-[你的注释：关键！说明绅士化的本质不是驱逐而是转换，对应你的\"无人绅士化\"]  
+[你的注释：关键！说明绅士化的本质不是驱逐而是转换，对应你的\"预防性排他绅士化\"——转换可以先于/无需事后驱逐而发生]  
 ```
 
 ---
@@ -235,7 +235,7 @@ Stein提供了理解这些差异的框架（国家角色不同）。
 
 **主要用处**：论文第3部分（理论框架）
 - 用Stein的三方框架来组织复兴岛的分析
-- 修改框架以适应\"无人绅士化\"的特殊情况
+- 修改框架以适应\"预防性排他绅士化\"的特殊情况
 
 **次要用处**：论文第4部分（讨论）
 - 用Stein关于文化的论述，论证\"工业遗产保护\"如何成为驱逐工具
@@ -317,7 +317,7 @@ require the displacement of every individual resident. What matters is the
 fundamental reorientation of the neighborhood toward new users with different 
 income, taste, and expectations.\"
 
-[用途：最关键！支撑你的\"无人绅士化\"论点——绅士化的本质不是驱逐而是转换]
+[用途：最关键！支撑你的\"预防性排他绅士化\"论点——绅士化的本质不是驱逐而是转换，转换可以通过预先规划性排斥来实现，不需要事后大规模驱逐]
 
 ### 论文的假设与局限
 
