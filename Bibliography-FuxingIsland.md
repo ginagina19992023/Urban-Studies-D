@@ -36,7 +36,7 @@
 
 - **和课程框架的对应**:
   - **Davidson (2018,已读全文,Gentrification 单元指定阅读)** 提到"全球新建绅士化:在中国**国家主导、大规模拆迁**"——和这里"阶段一→阶段二"的转变高度呼应,可直接引用作为理论桥梁。
-  - **Hochstenbach (2017)**,标题就是"**State-led Gentrification** and the Changing Geography of Market-oriented Housing Policies"(目前只在阅读清单上,📋 未读全文)——如果时间允许,这篇可能是把"国家主导"和"市场化政策"两条线索连起来的最直接文献。
+  - ~~Hochstenbach (2017)~~ —— **更正:降级,不建议作为理论桥梁**。🔍 查过摘要后发现,这篇讲的是阿姆斯特丹"住房协会"体系里**社会租赁住房(公租房)被出售**这一具体机制如何加剧已有绅士化——是一套很本地化的荷兰住房制度研究,和复兴岛(无住宅存量的工业岛,靠土地收储/合资开发)在机制上对不上。用户实际读过全文后反馈"看得懂但和作业关系不大",这个判断是对的,我之前只看标题就推荐,判断草率。"国家主导绅士化"这个概念已经有更贴近的支撑——**Davidson (2018,已读全文)** 里明确提到"中国的国家主导、大规模拆迁"绅士化,建议以此为准,Hochstenbach 这篇不必深读。
   - **Harvey (1989)"从管理主义到企业主义"**(💭 此前标注为我的既有知识联想,未核实原文)——这篇论文的上海案例某种程度上是这个经典叙事的"反向"版本:不是国家退出、市场进入,而是国家在"企业主义"阶段(阶段一,为全球城市形象招商)之后,重新夺回中心地位,但保留了企业主义的工具箱(阶段二)。这个"正—反—合"的动态,可以是论文里一个可展开的理论亮点。
 - **⭐ 直接点名复兴岛的原文段落**(第1873页,我已逐字核对):
   > "In 2022, Shanghai Land Group signed a contract with Yangpu Bingjiang to comprehensively redevelop the Yangpu district's waterfront area. These two corporations set up a new company called Shanghai Yangpu Binjiang New Development Corporation with a capital injection ratio of 6:4. **The joint corporation focuses on the development of Fuxing Island next to the Huangpu River, aiming to build a demonstration area for People's City.** Although the plan remains unclear, the impact of the new concept of People's City on the redevelopment of waterfront areas is apparent."
