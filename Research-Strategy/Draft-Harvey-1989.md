@@ -67,9 +67,22 @@
 3. **争夺高端管控职能**(Control and command functions):金融、政府、信息处理(含媒体)等职能高度集中在少数城市——需要大量基础设施投资(机场、通信枢纽)、教育资源(商学院、法学院、高科技产业)。
 4. **争取中央/州政府的财政再分配**(Redistribution through central governments):中央政府依然在分配资源(如军事/国防合同),只是渠道变了——这一条被 Harvey 认为常被忽视("低估中央政府仍在再分配的程度是个迷思")。
 
+#### 策略④详解(原文见第9–10页,已逐句核对)
+
+> "Competitive edge with respect to redistributions of surpluses through central (or in the United States, state) governments is still of tremendous importance since it is somewhat of a myth that central governments do not redistribute to the degree they used to do. The channels have shifted so that in both Britain (take the case of Bristol) and in the United States (take the case of Long Beach-San Diego), military and defense contracts are the sustenance for urban prosperity, in part because of the sheer amount of money involved but also because of the type of employment and the spin-offs it may have into so-called 'high-tech' industries (Markusen, 1986)."
+
+**译**:在争取中央(美国语境下是州)政府的剩余财政再分配方面保持竞争优势,依然极其重要——因为"中央政府不再像过去那样进行再分配"这个说法,在某种程度上是一个迷思。渠道已经发生了转移:在英国(以布里斯托为例)和美国(以长滩—圣地亚哥为例),军事/国防合同成为城市繁荣的支撑,部分是因为涉及的资金规模巨大,但也因为这类就业的性质及其对所谓"高科技"产业的溢出效应(Markusen, 1986)。
+
+**要点拆解**:
+- **背景**:1970s以来的新自由主义叙事说"中央政府在收缩、地方要自己想办法"——Harvey 提醒这只是**表面现象**,中央的钱没有真正消失,只是**换了渠道**流入城市。
+- **具体渠道:军事/国防合同**——两个案例:英国布里斯托、美国长滩—圣地亚哥。为什么军工订单特别管用?三个原因:①**资金规模巨大**,远超地方政府自筹能力;②**就业类型好**——熟练技工/工程师的稳定中高薪岗位;③**技术溢出效应**——常带动周边"高科技产业"发展(引 Markusen 1986)。
+- **有些领域根本切不断**:医疗、教育等基本公共服务,甚至整个大都市区经济(引 Smith & Keller 1983 研究新奥尔良的案例)都可能高度依赖中央转移支付,想彻底切断并不现实。
+- **和其他策略的协同**:洛杉矶—圣地亚哥—长滩—橙县这个大都会带的增长,正是策略④(国防合同再分配)与策略③(争夺高端管控职能)**互相促进**的结果——四种策略常常叠加、互相强化,不是互相排斥的。
+
 ### 与复兴岛的关联(待验证直觉,先记下来)
 - REDLAND/复兴岛几乎是**策略②的教科书案例**:工业遗产美学化(船台公园)、都市奇观(二次元"痛岛")、滨水景观开发——都是"靠消费空间竞争把钱引进本地"的具体操作。
 - 但值得注意:Harvey 描述的这四种策略**都假定地方政府在"竞争"资本**,而复兴岛的资本(百联/杨浦滨江/上海地产集团)本身就是国有资本——这和 Feng/Zhang/Wu (2026) 提出的"国家企业主义"形成对照:不是地方政府去外面"抢"资本,而是国家内部资本(国企)被动员来执行政治任务。这个差异可能正是你论文里"复兴岛没有完全套用西方城市企业主义模型"的论证空间。
+- **⭐ 策略④与复兴岛的一个有趣对应**:Harvey 案例里,中央政府的资源通过**军事合同**这个纯经济渠道流入地方;复兴岛的情况里,2019年习近平考察杨浦滨江所给予的"人民城市"**政治背书**,某种程度上是另一种"再分配"——不是直接给钱,而是给了地方政府稀缺的**政治合法性/优先级**,地方政府再把这份政治资本转化为土地、投资、示范区地位等实际开发资源。可以论证:**Harvey 假设的再分配渠道是纯经济性的,复兴岛案例展示了一种"政治象征资本"的再分配渠道**——这可能是国家企业主义(state entrepreneurialism)和西方城市企业主义(urban entrepreneurialism)最本质的分岔点之一。
 
 ---
 
