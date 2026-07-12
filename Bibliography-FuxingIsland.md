@@ -20,9 +20,28 @@
 
 研究上海"一江一河"倡议下的徐汇滨江——废弃工业用地转化为连续滨江公园与文化场馆走廊。采用分配/程序/认知三重正义框架 + 遥感/房价收入比分析(2015–2024)。结论:滨江连续性、绿化、工业建筑活化利用确实提升了可达性与环境质量,**但住房可负担性日益两极化,显示出正在浮现的绅士化和代际不平等**。与复兴岛**同城市、同政策框架**,是最直接的实证方法参照与比较个案。
 
-### A4. Feng, Y., Zhang, F., & Wu, F. (2025). Waterfront regeneration as a political mission: Megaprojects under state entrepreneurialism. *Journal of Urban Affairs*. https://doi.org/10.1080/07352166.2025.2504996
+### A4. Feng, Y., Zhang, F., & Wu, F. (2026). Waterfront regeneration as a political mission: Megaprojects under state entrepreneurialism. *Journal of Urban Affairs*, 48(6), 1863–1880. https://doi.org/10.1080/07352166.2025.2504996
 
-研究上海"一江一河"(黄浦江+苏州河)滨水更新的治理逻辑,指出尽管国家话语已从"经济增长优先"转向"以人民为中心",但城市治理实践中**国家依然牢牢掌控决策与项目实施**,体现"国家企业主义"(state entrepreneurialism)特征。可作为复兴岛开发治理结构的宏观政策背景。
+> 📄 **来源升级**:你提供了这篇论文的完整 PDF(已存入 `External-Sources/Feng-Zhang-Wu-2026-Waterfront-regeneration-political-mission.pdf`),我已**逐页读完全文**(此前只有 WebSearch 摘要级别的了解)。这是目前找到的**最重要的一篇学术源**——不仅理论框架高度适配,而且**正文直接点名复兴岛**,是一手学术引用,不是我的推测。
+
+- **作者与机构**:Yi Feng(南京大学,原 UCL Bartlett 建成环境研究员)、Fangzhu Zhang & Fulong Wu(均为 UCL Bartlett 规划学院,Fulong Wu 是中国城市化研究的重要学者)。研究受欧洲研究理事会(ERC)"ChinaUrban"重大项目资助(Advanced Grant No. 832845)。**开放获取**(CC BY-NC-ND 4.0)。
+- **研究方法**:2023年三次实地调研 + 17次访谈(5名政府官员、2名规划师、7名学者、3名居民)+ 官方文件/媒体报道分析,案例为上海"一江一河"(黄浦江+苏州河沿岸贯通)滨水更新工程。
+- **核心理论框架:"国家企业主义"(state entrepreneurialism, 引自 Wu 2018)**——不同于西方经典的"城市企业主义"(urban entrepreneurialism, Harvey 1989,政府像企业家一样迎合投资者、追逐资本),中国语境下的"国家企业主义"指**国家中心性与市场化工具相互交织**:国家仍然牢牢掌握决策权,但会主动调用/创设市场化机构(如国企开发公司)作为实现国家目标的工具,而不是通过公私合作(PPP)向开发商让渡决策权。
+- **三大核心发现**:
+  1. 上海滨水更新体现**国家理性、服务于政治目的**,而非单纯迎合外部投资者——"人民城市"(People's City,2019年习近平考察黄浦江滨江后提出"人民城市人民建,人民城市为人民")这一国家话语为滨水项目赋予了新的**政治象征价值**。
+  2. 项目实施由**市级到区级的多层政府动员**完成,通过"国资平台公司"(如上海地产集团)作为市场化工具融资/征地/建设,**私营开发商和公众参与度都极低**——"政府用公共财政说服居民/企业让出土地开放给公众",而非真正的公私合作。
+  3. 尽管国家治理重心已从"经济增长"转向"以人民为中心",**国家在城市治理中的中心地位并未被根本重构**——"人民城市"更多是话语/象征层面的转向,权力结构本质未变。
+- **⭐ 直接点名复兴岛的原文段落**(第1873页,我已逐字核对):
+  > "In 2022, Shanghai Land Group signed a contract with Yangpu Bingjiang to comprehensively redevelop the Yangpu district's waterfront area. These two corporations set up a new company called Shanghai Yangpu Binjiang New Development Corporation with a capital injection ratio of 6:4. **The joint corporation focuses on the development of Fuxing Island next to the Huangpu River, aiming to build a demonstration area for People's City.** Although the plan remains unclear, the impact of the new concept of People's City on the redevelopment of waterfront areas is apparent."
+  
+  **译**:2022年,上海地产集团与杨浦滨江签约,全面开发杨浦区滨水区域。两家公司组建了新公司"上海杨浦滨江新开发有限公司",出资比例6:4。**这家合资公司专注于开发紧邻黄浦江的复兴岛,旨在打造"人民城市"示范区。**尽管规划细节仍不明朗,但"人民城市"这一新理念对滨水区更新的影响已经显现。
+  
+  这段是**目前为止唯一一篇同行评审学术论文里,明确点名"复兴岛"并给出确切治理结构(上海地产集团 + 杨浦滨江,6:4合资)的一手学术引用**——直接印证了 C3(新华网文章)提到的"人民城市岛"官方话语,并补上了 C3 没有的**具体出资方/公司架构信息**。
+- **社区影响相关发现(第1874页,虽非复兴岛案例,但方法论/理论可直接套用)**:研究团队实地访谈了滨水项目附近3个受影响社区,发现:(1)政府用**财政补偿**换取居民开放沿河土地,但补偿资金来自区级财政,可能**加剧不同社区间的不平等**;(2)居民对**安全**表达担忧——公共步道与小区之间只有"象征性"的矮栅栏/闸门,居民抱怨"门经常不上锁";(3)部分河岸步道**使用率很低**("underutilized"),游客和其他区居民对这些路段兴趣不大。
+- **对复兴岛论文的价值**:
+  1. **理论层面**:为"预防性排他绅士化"论点提供了一个比 Marcuse/Stein 更贴近中国治理现实的理论工具——"国家企业主义"精确描述了复兴岛式的"国家主导、市场化工具执行、公众参与度低"的开发模式,比泛泛套用西方绅士化理论更有说服力。
+  2. **证据层面**:补上了 C3、C5 之外**第三个独立信源**(学术论文,而非政府新闻稿或政府街道办文件),三者互相印证,大大提高了"复兴岛正在被作为人民城市示范区开发、且治理结构以国家为中心"这一事实判断的可信度。
+  3. **可比较案例**:论文里"一江一河"其他滨水项目(杨浦滨江人民城市建设规筑展示馆、苏州河沿岸)可以作为复兴岛的**同类对照案例**,分析复兴岛在多大程度上遵循/偏离了上海滨水更新的一般模式。
 
 ### A5. Examining state-led gentrification using street view imagery: Evidence from Shanghai, China. *Cities* (2026,作者名未确认). https://www.sciencedirect.com/science/article/pii/S0264275126003458
 
