@@ -33,24 +33,13 @@
 - **关键定义**:城市是"a human settlement in which strangers are likely to meet"(陌生人有可能相遇的人类聚落);城市应提供公共空间,让居住者通过与陌生人交往习得"**urban competence(都市能力)**"。
 - 详见 `Research-Strategy/Draft-Sennett-2019.md`(含一段已记录、待验证的复兴岛论文角度直觉:"building without dwelling")。
 
-### 0.4 Ilmonen (2016) — *The Changing Urban Question*(变化中的城市问题)
+### 0.4 Ilmonen (2016) — "The Changing Urban Question" 标题页(讲义未展开;真正内容在 Housing 单元)
 
-> ⚠️ 注意区分:讲义里引用的是 Ilmonen 这篇关于"城市问题框架转变"的论述,**不同于** Housing 单元指定阅读的 Ilmonen (2016)《On Housing Preferences and Housing Choices》(收录于 Gromark et al. 编 *Ways of Residing in Transformation*)——两者作者、年份相同,但讨论的层级不同(前者是宏观"城市问题"框架,后者是住房偏好研究),讲义未标注具体出处,引用前建议自行核实是否为同一文献的不同章节。
+> ⚠️ **更正说明**:我之前在这里放过一张"工业城市 vs 后工业城市"对照表(核心议题/城市形象/国家角色/空间尺度/政策逻辑等),那张表的措辞(如"positive urbanism"、"neoliberal market policy"、"City as a problem"）**在两份讲义 PDF 的原文提取里都找不到**——是我沿用了 `Research-Strategy/Draft-Ilmonen-2016.md`(非本人核实的既有文件)的内容,没有做二次核对就直接采用,这是我的疏漏,现予更正、删除。
 
-- **核心论点**:从工业城市("第一次都市主义")到后工业城市("第二次都市主义"),**"城市问题"这个题目本身变了**,不再是同一件事。
-- **对照表**:
-
-  | 维度 | 工业城市(第一次都市主义) | 后工业城市(第二次都市主义) |
-  |---|---|---|
-  | 核心人群 | 工人阶级(working class) | 流动中产阶级(mobile middle classes) |
-  | 人口特征 | 同质(homogeneous) | 差异化、分化(differentiating) |
-  | 核心议题 | 住房问题(The Housing Question) | 城市复兴(urban renaissance) |
-  | 城市形象 | 问题、负面他者(相对乡村) | 正面都市主义(positive urbanism) |
-  | 国家角色 | 社会稳定与福利国家 | 竞争性,福利也受竞争逻辑影响 |
-  | 空间尺度 | 民族国家 | 全球世界 |
-  | 政策逻辑 | 社会民主主义福利政策 | 新自由主义市场政策 |
-
-- 详见 `Research-Strategy/Draft-Ilmonen-2016.md`(含一段已记录、待验证的复兴岛/船台论文角度直觉:后工业空间改造是否是"changing urban question"的地方性回应)。
+- **已核实的事实**(直接读取 `introduction.pdf` 原文):Introduction 讲义里确实有一张标题页写着"**Ilmonen 2016: The Changing Urban Question**",但**紧接着就跳到下一个话题("TOP JOURNALS"),没有任何展开内容**——这只是一张预告/标题页,不是完整的阅读材料。
+- **本次网络搜索(WebSearch)**:没有搜到任何一篇独立发表、标题恰好叫《The Changing Urban Question》的 Ilmonen 论文/书章节。搜索确认作者全名是 **Mervi Ilmonen**(Aalto大学 YTK Land Use and Urban Studies Group 研究员,非"Mauri"——此前提到过"Mauri Ilmonen"是我未核实的笔误,一并更正),她是 *Ways of Residing in Transformation*(2016, Gromark, Ilmonen, Paadam & Støa 编)一书的共同编者之一,该书正是 Housing 单元指定阅读 Ilmonen 章节的出处。
+- **最可能的情况**:这张"Changing Urban Question"标题页,和 `housing.pdf` 里题为"**The Changing Housing Question (Mervi Ilmonen)**"的完整对照表(见下方 Housing 导读 §2.2)是**同一个 Ilmonen 框架**,老师在两份讲义里各引用了一次,标题打法有出入(Urban/Housing 一字之差)——Introduction 讲义只提前挂了个标题,真正展开的内容在 Housing 单元才出现。**这是我基于两份讲义交叉比对做出的合理推断,不是 100% 确证**,如果你想彻底搞清楚,建议直接问老师这两张标题页是否指同一份材料。
 
 ### 0.5 "What is the urban?" —— 讲义留下的开放问题
 讲义用一个通俗类比留下悬念:"如果你裸体站在门廊上,邻居看不见——那是乡村;邻居报警——那是郊区;邻居毫不在意——那才是城市。" 呼应 Berndt (2015) 的观点:城市未必是纯粹的物理实体,而是一种被发展出来的**理论范畴**,用以论证社会的整体转型。
@@ -105,6 +94,68 @@
 ---
 
 ## 二、Housing(住房)
+
+### 2.0 讲义核心框架(`Lectures-20260706/housing.pdf`,20.1 课)
+
+讲义分三部分:住房是什么(What is housing?)/住房偏好(Housing preferences)/住房政策(Housing policy)。以下是逐段梳理(均已核对讲义原文提取)。
+
+**① 住房是什么?——三种互相冲突的理解**
+- 讲义开场提问:住房是基本需求?(谁该提供?)是可以榨取财富的商品?还是一种生活方式?
+- **Madden & Marcuse (2016, 4)** 原句引用:"Today there is a conflict between housing as lived, social space and housing as an instrument for profitmaking – a conflict between home and real estate."(今天,住房作为被居住的社会空间,与住房作为牟利工具之间存在冲突——家与房地产之间的冲突。)更广泛地说,住房是不同意识形态、经济利益与政治项目之间争夺的对象。
+
+**② 住房金融化(Financialization of housing)**
+- 定义(**Aalbers 2016**):住房金融化指"金融动机、市场与行为者在塑造住房方面的作用日益增强"这一过程。
+- **Christophers (2015)** 指出这一概念本身存在争议;**Aalbers (2019)** 强调其结果因具体语境而异。
+- 涉及的行为者:机构投资者、国际投资者、非上市房地产投资公司、上市房地产投资公司(REITs)、基金会等。
+- **Clark (2021, 151)** 原句引用:"Housing is at the heart of the growing economic divide in Europe and the US."(住房是欧美日益扩大的经济鸿沟的核心。)
+
+**③ "The Changing Housing Question"(Mervi Ilmonen)—— 已核实的完整对照表**
+
+  | 维度 | 工业城市(The Industrial City) | 后工业城市(The Post-industrial City) |
+  |---|---|---|
+  | 住房状况 | 住房短缺(Housing shortage) | "可负担住房"("Affordable Housing") |
+  | 家庭规模 | 大家庭(Large families) | 小型家户(Small households) |
+  | 住房定位 | 住房作为需求(Housing as need) | 住房作为消费(Housing as consumption) |
+  | 需求性质 | 量的需求(Quantitative needs) | 质的需求(Qualitative needs) |
+  | 主要人群 | 工人阶级(Working class) | 中产阶级(Middle class),人群日益分化(Diversifying residents) |
+
+  > 这是我在 `housing.pdf` 原文里逐字核对过的表格,和"零、Introduction"§0.4 提到的、Introduction 讲义那张只有标题没内容的"Changing Urban Question"页很可能是**同一个 Ilmonen 框架**的完整版本。且这张表和下方 §9 Ilmonen (2016) 章节里已读过全文的"**第一住房问题**(工业化城市:短缺、贫困)vs **第二住房问题**(后工业化城市:住房从需求变消费)"框架高度吻合——两者应是同一套理论在"讲义 PPT 版"与"论文原文版"里的不同呈现,这进一步印证了这套框架确实是 Ilmonen 本人的论点,不是我编造的。
+
+**④ 芬兰人想怎么住?(住房权属形式)**
+- **自住产权(Owner occupation)**:独栋住宅,或"asunto-osakeyhtiö"(有限责任住房公司)——购买股份从而获得特定公寓的使用权,芬兰特有的产权形式。
+- **居住权住房(Asumisoikeusasunto / Right of occupancy)**:介于租赁与产权之间的混合形式——居民预付房产价值的15%换取居住权,另加每月费用。
+- **合作社住房(Cooperative housing)**。
+- 数据来源:City of Helsinki (2023) *Facts and Figures*;Statistics Finland (2023) 住房权属统计。
+
+**⑤ 芬兰租赁市场**
+- **二元租赁市场(Dualist rental market)**:私人租赁 + 社会住房(ARA)。
+- 私人租赁市场既包括持有出租物业的公司,也包括私人房东——**租金和租客筛选均不受管制**。
+- **Ruonavaara (2017, 9)** 原句引用,描述 ARA 社会住房:"not priced by the market and primarily targeted at low and middle-income households"(不受市场定价,主要面向中低收入家庭)——means-tested(经济状况审查)、cost-based(成本定价)、subsidized(受补贴)。
+
+**⑥ 住房政策是什么?**
+- **芬兰宪法第19条**:公共权力机构的职责是促进每个人的住房权,并支持住房的自我组织。
+- **环境部(Ministry of the Environment, 2019)**:住房政策应促进人人享有体面住房、可持续发展、社会与劳动力市场的正常运转,以及赋权(empowerment)。
+- **政策工具**:需求侧补贴(直接发给家户,降低住房成本)vs 供给侧补贴(补贴住宅生产,主要是补贴性住房)。讲义图表显示 1995–2023 年间,芬兰住房补贴结构**从供给侧(生产补贴 ARA)逐渐转向需求侧(住房补贴/allowances)**。
+
+**⑦ 为什么住房这么贵?**
+- **Ryan-Collins (2019)** 原句引用:"We must go beyond just looking at the supply of housing and examine demand, in particular the demand for housing as a financial asset."(不能只看供给,要看需求——尤其是把住房当金融资产的那部分需求。)
+- **Harvey (1978)**:财富被投入房地产而非生产性投资。
+- **Jonung & Andersson (2015)** 被引用(具体论点讲义未展开,仅列出年份来源)。
+- 讲义原句(不可引用他人,是这门课自己的表述):"**Housing is not just about homes, it's an asset class.**"(住房不仅仅是家,它是一种资产类别。)——这句话也是 `Alternative-Angles-Sourced.md` 角度7"住房/土地资产化"的直接讲义来源。
+
+**⑧ 可以做什么?**
+讲义结尾给出四条政策建议:管制信贷(regulate lending)、平等对待不同产权形式(treat different tenures equally)、发展更多社会住房(develop more social housing)、停止发展"买后出租"("buy-to-lets")。
+
+**⑨ 讲义框架与五篇指定阅读的对应关系**
+
+  | 讲义概念 | 对应阅读材料 |
+  |---|---|
+  | "第一/第二住房问题"("The Changing Housing Question"的学术原型)、住房偏好 | Ilmonen (2016)《On Housing Preferences and Housing Choices》— 见 §9(收录于 Paadam et al. 章节合集第3章) |
+  | 住房金融化、资产阶级 | Ronald & Kadi (2017) 私人房东复兴 — 见 §8;Ruonavaara (2025) 住房阶级 — 见 §5 |
+  | 住房作为消费/生活方式、性别化空间 | Kern (2007) 公寓私有化与性别 — 见 §7 |
+  | 公寓社区、邻里关系 | Hirvonen & Lilius (2019/2023) 邻里关系 — 见 §6 |
+
+---
 
 ### 5. Ruonavaara (2025) — *An idea that refuses to die: Rise, fall and resurgence of "housing class"*
 - **核心论点**:梳理"住房阶级"(housing class)理论从1967年Rex & Moore提出,到1980年代Saunders的"产权阶级"(property class)修正,再到2020年代Adkins等人的"资产阶级"(asset class)理论复兴的完整学术史。
