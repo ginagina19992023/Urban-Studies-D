@@ -26,11 +26,18 @@
 
 - **作者与机构**:Yi Feng(南京大学,原 UCL Bartlett 建成环境研究员)、Fangzhu Zhang & Fulong Wu(均为 UCL Bartlett 规划学院,Fulong Wu 是中国城市化研究的重要学者)。研究受欧洲研究理事会(ERC)"ChinaUrban"重大项目资助(Advanced Grant No. 832845)。**开放获取**(CC BY-NC-ND 4.0)。
 - **研究方法**:2023年三次实地调研 + 17次访谈(5名政府官员、2名规划师、7名学者、3名居民)+ 官方文件/媒体报道分析,案例为上海"一江一河"(黄浦江+苏州河沿岸贯通)滨水更新工程。
-- **核心理论框架:"国家企业主义"(state entrepreneurialism, 引自 Wu 2018)**——不同于西方经典的"城市企业主义"(urban entrepreneurialism, Harvey 1989,政府像企业家一样迎合投资者、追逐资本),中国语境下的"国家企业主义"指**国家中心性与市场化工具相互交织**:国家仍然牢牢掌握决策权,但会主动调用/创设市场化机构(如国企开发公司)作为实现国家目标的工具,而不是通过公私合作(PPP)向开发商让渡决策权。
-- **三大核心发现**(原文"Our findings are threefold",已逐句核对精确翻译):
-  1. 上海滨水更新体现**国家理性、服务于政治目的**,而非迎合外部投资者(Wu, 2018)——这呼应了对"大型城市项目新自由主义式解释"的批判,转而强调此类项目中的"政治形态"(political formations)与"国家的领土化"(territorialization of states)(Robinson et al., 2022, 2024)。"人民城市"这一国家话语,为新的滨水更新项目赋予了特定的**政治象征价值**。
-  2. 新滨水项目与上海此前的滨水更新项目不同:**强调滨河区域的连续性与公共可达性**,相比之下**此前的开发议程反映的是地价与"全球城市"打造这两种利益的纠缠**(如2010世博会阶段的滨江开发)。上海滨水更新如今**脱离新自由主义城市主义**(市场友好)、转向与**国家指令对齐**——从聚焦经济增长转向"以人民为中心"的开发,显示出**中央对地方开发议程的影响力正在增强**(Wu et al., 2022);这一起源不同于其他"源自地方内生需求"的以人为本滨水项目(如香港维港案例,Cheung & Tang, 2015)。
-  3. 市政府与国家机构调动各种资源完成项目,**私营部门与普通公众参与都很少**(Y. Li & Zhong, 2021)。在"以人民为中心"的开发时代,城市治理体现的是"**国家企业主义**"(state entrepreneurialism)——国家依然是构想与执行城市大型项目的中心,**国家—市场—居民三者关系并未被根本重构**。
+- **核心叙事:两阶段转型(比原文更容易复述的版本)**
+
+  **阶段一(旧模式)—— 市场合作,吸引资本**:2002年上海世博会前后,黄浦江沿岸启动"政府主导、市场运作"模式,动迁近3400家企业,用"土地金融创新"把滨江地块变成绿地/住宅/写字楼,目标是打造上海的"全球城市"形象、吸引外部投资——**开发议程被"地价升值"与"全球城市打造"这两种利益纠缠在一起**。
+
+  **阶段二(新模式)—— 国家主导,以人民为中心**:2019年习近平考察黄浦江滨江后提出"人民城市人民建,人民城市为人民",滨水开发目标从"经济增长/招商引资"转向"贯通性、公共可达性",不再优先考虑地价。**但实施方式没有退回计划经济式的直接管理——政府依然通过国企开发公司(市场化工具)去执行**,只是这些公司现在服务于政治任务(如连通45公里步道),而不是逐利。这就是论文提出的"**国家企业主义**"(state entrepreneurialism,引自 Wu 2018):不同于西方经典的"城市企业主义"(urban entrepreneurialism, Harvey 1989——政府像企业家一样迎合投资者、追逐资本),国家企业主义指**国家中心性与市场化工具相互交织**——国家把市场工具收归己用,为政治目标服务,而不是通过公私合作(PPP)向开发商让渡决策权。
+
+  **实施特征**:整个转型过程中,市政府与国家机构调动多层级资源完成项目,**私营部门与普通公众的参与都很少**(Y. Li & Zhong, 2021)——不是国家退出市场让位给资本,而是国家重新夺回主导权,但保留了阶段一积累下来的市场化工具箱。
+
+- **和课程框架的对应**:
+  - **Davidson (2018,已读全文,Gentrification 单元指定阅读)** 提到"全球新建绅士化:在中国**国家主导、大规模拆迁**"——和这里"阶段一→阶段二"的转变高度呼应,可直接引用作为理论桥梁。
+  - **Hochstenbach (2017)**,标题就是"**State-led Gentrification** and the Changing Geography of Market-oriented Housing Policies"(目前只在阅读清单上,📋 未读全文)——如果时间允许,这篇可能是把"国家主导"和"市场化政策"两条线索连起来的最直接文献。
+  - **Harvey (1989)"从管理主义到企业主义"**(💭 此前标注为我的既有知识联想,未核实原文)——这篇论文的上海案例某种程度上是这个经典叙事的"反向"版本:不是国家退出、市场进入,而是国家在"企业主义"阶段(阶段一,为全球城市形象招商)之后,重新夺回中心地位,但保留了企业主义的工具箱(阶段二)。这个"正—反—合"的动态,可以是论文里一个可展开的理论亮点。
 - **⭐ 直接点名复兴岛的原文段落**(第1873页,我已逐字核对):
   > "In 2022, Shanghai Land Group signed a contract with Yangpu Bingjiang to comprehensively redevelop the Yangpu district's waterfront area. These two corporations set up a new company called Shanghai Yangpu Binjiang New Development Corporation with a capital injection ratio of 6:4. **The joint corporation focuses on the development of Fuxing Island next to the Huangpu River, aiming to build a demonstration area for People's City.** Although the plan remains unclear, the impact of the new concept of People's City on the redevelopment of waterfront areas is apparent."
   
