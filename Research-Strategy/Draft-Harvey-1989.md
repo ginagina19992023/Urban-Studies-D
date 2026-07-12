@@ -112,6 +112,21 @@
 
 **一句话理解**:城际竞争这个"游戏规则"本身很难被单个城市打破,但"如何在游戏规则内组织联盟、分配收益"是有政治空间的——批判的重点不是"要不要玩这个游戏",而是"这个游戏能不能玩得更公平"。
 
+### ⭐ 与复兴岛的关联:用"岛事会"检验 Harvey 的"进步城市法团主义"留白(用户提出的角度)
+
+Harvey 的原文(第16页):"The idea of the city as a collective corporation, within which democratic decision-making can operate has a long history in the pantheon of progressive doctrines and practices (**the Paris Commune** being, of course, the paradigm case in socialist history)."——译:把城市理解为一种"集体公司"、在其中可以进行民主决策的理念,在进步主义理论与实践谱系里有很长的历史(**巴黎公社**当然是社会主义历史上的典范案例)。
+
+`Bibliography-FuxingIsland.md` **C5a**(定海路街道"岛事会")提供了一个可以直接拿来检验这个"留白"的一手材料——街道为 REDLAND 召开三次"岛事会",邀请公安、主办方、企业、**社区居民代表**协商道路管制方案,最终发放通行证1500+900+52张。**表面上很像 Harvey 说的"集体决策"雏形**,但严格对照巴黎公社范式,会发现关键落差:
+
+| Harvey 的"进步城市法团主义"(巴黎公社范式) | 复兴岛"岛事会"的实际情况 |
+|---|---|
+| 自发组织——市民自下而上夺取治理权 | 街道办**自上而下召集** |
+| 决策范围覆盖城市治理的核心议题 | 只讨论 REDLAND **活动期间的道路管制细节** |
+| 民主决策**决定事情要不要发生** | 协商只发生在"事情已经定了、如何管理其副作用"这个层面——REDLAND 办不办、复兴岛怎么开发,居民从未被咨询 |
+| 权力的实质性再分配 | 把"自由通行"这项默认权利**转换成需要申请的许可证**——更接近治理术(governmentality),而非权力下放 |
+
+**这个落差本身可以构成论点**:岛事会看起来像 Harvey 留白里那个"进步的可能性",但更接近 Feng/Zhang/Wu (2026) 里那句话——"the state instrumentalizes public participation to achieve its goal"(国家把公众参与工具化)。居民确实"被听取"了,但被听取的只是"通行证怎么发",而非"复兴岛要不要变成人民城市示范区"这类真正的决策权——是"**参与的模拟**"(simulacrum of participation),而非 Harvey 设想的那种真正民主的集体决策。这进一步支撑"预防性排他绅士化"论点:排斥不仅发生在空间/规划层面,也发生在"谁有权决定"这个更根本的层面。
+
 ---
 
 ## 读完后应能回答的问题
