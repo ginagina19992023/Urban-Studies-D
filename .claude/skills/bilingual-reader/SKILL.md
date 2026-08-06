@@ -122,6 +122,7 @@ Spec shape:
 ```json
 {
   "meta": {
+    "doc_id": "lees-2008-social-mixing",
     "eyebrow": "Book chapter · Gentrification",
     "title_en": "New-build gentrification",
     "title_zh": "新建式绅士化",
@@ -144,12 +145,47 @@ Spec shape:
 `en` is HTML-escaped; `zh`, `def`, and `references` are not, so they can carry
 glossary links and light markup.
 
+### Annotations (built in — nothing to configure)
+
+Every paragraph and block quote gets a `＋ 批注` control. Notes auto-save to
+`localStorage` about half a second after typing stops, and again on blur; the
+saved note then displays in place, directly beneath the paragraph it belongs to.
+A floating button opens a drawer listing every note with the sentence it was
+written against, and **copies the whole set as Markdown** — that export is the
+point of the feature. Annotations that stay locked in a reading page are
+inert; the workflow this serves is reading toward an essay, so notes have to
+come out in a form that can be pasted into a draft.
+
+Two things to be aware of, and to tell the user when it matters:
+
+- **Notes are per browser, per device.** `localStorage` is not synced. Someone
+  who annotates on a laptop will not see those notes on their phone, and
+  clearing site data erases them. Suggest exporting anything they care about.
+- **Note identity is keyed to `meta.doc_id` plus a hash of each block's English
+  text.** So re-rendering after adding new sections preserves existing notes,
+  which is what makes incremental section-by-section delivery safe. But
+  *editing* a paragraph's English orphans its note. If you revise translations
+  or fix OCR in the `en` field of a block the user may already have annotated,
+  say so rather than letting a note quietly vanish.
+
+Always set an explicit, stable `meta.doc_id`. It defaults to `title_en`, which
+means a later title tweak would silently detach every note on the page.
+
 ### 7. Check before handing over
 
 - Block count matches the source's paragraph count for the range you covered
 - Every `quote` has an `attrib` that states a position, not just a name
 - No scholar's name has been transliterated
-- Open the file and confirm all three modes (双语 / EN / 中文) render
+- `meta.doc_id` is set explicitly
+- All three modes (双语 / EN / 中文) render
+
+The renderer emits a fair amount of interactive JavaScript, and a syntax error
+there fails silently in a way that looks like the page merely "not working".
+`node --check` on the extracted `<script>` blocks catches that in a second and
+is worth doing after any change to the script itself. If Playwright is
+available, driving one note end-to-end — type, blur, reload, confirm it
+survived — is the check that actually matters, because the failure mode users
+notice is losing their annotations.
 
 Then publish with the Artifact tool if the user wants a link, or send the file.
 

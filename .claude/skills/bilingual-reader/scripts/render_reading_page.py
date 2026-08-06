@@ -12,12 +12,27 @@ translation work, not several hundred lines of re-typed CSS.
 See SKILL.md for the spec schema and the translation conventions.
 """
 import json
+import hashlib
 import html
+import re
 import sys
 
 
 def esc(s):
     return html.escape(s or "", quote=False)
+
+
+def nid(doc_key, en):
+    """Stable per-block note id.
+
+    Derived from the block's English text, not its position, so that adding
+    sections to a spec and re-rendering keeps existing annotations attached to
+    the paragraphs they were written against. Editing a paragraph's English
+    does orphan its note — that is the deliberate trade: a note about a
+    sentence that no longer exists should not silently reattach elsewhere.
+    """
+    h = hashlib.md5((doc_key + "\x00" + re.sub(r"\s+", " ", en or "").strip()).encode("utf-8"))
+    return h.hexdigest()[:10]
 
 
 CSS = """
@@ -124,6 +139,55 @@ details.pack[open] summary::before{content:"▾ "}
 
 .refs{font-family:var(--font-sans);font-size:.72rem;color:var(--muted);line-height:1.8;margin-top:.8rem}
 
+/* ---- annotations ---- */
+.note{margin:.55rem 0 0}
+.note-add{font-family:var(--font-sans);font-size:.7rem;color:var(--muted);background:none;
+          border:1px dashed var(--line);border-radius:4px;padding:.25rem .6rem;cursor:pointer;
+          opacity:.55;transition:opacity .15s,border-color .15s}
+.bipara:hover .note-add, blockquote.cited:hover .note-add, .note-add:focus{opacity:1;border-color:var(--accent);color:var(--accent)}
+.note.has .note-add{display:none}
+.note-body{display:none;font-family:var(--font-zh);font-size:.87rem;line-height:1.8;
+           color:var(--ink-soft);background:var(--accent-soft);border-left:3px solid var(--accent);
+           border-radius:3px;padding:.55rem .75rem;cursor:text;white-space:pre-wrap;word-break:break-word}
+.note.has .note-body{display:block}
+.note-body .lbl{display:block;font-family:var(--font-sans);font-size:.62rem;letter-spacing:.06em;
+                color:var(--accent);margin-bottom:.25rem;opacity:.85}
+.note-edit{display:none;width:100%;font-family:var(--font-zh);font-size:.87rem;line-height:1.8;
+           color:var(--ink);background:var(--paper);border:1px solid var(--accent);border-radius:3px;
+           padding:.55rem .75rem;resize:vertical;min-height:4.2rem}
+.note-edit:focus{outline:none;box-shadow:0 0 0 2px var(--accent-soft)}
+.note.editing .note-body,.note.editing .note-add{display:none}
+.note.editing .note-edit{display:block}
+.note-status{font-family:var(--font-sans);font-size:.62rem;color:var(--accent);
+             margin-top:.22rem;height:.9rem;opacity:0;transition:opacity .2s}
+.note-status.show{opacity:.8}
+
+/* ---- notes drawer ---- */
+#notesBtn{position:fixed;right:.9rem;bottom:.9rem;z-index:60;font-family:var(--font-sans);
+          font-size:.72rem;background:var(--accent);color:var(--paper);border:none;
+          border-radius:999px;padding:.55rem .95rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+#notesBtn .n{background:rgba(255,255,255,.28);border-radius:999px;padding:0 .35rem;margin-left:.3rem}
+#notesPanel{position:fixed;inset:auto 0 0 0;max-height:78vh;z-index:70;background:var(--paper);
+            border-top:1px solid var(--line);box-shadow:0 -4px 24px rgba(0,0,0,.2);
+            display:none;flex-direction:column}
+#notesPanel.open{display:flex}
+#notesPanel header{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;
+                   border-bottom:1px solid var(--line);font-family:var(--font-sans);font-size:.8rem}
+#notesPanel header strong{flex:1}
+#notesPanel button{font-family:var(--font-sans);font-size:.68rem;border:1px solid var(--line);
+                   background:transparent;color:var(--muted);border-radius:4px;padding:.3rem .6rem;cursor:pointer}
+#notesPanel button:hover{border-color:var(--accent);color:var(--accent)}
+#notesList{overflow-y:auto;padding:.6rem 1rem 1.4rem;max-width:46rem;margin:0 auto;width:100%}
+.nrow{padding:.7rem 0;border-bottom:1px dashed var(--line)}
+.nrow:last-child{border-bottom:none}
+.nrow .src{font-family:var(--font-sans);font-size:.68rem;color:var(--muted);line-height:1.5;
+           margin-bottom:.3rem;cursor:pointer}
+.nrow .src:hover{color:var(--accent)}
+.nrow .txt{font-family:var(--font-zh);font-size:.86rem;line-height:1.8;color:var(--ink-soft);white-space:pre-wrap}
+.nempty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);padding:1.2rem 0;text-align:center}
+@media print{#notesBtn,#notesPanel,.note-add,.note-edit,.topbar{display:none!important}
+             .note.has .note-body{display:block}}
+
 footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
        font-family:var(--font-sans);font-size:.7rem;color:var(--muted);line-height:1.7}
 
@@ -155,6 +219,140 @@ document.addEventListener('scroll', function(){
   var bar=document.querySelector('.progress span');
   if(bar) bar.style.width=Math.min(100,Math.max(0,pct))+'%';
 }, {passive:true});
+
+/* ---------------- annotations ---------------- */
+(function(){
+  var KEY='br-notes:'+(window.__BR_DOC||'doc');
+  var notes={};
+  try{ notes=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ notes={}; }
+
+  function persist(){
+    try{ localStorage.setItem(KEY, JSON.stringify(notes)); return true; }
+    catch(e){ return false; }
+  }
+  function count(){ return Object.keys(notes).filter(function(k){return (notes[k]||'').trim();}).length; }
+  function refreshBtn(){
+    var b=document.getElementById('notesBtn');
+    if(b) b.querySelector('.n').textContent=count();
+  }
+  function paint(wrap){
+    var id=wrap.dataset.nid, v=(notes[id]||'').trim();
+    var body=wrap.querySelector('.note-body');
+    if(v){ wrap.classList.add('has'); body.innerHTML='<span class="lbl">我的批注</span>'; body.appendChild(document.createTextNode(v)); }
+    else { wrap.classList.remove('has'); body.textContent=''; }
+  }
+  function flash(wrap){
+    var s=wrap.querySelector('.note-status');
+    var t=new Date();
+    s.textContent='已保存 · '+String(t.getHours()).padStart(2,'0')+':'+String(t.getMinutes()).padStart(2,'0');
+    s.classList.add('show');
+    clearTimeout(wrap.__ft); wrap.__ft=setTimeout(function(){ s.classList.remove('show'); },1800);
+  }
+  function save(wrap){
+    var id=wrap.dataset.nid, ta=wrap.querySelector('.note-edit');
+    var v=ta.value.trim();
+    if(v) notes[id]=v; else delete notes[id];
+    if(persist()){ flash(wrap); } else {
+      var s=wrap.querySelector('.note-status');
+      s.textContent='保存失败(浏览器存储不可用)'; s.classList.add('show');
+    }
+    paint(wrap); refreshBtn();
+  }
+  function edit(wrap){
+    var ta=wrap.querySelector('.note-edit');
+    ta.value=notes[wrap.dataset.nid]||'';
+    wrap.classList.add('editing');
+    ta.focus();
+    ta.setSelectionRange(ta.value.length, ta.value.length);
+    autogrow(ta);
+  }
+  function autogrow(ta){ ta.style.height='auto'; ta.style.height=(ta.scrollHeight+2)+'px'; }
+
+  document.querySelectorAll('.note').forEach(function(wrap){
+    paint(wrap);
+    wrap.querySelector('.note-add').addEventListener('click', function(){ edit(wrap); });
+    wrap.querySelector('.note-body').addEventListener('click', function(){ edit(wrap); });
+    var ta=wrap.querySelector('.note-edit');
+    ta.addEventListener('input', function(){
+      autogrow(ta);
+      clearTimeout(wrap.__st);
+      wrap.__st=setTimeout(function(){ save(wrap); }, 500);
+    });
+    ta.addEventListener('blur', function(){
+      clearTimeout(wrap.__st); save(wrap); wrap.classList.remove('editing');
+    });
+    ta.addEventListener('keydown', function(e){
+      if(e.key==='Escape'){ ta.blur(); }
+      if(e.key==='Enter' && (e.metaKey||e.ctrlKey)){ ta.blur(); }
+    });
+  });
+  refreshBtn();
+
+  /* drawer */
+  var panel=document.getElementById('notesPanel');
+  document.getElementById('notesBtn').addEventListener('click', function(){
+    buildList(); panel.classList.toggle('open');
+  });
+  document.getElementById('notesClose').addEventListener('click', function(){ panel.classList.remove('open'); });
+
+  function entries(){
+    var out=[];
+    document.querySelectorAll('.note').forEach(function(w){
+      var v=(notes[w.dataset.nid]||'').trim();
+      if(!v) return;
+      var host=w.closest('.bipara')||w.closest('blockquote');
+      var en=host?host.querySelector('.en'):null;
+      out.push({el:host, src:en?en.textContent.trim():'', txt:v});
+    });
+    return out;
+  }
+  function buildList(){
+    var list=document.getElementById('notesList'), rows=entries();
+    list.innerHTML='';
+    if(!rows.length){ list.innerHTML='<div class="nempty">还没有批注。点击任意段落下方的「＋ 批注」开始。</div>'; return; }
+    rows.forEach(function(r){
+      var d=document.createElement('div'); d.className='nrow';
+      var s=document.createElement('div'); s.className='src';
+      s.textContent='“'+r.src.slice(0,110)+(r.src.length>110?'…':'')+'”';
+      s.addEventListener('click', function(){
+        panel.classList.remove('open');
+        r.el.scrollIntoView({behavior:'smooth',block:'center'});
+      });
+      var t=document.createElement('div'); t.className='txt'; t.textContent=r.txt;
+      d.appendChild(s); d.appendChild(t); list.appendChild(d);
+    });
+  }
+  function markdown(){
+    var rows=entries();
+    var out=['# 批注 — '+(document.title||'')+'\\n'];
+    rows.forEach(function(r){
+      out.push('> '+r.src.replace(/\\n+/g,' '));
+      out.push('');
+      out.push(r.txt);
+      out.push('');
+      out.push('---');
+      out.push('');
+    });
+    return out.join('\\n');
+  }
+  document.getElementById('notesCopy').addEventListener('click', function(){
+    var md=markdown(), btn=this;
+    function done(ok){ btn.textContent = ok?'已复制':'复制失败'; setTimeout(function(){btn.textContent='复制为 Markdown';},1600); }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(md).then(function(){done(true);},function(){done(false);});
+    } else {
+      var ta=document.createElement('textarea'); ta.value=md; document.body.appendChild(ta);
+      ta.select(); var ok=false; try{ ok=document.execCommand('copy'); }catch(e){}
+      document.body.removeChild(ta); done(ok);
+    }
+  });
+  document.getElementById('notesClear').addEventListener('click', function(){
+    if(!confirm('清空本篇全部批注?此操作无法撤销。')) return;
+    notes={}; persist();
+    document.querySelectorAll('.note').forEach(paint);
+    refreshBtn(); buildList();
+  });
+})();
 """
 
 
@@ -191,6 +389,18 @@ def render(spec):
     if m.get("note"):
         a(f'<div class="readnote">{m["note"]}</div>')
 
+    doc_key = m.get("doc_id") or m.get("title_en") or "doc"
+
+    def note(en):
+        return (
+            f'<div class="note" data-nid="{nid(doc_key, en)}">'
+            '<div class="note-body"></div>'
+            '<textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea>'
+            '<button class="note-add" type="button">＋ 批注</button>'
+            '<div class="note-status"></div>'
+            "</div>"
+        )
+
     a("<article>")
     for it in spec.get("items", []):
         k = it.get("kind")
@@ -203,11 +413,13 @@ def render(spec):
             a(f'<p class="zh">{zh}</p>')
             if it.get("attrib"):
                 a(f'<span class="attrib">{esc(it["attrib"])}</span>')
+            a(note(en))
             a("</blockquote>")
         else:
             a('<div class="bipara">')
             a(f'<p class="en">{esc(en)}</p>')
             a(f'<p class="zh">{zh}</p>')
+            a(note(en))
             a("</div>")
     a("</article>")
 
@@ -231,6 +443,15 @@ def render(spec):
     if m.get("footer"):
         a(f"<footer>{m['footer']}</footer>")
     a("</main>")
+
+    a('<button id="notesBtn" type="button">批注 <span class="n">0</span></button>')
+    a('<div id="notesPanel"><header><strong>我的批注</strong>'
+      '<button id="notesCopy" type="button">复制为 Markdown</button>'
+      '<button id="notesClear" type="button">清空</button>'
+      '<button id="notesClose" type="button">关闭</button></header>'
+      '<div id="notesList"></div></div>')
+
+    a(f"<script>window.__BR_DOC={json.dumps(doc_key)};</script>")
     a(f"<script>{JS}</script>")
     return "\n".join(out)
 
