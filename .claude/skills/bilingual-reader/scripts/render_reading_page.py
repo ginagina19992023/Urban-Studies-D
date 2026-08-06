@@ -185,6 +185,22 @@ details.pack[open] summary::before{content:"▾ "}
 .nrow .src:hover{color:var(--accent)}
 .nrow .txt{font-family:var(--font-zh);font-size:.86rem;line-height:1.8;color:var(--ink-soft);white-space:pre-wrap}
 .nempty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);padding:1.2rem 0;text-align:center}
+
+/* ---- end-of-document overview ---- */
+#overview{margin-top:2.6rem;border-top:2px solid var(--accent);padding-top:1.1rem}
+#overview h2.ovh{font-family:var(--font-sans);font-size:1.02rem;color:var(--accent);
+                 font-weight:700;margin:0 0 .2rem;border:none;padding:0}
+#overview .ovsub{font-family:var(--font-sans);font-size:.72rem;color:var(--muted);
+                 margin:0 0 .9rem;line-height:1.6}
+#ovTools{display:flex;flex-wrap:wrap;gap:.4rem;margin:.9rem 0 .2rem}
+#ovTools button{font-family:var(--font-sans);font-size:.7rem;border:1px solid var(--line);
+                background:transparent;color:var(--ink-soft);border-radius:4px;
+                padding:.4rem .7rem;cursor:pointer;transition:all .15s}
+#ovTools button:hover{border-color:var(--accent);color:var(--accent)}
+#ovTools button.primary{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+#ovTools button.danger:hover{border-color:var(--warn,#8A3B2C);color:var(--warn,#8A3B2C)}
+#ovHint{font-family:var(--font-sans);font-size:.68rem;color:var(--muted);
+        line-height:1.7;margin-top:.7rem;padding:.6rem .8rem;background:var(--zh-bg);border-radius:4px}
 @media print{#notesBtn,#notesPanel,.note-add,.note-edit,.topbar{display:none!important}
              .note.has .note-body{display:block}}
 
@@ -256,7 +272,11 @@ document.addEventListener('scroll', function(){
       var s=wrap.querySelector('.note-status');
       s.textContent='保存失败(浏览器存储不可用)'; s.classList.add('show');
     }
-    paint(wrap); refreshBtn();
+    paint(wrap);
+    /* rebuild both views, not just the badge: the end-of-document overview is
+       always on the page, so a note written mid-read must appear there without
+       requiring the drawer to be opened first. */
+    refreshAll();
   }
   function edit(wrap){
     var ta=wrap.querySelector('.note-edit');
@@ -286,14 +306,7 @@ document.addEventListener('scroll', function(){
       if(e.key==='Enter' && (e.metaKey||e.ctrlKey)){ ta.blur(); }
     });
   });
-  refreshBtn();
-
-  /* drawer */
   var panel=document.getElementById('notesPanel');
-  document.getElementById('notesBtn').addEventListener('click', function(){
-    buildList(); panel.classList.toggle('open');
-  });
-  document.getElementById('notesClose').addEventListener('click', function(){ panel.classList.remove('open'); });
 
   function entries(){
     var out=[];
@@ -302,31 +315,46 @@ document.addEventListener('scroll', function(){
       if(!v) return;
       var host=w.closest('.bipara')||w.closest('blockquote');
       var en=host?host.querySelector('.en'):null;
-      out.push({el:host, src:en?en.textContent.trim():'', txt:v});
+      var zh=host?host.querySelector('.zh'):null;
+      out.push({el:host, src:en?en.textContent.trim():'',
+                zh:zh?zh.textContent.trim():'', txt:v,
+                isQuote: !!(host&&host.tagName==='BLOCKQUOTE')});
     });
     return out;
   }
-  function buildList(){
-    var list=document.getElementById('notesList'), rows=entries();
+  function buildList(list, closeAfterJump){
+    var rows=entries();
     list.innerHTML='';
-    if(!rows.length){ list.innerHTML='<div class="nempty">还没有批注。点击任意段落下方的「＋ 批注」开始。</div>'; return; }
+    if(!rows.length){
+      list.innerHTML='<div class="nempty">还没有批注。点击任意段落下方的「＋ 批注」开始。</div>';
+      return;
+    }
     rows.forEach(function(r){
       var d=document.createElement('div'); d.className='nrow';
       var s=document.createElement('div'); s.className='src';
-      s.textContent='“'+r.src.slice(0,110)+(r.src.length>110?'…':'')+'”';
+      s.textContent=(r.isQuote?'［引文］“':'“')+r.src.slice(0,110)+(r.src.length>110?'…':'')+'”';
       s.addEventListener('click', function(){
-        panel.classList.remove('open');
+        if(closeAfterJump) panel.classList.remove('open');
         r.el.scrollIntoView({behavior:'smooth',block:'center'});
       });
       var t=document.createElement('div'); t.className='txt'; t.textContent=r.txt;
       d.appendChild(s); d.appendChild(t); list.appendChild(d);
     });
   }
+  function refreshAll(){
+    buildList(document.getElementById('notesList'), true);
+    buildList(document.getElementById('ovList'), false);
+    refreshBtn();
+  }
+
+  var TITLE=document.querySelector('h1.title') ? document.querySelector('h1.title').textContent.trim() : '';
+  var CITE=document.querySelector('.citation') ? document.querySelector('.citation').textContent.trim() : '';
+
   function markdown(){
     var rows=entries();
-    var out=['# 批注 — '+(document.title||'')+'\\n'];
+    var out=['# 批注 — '+TITLE, '', CITE, ''];
     rows.forEach(function(r){
-      out.push('> '+r.src.replace(/\\n+/g,' '));
+      out.push('> '+r.src.replace(/\\s+/g,' '));
       out.push('');
       out.push(r.txt);
       out.push('');
@@ -335,23 +363,113 @@ document.addEventListener('scroll', function(){
     });
     return out.join('\\n');
   }
-  document.getElementById('notesCopy').addEventListener('click', function(){
-    var md=markdown(), btn=this;
-    function done(ok){ btn.textContent = ok?'已复制':'复制失败'; setTimeout(function(){btn.textContent='复制为 Markdown';},1600); }
+
+  function reviewPrompt(){
+    var rows=entries();
+    var out=[];
+    out.push('我正在精读下面这篇文献，附上原文段落与我自己写的批注。请据此完成三件事，要具体，不要泛泛而谈：');
+    out.push('');
+    out.push('【1. 提炼】我的批注实际上在追问什么？归纳成 2–4 条主线问题，并指出我可能自己还没意识到的关注点。');
+    out.push('【2. 评价】逐条判断：哪些批注准确抓住了论证要害？哪些是误读、过度解读，或者把作者引来批驳的对立观点误当成了作者本人立场？请指名道姓地说，并给出理由。');
+    out.push('【3. 建议】基于我的关注方向，指出下一步该读什么，以及哪几条批注有潜力发展成论文里的一个论证段落。');
+    out.push('');
+    out.push('文献：'+TITLE);
+    if(CITE) out.push(CITE);
+    out.push('批注条数：'+rows.length);
+    out.push('');
+    rows.forEach(function(r,i){
+      out.push('════ 第 '+(i+1)+' 条'+(r.isQuote?'（针对引文）':'')+' ════');
+      out.push('【原文】'+r.src.replace(/\\s+/g,' '));
+      if(r.zh) out.push('【译文】'+r.zh.replace(/\\s+/g,' '));
+      out.push('【我的批注】'+r.txt);
+      out.push('');
+    });
+    return out.join('\\n');
+  }
+
+  function copyText(txt, btn, label){
+    function done(ok){
+      btn.textContent = ok?'✓ 已复制':'复制失败';
+      setTimeout(function(){ btn.textContent=label; },1800);
+    }
     if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(md).then(function(){done(true);},function(){done(false);});
+      navigator.clipboard.writeText(txt).then(function(){done(true);},function(){done(false);});
     } else {
-      var ta=document.createElement('textarea'); ta.value=md; document.body.appendChild(ta);
-      ta.select(); var ok=false; try{ ok=document.execCommand('copy'); }catch(e){}
+      var ta=document.createElement('textarea'); ta.value=txt;
+      ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      var ok=false; try{ ok=document.execCommand('copy'); }catch(e){}
       document.body.removeChild(ta); done(ok);
     }
+  }
+  function guardEmpty(){
+    if(!entries().length){ alert('还没有批注。先在段落下方写几条再来。'); return true; }
+    return false;
+  }
+
+  document.getElementById('notesBtn').addEventListener('click', function(){
+    refreshAll(); panel.classList.toggle('open');
   });
-  document.getElementById('notesClear').addEventListener('click', function(){
-    if(!confirm('清空本篇全部批注?此操作无法撤销。')) return;
+  document.getElementById('notesClose').addEventListener('click', function(){ panel.classList.remove('open'); });
+  document.getElementById('notesJump').addEventListener('click', function(){
+    panel.classList.remove('open');
+    document.getElementById('overview').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+  document.getElementById('notesCopy').addEventListener('click', function(){
+    if(guardEmpty()) return; copyText(markdown(), this, '复制为 Markdown');
+  });
+
+  document.getElementById('ovCopy').addEventListener('click', function(){
+    if(guardEmpty()) return; copyText(markdown(), this, '复制为 Markdown');
+  });
+  document.getElementById('ovReview').addEventListener('click', function(){
+    if(guardEmpty()) return; copyText(reviewPrompt(), this, '生成 AI 点评请求（复制）');
+  });
+  document.getElementById('ovClear').addEventListener('click', function(){
+    if(guardEmpty()) return;
+    if(!confirm('清空本篇全部批注？此操作无法撤销。建议先导出备份。')) return;
     notes={}; persist();
     document.querySelectorAll('.note').forEach(paint);
-    refreshBtn(); buildList();
+    refreshAll();
   });
+
+  /* file export — only when the downloads capability is present in this view */
+  var dl = (window.claude && window.claude.downloads) ? window.claude.downloads : null;
+  var slug=(window.__BR_DOC||'notes').replace(/[^a-zA-Z0-9_-]+/g,'-').slice(0,60);
+  if(dl){
+    ['ovSaveMd','ovSaveJson'].forEach(function(id){
+      var b=document.getElementById(id); if(b) b.style.display='';
+    });
+    function offer(btn, label, filename, data){
+      btn.disabled=true;
+      dl.save({filename:filename, data:data}).then(function(){
+        btn.textContent='✓ 已保存';
+      }).catch(function(err){
+        var c=err&&err.code;
+        btn.textContent = c==='declined' ? '已取消'
+                        : c==='rate_limited' ? '稍后再试'
+                        : c==='too_large' ? '文件过大'
+                        : '保存不可用';
+        if(c==='unavailable'||c==='not_granted'||c==='capability_disabled'||c==='capability_removed'){
+          btn.style.display='none';
+        }
+      }).then(function(){
+        btn.disabled=false;
+        setTimeout(function(){ if(btn.style.display!=='none') btn.textContent=label; },1800);
+      });
+    }
+    document.getElementById('ovSaveMd').addEventListener('click', function(){
+      if(guardEmpty()) return;
+      offer(this,'下载 .md', slug+'-notes.md', markdown());
+    });
+    document.getElementById('ovSaveJson').addEventListener('click', function(){
+      if(guardEmpty()) return;
+      offer(this,'备份 .json', slug+'-notes.json',
+            JSON.stringify({doc:window.__BR_DOC, saved:new Date().toISOString(), notes:notes}, null, 2));
+    });
+  }
+
+  refreshAll();
 })();
 """
 
@@ -440,14 +558,32 @@ def render(spec):
         a('<details class="pack"><summary>References（原文参考文献）</summary>')
         a(f'<p class="refs">{spec["references"]}</p></details>')
 
+    a('<section id="overview">')
+    a('<h2 class="ovh">我的批注 · 总览</h2>')
+    a('<p class="ovsub">下列为你在本页写下的全部批注，按出现顺序排列。点击引用的原文句可跳回该段。</p>')
+    a('<div id="ovList"></div>')
+    a('<div id="ovTools">'
+      '<button id="ovReview" class="primary" type="button">生成 AI 点评请求（复制）</button>'
+      '<button id="ovCopy" type="button">复制为 Markdown</button>'
+      '<button id="ovSaveMd" type="button" style="display:none">下载 .md</button>'
+      '<button id="ovSaveJson" type="button" style="display:none">备份 .json</button>'
+      '<button id="ovClear" class="danger" type="button">清空</button>'
+      "</div>")
+    a('<div id="ovHint"><strong>关于「AI 点评」：</strong>发布页无法直接调用大模型，'
+      '所以这个按钮的作用是把<strong>你的全部批注 + 对应原文 + 一份写好的点评指令</strong>'
+      '打包复制到剪贴板。粘给 Claude 即可得到点评——它会做三件事：提炼你的关注主线、'
+      '逐条判断哪些批注抓住了要害／哪些是误读（尤其是把作者引来批驳的观点误当成作者立场）、'
+      '以及指出哪几条有潜力发展成论文段落。</div>')
+    a("</section>")
+
     if m.get("footer"):
         a(f"<footer>{m['footer']}</footer>")
     a("</main>")
 
     a('<button id="notesBtn" type="button">批注 <span class="n">0</span></button>')
     a('<div id="notesPanel"><header><strong>我的批注</strong>'
+      '<button id="notesJump" type="button">前往总览</button>'
       '<button id="notesCopy" type="button">复制为 Markdown</button>'
-      '<button id="notesClear" type="button">清空</button>'
       '<button id="notesClose" type="button">关闭</button></header>'
       '<div id="notesList"></div></div>')
 

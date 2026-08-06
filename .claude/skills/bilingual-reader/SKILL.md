@@ -150,11 +150,56 @@ glossary links and light markup.
 Every paragraph and block quote gets a `＋ 批注` control. Notes auto-save to
 `localStorage` about half a second after typing stops, and again on blur; the
 saved note then displays in place, directly beneath the paragraph it belongs to.
-A floating button opens a drawer listing every note with the sentence it was
-written against, and **copies the whole set as Markdown** — that export is the
-point of the feature. Annotations that stay locked in a reading page are
-inert; the workflow this serves is reading toward an essay, so notes have to
-come out in a form that can be pasted into a draft.
+
+Two views onto the same set: a floating drawer for jumping around mid-read, and
+a permanent **「我的批注 · 总览」 section at the end of the document** listing
+every note beside the sentence it was written against. Both rebuild whenever a
+note is saved — a note written mid-read has to appear in the overview without
+the reader going looking for it.
+
+The overview carries the export tools, and export is the point. Annotations
+that stay locked inside a reading page are inert; this workflow is reading
+*toward* an essay, so notes have to come out in a form that pastes into a
+draft.
+
+### The 「AI 点评」 button — what it can and cannot be
+
+A published artifact **cannot call a language model at runtime.** The only
+runtime capabilities available are `downloads` and `mcp` (viewer-consented
+claude.ai connectors) — there is no completion endpoint exposed to page code.
+Do not write `window.claude.ai`/`.complete`/`.prompt` calls; they do not exist,
+and a button that silently does nothing is worse than no button.
+
+So the review button assembles the request instead of answering it: it copies
+**the reader's notes + each note's source paragraph and translation + a written
+review instruction** to the clipboard, ready to paste to Claude. The instruction
+asks for three things, and the third is the one that earns its place:
+
+1. **提炼** — what are these notes actually circling? Name 2–4 through-lines,
+   including ones the reader may not have noticed they were tracking.
+2. **评价** — judge each note: which caught the argument, which misread it, and
+   in particular which mistook a position the author quotes *in order to rebut*
+   for the author's own. That failure is the whole reason this skill annotates
+   quotes, so the review prompt should hunt for it specifically.
+3. **建议** — what to read next, and which notes could grow into an essay
+   paragraph.
+
+Pasting into a session that already has the source PDF gets a better review
+than any in-page call could, since the reviewer can check the notes against
+the full text rather than the excerpt. Say this plainly when handing the page
+over — frame the button as what it is, so nobody waits for an answer that is
+not coming.
+
+### File export (optional, needs a capability)
+
+`下载 .md` and `备份 .json` stay hidden unless `window.claude.downloads` is
+present, so the page degrades cleanly when opened as a local file. To enable
+them, publish with `capabilities: {downloads: true}`. The `.json` backup is
+worth offering because `localStorage` is genuinely fragile — it is the only
+thing standing between a reader and losing a paper's worth of annotations to a
+cleared cache. Saves are viewer-confirmed and can be declined; the button
+handles `declined`, `rate_limited`, `too_large`, and hides itself on the
+lifecycle codes.
 
 Two things to be aware of, and to tell the user when it matters:
 
@@ -188,6 +233,7 @@ survived — is the check that actually matters, because the failure mode users
 notice is losing their annotations.
 
 Then publish with the Artifact tool if the user wants a link, or send the file.
+Pass `capabilities: {downloads: true}` to switch on the file-export buttons.
 
 ## Scope
 
