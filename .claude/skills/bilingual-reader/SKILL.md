@@ -190,6 +190,43 @@ the full text rather than the excerpt. Say this plainly when handing the page
 over — frame the button as what it is, so nobody waits for an answer that is
 not coming.
 
+### Baking your own analysis into the page
+
+When the user pastes their real annotations back into the conversation and asks
+for review, evaluation, or writing guidance, do that analysis properly — this
+is the actual point of the whole annotation system, and it deserves real
+thinking, not a rushed pass. Once you've written it, offer to bake it into the
+page itself as a permanent, dated section, rather than leaving it stranded in
+the chat transcript. Add an entry to `spec["ai_commentary"]`:
+
+```json
+"ai_commentary": [
+  {"date": "2026-08-07", "html": "<h3>提炼</h3><p>...</p><h3>评价</h3>..."}
+]
+```
+
+`html` is rendered unescaped directly into the page (light markup — `h3`, `p`,
+`ul`/`li`, `strong`, `em`, short `blockquote` — is fine; keep it consistent
+with the CSS already defined for `.aic-body`). Append a new entry each time
+rather than overwriting the old one — the page accumulates a dated history of
+commentary the same way the user's own notes accumulate.
+
+Be precise about what this is and is not: it is **not** the page generating
+anything on its own. It's you, in this conversation, writing an analysis and
+then choosing to publish it as static content by re-rendering and
+republishing the artifact to the same URL. The user still has to bring you
+their notes to get a new entry — nothing about this closes that loop
+automatically. What it does change: once written, the analysis lives on the
+page itself, so revisiting it later doesn't require digging through chat
+history or re-running the copy/paste flow just to read something you already
+wrote. Say this plainly when offering it, so it's clear what's actually
+different from the copy-to-clipboard flow and what isn't.
+
+Keep your own commentary free of long verbatim quotation from the source
+article — a few words in quotes for precision is fine, reproducing whole
+sentences repeatedly is not. The same convention as translating the article
+in the first place: paraphrase and cite, don't dump text.
+
 ### File export (optional, needs a capability)
 
 `下载 .md` and `备份 .json` stay hidden unless `window.claude.downloads` is
