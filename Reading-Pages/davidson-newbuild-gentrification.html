@@ -1,0 +1,678 @@
+<title>New-build gentrification (中英对照) — Davidson (2018)</title>
+
+<style>
+  :root {
+    --paper: #EAEDE9;
+    --ink: #1A2420;
+    --ink-soft: #2C3630;
+    --muted: #5C6B63;
+    --line: #CBD3CC;
+    --accent: #2B5C6B;
+    --accent-soft: #EDF2F1;
+    --highlight: #9C6B33;
+    --highlight-soft: #F3E9DC;
+    --warn: #8A3B2C;
+    --warn-soft: #F5E4DE;
+    --zh-bg: #E2E7E1;
+    --font-serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    --font-zh: "Songti SC", "STSong", "Noto Serif SC", "PingFang SC", serif;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, "PingFang SC", sans-serif;
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #121815;
+    --ink: #E4E8E3;
+    --ink-soft: #C9D0CA;
+    --muted: #93A39A;
+    --line: #34413A;
+    --accent: #6FA8B5;
+    --accent-soft: #1B2A2C;
+    --highlight: #D2A466;
+    --highlight-soft: #2A241A;
+    --warn: #D98C77;
+    --warn-soft: #2E1E1A;
+    --zh-bg: #1A2320;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #121815;
+      --ink: #E4E8E3;
+      --ink-soft: #C9D0CA;
+      --muted: #93A39A;
+      --line: #34413A;
+      --accent: #6FA8B5;
+      --accent-soft: #1B2A2C;
+      --highlight: #D2A466;
+      --highlight-soft: #2A241A;
+      --warn: #D98C77;
+      --warn-soft: #2E1E1A;
+      --zh-bg: #1A2320;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-serif);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    padding: 0.7rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .topbar .citation {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.7rem;
+    max-width: 50rem;
+    margin: 0 auto;
+    width: 100%;
+    align-items: center;
+  }
+
+  .topbar .citation strong { color: var(--ink-soft); font-weight: 600; }
+
+  .mode-toggle {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    display: flex;
+    gap: 0.3rem;
+    margin-left: auto;
+  }
+
+  .mode-toggle button {
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--muted);
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+  }
+
+  .mode-toggle button.active {
+    background: var(--accent);
+    color: var(--paper);
+    border-color: var(--accent);
+  }
+
+  .progress-track {
+    height: 2px;
+    background: var(--line);
+    max-width: 50rem;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0%;
+    background: var(--accent);
+    transition: width 0.1s linear;
+  }
+
+  main {
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 5rem;
+  }
+
+  .masthead { margin-bottom: 1.6rem; }
+
+  .masthead .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--highlight);
+    margin: 0 0 0.6rem;
+  }
+
+  h1.title {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    margin: 0 0 0.5rem;
+    text-wrap: balance;
+    font-weight: 600;
+  }
+
+  h1.title .zh {
+    display: block;
+    font-family: var(--font-zh);
+    font-size: 1.15rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    font-weight: 500;
+  }
+
+  .authorline {
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin: 0 0 1.1rem;
+  }
+
+  .ocr-warning {
+    background: var(--warn-soft);
+    border-left: 3px solid var(--warn);
+    padding: 0.85rem 1.1rem;
+    border-radius: 2px;
+    margin-bottom: 1.4rem;
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .ocr-warning strong { color: var(--warn); }
+
+  article { font-size: 1rem; }
+
+  article h2 {
+    margin: 2.6rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  article h2 .en {
+    display: block;
+    font-size: 1.1rem;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  article h2 .zh {
+    display: block;
+    font-family: var(--font-zh);
+    font-size: 1rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-top: 0.25rem;
+    opacity: 0.85;
+  }
+
+  article h3 { margin: 2rem 0 0.8rem; }
+
+  article h3 .en {
+    display: block;
+    font-size: 0.98rem;
+    color: var(--ink);
+    font-weight: 600;
+    font-style: italic;
+  }
+
+  article h3 .zh {
+    display: block;
+    font-family: var(--font-zh);
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    margin-top: 0.2rem;
+  }
+
+  .bipara {
+    margin: 0 0 1.5rem;
+    border-bottom: 1px dashed var(--line);
+    padding-bottom: 1.1rem;
+  }
+
+  .bipara:last-child { border-bottom: none; }
+
+  .bipara p.en {
+    margin: 0 0 0.6rem;
+    color: var(--ink-soft);
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .bipara p.zh {
+    margin: 0;
+    font-family: var(--font-zh);
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.85;
+    background: var(--zh-bg);
+    padding: 0.7rem 0.9rem;
+    border-radius: 3px;
+  }
+
+  blockquote.cited {
+    margin: 1.4rem 0 1.8rem;
+    padding: 1rem 1.2rem;
+    border-left: 3px solid var(--highlight);
+    background: var(--highlight-soft);
+    border-radius: 2px;
+  }
+
+  blockquote.cited p.en {
+    margin: 0 0 0.6rem;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  blockquote.cited p.zh {
+    margin: 0 0 0.7rem;
+    font-family: var(--font-zh);
+    color: var(--ink-soft);
+    font-size: 0.93rem;
+    line-height: 1.85;
+  }
+
+  blockquote.cited .callout {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    color: var(--highlight);
+    letter-spacing: 0.01em;
+    border-top: 1px solid rgba(156,107,51,0.3);
+    padding-top: 0.5rem;
+  }
+
+  body.zh-only .bipara p.en,
+  body.zh-only article h2 .en,
+  body.zh-only article h3 .en,
+  body.zh-only blockquote.cited p.en { display: none; }
+
+  body.en-only .bipara p.zh,
+  body.en-only article h2 .zh,
+  body.en-only article h3 .zh,
+  body.en-only blockquote.cited p.zh { display: none; }
+
+  body.zh-only h1.title .zh { display: block; }
+
+  details.refs-details {
+    margin-top: 2.4rem;
+    border-top: 1px solid var(--line);
+    padding-top: 1rem;
+  }
+
+  details.refs-details summary.refs-heading {
+    cursor: pointer;
+    font-size: 1.02rem;
+    color: var(--accent);
+    font-weight: 600;
+    list-style: none;
+  }
+
+  details.refs-details summary.refs-heading::-webkit-details-marker { display: none; }
+  details.refs-details summary.refs-heading::before { content: "▸ "; }
+  details.refs-details[open] summary.refs-heading::before { content: "▾ "; }
+
+  .refs-count {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    color: var(--warn);
+    font-weight: 400;
+  }
+
+  .refs-warning {
+    font-family: var(--font-sans);
+    font-size: 0.76rem;
+    color: var(--warn);
+    background: var(--warn-soft);
+    padding: 0.6rem 0.8rem;
+    border-radius: 2px;
+    margin: 0.8rem 0;
+  }
+
+  .refs-blob {
+    font-family: var(--font-sans);
+    font-size: 0.74rem;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  footer.sourcenote {
+    margin-top: 3rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 560px) {
+    h1.title { font-size: 1.25rem; }
+    article { font-size: 0.96rem; }
+    .bipara p.en { text-align: left; hyphens: none; }
+  }
+
+  a.gterm {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+  }
+  sup.gref {
+    color: var(--highlight);
+    font-size: 0.65em;
+    margin-left: 1px;
+  }
+  details.glossary-details {
+    margin: 0 0 1.8rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--accent-soft);
+  }
+  details.glossary-details summary.glossary-heading {
+    cursor: pointer;
+    padding: 0.8rem 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--accent);
+    list-style: none;
+  }
+  details.glossary-details summary.glossary-heading::-webkit-details-marker { display: none; }
+  details.glossary-details summary.glossary-heading::before { content: "▾ "; }
+  details.glossary-details:not([open]) summary.glossary-heading::before { content: "▸ "; }
+  .gloss-count {
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 0.76rem;
+  }
+  .glossary-body {
+    padding: 0 1rem 1rem;
+    columns: 1;
+  }
+  @media (min-width: 720px) {
+    .glossary-body { columns: 2; column-gap: 1.5rem; }
+  }
+  h4.gcat {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--highlight);
+    margin: 1.1rem 0 0.5rem;
+    break-after: avoid;
+  }
+  .gentry {
+    break-inside: avoid;
+    margin-bottom: 0.9rem;
+    font-family: var(--font-zh);
+  }
+  .gterm-label {
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 0.86rem;
+    margin-bottom: 0.2rem;
+  }
+  a.gback {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-decoration: none;
+    margin-left: 0.3rem;
+  }
+  .gexpl {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    line-height: 1.75;
+  }
+</style>
+
+<div class="topbar">
+  <div class="citation">
+    <strong>Davidson, M. (2018)</strong>
+    <span>New-build gentrification 新建式绅士化</span>
+    <span>&middot;</span>
+    <span>Handbook of Gentrification Studies, ch. 15</span>
+    <div class="mode-toggle">
+      <button id="btnBoth" class="active" onclick="setMode('both')">中英对照</button>
+      <button id="btnEn" onclick="setMode('en')">English</button>
+      <button id="btnZh" onclick="setMode('zh')">中文</button>
+    </div>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<main>
+  <div class="masthead">
+    <p class="eyebrow">Reading copy · 中英对照 · Handbook chapter</p>
+    <h1 class="title">New-build gentrification<span class="zh">新建式绅士化</span></h1>
+    <p class="authorline">Mark Davidson</p>
+    <div class="ocr-warning">
+      <strong>OCR 提醒:</strong>本页由用户上传的 OCR 提取版 .docx 转换而来。正文已做轻度清理并逐段配上中文翻译(译文仅供辅助理解,不是正式发表译本,请以英文原文为准)。<strong>参考文献部分 OCR 损坏严重</strong>(原文双栏排版,OCR 按行读取时经常串行、丢字母),已原样保留在底部可展开区域,引用前务必对照原始 PDF 核实,不要直接复制。<br><br>
+      <strong>关于引用标注:</strong>文中凡是 Davidson 直接引述其他学者原话的段落,均用<span style="color:var(--highlight)">橙色引用框</span>标出,并在下方注明"这是被引论文的观点,不是 Davidson 本人的论证"——阅读时请留意区分哪些是 Davidson 自己的论点,哪些是他转述/征引的他人观点。
+    </div>
+  </div>
+
+  <details class="glossary-details" open>
+<summary class="glossary-heading">背景知识 / Glossary <span class="gloss-count">(23 条,点正文中带 &#9432; 标记的词可跳转回来)</span></summary>
+<div class="glossary-body">
+<h4 class="gcat">理论/思潮</h4>
+<div class="gentry" id="g-thirdway"><div class="gterm-label">第三条道路(Third Way) <a href="#src-g-thirdway" class="gback">&#8617; 回到正文</a></div><div class="gexpl">1990年代由社会学家 Anthony Giddens 提出、被英国工党首相 Tony Blair 采纳的政治哲学,主张在传统社会主义(强调国家再分配)与新自由主义(强调自由市场)之间走一条“中间路线”:既接受市场机制与私人资本的作用,又强调国家应通过政策引导实现社会公平目标(如“社会混合”)。Davidson 在这篇文章里反复强调:正是这套“听起来进步”的政治哲学,为国家主导的新建式绅士化提供了正当性话语——它让绅士化可以被包装成“社会工程”“社区改善”,而不是赤裸裸的资本逐利。</div></div>
+<h4 class="gcat">核心概念</h4>
+<div class="gentry" id="g-rentgap"><div class="gterm-label">租隙(rent gap) <a href="#src-g-rentgap" class="gback">&#8617; 回到正文</a></div><div class="gexpl">Neil Smith 在1979年提出的绅士化核心理论。指一块土地“当前实际地租”(现状用途下能产生的收益)与“潜在最高地租”(若被重新开发到“最高最佳用途”后能产生的收益)之间的差距。当这个差距因长期缺乏投资而拉大到足够程度时,重新开发就变得对资本有利可图,从而触发绅士化/再开发——这解释了为什么资本会选择性地涌向某些被“遗弃”的街区,而不是随机分布。</div></div>
+<div class="gentry" id="g-redlining"><div class="gterm-label">红线政策(redlining) <a href="#src-g-redlining" class="gback">&#8617; 回到正文</a></div><div class="gexpl">源自美国的历史性金融歧视做法:银行/保险公司在地图上用红线圈出被认为“高风险”的(通常是少数族裔聚居的)街区,拒绝向区内居民提供贷款或保险,导致这些街区长期得不到投资、日益衰败。“逆转红线政策”即指金融机构反过来开始向这些街区放贷投资,这正是绅士化启动的信号之一。</div></div>
+<div class="gentry" id="g-eminentdomain"><div class="gterm-label">征用权(eminent domain) <a href="#src-g-eminentdomain" class="gback">&#8617; 回到正文</a></div><div class="gexpl">英美法系中政府为“公共利益”强制征收私人土地/房产的权力(通常需给予补偿),中文语境常译作“征用权”或“土地征收权”。文中指国家动用这一强制性权力来清空土地、推动大规模再开发。</div></div>
+<div class="gentry" id="g-brownfield"><div class="gterm-label">棕地(brownfield) <a href="#src-g-brownfield" class="gback">&#8617; 回到正文</a></div><div class="gexpl">指此前已被开发过、通常是工业/商业用途、如今废弃或未充分利用(有时带有污染)的土地,与从未开发过的“绿地”(greenfield)相对。英国规划政策长期鼓励优先在棕地上新建住宅,而不是侵占郊区绿地。</div></div>
+<div class="gentry" id="g-globalsouth"><div class="gterm-label">全球北方/全球南方 <a href="#src-g-globalsouth" class="gback">&#8617; 回到正文</a></div><div class="gexpl">“全球北方”(Global North)大致指北美、西欧、澳新、日韩等发达经济体,“全球南方”(Global South)大致指非洲、拉美、南亚、东南亚等发展中地区——这不是纯地理划分,而是描述全球经济政治权力不对等格局的术语。文中讨论的核心问题之一,就是发源于“全球北方”的绅士化理论,能否、该如何应用于“全球南方”的城市。</div></div>
+<div class="gentry" id="g-policymobility"><div class="gterm-label">政策流动性(policy mobility) <a href="#src-g-policymobility" class="gback">&#8617; 回到正文</a></div><div class="gexpl">城市研究中的一个概念(McCann and Ward 2011),指某地的城市政策模型(如“创意城市”“城市更新”方案)被提炼、包装,然后传播、移植到其他城市的过程——强调政策不是凭空产生的,而是像商品一样在全球城市网络中被“交易”和“在地化改造”的。</div></div>
+<div class="gentry" id="g-blockbusting"><div class="gterm-label">“爆破式”销售(blockbusting) <a href="#src-g-blockbusting" class="gback">&#8617; 回到正文</a></div><div class="gexpl">源自美国的历史性房地产操纵手法:中介故意散布“某族裔即将大量迁入本街区,房价会暴跌”的恐慌情绪,诱使原有(通常是白人)业主低价抛售房产,中介再高价转卖给新迁入群体,从中牟取暴利。这里 Lopez-Morales 借用这个词描述开发商在智利圣地亚哥利用类似恐慌策略压低居民议价能力的做法。</div></div>
+<div class="gentry" id="g-revanchist"><div class="gterm-label">“报复性城市”(revanchist city) <a href="#src-g-revanchist" class="gback">&#8617; 回到正文</a></div><div class="gexpl">概念源自 Neil Smith 的重要著作《新城市边疆:绅士化与报复性城市》(The New Urban Frontier: Gentrification and the Revanchist City, 1996)。“revanchist”原指法国19世纪末“收复失地主义”的复仇政治,Smith 借用它形容1990年代后中产阶级、警察与政府联手“夺回”城市中心、驱赶穷人/边缘群体的攻击性姿态——不是温和的“更新”,而带有阶级报复的意味。</div></div>
+<h4 class="gcat">人物</h4>
+<div class="gentry" id="g-giddens"><div class="gterm-label">Anthony Giddens <a href="#src-g-giddens" class="gback">&#8617; 回到正文</a></div><div class="gexpl">英国社会学家,曾任伦敦政治经济学院院长,是“第三条道路”理论最重要的阐述者,著有《第三条道路:社会民主主义的复兴》(The Third Way: The Renewal of Social Democracy, 1999)。他是布莱尔政府意识形态的重要智囊。</div></div>
+<div class="gentry" id="g-ruthglass"><div class="gterm-label">Ruth Glass <a href="#src-g-ruthglass" class="gback">&#8617; 回到正文</a></div><div class="gexpl">英国社会学家,1964年在其著作《伦敦:变迁的方方面面》(London: Aspects of Change)中首次提出“绅士化”(gentrification)这一术语,用来描述伦敦工人阶级街区被中产阶级“乡绅化”(源自英国“乡绅”gentry 一词)改造、原住民被置换的现象——这是整个绅士化研究领域的起点性文献。</div></div>
+<div class="gentry" id="g-haussmann"><div class="gterm-label">奥斯曼(Georges-Eugène Haussmann) <a href="#src-g-haussmann" class="gback">&#8617; 回到正文</a></div><div class="gexpl">拿破仑三世任命的塞纳省长,1853年起主持巴黎的大规模改造工程(拆除中世纪窄巷、修建宽阔林荫大道、统一建筑立面),持续约17年。这场改造被 David Harvey 等学者视为“国家主导、资本驱动的大规模城市改造”最早、最经典的历史范例,常被拿来和当代新建式绅士化做类比。</div></div>
+<div class="gentry" id="g-napoleon3"><div class="gterm-label">拿破仑三世 <a href="#src-g-napoleon3" class="gback">&#8617; 回到正文</a></div><div class="gexpl">法兰西第二帝国皇帝(1852–1870年在位),路易·拿破仑·波拿巴。他任命奥斯曼主持巴黎大改造,是本文里“国家意志推动大规模城市改造”这一历史类比的核心人物。</div></div>
+<div class="gentry" id="g-harvey"><div class="gterm-label">David Harvey <a href="#src-g-harvey" class="gback">&#8617; 回到正文</a></div><div class="gexpl">当代最重要的马克思主义地理学家之一,著有《巴黎:现代性之都》(Paris, Capital of Modernity, 2005)、《新自由主义简史》等。他关于“资本过剩必须通过城市建成环境的大规模投资来吸收”的论述,是本文分析新建式绅士化“资本-国家”关系的理论基石。</div></div>
+<div class="gentry" id="g-berman"><div class="gterm-label">Marshall Berman <a href="#src-g-berman" class="gback">&#8617; 回到正文</a></div><div class="gexpl">美国政治理论家,著有《一切坚固的东西都烟消云散了:现代性的体验》(All That Is Solid Melts into Air, 1982),是研究“现代性”经验的经典著作,常与哈维、本雅明等人的城市现代性论述并提。</div></div>
+<div class="gentry" id="g-marcuse"><div class="gterm-label">Peter Marcuse <a href="#src-g-marcuse" class="gback">&#8617; 回到正文</a></div><div class="gexpl">美国城市规划学者,1985年发表的论文提出了绅士化研究中最重要的“置换类型学”之一(直接末代居民置换、直接连锁置换、排斥性置换、置换压力),这套分类至今仍是分析绅士化伤害的标准工具——你之前论文里用到的 Marcuse 框架就是他。</div></div>
+<div class="gentry" id="g-heidegger"><div class="gterm-label">Martin Heidegger <a href="#src-g-heidegger" class="gback">&#8617; 回到正文</a></div><div class="gexpl">德国哲学家,其名著《存在与时间》(1927)探讨了人的存在(Dasein)与其所处世界/空间之间不可分割的关系,是后来“地方感”“栖居”等城市研究概念的哲学源头之一。</div></div>
+<div class="gentry" id="g-lefebvre"><div class="gterm-label">Henri Lefebvre <a href="#src-g-lefebvre" class="gback">&#8617; 回到正文</a></div><div class="gexpl">法国马克思主义哲学家、社会学家,《空间的生产》(The Production of Space, 1991)是空间理论的奠基性著作,主张空间不是中性容器,而是被社会关系持续生产出来的——也是你项目里已经出现过的“城市权利”概念的提出者。</div></div>
+<div class="gentry" id="g-ghertner"><div class="gterm-label">D. Asher Ghertner <a href="#src-g-ghertner" class="gback">&#8617; 回到正文</a></div><div class="gexpl">研究印度城市的学者,2014年论文对“绅士化”这一源自西方的概念能否直接套用到全球南方(如德里的驱逐案例)提出批判性质疑,是“后殖民城市研究”阵营的代表性声音之一。</div></div>
+<h4 class="gcat">历史事件</h4>
+<div class="gentry" id="g-newlabour"><div class="gterm-label">布莱尔与“新工党” <a href="#src-g-newlabour" class="gback">&#8617; 回到正文</a></div><div class="gexpl">Tony Blair 于1997–2007年任英国首相,他所领导的工党在意识形态上向中间靠拢,自称“新工党”(New Labour),是“第三条道路”政治哲学在英国的实际执政体现。</div></div>
+<div class="gentry" id="g-urbantaskforce"><div class="gterm-label">“城市工作组”(Urban Task Force) <a href="#src-g-urbantaskforce" class="gback">&#8617; 回到正文</a></div><div class="gexpl">1998年由布莱尔政府委托、知名建筑师 Richard Rogers 领衔的政策智囊小组,1999年发布报告《迈向城市复兴》(Towards an Urban Renaissance),主张通过高密度、混合用途的“紧凑城市”开发来复兴英国城市——文中多处提到的“城市复兴”话语即源于此。</div></div>
+<h4 class="gcat">地点</h4>
+<div class="gentry" id="g-lowerparel"><div class="gterm-label">下帕雷尔(Lower Parel) <a href="#src-g-lowerparel" class="gback">&#8617; 回到正文</a></div><div class="gexpl">孟买的一个前纺织厂工业区,近几十年经历了从工厂到高端公寓/商业综合体的剧烈绅士化转型,是 Harris (2008) 研究“西方模式如何被孟买挪用又产生变异”的案例地点。</div></div>
+<div class="gentry" id="g-yuexiu"><div class="gterm-label">越秀(广州) <a href="#src-g-yuexiu" class="gback">&#8617; 回到正文</a></div><div class="gexpl">广州市中心城区之一,历史悠久,是 Zhang et al. (2013) 研究的案例——不同于上海那种“棕地/大规模撤资后重建”式绅士化,越秀的绅士化发生在一个依然充满活力的历史城区内部,说明中国国家主导绅士化的“前提条件”本身就比西方案例更多样。</div></div>
+</div></details>
+
+<article>
+    <h2><span class="en">15.1 INTRODUCTION</span><span class="zh">15.1 引言</span></h2>
+<div class="bipara"><p class="en">In the 1990s and 2000s, the process of ‘new-build gentrification’ (Davidson and Lees 2005, 2010) took gentrification from modest mews (Glass 1964) to shimmering multi-million dollar residential towers. The scale and speed of neighbourhood transformation associated with this form of gentrification was striking. New-build gentrification became a central element of what was labelled ‘third wave gentrification’. In 2001, Hackworth and Smith defined the latter process in the following way:</p><p class="zh">在1990年代和2000年代,“新建式绅士化”(new-build gentrification,Davidson and Lees 2005, 2010)这一过程,把绅士化从格拉斯(Glass 1964)笔下朴素的马厩街区,带向了价值数百万美元的闪亮住宅塔楼。这种绅士化形式所伴随的街区转型,其规模和速度都令人瞩目。新建式绅士化成为所谓“第三波绅士化”的核心构成。2001年,Hackworth 与 Smith 如此定义后一过程:</p></div>
+<blockquote class="cited"><p class="en">Prophecies of degentrification appear to have been overstated as many neighbourhoods continue to gentrify while others, further from the city centre begin to experience the process for the first time. Post-recession gentrification seems to be more linked to large-scale capital than ever, as large developers rework entire neighbourhoods, often with state support (467).</p><p class="zh">关于“去绅士化”的预言,如今看来是被夸大了——许多街区仍在持续绅士化,而另一些离市中心更远的街区,则第一次开始经历这一过程。后衰退期的绅士化,似乎比以往任何时候都更加依赖大规模资本:大型开发商正在改造整片整片的街区,而且往往有国家的支持(467页)。</p><div class="callout">&#9998; Hackworth &amp; Smith (2001) 原话,经 Davidson 转引 &mdash; 这是被引论文/学者的观点,不是 Mark Davidson 本人的论证</div></blockquote>
+<div class="bipara"><p class="en">Some 15 years on from this defining statement, three things jump out at the reader. First, the late 1990s concern with degentrification (also see Marcuse 1993) appears almost quaint from the vantage point of today’s increasingly gentrified cities. Second, third wave gentrification contained two distinguishing features: the reliance on (i) corporate capital and (ii) governmental support. Simply put, transforming neighbourhoods — and, indeed, city regions - via new residential developments required large developers with lots of capital and the regulatory support of the state. Third, early conceptualizations of new-build gentrification overwhelmingly originated from North America and the United Kingdom. In doing so, this gentrification scholarship was closely connected to attempts to understand the state-forms associated with <a href="#g-thirdway" class="gterm" id="src-g-thirdway">Third Way political ideology</a><sup class="gref">&#9432;</sup> (see <a href="#g-giddens" class="gterm" id="src-g-giddens">Giddens 1999</a><sup class="gref">&#9432;</sup>). In early accounts of new-build gentrification (e.g. Davidson and Lees 2005), the ‘state-led’ prefix therefore often presumes a particular state-form; one closely connected to the centre-left effort to reform the harder edges of neoliberalism. These three distinctions remain critical. if often under-estimated, to current understandings of the history of gentrification(s).</p><p class="zh">距这句定义性的论断已过去约15年,读者会立刻注意到三点。第一,1990年代末对“去绅士化”的担忧(另见 Marcuse 1993),从今天这个绅士化不断加剧的城市视角回看,显得近乎天真。第二,第三波绅士化包含两个显著特征:依赖(i)企业资本与(ii)政府支持。简单说,通过新建住宅开发来改造街区——乃至整个城市区域——需要拥有大量资本的大型开发商,以及国家的监管性支持。第三,新建式绅士化的早期概念化工作,绝大多数源自北美与英国。因此,这一绅士化学术脉络,与理解“第三条道路”(Third Way)政治意识形态所对应的国家形态这一努力,紧密相连(见 Giddens 1999)。在关于新建式绅士化的早期论述中(如 Davidson and Lees 2005),“国家主导”这个前缀,因此常常预设了一种特定的国家形态——一种与中间偏左阵营改革新自由主义“棱角”的努力紧密相关的国家形态。这三点区分,即便常被低估,至今仍是理解绅士化(诸)历史的关键。</p></div>
+<div class="bipara"><p class="en">Class-based, large-scale, capital-intensive transformations of modern urban space can arguably be dated to 29 June 1853; the day that <a href="#g-napoleon3" class="gterm" id="src-g-napoleon3">Napoleon III instructed</a><sup class="gref">&#9432;</sup> <a href="#g-haussmann" class="gterm" id="src-g-haussmann">Georges Eugéne Haussmann</a><sup class="gref">&#9432;</sup> to ‘aérer, unifier, et embellir’ Paris. In the works that continued until the 1920s, the transformation of Paris famously involved replacing working class quarters with an epoch defining bourgeois landscape. <a href="#g-harvey" class="gterm" id="src-g-harvey">Harvey (2005) describes</a><sup class="gref">&#9432;</sup> how this urban transformation was related to a very particular politico-economic situation: ‘The surpluses of capital and labor power, so crushingly evident in 1848, were to be absorbed through a program of massive long-term investment in the built environment that focused on the amelioration of space relations. Within a year of the declaration of Empire, more than a thousand were at work on the construction site of the Tuileries . . .’ (104).</p><p class="zh">以阶级为基础、大规模、资本密集型的现代城市空间改造,可以说要追溯到1853年6月29日——拿破仑三世指示乔治-欧仁·奥斯曼“让巴黎通风、统一、美化”(aérer, unifier, et embellir)的那一天。这项工程一直持续到1920年代,巴黎的改造以用一种划时代的资产阶级景观取代工人阶级街区而著称。Harvey(2005)描述了这场城市改造如何与一种非常特定的政治经济处境相关联:“1848年痛苦地暴露出来的资本与劳动力过剩,要靠一项聚焦于改善空间关系的大规模长期建成环境投资计划来吸收。帝国宣告成立不到一年,图伊勒里宫的工地上已有上千人在施工……”(104页)。</p></div>
+<div class="bipara"><p class="en">This crisis of capitalist accumulation created two necessities. First, the state had to act in order to resolve a crisis of surplus capital. Second, in order to employ such large amounts of capital, the urban landscape would require a radical remaking. I note these two rather self-evident features of Harvey’s synopsis in order to draw a necessary analogy between the nineteenth-century origins of new-build gentrification and its contemporary manifestations, New-build gentrification has predominantly, but not exclusively (see Smith 2011), been a process whereby large-scale capital and state power work in concert to transform the built form. This transformation is not principally a matter of residential preferences, policy choices or local land market fluctuation. Rather it fundamentally concerns the ways in which the urban process is continually shaped by capitalist processes.</p><p class="zh">这场资本积累危机催生了两种必要性。第一,国家必须行动起来,以化解过剩资本的危机。第二,要投入如此大量的资本,城市景观就需要被彻底重塑。我提出 Harvey 这一概述中这两个相当不言自明的特征,是为了在新建式绅士化的十九世纪起源与其当代表现之间,画出一条必要的类比线。新建式绅士化,主要地(但非唯一地,参见 Smith 2011)是一个大规模资本与国家权力协同运作、改造建成形态的过程。这一转型,主要不是居住偏好、政策选择或地方土地市场波动的问题,而是根本上关乎城市过程如何持续被资本主义过程所塑造。</p></div>
+<div class="bipara"><p class="en">Our starting point for understanding new-build gentrification should not therefore be the last 30 years of neoliberal urbanism, but rather our framing should be the much longer history of capitalism’s relationship to urbanization. Within this history, we can find numerous examples of state-facilitated, large-scale capital investments serving to radically alter the class composition of neighbourhoods and. at a grander scale, recreate class relations more generally (see Harvey 2005). Such a reading means we must not only be sensitive to the inevitable geographical variations of the gentrification process, but also understand how successive waves of capitalist crisis accumulate to generate an accruing of the gentrification process. This process of accrual is now reflected throughout the gentrification literature. Earlier debates surrounding new-build gentrification focused on the Anglo-sphere of the UK (Davidson and Lees 2005; Lambert and Boddy 2002), USA (Hackworth and Smith 2001; Smith 1996) and Australia (Shaw 2002). Now we see commentary on new-build gentrification from across the globe, with Asia (Moore 2015) and Latin America (Lopez-Morales 2016) being particularly notable for the extent and intensity of new-build gentrification.</p><p class="zh">因此,理解新建式绅士化的起点,不应该是过去30年的新自由主义城市主义,而应把框架放宽到资本主义与城市化关系更长的历史之中。在这段历史里,我们能找到大量国家推动的大规模资本投资案例,它们从根本上改变了街区的阶级构成,并在更宏观的尺度上,重塑了更普遍意义上的阶级关系(见 Harvey 2005)。这样的解读意味着,我们不仅要对绅士化过程不可避免的地理差异保持敏感,也要理解资本主义危机的连续几波浪潮如何累积,从而生成绅士化过程的不断累加。这种累加过程如今已在绅士化文献中随处可见。早先围绕新建式绅士化的争论,聚焦于英语世界的英国(Davidson and Lees 2005;Lambert and Boddy 2002)、美国(Hackworth and Smith 2001;Smith 1996)与澳大利亚(Shaw 2002)。而今天,我们看到来自全球各地关于新建式绅士化的评述,其中亚洲(Moore 2015)与拉丁美洲(Lopez-Morales 2016)因新建式绅士化的规模与强度而尤为引人注目。</p></div>
+<h2><span class="en">15.2 THE RISE OF NEW-BUILD-ISM: THIRD WAY GENTRIFICATION AND REGENERATION</span><span class="zh">15.2 “新建主义”的兴起:第三条道路式绅士化与更新</span></h2>
+<div class="bipara"><p class="en">Although it is possible to identify different forms of new-build gentrification across the history of urbanization, the term ‘new-build gentrification’ entered the urban lexicon during the 1990s and 2000s, In 1996, Neil Smith (39) made the following commentary on the gentrification processes he was observing at the time:</p><p class="zh">尽管在城市化的历史长河中,可以辨识出不同形式的新建式绅士化,但“新建式绅士化”这一术语,是在1990年代与2000年代才进入城市研究词汇的。1996年,Neil Smith(39页)对他当时所观察到的绅士化过程作出如下评论:</p></div>
+<blockquote class="cited"><p class="en">How, in the large context of changing social geographies, are we to distinguish adequately between the rehabilitation of nineteenth-century housing, the construction of new condominium towers, the opening of festival markets to attract local and not so local tourists, the proliferation of wine bars and boutiques for everything and the construction of modern and postmodern office buildings employing thousands of professionals, all looking for a place to live? ... Gentrification is no longer about a narrow and quixotic oddity in the housing market but has become the leading residential edge of a much larger endeavour: the class remake of the central urban landscape (cited in Davidson and Lees 2005: 1166).</p><p class="zh">在社会地理不断变迁的大背景下,我们该如何充分区分以下这些现象:十九世纪住房的翻修、新公寓塔楼的建造、为吸引本地及外地游客而开设的节庆市场、遍地开花的酒吧与精品店,以及雇佣数千名专业人士、这些人都在寻找住处的现代与后现代办公楼的建造?……绅士化已不再是住房市场里一桩狭隘而堂吉诃德式的怪事,而已成为一项宏大得多的事业的先锋住宅前沿:对中心城市景观的阶级重塑(转引自 Davidson and Lees 2005: 1166)。</p><div class="callout">&#9998; Neil Smith (1996) 原话,经 Davidson and Lees (2005) 转引 &mdash; 这是被引论文/学者的观点,不是 Mark Davidson 本人的论证</div></blockquote>
+<div class="bipara"><p class="en">What Smith was describing was later characterized as ‘new-build gentrification’ (Davidson and Lees 2005), The distinction Smith (1996) began to draw out is between a small-scale part of the urban process (i.e. the renovation of terraced townhouses by aspirant middleclass peoples) and a much more pervasive trend that itself is a defining part of the urban process. Whereas the processes that <a href="#g-ruthglass" class="gterm" id="src-g-ruthglass">Ruth Glass described in 1964</a><sup class="gref">&#9432;</sup> were always somewhat marginal compared to parallel suburbanizations. the gentrification that Smith identified with “the construction of new condominium towers’ represented something quite different. The new condo boom that Smith observed was, and remains. the exemplary form of contemporary urbanization in places such as London (Davidson and Lees 2005, 2010) and Toronto (Kern 2010; Rosen and Walks 2015), Parallel processes have also rolled-out beyond the urban centres of the Global North, with cities such as Bangkok (Moore 2015) and Kuala Lumpur (Ortega 2016) experiencing new-build gentrifying development. In these cases, gentrification and state-led national economic development projects have often gone hand-in-hand. Indeed, in terms of intensity of neighbourhood transition and geographical extent, examples of new-build gentrification in the Global South now often appear to exceed those in cities such as London and Toronto (see Harris 2008; He 2010). On this point, the link between new-build gentrification and state power is critical.</p><p class="zh">Smith 所描述的现象,后来被概念化为“新建式绅士化”(Davidson and Lees 2005)。Smith(1996)开始勾勒出的这一区分,是在城市过程中一个小规模的部分(即怀有中产阶级志向的人群对联排townhouse的翻修)与一个远为普遍、本身即构成城市过程核心特征的趋势之间的区分。Ruth Glass 在1964年所描述的过程,相对于同时期的郊区化而言,始终显得有些边缘;而 Smith 用“新公寓塔楼的建造”所指认的绅士化,则代表着截然不同的东西。Smith 所观察到的这波新公寓热潮,曾经是、如今依然是伦敦(Davidson and Lees 2005, 2010)、多伦多(Kern 2010;Rosen and Walks 2015)等地当代城市化的典范形式。类似过程也已扩展到全球北方城市中心之外,曼谷(Moore 2015)、吉隆坡(Ortega 2016)等城市也经历着新建式绅士化开发。在这些案例中,绅士化与国家主导的国家经济发展项目往往携手并进。事实上,就街区转型的强度与地理范围而言,全球南方新建式绅士化的案例,如今常常超过伦敦、多伦多这类城市(见 Harris 2008;He 2010)。在这一点上,新建式绅士化与国家权力之间的联系至关重要。</p></div>
+<div class="bipara"><p class="en">This shift from a marginal, but significant, process to the exemplar for contemporary urban development necessitated the use of state power. This state power has come in various guises and forms. In some cases, state power has taken a particularly violent form. with governments using their <a href="#g-eminentdomain" class="gterm" id="src-g-eminentdomain">powers of eminent domain</a><sup class="gref">&#9432;</sup> (Carpenter and Ross 2009) and/ or land ownership (Wu 2015) to instigate large-scale redevelopment schemes. In other times and places, policy recommendations and policy changes have incentivized some land uses and privileged some redevelopment actors over others (e.g. Hedin et al. 2012). In order to make gentrification the default program to produce economic growth and urban renewal. the state has again had to become a central actor within the urban process. And in order to take this role, the state — at least in democratic forms — has been required to provide justifications for its actions.</p><p class="zh">从一个边缘却重要的过程,转变为当代城市开发的典范,这一转变离不开国家权力的运用。这种国家权力以各种伪装和形式出现。在某些情况下,国家权力采取了尤为暴力的形式,政府动用其征用权(eminent domain,Carpenter and Ross 2009)和/或土地所有权(Wu 2015)来发起大规模再开发计划。在另一些时空,政策建议与政策变化则以激励某些土地用途、偏袒某些再开发主体的方式发挥作用(如 Hedin et al. 2012)。为了让绅士化成为产生经济增长与城市更新的默认方案,国家不得不再度成为城市过程中的核心行动者。而为了扮演这一角色,国家——至少在民主政体形式下——被要求为其行动提供正当性论证。</p></div>
+<div class="bipara"><p class="en">When Harvey (2005) describes the modernity at the centre of Haussmann’s plans for Paris, he focuses on the need for the new regime to represent a historical break. ‘Tomorrow’s Paris would, at the request of Emperor Napoléon III, be created without reference to the past. The past was deemed irrelevant and the emerging city would adhere to a new and superior set of political values and ideas. Such an approach to urban renewal was to become symbolic of modern urbanization (<a href="#g-berman" class="gterm" id="src-g-berman">Berman 1982</a><sup class="gref">&#9432;</sup>). As processes of creative destruction have unfolded, so ideological explanations have been required to justify inevitable upheavals. The third wave of gentrification has often been intertwined with the advent of neoliberal politics and policy. In order to set about transforming the city along radically new lines (e.g. Urban Task Force 1999), a rejection of the past and/or an embrace of an alternate future has been necessitated. In the case of Haussmann’s Paris, a rejection of the past became a political necessity. Today. such a rejection seems less important than modernist developmental promises and related claims about economic necessity that often serve to justify large-scale transformations of the urban form.</p><p class="zh">当 Harvey(2005)描述奥斯曼巴黎规划中那种“现代性”时,他聚焦于新政权需要代表一次历史性断裂这一诉求。“应拿破仑三世之请,明日之巴黎将不再参照过去而被创造出来。过去被认定无关紧要,新兴的城市将遵循一套全新的、更优越的政治价值与理念。”这种城市更新的路径,后来成为现代城市化的一种象征(Berman 1982)。随着创造性破坏(creative destruction)的过程不断展开,意识形态化的解释便被需要,用以为不可避免的动荡提供正当性。第三波绅士化,常常与新自由主义政治与政策的兴起交织在一起。为了沿着彻底的新方向着手改造城市(如 Urban Task Force 1999),就必须要么拒斥过去,要么拥抱另一种未来,或两者兼有。在奥斯曼巴黎的案例中,拒斥过去成为一种政治必需。而在今天,这种拒斥似乎已不如现代主义式的发展承诺、以及相关的“经济必要性”说辞那样重要——后者常常被用来为城市形态的大规模改造提供正当性。</p></div>
+<div class="bipara"><p class="en">When London’s riverside began to transform in the late 1990s and early 2000s (see Davidson and Lees 2005, 2010), the entire redevelopment process was at the same time being narrated by a new and ambitious centre-left policy agenda. Under <a href="#g-newlabour" class="gterm" id="src-g-newlabour">Tony Blair&#x27;s New Labour</a><sup class="gref">&#9432;</sup>, urban policy was radically reformed. The government had commissioned the <a href="#g-urbantaskforce" class="gterm" id="src-g-urbantaskforce">Richard Rogers-led Urban Task Force</a><sup class="gref">&#9432;</sup> to come up with a new vision of Britain’s cities, The policies and programs that emerged became shining examples of the Third Way (see Giddens 1999) political philosophy that underpinned the government&#x27;s ideology. Third Way politics were meant to represent a distinct break from previous formulations of reformist socialism. What this meant for urban development was a notable shift in the language that explained urban development trajectories. Gentrification via wholesale neighbourhood redevelopment was cast as a project of social engineering and urban improvement. This project involved breaking down segregating urban geographies and installing new types of social mixing (Rose et al. 2013). Such a project required accompanying initiatives about social mixing and/or social integration (Davidson 2010).</p><p class="zh">当伦敦的滨河地区在1990年代末至2000年代初开始转型时(见 Davidson and Lees 2005, 2010),整个再开发过程同时也被一套雄心勃勃的中间偏左新政策议程所讲述。在托尼·布莱尔领导的新工党执政下,城市政策经历了彻底改革。政府委托由 Richard Rogers 领衔的“城市工作组”(Urban Task Force)为英国城市提出新的愿景。由此产生的政策与方案,成了支撑政府意识形态的“第三条道路”(见 Giddens 1999)政治哲学的耀眼范例。第三条道路政治的用意,是与此前各种改良主义社会主义的表述形成清晰的断裂。这对城市开发意味着什么呢?意味着解释城市开发轨迹的语言发生了显著转变——通过整片街区再开发实现的绅士化,被塑造成一项社会工程与城市改善项目。这一项目牵涉到打破隔离性的城市地理,植入新型的社会混合(social mixing,Rose et al. 2013)。这样的项目,需要配套推出关于社会混合和/或社会融合的相应举措(Davidson 2010)。</p></div>
+<div class="bipara"><p class="en">Much of the 2000&#x27;s British- and American-based literature on new-build gentrification is therefore situated within a common concern with social mixing policies (Lees 2008), An important question is implicit throughout this work: could the state-sanctioned expansion of gentrification be manipulated into a socially positive process? The promise of these politics was reduced segregation, economic benefits for low-income residents relating to gentrifiers deploying social capital in disinvested spaces, and the creation of more inclusive communities. Within the context of this seemingly new political program, a whole set of assumptions about gentrification and its social impacts were therefore being re-examined.</p><p class="zh">因此,2000年代大量以英国、美国为背景的新建式绅士化文献,都共同关注着社会混合政策(Lees 2008)。一个重要的问题贯穿于这些研究之中,却始终未被明说:国家认可的绅士化扩张,能否被操纵成一个对社会有益的过程?这类政治所许下的承诺是:降低隔离、让低收入居民从绅士化者在被撤资空间中部署的社会资本中获得经济收益,以及创造更具包容性的社区。在这套看似全新的政治方案的语境下,一整套关于绅士化及其社会影响的假设,由此被重新审视。</p></div>
+<div class="bipara"><p class="en"><a href="#g-rentgap" class="gterm" id="src-g-rentgap">In Smith&#x27;s 1979 description of the rent gap</a><sup class="gref">&#9432;</sup>, he acknowledged that the state remained central to gentrification. even if private market actors seemed to be dominating in places such as Philadelphia:</p><p class="zh">在 Smith 1979年对“租隙”(rent gap)的论述中,他承认国家在绅士化中仍然居于核心地位——即便在费城这类地方,私人市场行动者看似占据主导:</p></div>
+<blockquote class="cited"><p class="en">Once the rent gap is wide enough, gentrification may be initiated in a given neighborhood by several different actors in the land and housing market... . The state, for example, initiated most if not all of the early schemes, and though it plays a lesser role today, is still important. More commonly today, with private market gentrification, one or more financial institutions will <a href="#g-redlining" class="gterm" id="src-g-redlining">reverse a long standing redlining policy</a><sup class="gref">&#9432;</sup> and actively target a neighborhood as a potential market for construction loans and mortgages (545).</p><p class="zh">一旦租隙足够大,绅士化便可能由土地与住房市场中的若干不同行动者在某一街区发起……以国家为例,早期的绅士化计划大多——即便不是全部——都由国家发起,尽管今天国家扮演的角色有所减弱,但依然重要。而在今天更常见的私人市场主导型绅士化中,一家或多家金融机构会逆转长期以来的“红线”政策(redlining),主动将某个街区锁定为建筑贷款与按揭的潜在市场(545页)。</p><div class="callout">&#9998; Neil Smith (1979) 原话,经 Davidson 转引 &mdash; 这是被引论文/学者的观点,不是 Mark Davidson 本人的论证</div></blockquote>
+<div class="bipara"><p class="en">In contrast to Smith’s early comments, third wave gentrification became manifest because the state opted to take a more active role in neighbourhood change. And with this, new-build gentrification became the principal vehicle by which the state’s urban renewal objectives would be achieved. A confluence of surplus capital requiring large scale investment fixes (Christophers 2016) and the changing ideological basis of Anglo social democratic political parties therefore created the conditions for new-build gentrification to become a leading edge of contemporary urbanization.</p><p class="zh">与 Smith 早期的论述相对照,第三波绅士化之所以显现出来,是因为国家选择在街区变迁中扮演更为积极主动的角色。由此,新建式绅士化成为国家实现其城市更新目标的主要载体。需要大规模投资出口的过剩资本(Christophers 2016),与盎格鲁社会民主政党意识形态基础的变化,二者的汇合,共同创造了让新建式绅士化成为当代城市化前沿的条件。</p></div>
+<h2><span class="en">15.3 A THEORY OF NEW-BUILD GENTRIFICATION?</span><span class="zh">15.3 一套新建式绅士化理论?</span></h2>
+<div class="bipara"><p class="en">Although the re-emergence of the state within gentrification processes enabled widespread new-build gentrification, its presence also created analytical and political complexities. Gentrification had traditionally been associated with the renovation of existing housing stock (cf. Glass 1964), whereas new-build construction was largely a concern of those studying new urban development (e.g. Gans 1982). The conjoining of new-build construction and neighbourhood reinvestment therefore presented conceptual challenges. These challenges were further complicated in places such as the UK and USA that were adopting Third Way (Giddens 1999) social policies aimed at using this conjoining to produce a ‘positive’ form of gentrification. Since a defining feature of gentrification is a distinctly inequitable outcome, displacement, the insertion of egalitarian policy objectives into the gentrification process potentially transforms gentrification into something else entirely: gentrification without displacement is not gentrification. Early debates on new-build gentrification were specifically concerned with this issue.</p><p class="zh">尽管国家在绅士化过程中的重新登场,使得新建式绅士化得以广泛铺开,但其存在也带来了分析上与政治上的复杂性。绅士化传统上一直与既有住房存量的翻修相关联(参见 Glass 1964),而新建施工则主要是研究新城市开发者所关心的问题(如 Gans 1982)。因此,新建施工与街区再投资的结合,带来了概念上的挑战。而在英国、美国这类正在采纳第三条道路(Giddens 1999)社会政策、试图利用这一结合来制造“正面”形式绅士化的地方,这些挑战又进一步复杂化。既然绅士化的一个界定性特征,是一种明显不公平的结果——置换(displacement)——那么把平等主义的政策目标植入绅士化过程,就有可能把绅士化彻底转变成别的东西:没有置换的绅士化,就不是绅士化。关于新建式绅士化的早期争论,正是特别关注这一问题。</p></div>
+<h3><span class="en">15.3.1 Residentialization or Gentrification?</span><span class="zh">15.3.1 “住宅化”还是绅士化?</span></h3>
+<div class="bipara"><p class="en">In 2002, Lambert and Boddy published the results of a study into residential development in cities around the UK. Observing a growing number of new residential developments in places such as Bristol, they asked whether the concept of gentrification was an applicable descriptor:</p><p class="zh">2002年,Lambert 与 Boddy 发表了一项针对英国各城市住宅开发的研究成果。他们观察到布里斯托等地新住宅开发项目数量不断增长,进而追问:绅士化这一概念,是否是一个适用的描述?</p></div>
+<blockquote class="cited"><p class="en">... core-area housing development in Bristol and other second tier UK cities has consisted mainly of corporate new build or conversion of former commercial or industrial buildings. This contrasts with the neighbourhood gentrification of early decades driven mainly by relatively better off households buying and renovating individual properties in generally lower income areas, for their own use. One implication is that there is no direct displacement of other social groups and lower income households as occurred with pre-recession gentrification. Gentrification in the sense of a process of social change based on ‘invasion and succession’ is, therefore a misnomer (21).</p><p class="zh">……布里斯托及英国其他二线城市核心区的住房开发,主要由企业新建或前商业/工业建筑的改建构成。这与早些年代的街区绅士化形成对比——后者主要由相对富裕的家庭出于自用目的,在通常收入较低的地区购买并翻修个别房产所驱动。其中一层含义是:不存在像衰退前绅士化那样,对其他社会群体与低收入家庭的直接置换。因此,以“侵入与接替”(invasion and succession)为基础的社会变迁过程这一意义上的绅士化,是一个用词不当(21页)。</p><div class="callout">&#9998; Lambert &amp; Boddy (2002) 原话,经 Davidson 转引——注意这是被 Davidson 接下来反驳的观点,不是他本人立场 &mdash; 这是被引论文/学者的观点,不是 Mark Davidson 本人的论证</div></blockquote>
+<div class="bipara"><p class="en">For Lambert and Boddy, the absence of direct displacement meant that the urban changes they were observing required a different explanation. The concept they developed was ‘residentialization’ and it was intended to describe a process of land use change distinct from gentrification. These land use changes involved the return and/or establishment of residential spaces within the cores of UK cities, particularly outside of London. While this process has parallels to gentrification in that it involves a reversal of centrifugal residential geographies in the industrial city, they felt it lacked the defining process of displacement and hence required a distinguishing concept.</p><p class="zh">对 Lambert 与 Boddy 而言,直接置换的缺席,意味着他们所观察到的城市变化,需要一种不同的解释。他们提出的概念是“住宅化”(residentialization),意在描述一种有别于绅士化的土地利用变化过程。这些土地利用变化,涉及英国城市——尤其是伦敦以外城市——核心区内居住空间的回归和/或新建。这一过程与绅士化确有相似之处,即都涉及逆转工业城市中离心式的居住地理格局;但他们认为,它缺少绅士化那种界定性的置换过程,因而需要一个有所区分的概念。</p></div>
+<div class="bipara"><p class="en">This contention was picked up by Davidson and Lees (2005) when they developed the cases for and against the types of residential development described as examples of ‘residentialization’. The case against focused on the pivotal issue of displacement, with Lambert and Boddy (2002: 18) arguing that the <a href="#g-brownfield" class="gterm" id="src-g-brownfield">location of residential developments in brownfield sites</a><sup class="gref">&#9432;</sup> meant the return of residents to core urban areas but did not involve displacement. This represents a powerful argument, since the UK state was, through a new set of urban policies, supposedly directing and conditioning capital reinvestment in the built form. By concentrating new-build onto brownfield sites and often requiring affordable housing allocations within new housing developments, policymakers promised to change neighbourhood class composition without displacing existing residents.</p><p class="zh">这一论点被 Davidson 与 Lees(2005)接过,他们就那些被描述为“住宅化”案例的住宅开发类型,分别构建了支持与反对的论证。反对的一方聚焦于置换这一关键问题——Lambert 与 Boddy(2002: 18页)认为,住宅开发选址于棕地(brownfield sites),意味着居民回归城市核心区,但并不涉及置换。这是一个有力的论证,因为英国国家当时正通过一整套新的城市政策,理应引导并制约着建成形态中的资本再投资。通过将新建施工集中于棕地、并常常要求新住房开发中配置一定比例的可负担住房,政策制定者承诺在不置换现有居民的情况下改变街区的阶级构成。</p></div>
+<div class="bipara"><p class="en">In response, Davidson and Lees (2005) presented a four-fold case against this interpretation. They claimed that gentrification has four defining elements: ‘(1) reinvestment of capital; (2) social upgrading of locale by incoming high-income groups; (3) landscape change; and (4) direct or indirect displacement of low-income groups’ (1170). The first three elements, which are rather uncontentious, are shown to be present in cases similar to those examined by Lambert and Boddy (2002). Turning to displacement, Davidson and Lees (2005) presented evidence to suggest that displacement is taking place in neighbourhoods experiencing new-build gentrification/residentialization. They claimed: ‘New-build developments will generate displacement by introducing a large population of gentrifiers into the community very quickly and will thereby act as beachheads from which the tentacles of gentrification can reach outward into the adjacent communities’ (1184), By documenting the various ways in which new-build developments were enacting a class-based transition (see Davidson 2010) and pushing out working-class residents, Davidson and Lees (2005) demonstrated not only the applicability of the concept of gentrification, but also its political necessity.</p><p class="zh">作为回应,Davidson 与 Lees(2005)提出了四方面的反驳论证。他们主张,绅士化具有四个界定性要素:“(1)资本再投资;(2)迁入的高收入群体带来的地方社会升级;(3)景观改变;(4)对低收入群体的直接或间接置换”(1170页)。前三项要素相当没有争议,在与 Lambert 与 Boddy(2002)所考察案例类似的情形中均被证明存在。转到置换这一要素,Davidson 与 Lees(2005)提出证据,表明置换正在经历新建式绅士化/住宅化的街区中发生。他们主张:“新建开发会通过极快地把大量绅士化人口引入社区而制造置换,并由此充当滩头堡,绅士化的触角得以从这里向外延伸进相邻社区”(1184页)。通过记录新建开发以各种方式促成阶级转型(见 Davidson 2010)、把工人阶级居民挤出去,Davidson 与 Lees(2005)不仅证明了绅士化这一概念的适用性,也证明了其政治上的必要性。</p></div>
+<div class="bipara"><p class="en">By demonstrating that the defining elements of gentrification were present in cases of urban redevelopment along London’s River Thames, Davidson and Lees (2005) provided a conceptual foundation to identify gentrification outside of its traditional locales (see Shaw 2002). However, another literature that emerged out of the Continental European context brought further challenges to those who wanted to mobilize the concept of new-build gentrification to describe emergent forms of urban change.</p><p class="zh">通过证明绅士化的界定性要素在伦敦泰晤士河沿岸的城市再开发案例中确实存在,Davidson 与 Lees(2005)提供了一个概念基础,使人们得以在绅士化的传统场域之外辨识出绅士化(见 Shaw 2002)。然而,另一支源自欧洲大陆语境的文献,又给那些想用新建式绅士化这一概念去描述新兴城市变迁形式的人,带来了进一步的挑战。</p></div>
+<h3><span class="en">15.3.2 Reurbanization or Gentrification?</span><span class="zh">15.3.2 “再城市化”还是绅士化?</span></h3>
+<div class="bipara"><p class="en">Reurbanization (Buzar et al. 2007; Haase et al. 2010) is a concept developed to describe the (re)growth of residential populations in a number of European cities. The concept is explicitly designed to capture a process that is similar, but ultimately different from gentrification (Haase et al. 2010). Reurbanization attempts to link demographic changes to transformations taking place within the structure of European and North American cities. The historical background to this is decades of suburban flight experienced in cities across the Global North. Reurbanization therefore seeks to describe the emergent counter-process in a similar way that gentrification has been described as a back to the city movement. Yet, according to Buzar et al. (2007) gentrification is not an accurate descriptor since, they claimed, it fails to capture the distinctive demographics, scales, housing preferences and social structures at play. Critically. this combination of distinctions means that the class dynamics of urban change processes in cities such as Ljubljana, Leipzig. Bologna and Lyon are said to be different when compared to gentrification in cities and regions not experiencing depopulation:</p><p class="zh">“再城市化”(reurbanization,Buzar et al. 2007;Haase et al. 2010)是一个用以描述若干欧洲城市中居住人口(再)增长的概念。这一概念被明确设计出来,是为了捕捉一个与绅士化相似、但终究不同的过程(Haase et al. 2010)。再城市化试图把人口变化,与欧洲及北美城市结构内部正在发生的转型联系起来。其历史背景,是全球北方各城市数十年来经历的郊区外流。因此,再城市化试图以类似绅士化被描述为“重返城市运动”的方式,来描述这一新兴的反向过程。然而,按照 Buzar 等人(2007)的说法,绅士化并非一个准确的描述,因为他们认为,绅士化未能捕捉到其中特有的人口构成、规模、住房偏好与社会结构。关键在于,这一系列区分意味着,卢布尔雅那、莱比锡、博洛尼亚、里昂等城市中城市变迁过程的阶级动态,据说与那些未经历人口流失的城市与地区中的绅士化有所不同:</p></div>
+<blockquote class="cited"><p class="en">Unlike gentrification, which affects only selected parts of the urban tissue and is associated with specific social groups and economic processes, reurbanisation is taking place throughout the inner city and is mobilising a much broader range of populations. Indeed, it would be difficult to describe as ‘gentrification’ the massive influx of international immigrants, young families and students into the lower end of the housing markets of all four cities (Buzar et al. 2007: 672).</p><p class="zh">与只影响城市肌理中被选定的局部、且与特定社会群体及经济过程相关联的绅士化不同,再城市化正在整个内城范围内发生,并动员着一个广泛得多的人口谱系。事实上,若把国际移民、年轻家庭与学生大量涌入这四座城市住房市场低端的现象也称为“绅士化”,是很难成立的(Buzar et al. 2007: 672页)。</p><div class="callout">&#9998; Buzar et al. (2007) 原话,经 Davidson 转引——这是与 Davidson 立场相左的观点 &mdash; 这是被引论文/学者的观点,不是 Mark Davidson 本人的论证</div></blockquote>
+<div class="bipara"><p class="en">The characterization of urban change within the reurbanization literature is therefore one that involves a largely vacant place becoming repopulated. Reurbanization is often described as a process of stabilization (Haase et al. 2010); after years of decline, city centres are characterized as moving towards a sustainable population and tax base. Whereas gentrification involves a clear class transition, reurbanization is therefore more mixed. It is ‘a process of repopulating the inner city with a variety of social groups and lifestyles’ (Buzar et al. 2007: 671). This description of a process that simply repopulates an abandoned urban core has strong parallels with debates over social polarization (see Moulaert et al. [eds] 2003). Although proponents of the reurbanization thesis (Buzar et al. 2007: Haase et al. 2010) make a distinction between processes of social change occurring in cities placed differently within the urban hierarchy. some scholars working within large metropolitan centres made similar arguments (Hamnett 1994). Such characterizations of urban population transition have been questioned by scholars on the basis that existing social class measures often fail to understand the social composition and distinctions of the post-industrial city (Davidson and Wyly 2012: Watt 2008).</p><p class="zh">因此,再城市化文献中对城市变迁的刻画,是一个基本空置的地方重新被人口填满的过程。再城市化常被描述为一种稳定化过程(Haase et al. 2010):历经多年衰退之后,城市中心被刻画为正朝着可持续的人口与税基迈进。绅士化涉及明确的阶级转型,而再城市化则更为混杂——它是“以多样的社会群体与生活方式重新填充内城的过程”(Buzar et al. 2007: 671页)。这种把再城市化仅仅描述为让被遗弃的城市核心重新填满人口的说法,与关于社会两极化的争论(见 Moulaert et al. [编] 2003)有着强烈的相似之处。尽管再城市化论点的支持者(Buzar et al. 2007;Haase et al. 2010)对处于城市体系中不同位置的城市里所发生的社会变迁过程作出了区分,一些在大都市中心工作的学者也提出了类似的论点(Hamnett 1994)。这类对城市人口转型的刻画,已受到学者们的质疑,理由是既有的社会阶级衡量方式,往往无法理解后工业城市的社会构成与其中的种种区分(Davidson and Wyly 2012;Watt 2008)。</p></div>
+<div class="bipara"><p class="en">Debates on reurbanization therefore emphasize the impact of demographic shifts on urban processes, whereas concerns with residentialization (Lambert and Boddy 2002) focus more on the micro-scale social dynamics relating to changing land use. In each case, an argument is made against the concept of new-build gentrification principally on the basis of the absence of displacement. For those developing the concept of reurbanization, there is little or no working-class population to displace. For proponents of residentialization, the obvious absence of direct displacement from industrial or ex-industrial sites means the term gentrification is inapplicable. Although a case-by-case analysis of urban change would reveal varying degrees of transition, much of this disagreement stems from a fundamental misunderstanding about how gentrification generates multiple forms of displacement.</p><p class="zh">因此,关于再城市化的争论,强调的是人口变化对城市过程的影响,而关于住宅化的关切(Lambert and Boddy 2002)则更聚焦于与土地利用变化相关的微观尺度社会动态。在这两种情形中,反对新建式绅士化这一概念的论证,主要都建立在“置换缺席”这一基础之上。对提出再城市化概念的学者而言,几乎没有(或根本没有)工人阶级人口可供置换。对住宅化的支持者而言,工业或前工业用地中直接置换的明显缺席,意味着绅士化这一术语不适用。尽管逐案分析城市变迁会揭示出不同程度的转型,但这些分歧的大部分,其实都源于对绅士化如何生成多种形式置换的一种根本性误解。</p></div>
+<h3><span class="en">15.3.3. New-build Gentrification and Displacement</span><span class="zh">15.3.3 新建式绅士化与置换</span></h3>
+<div class="bipara"><p class="en">New-build gentrification can generate both direct and indirect displacement (Davidson 2010). Direct displacement is the most glaring injustice inflicted by gentrification processes. For new-build gentrification. this form of displacement tends to be associated with demolition (Lees 2014), where old structures are threatened or actually ripped down (Goetz 2011) and existing residents consequently moved out. Indirect displacement is a more slippery concept to deal with, since it involves a number of elements.</p><p class="zh">新建式绅士化既能产生直接置换,也能产生间接置换(Davidson 2010)。直接置换,是绅士化过程所施加的最刺目的不公。就新建式绅士化而言,这种置换形式往往与拆除相关联(Lees 2014)——旧建筑受到威胁、或被实际拆毁(Goetz 2011),现有居民也因此被迁出。间接置换则是一个更难把握的概念,因为它涉及若干构成要素。</p></div>
+<div class="bipara"><p class="en"><a href="#g-marcuse" class="gterm" id="src-g-marcuse">For Marcuse (1985) there are four displacement factors</a><sup class="gref">&#9432;</sup> relating to gentrification: (i) direct last-resident displacement, (ii) direct chain displacement, (iii) exclusionary displacement, and (iv) displacement pressure. The last of these factors, displacement pressure, is critical for studies of new-build gentrification and, I would argue. gentrification in general. Marcuse describes displacement pressure in the following way:</p><p class="zh">对 Marcuse(1985)而言,与绅士化相关的置换因素有四种:(i)直接末代居民置换,(ii)直接连锁置换,(iii)排斥性置换,以及(iv)置换压力。这最后一种因素——置换压力——对新建式绅士化研究至关重要,而我认为,对绅士化研究整体而言同样至关重要。Marcuse 如此描述置换压力:</p></div>
+<blockquote class="cited"><p class="en">When a family sees the neighborhood around it changing dramatically, when their friends are leaving the neighborhood, when the stores they patronize are liquidating and new stores for other clientele are taking their places, and when changes in public facilities, in transportation patterns, and in support services all clearly are making the area less and less livable, then the pressure of displacement is already severe (Marcuse 1985: 207).</p><p class="zh">当一个家庭眼见周围的街区剧烈变化,眼见朋友们纷纷离开街区,眼见他们光顾的商店纷纷歇业、被服务于其他客群的新商店取代,当公共设施、交通模式和支持性服务的变化都清楚地让这片区域变得越来越不宜居时,置换的压力便已经十分严重了(Marcuse 1985: 207页)。</p><div class="callout">&#9998; Peter Marcuse (1985) 原话,经 Davidson 转引 &mdash; 这是被引论文/学者的观点,不是 Mark Davidson 本人的论证</div></blockquote>
+<div class="bipara"><p class="en">The different forms of displacement are important because the physical relocation of individuals from a home and neighbourhood means the loss of various things. This loss might be monetary, although displacement can also involve financial gains via the sale of property or statutory recompense. Even in such cases, however, there is still likely to be significant loss associated with displacement. What physical displacement almost inevitably means is a certain dislocation of one’s lifeworld; a wrenching of one&#x27;s being from its formative spatial existence: ‘there is a need to ask why displacement matters at all: what does a loss of place constitute? How is a loss of space differentiated from a loss of place?’ (Davidson 2009: 226). The answers to these questions involves recognizing the co-constitutive relationship between place and self (see <a href="#g-heidegger" class="gterm" id="src-g-heidegger">Heidegger 1927</a><sup class="gref">&#9432;</sup>[2008]; <a href="#g-lefebvre" class="gterm" id="src-g-lefebvre">Lefebvre 1991</a><sup class="gref">&#9432;</sup>).</p><p class="zh">这些不同形式的置换之所以重要,是因为个体从家和街区被物理性地迁走,意味着多种事物的丧失。这种丧失可能是金钱上的,尽管置换有时也会通过物业出售或法定补偿带来经济上的收益。然而,即便在这类情形下,置换所伴随的重大损失依然很可能存在。物理性的置换几乎不可避免地意味着一个人生活世界的某种错位;一种把人的存在从其塑造性的空间存在中硬生生扯离的过程:“我们有必要追问,置换为何重要:一种地方(place)的丧失究竟构成了什么?空间(space)的丧失,与地方的丧失,又该如何区分?”(Davidson 2009: 226页)。要回答这些问题,需要认识到地方与自我之间那种相互构成(co-constitutive)的关系(见 Heidegger 1927[2008];Lefebvre 1991)。</p></div>
+<div class="bipara"><p class="en">When a neighbourhood becomes subject to gentrifying new-build development, this relationship between place and self can become radically altered. For an existing resident of a working-class neighbourhood. the rapid transition of retail and social services, along with a changing political community, can destroy a sense of belonging. A painful irony in many recent cases of new-build gentrification is that this is often the intent of policymakers. Ideas such as boosting social capital, generating integration and stimulating community participation often convert into a rejection of the existing community and an aspiration to replace it with something deemed more acceptable (Watt 2008). This linkage between processes of indirect displacement and state policy is one reason why new-build gentrification has become so powerful and pervasive. When dressed in the seemingly progressive rhetoric of centre-left social policy, new-build gentrification can appear a common sense solution for neighbourhood decline. The policies recast indirect displacement into a social good and, therefore, tend to legitimate displacement-causing gentrification processes. If we therefore limit our understanding of gentrification-induced displacement to the direct kind, as proponents of residentialization (Lambert and Boddy 2002) and reurbanization (Buzar et al. 2007) have tended to do, then we omit a full understanding of displacement and risk denying the crucial presence of state power with contemporary gentrification processes.</p><p class="zh">当一个街区经历绅士化式的新建开发时,地方与自我之间的这层关系,可能发生根本性的改变。对工人阶级街区的现有居民而言,零售业与社会服务的快速转变,连同不断变化的政治共同体,都可能摧毁归属感。许多晚近的新建式绅士化案例中,一个令人痛心的反讽是:这往往正是政策制定者的本意。诸如提升社会资本、促进融合、激发社区参与之类的理念,往往转变为对现有社区的拒斥,以及用某种被认为更“可取”的东西取而代之的抱负(Watt 2008)。间接置换过程与国家政策之间的这种关联,正是新建式绅士化变得如此强大、如此普遍的原因之一。当披上中间偏左社会政策那种看似进步的修辞外衣时,新建式绅士化便能显得像是应对街区衰退的常识性解决方案。这些政策把间接置换重新塑造成一种社会公益,因而往往为导致置换的绅士化过程提供了正当性。因此,如果我们像住宅化(Lambert and Boddy 2002)与再城市化(Buzar et al. 2007)的支持者那样,把对绅士化所致置换的理解局限于直接置换,我们就会遗漏对置换的完整理解,并冒着否认国家权力在当代绅士化过程中关键存在的风险。</p></div>
+<h2><span class="en">15.4 GLOBAL NEW-BUILD GENTRIFICATIONS</span><span class="zh">15.4 全球范围的新建式绅士化</span></h2>
+<div class="bipara"><p class="en">Debates concerning the concept of new-build gentrification emerged principally within the UK and USA contexts. As such, there are important questions to be examined with regards to how the concept might, or might not. be applied in different contexts (see Lees 2012; Maloutas 2011). This section reviews the variety of ways that the concept of new-build gentrification has been applied over the past decade. The principal objective is to demonstrate how a variety of new-build gentrifications have been identified. Far from there being the mono-dimensional process of new-build gentrification that many early Global North centred debates implicitly presumed, the new-build gentrification literature has now identified and examined a whole range of urban transformations.</p><p class="zh">关于新建式绅士化这一概念的争论,主要产生于英国与美国的语境之中。因此,这一概念能否、以及如何被应用到不同语境之中,是一个值得认真探讨的重要问题(见 Lees 2012;Maloutas 2011)。本节回顾过去十年间,新建式绅士化这一概念被应用的各种方式。主要目的,是展示各式各样的新建式绅士化是如何被辨识出来的。新建式绅士化远非许多早期以全球北方为中心的争论所隐含预设的那种单一维度过程——如今,新建式绅士化文献已经辨识并考察了整整一系列城市转型。</p></div>
+<div class="bipara"><p class="en">In identifying how the concept of new-build gentrification has been utilized to understand urban change <a href="#g-globalsouth" class="gterm" id="src-g-globalsouth">outside of its points of conceptual origin</a><sup class="gref">&#9432;</sup>, I am rejecting some of the post-colonial critiques circulating in urban studies (e.g. Ghertner 2014; Robinson 2015). Although post-colonial urban research comes in various iterations, its core concern is that the exporting of theory from the ‘Global North’ to the “Global South’ tends to misinterpret and misrepresent sets of processes that are, ultimately, indigenously derived and contextually embedded (Robinson 2015). For some gentrification scholars, this means we must reject the application of concepts that are intricately bound up with attempts to understand the Global North metropolis (Maloutas 2011). Others find it necessary to supplement Global North theories with those developed from within different contexts, therefore developing hybrid approaches (Lemanski 2014). The approach taken here in order to trace out the geographies of new-build gentrification is derived from the definition of gentrification developed by Davidson and Lees (2005; see above). This definition seeks to outline the most basic elements of a class-based neighbourhood transition under capitalism.</p><p class="zh">在辨识新建式绅士化这一概念如何被用于理解其概念起源地之外的城市变迁时,我在此拒绝城市研究领域流传的一些后殖民批判(如 Ghertner 2014;Robinson 2015)。尽管后殖民城市研究有多种表述形式,其核心关切在于:把理论从“全球北方”输出到“全球南方”,往往会误读、误呈那些终究是本土生成、深嵌于特定语境的过程(Robinson 2015)。对一些绅士化学者而言,这意味着我们必须拒绝套用那些与理解全球北方大都市的种种尝试紧密纠缠在一起的概念(Maloutas 2011)。另一些学者则认为,有必要用不同语境中发展出来的理论来补充全球北方理论,从而形成混合式的研究路径(Lemanski 2014)。本文用以描绘新建式绅士化地理版图所采取的路径,源自 Davidson 与 Lees(2005;见上文)提出的绅士化定义。这一定义,力图勾勒出资本主义下以阶级为基础的街区转型最基本的构成要素。</p></div>
+<div class="bipara"><p class="en">A further reason why this definition is used in order to understand a diversity of cases is its analytical modesty, It does not assume, as <a href="#g-ghertner" class="gterm" id="src-g-ghertner">Ghertner’s (2014) recent work</a><sup class="gref">&#9432;</sup> suggests, (a) an assertion of responsibility for displacement, (b) any particular processes of tenure priority or transformation, or (c) allocations or mobilizations of force. It does, however, assume that the process of gentrification involves land assuming a higher and better use as defined under capitalism. Furthermore, it does not imply that the process takes place in the same way, involves the same actors, or generates the same outcomes in all places. It simply outlines the most basic features of class-based neighbourhood transition under capitalism. Consequently, it is assumed that the concept can be used in places that satisfy the conditions of (a) operating under capitalism and (b) involving class-based competition over residential space. In the sections that follow, four key dimensions of the new-build gentrification literature are critically reviewed: (a) new-build gentrification and the state; (b) new-build gentrification and its consequent forms of displacement: (c) new-build gentrification and its implication in real estate development; and (d) new-build gentrification and gentrifiers.</p><p class="zh">之所以用这一定义来理解形形色色的案例,还有一个原因,在于它在分析上的“谦逊”。正如 Ghertner(2014)近期的研究所提示的,它并不预设(a)对置换责任的断言,(b)任何特定的产权优先排序或转型过程,或(c)暴力的分配或动用。不过,它确实预设了绅士化过程涉及土地被转向资本主义所定义的更高、更好用途。此外,它并不暗示这一过程在所有地方都以同样的方式发生、涉及同样的行动者、或产生同样的结果。它只是勾勒出资本主义下以阶级为基础的街区转型最基本的特征。因此,可以认为,只要满足以下两个条件,这一概念就适用于相应地方:(a)在资本主义下运作,以及(b)涉及围绕居住空间展开的阶级竞争。在接下来的几节中,本文将批判性地回顾新建式绅士化文献的四个关键维度:(a)新建式绅士化与国家;(b)新建式绅士化及其所导致的各种置换形式;(c)新建式绅士化及其在房地产开发中的牵涉;以及(d)新建式绅士化与绅士化者。</p></div>
+<h3><span class="en">15.4.1 New-build Gentrification and the State</span><span class="zh">15.4.1 新建式绅士化与国家</span></h3>
+<div class="bipara"><p class="en">The state has remained a central theme of the new-build gentrification literature, with the theme of state as policy maker, urban strategist and shaper of outcomes being particularly notable (Davidson and Lees 2005; Hackworth and Smith 2001: Smith 1996). Collectively these accounts have tended to involve an exploration of the strong connection between neoliberal states and new-build gentrification, although this relationship is not determinate and a growing literature exists on the connection between new-build gentrification and (post-)socialist states (see Bernt 2016; Ren 2015). The relation between new-build gentrification and the state is therefore varied with context and iteration being important to producing very particular types of new-build gentrification. New-build gentrification is commonly associated with the importation and localization of urban policy. As described by Smith (2002; also see Davidson and Lees 2005), gentrification became a blueprint for urban policy across the globe. New-build gentrification has been at the forefront of this process, with states adopting gentrifying urban renewal programs from elsewhere (see Harris 2008; Zhang et al. 2013) and applying them within their own locales (although we now know that there were in fact earlier, endogenous examples of new-build gentrification in, for example, South Korea, see Lees, Shin and Lopez-Morales 2016), New-build gentrification has therefore become a manifestation of <a href="#g-policymobility" class="gterm" id="src-g-policymobility">broader processes of policy mobility</a><sup class="gref">&#9432;</sup> (McCann and Ward 2011), where urban policy models are developed and transmitted across a vast array of cities.</p><p class="zh">国家始终是新建式绅士化文献中的核心主题,“国家作为政策制定者、城市战略家与结果塑造者”这一主题尤为突出(Davidson and Lees 2005;Hackworth and Smith 2001;Smith 1996)。这些论述总体上倾向于探讨新自由主义国家与新建式绅士化之间的强关联,尽管这一关系并非必然,也有越来越多的文献探讨新建式绅士化与(后)社会主义国家之间的关联(见 Bernt 2016;Ren 2015)。因此,新建式绅士化与国家之间的关系,随语境而变化,而具体的“迭代方式”,对生产出非常特定类型的新建式绅士化十分重要。新建式绅士化通常与城市政策的输入和本土化相关联。正如 Smith(2002;另见 Davidson and Lees 2005)所描述的,绅士化已成为全球城市政策的蓝本。新建式绅士化一直处于这一过程的前沿:国家从别处采纳绅士化式的城市更新方案(见 Harris 2008;Zhang et al. 2013),并将其应用于本国语境(尽管我们如今已知,例如韩国其实存在更早的、内生的新建式绅士化案例,见 Lees, Shin and Lopez-Morales 2016)。因此,新建式绅士化已成为更广泛的“政策流动性”(policy mobility,McCann and Ward 2011)过程的一种体现——城市政策模型在大量城市之间被开发出来并被传播。</p></div>
+<div class="bipara"><p class="en">Although this transference of policy is widely acknowledged to involve the adoption of gentrifying strategies, as Harris (2008) explains in the context of British models being adopted in Mumbai. the outcome of this process is far from simply replication of neighbourhood change:</p><p class="zh">尽管人们普遍承认,这种政策转移涉及绅士化式策略的采纳,但正如 Harris(2008)在英国模式被孟买采用这一语境下所解释的,这一过程的结果,远非街区变迁的简单复制:</p></div>
+<blockquote class="cited"><p class="en">The practical politics of gentrification need to be understood as contingently realised across different global contexts. Although <a href="#g-lowerparel" class="gterm" id="src-g-lowerparel">Lower Parel</a><sup class="gref">&#9432;</sup>’s gentrification has been framed by transnational actors and urban imaginaries, it has also been the product of the whims and wherefores of a powerful nexus of politicians, builders and developers exploiting and profiting from Mumbai&#x27;s poorly implemented and monitored land use policies and planning controls (2423).</p><p class="zh">绅士化的实际政治运作,需要被理解为在不同全球语境下偶然性地(contingently)实现的。尽管下帕雷尔(Lower Parel)的绅士化,是被跨国行动者与城市想象所建构的,但它同样是政客、建筑商与开发商组成的强大关系网,利用并牟利于孟买执行不力、监管松懈的土地利用政策与规划管控,其种种意愿与算计所产生的结果(2423页)。</p><div class="callout">&#9998; Harris (2008) 原话,经 Davidson 转引 &mdash; 这是被引论文/学者的观点,不是 Mark Davidson 本人的论证</div></blockquote>
+<div class="bipara"><p class="en">Harris follows this cautionary note with an acknowledgment that the contextually dependent manifestations of new-build gentrification in Mumbai generated potential for learning to occur in ways that transmitted knowledge back to the perceived places of origin of gentrification processes.</p><p class="zh">在这句告诫之后,Harris 也承认,新建式绅士化在孟买这种依赖具体语境的表现形式,反而产生了某种学习的潜力——知识得以以某种方式,反向传回那些被认为是绅士化过程“发源地”的地方。</p></div>
+<div class="bipara"><p class="en">In other locations, this process has played out differently. In China, the centrality of the Communist state has resulted in a highly particularized set of processes, In Shanghai, an enthusiastic embrace of new-build gentrification by state officials has resulted in state powers being used to instigate large-scale demolition processes and large-scale direct displacement processes. The nuances of the debate in the UK (see Boddy and Lambert 2002; Davidson and Lees 2005) have, on this issue, not been required. Outside of Shanghai, similar utilizations of state power are evident in China, with <a href="#g-yuexiu" class="gterm" id="src-g-yuexiu">cities like Yuexiu</a><sup class="gref">&#9432;</sup> adopting gentrifying strategies in a vibrant, historical urban centre (see Zhang et al. 2013). Here again, context is centrally important since new-build gentrification is not premised on brownfield conversion or substantial disinvestment.</p><p class="zh">在其他地方,这一过程则呈现出不同面貌。在中国,共产党国家的核心地位,催生出一整套高度特殊化的过程。在上海,国家官员对新建式绅士化的热情拥抱,导致国家权力被用来发起大规模拆除过程与大规模直接置换过程。在这个问题上,英国那种精细化的争论(见 Boddy and Lambert 2002;Davidson and Lees 2005)并非必要。除上海之外,中国其他城市也可见到类似的国家权力运用——例如越秀这类城市,在一个充满活力的历史城市中心采取了绅士化策略(见 Zhang et al. 2013)。在这里,语境同样至关重要,因为新建式绅士化的前提,并不是棕地转换或大规模撤资。</p></div>
+<div class="bipara"><p class="en">Whether in China, the Philippines (Ortega 2016), New Zealand (Murphy 2008) or Sweden (Hedin et al, 2012), new-build gentrification has often required and/or utilized state powers to instigate large-scale neighbourhood transformation. In each case, we can find the defining features of new-build gentrification present (Davidson and Lees 2005) and yet the variation in process and outcome are most striking. In terms of state power. it is possible to identify degrees of policy replication, varying amounts of state violence and different versions of amelioration.</p><p class="zh">无论是在中国、菲律宾(Ortega 2016)、新西兰(Murphy 2008)还是瑞典(Hedin et al. 2012),新建式绅士化都往往需要、并且/或者运用国家权力来发起大规模街区转型。在每一个案例中,我们都能找到新建式绅士化的界定性特征(Davidson and Lees 2005),但过程与结果上的差异,却最为惊人。就国家权力而言,我们可以辨识出不同程度的政策复制、不同量级的国家暴力,以及不同版本的“软化处理”(amelioration)。</p></div>
+<h3><span class="en">15.4.2 New-build Gentrification and its Consequent Forms of Displacement</span><span class="zh">15.4.2 新建式绅士化及其所导致的置换形式</span></h3>
+<div class="bipara"><p class="en">Across the new-build gentrification literature, it is now clear that the process is not only responsible for significant indirect displacement (Davidson and Lees 2005, 2010) but also significant amounts of direct displacement (Bromley and Mackie 2009; He 2010). The variety of displacements associated with new-build gentrification again demonstrates how the defining features of the process cannot be used to forecast any specific outcomes.</p><p class="zh">纵观新建式绅士化文献,如今已经清楚:这一过程不仅要为大量的间接置换负责(Davidson and Lees 2005, 2010),也要为大量的直接置换负责(Bromley and Mackie 2009;He 2010)。与新建式绅士化相关联的置换形式之多样,再次表明这一过程的界定性特征,无法被用来预测任何具体结果。</p></div>
+<div class="bipara"><p class="en">In the most extreme cases, new-build gentrification has generated extensive and violent displacement processes. Ortega (2016) has recently described how the coalescence of global city strategy, international real estate capital, and gentrification has generated an aggressive and violent process of displacement in Manila:</p><p class="zh">在最极端的案例中,新建式绅士化催生出大范围、暴力性的置换过程。Ortega(2016)近期描述了全球城市战略、国际房地产资本与绅士化三者的汇合,如何在马尼拉催生出一场咄咄逼人、充满暴力的置换过程:</p></div>
+<blockquote class="cited"><p class="en">Creating ‘world-class’ spaces of wealth. production, and consumption in Manila rests upon the dispossession of the urban poor, particularly informal settlers. Beyond posh facades of condominium buildings or green gardens of mixed-use developments, the ugly face of gentrification lies in its war against informality. The spatialities of recent demolitions illustrate how profit-oriented lure of ‘world-class’ developments reconfigure the relationship of informal settlers and local officials, eventually trumping their political claims, This very same lure masks the brutality of eviction and legitimizes their expulsion to distant relocation sites (48).</p><p class="zh">在马尼拉,创造出“世界级”的财富、生产与消费空间,建立在对城市贫民——尤其是非正规定居者——的剥夺之上。在公寓楼光鲜的立面与混合用途开发项目的绿色花园背后,绅士化丑陋的一面,就在于它对“非正规性”所发动的战争。近期一系列拆除行动的空间性,展示了以利润为导向的“世界级”开发诱惑,如何重塑非正规定居者与地方官员之间的关系,最终压倒他们的政治诉求。正是这同一种诱惑,掩盖了驱逐的残暴,并为把他们逐往遥远安置点赋予了正当性(48页)。</p><div class="callout">&#9998; Ortega (2016) 原话,经 Davidson 转引 &mdash; 这是被引论文/学者的观点,不是 Mark Davidson 本人的论证</div></blockquote>
+<div class="bipara"><p class="en">Similar descriptions of large-scale direct displacement can be found in China (He 2010) and. to a lesser extent, in Taiwan (Hsu and Hsu 2013).</p><p class="zh">关于大规模直接置换的类似描述,在中国也可见到(He 2010),在台湾则程度稍轻(Hsu and Hsu 2013)。</p></div>
+<div class="bipara"><p class="en">Elsewhere, less explicitly violent forms of displacement have been commonly found. In Europe, issues of displacement are often bound up with social policy initiatives, where a desire to produce social mix (Davidson 2008) has accompanied concerns about gentrification-induced displacement. In Amsterdam, efforts to produce neighbourhood social mixing have been attempted through the liberalization of housing markets and privatization of social housing stock (Boterman and van Gent 2014). Such policy programs, as elsewhere (see Van Criekingen 2010), have tended to open up some vulnerable populations to displacement pressures. In Sweden, a neoliberal turn has made privatization and tenure transformation a central part of contemporary urban process. with the inevitable creation of displacement pressures where none previously existed (Hedin et al. 2012).</p><p class="zh">在其他地方,人们则常常发现暴力性不那么明显的置换形式。在欧洲,置换问题往往与社会政策举措纠缠在一起——追求社会混合(Davidson 2008)的诉求,与对绅士化所致置换的担忧相伴而生。在阿姆斯特丹,人们试图通过住房市场自由化与社会住房存量私有化,来促成街区的社会混合(Boterman and van Gent 2014)。这类政策方案,如同其他地方一样(见 Van Criekingen 2010),往往使某些脆弱人群暴露于置换压力之下。在瑞典,新自由主义转向让私有化与产权形式转型成为当代城市过程的核心组成部分,这不可避免地在原本不存在置换压力的地方,制造出了置换压力(Hedin et al. 2012)。</p></div>
+<div class="bipara"><p class="en">Subtle forms of indirect displacement also continue to be associated with state-led efforts to increase urban densities. In Davidson and Lees’ (2010) examinations of London, the policy-led effort to increase residential densities using brownfield land was linked to a host of displacement processes. These same types of displacement processes have been identified in cities such as Tokyo (Lutzeler 2008) and Bangkok (Moore 2015), where attempts to ‘reurbanize’ sections of the inner city have set in motion displacement processes that are forcing long-term residents from their neighbourhoods.</p><p class="zh">更隐微的间接置换形式,也持续与国家主导的提升城市密度的努力相关联。在 Davidson 与 Lees(2010)对伦敦的考察中,那种以政策推动、利用棕地提升居住密度的努力,与一系列置换过程相关联。在东京(Lutzeler 2008)、曼谷(Moore 2015)等城市中,人们也辨识出了同类型的置换过程——试图对内城局部地区进行“再城市化”的做法,启动了将长期居民逐出其街区的置换过程。</p></div>
+<h3><span class="en">15.4.3 New-build Gentrification and its Implication in Real Estate Development</span><span class="zh">15.4.3 新建式绅士化及其在房地产开发中的牵涉</span></h3>
+<div class="bipara"><p class="en">In recent years, a sub-set of the new-build gentrification literature has begun to trace out the varied ways in which this relationship between new-build gentrification and real estate capital has been structured. Gentrification scholars have often found this link to real estate capital is bound up with state-led renewal attempts (Davidson 2007). In these cases, state actors have acted to incentivize investments in areas of strategic concern. For example, in Atlanta, Georgia, Immergluck (2009) found that real estate speculation and consequent gentrification was highly correlated with planning initiatives. In other locations. such as Barcelona (see Arbaci and Tapada-Berteli 2012), it has been state demolition programs that have instigated new geographies of real estate investment. In the Chinese context, Liang and Bao (2015) found that real estate development and new-build gentrification were unified by tourism policies in Shenzhen.</p><p class="zh">近年来,新建式绅士化文献中的一个分支,已开始描绘新建式绅士化与房地产资本之间这层关系被结构化的多种方式。绅士化学者常常发现,这种与房地产资本的联系,与国家主导的更新尝试紧密相关(Davidson 2007)。在这些案例中,国家行动者采取行动,激励对具有战略意义地区的投资。例如,在佐治亚州亚特兰大,Immergluck(2009)发现,房地产投机及由此产生的绅士化,与规划举措高度相关。在巴塞罗那等其他地方(见 Arbaci and Tapada-Berteli 2012),则是国家的拆除计划,催生出了房地产投资的新地理格局。在中国语境下,Liang 与 Bao(2015)发现,在深圳,房地产开发与新建式绅士化,被旅游政策统一了起来。</p></div>
+<div class="bipara"><p class="en">Lopez-Morales (2016) has offered one of the first studies into how real estate capital activity engages in new-build gentrification. In his study of new-build gentrification in Santiago, Chile. he found that developers undertook a set of strategies in order to extract maximum profits from their exploitation of the rent gap and, simultaneously, reduce resistance from existing residents. Through the establishment of monopoly positions, Lopez-Morales’ study explains how real estate capital can work in concert with the state in order to produce processes of (i) monopolistic buying power. (ii) <a href="#g-blockbusting" class="gterm" id="src-g-blockbusting">blockbusting</a><sup class="gref">&#9432;</sup>, (iii) construction-led deterioration, (iv) redlining, and (v) abandonment and deliberate deterioration. This work powerfully demonstrates how real estate investors are not passive in their exploitation of rent gaps, but rather that they actively create the rent gaps necessary for gentrification and foster the conditions necessary for maximum profit exploitation.</p><p class="zh">Lopez-Morales(2016)提供了最早探讨房地产资本活动如何介入新建式绅士化的研究之一。在他对智利圣地亚哥新建式绅士化的研究中,他发现开发商采取了一整套策略,以便从租隙的利用中榨取最大利润,同时削弱现有居民的抵抗。通过建立垄断地位,Lopez-Morales 的研究解释了房地产资本如何能与国家协同运作,以产生以下过程:(i)垄断性购买力,(ii)“爆破式”销售(blockbusting),(iii)以施工为手段的恶化,(iv)红线政策(redlining),以及(v)废弃与蓄意恶化。这项研究有力地表明,房地产投资者在利用租隙时并非被动的——相反,他们主动地创造出绅士化所需要的租隙,并培育出榨取最大利润所需要的条件。</p></div>
+<div class="bipara"><p class="en">Although there is much more work to be done on how real estate actors engage with and enact the processes of new-build gentrification, the existing literature demonstrates a variety of intersections between state and capital and the construction of strategies by real estate actors to enact particularly violent forms of gentrification.</p><p class="zh">尽管关于房地产行动者如何介入并推行新建式绅士化过程,仍有大量工作有待展开,但现有文献已经展示出国家与资本之间形形色色的交汇点,以及房地产行动者如何构建策略,以推行尤为暴力的绅士化形式。</p></div>
+<h3><span class="en">15.4.4 New-build Gentrification and Gentrifiers</span><span class="zh">15.4.4 新建式绅士化与绅士化者</span></h3>
+<div class="bipara"><p class="en">The relationship between new-build gentrification and gentrifiers remains one of the most under-examined parts of the process. Although classical gentrification studies often alluded to how particular subjects became engaged/made through the process (Bridge 2006), new-build gentrification has less obvious connections. New-build gentrification is, by definition, a much more commodified process that almost universally involves the gentrifier being the purchaser of a finished commodity. Such a relationship can lead to questions over whether those in gentrifying new-build developments are gentrifiers at all, since the processes of subject formation traditionally associated with gentrifiers appear largely absent.</p><p class="zh">新建式绅士化与绅士化者(gentrifiers)之间的关系,依然是这一过程中被研究得最不充分的部分之一。尽管经典绅士化研究常常论及特定主体如何通过这一过程被卷入其中/被塑造出来(Bridge 2006),新建式绅士化在这方面的联系却不那么明显。就定义而言,新建式绅士化是一个远为商品化的过程,几乎普遍地把绅士化者变成了一件成品的购买者。这样一种关系,可能引出这样的疑问:身处新建式绅士化开发之中的人,究竟算不算绅士化者——因为传统上与绅士化者相关联的那种主体形成过程,在这里似乎大多缺席。</p></div>
+<div class="bipara"><p class="en">Existing literature has demonstrated a strong connection between new-build gentrification and mobility. In his work on Swiss gentrification, Rerat (2012) has shown that new-build gentrifiers have a strong desire for ‘the convenience of urban life’ (221), meaning that proximity to urban centre amenities and mass transit corridors are crucial considerations for gentrifying residents, This mirrors the findings of Butler and Robson (2004) in their multi-neighbourhood study of gentrification in London. They similarly found that gentrification, where renovation- or new-build based, had become a coping strategy for those in the high intensity, long working-hours, post-industrial workforce. In the different context of Bangkok. Moore (2015) finds a similar correlation, with the installation of rapid mass transit being highly correlated with gentrifying urban development. New-build gentrification therefore shows, at least in relation to proximity and mobility, similarities to classical “back to the city’ gentrification processes. However it remains unclear if urbane attitudes are also associated with this desire for city centre proximity.</p><p class="zh">既有文献已经表明,新建式绅士化与“流动性”(mobility)之间存在着强烈的关联。在其关于瑞士绅士化的研究中,Rerat(2012)表明,新建式绅士化者对“城市生活的便利”(221页)怀有强烈渴望——这意味着,靠近市中心的各类设施与大众交通走廊,是绅士化居民的关键考量。这与 Butler 与 Robson(2004)在对伦敦多个街区绅士化的研究中的发现相呼应。他们同样发现,无论是翻修型还是新建型的绅士化,都已成为那些身处高强度、长工时后工业劳动力大军中人群的一种应对策略。在曼谷这一不同语境下,Moore(2015)也发现了类似的相关性——快速大众交通的设置,与绅士化式城市开发高度相关。因此,新建式绅士化,至少就靠近性与流动性而言,显示出与经典“重返城市”式绅士化过程的相似之处。然而,这种对靠近市中心的渴望,是否也与某种“都市化”(urbane)的态度相关联,目前仍不清楚。</p></div>
+<div class="bipara"><p class="en">Kern&#x27;s (2010) studies on the gender dimensions of new-build gentrification suggest that the relationship between new-build gentrifiers and urbane attitudes might be complex:</p><p class="zh">Kern(2010)关于新建式绅士化性别维度的研究表明,新建式绅士化者与“都市化”态度之间的关系,可能相当复杂:</p></div>
+<blockquote class="cited"><p class="en">Through the commodification of fear and safety, of women’s freedom and women’s sexuality, neoliberal processes of privatization, securitization and capital accumulation are able to circulate with increased speed through expanding markets. Moreover, women’s everyday lives and urban identities are shaped by this tension, drawing middle-class and professional women into the project of <a href="#g-revanchist" class="gterm" id="src-g-revanchist">the revanchist, entrepreneurial city</a><sup class="gref">&#9432;</sup> (211).</p><p class="zh">通过对恐惧与安全、对女性自由与女性性征的商品化,私有化、安保化与资本积累这些新自由主义过程,得以在不断扩张的市场中以更快的速度循环流通。而且,女性的日常生活与都市身份,正是被这种张力所塑造——这一张力把中产阶级和职业女性,卷入了那个报复性(revanchist)、企业主义式城市的工程之中(211页)。</p><div class="callout">&#9998; Kern (2010) 原话,经 Davidson 转引 &mdash; 这是被引论文/学者的观点,不是 Mark Davidson 本人的论证</div></blockquote>
+<div class="bipara"><p class="en">Here, urban and anti-urban sentiments both serve to fuel processes of new-build gentrification in Toronto. In the context of the real estate development process, the secure ‘safe’ spaces of the closeted new-build condo complex stand in paradoxical complementarity with the perceived dangers of the city. Whether the same tensions exist with regards to other facets of subjectivity in the new-build gentrification process remains largely unknown, although Butler and Robson’s (2004) late 1990s and early 2000s account of gentrifiers in London suggests that similar complexes exist in relation to education.</p><p class="zh">在此,都市情结与反都市情结,共同为多伦多的新建式绅士化过程提供了动力。在房地产开发过程的语境下,封闭式新建公寓楼盘那种安全的“安全空间”,与人们所感知的城市危险之间,构成了一种悖论式的互补关系。在新建式绅士化过程中,主体性的其他面向是否也存在类似的张力,目前在很大程度上仍不得而知——尽管 Butler 与 Robson(2004)在1990年代末至2000年代初对伦敦绅士化者的论述提示,在教育方面也存在类似的情结。</p></div>
+<h2><span class="en">15.5 CONCLUSIONS</span><span class="zh">15.5 结论</span></h2>
+<div class="bipara"><p class="en">The process of new-build gentrification has proliferated over the globe during the past two decades. Although it takes radically different forms across place and time. through tracing out its defining features it is possible to examine how a particular modality of urban change produces a variety of neighbourhood class-based transformations. Yet, there are many aspects of this still-emerging process that we know too little about.</p><p class="zh">过去二十年间,新建式绅士化这一过程已在全球范围内大量扩散。尽管它在不同地方、不同时期呈现出截然不同的形式,但通过追溯其界定性特征,我们仍能考察一种特定模式的城市变迁,如何生产出形形色色的、以阶级为基础的街区转型。然而,对于这一仍在浮现的过程,我们所知甚少的方面依然很多。</p></div>
+<div class="bipara"><p class="en">First, there are some analytical and conceptual developments that can improve existing understandings, Although Smith (1996, 2002) and Davidson and Lees (2005, 2010) have provided accounts of the process in its early forms. a detailed account of the forms and evolution of new-build gentrification within and across contexts is yet to be written. Second, existing work on comparative perspectives has failed to develop persuasive typologies of new-build gentrification. Too often the concept is used either in a wholesale fashion or critiqued and abandoned. Charting a course between these positions (e.g. Lemanski 2014) in order to understand the diversity of the process will remain an on-going challenge. Many empirical gaps also exist. Many cities and regions that have become incorporated into global real estate development processes, such as Beirut and Moscow, and the concomitant gentrification remain under-studied. Like gentrification studies more generally, we also continue to know too little about the varied forms and combinations of displacement associated with new-build gentrification.</p><p class="zh">第一,有一些分析与概念上的发展,可以改善我们既有的理解。尽管 Smith(1996, 2002)与 Davidson 及 Lees(2005, 2010)已经对这一过程的早期形式作出了论述,但关于新建式绅士化在不同语境内部及跨语境的形式与演变,一份详尽的记述仍有待书写。第二,现有的比较视角研究,尚未能发展出令人信服的新建式绅士化类型学。这一概念太常被要么整体套用、要么被批判后弃置不用。在这两种立场之间开辟出一条道路(如 Lemanski 2014),以理解这一过程的多样性,将始终是一项持续的挑战。经验层面的空白也大量存在。许多已被纳入全球房地产开发过程的城市与地区,例如贝鲁特与莫斯科,及其相伴而生的绅士化,至今仍研究不足。与更广泛的绅士化研究一样,我们对与新建式绅士化相关联的置换的种种形式与组合方式,同样所知过少。</p></div>
+<div class="bipara"><p class="en">Beyond the particular theoretical and empirical concerns of the gentrification literature. there is also a growing need to examine how new-build gentrification became a part of the broader urbanization process under neoliberal capitalism (Harvey 2012). Over the past decade, new-build gentrification in places such as London and New York has rapidly accelerated. The scale of residential developments has grown as the process has become incorporated into both middle-class and elite housing markets. Gentrification may have started out as a small-scale urban phenomenon, but current new-build gentrification processes highlight how central it has become to the recreation of urbanized capitalism itself. This has generated numerous new questions. In terms of geography, new-build gentrification has become a suburban phenomenon in places like East Asia (Hudalah et al. 2016). making the ‘back-to-the-city’ trope less useful. As new-build gentrification has also become driven by speculation in real estate markets, the relationship between gentrifying neighbourhood change and gentrifiers is also mutating. Unpicking how new-build gentrification has become constitutive of broader politico-economic processes, through state planning. capital circulation and debt-financing, is therefore becoming a more urgent task. It is also a task that will require gentrification research to expand beyond its traditional boundaries. For example, neighbourhood-based analysis may have to be supplemented with an analysis of real estate networks and financial assemblages. As gentrification has transcended the neighbourhood, so must its researchers.</p><p class="zh">除了绅士化文献所特有的理论与经验关切之外,还有一种日益增长的需要:考察新建式绅士化,如何成为新自由主义资本主义之下更广泛城市化过程的一部分(Harvey 2012)。过去十年间,伦敦、纽约等地的新建式绅士化已迅速加速。随着这一过程被纳入中产阶级与精英住房市场,住宅开发的规模也不断扩大。绅士化或许起初只是一种小规模的城市现象,但当下的新建式绅士化过程凸显出,它已在多大程度上,成为城市化资本主义自身再生产的核心。这已催生出诸多新问题。就地理而言,在东亚等地,新建式绅士化已成为一种郊区现象(Hudalah et al. 2016),使得“重返城市”这一说法的用处大打折扣。随着新建式绅士化也日益被房地产市场的投机所驱动,绅士化式街区变迁与绅士化者之间的关系,也在发生变异。因此,厘清新建式绅士化如何通过国家规划、资本流通与债务融资,构成了更广泛政治经济过程的一部分,正日益成为一项更为紧迫的任务。这也是一项需要绅士化研究突破其传统边界的任务——例如,以街区为基础的分析,或许必须辅之以对房地产网络与金融组合体的分析。既然绅士化已经超越了街区本身,研究者也必须如此。</p></div>
+  </article>
+
+  <details class="refs-details">
+    <summary class="refs-heading">References <span class="refs-count">(OCR quality degraded — verify before citing)</span></summary>
+    <div class="refs-warning">这部分参考文献列表来自 OCR,存在大量缺字/错位(原 PDF 为双栏排版)。仅供定位"这篇论文引用过哪些人"的粗略参考,<strong>不要直接复制粘贴到你的论文引用列表里</strong>。</div>
+    <div class="refs-blob">Arbaci, §. and Tapada-Berteli, T. (2012) ‘Social inequality and urban regeneration in Barcelona city centre: reconsidering success’. Europe Urban und Regianal Studies, 19.287 311,<br>
+Berman, M. (1988) AH! That fs Solid Melts into Ain The Experience of Afodernity, reissue edition, New York: Penguin Books,<br>
+Bernt, M. (2016) ‘How post-soelalist is gentrification? Observations in East Berlin und Saint Petersburg’. Eurasian Geography and Econontics, online early, 1-23<br>
+Boterman, W. and van Gent, W. (2014) ‘Housing lib conversions in Amsterdam’, Tijdsefiriyt voor Econont<br>
+Bridge, G. (2006) ‘Tt&#x27;s not just a question of taste Environment und Phauiing A, 38, 1965-1978,<br>
+isation and gentrificution: the social effects of tenure he on Sociale Geagritic, 105, 140-160, atrification, the neighbourhood, and cultural capital’,<br>
+Bromley, R. and Mackie, P. (2009) “Displacement and the new spaces for informal trade in the Latin American city centre’, Urhan Studies, 46, 1485-1506,<br>
+Butler, T. and Robson, G, C004) Londun Culling: The Middle Classes und the Remaking of faner London, st edn, Oxford; New York: Bloomsbury Academic.<br>
+Buzar, S., Hall, R. and Ogden. P. (2007) “Beyond gentrification: the demographic reurbanisation of Bologna’, Environment and Phaming 4, 39. 64-88,<br>
+Christophers, B. (2016) ‘For real: land as cupital and commodity’, Thavsuctions of the fustitute af British Geographers, 41, 134-148.<br>
+Crickingen, M. (2009) ‘Moving in/out of Brusscls’ historical core in the early 2000s: migration and the effects of gentrification’, Urban Studies, 46. 825-848.<br>
+Davidson, M. (2009) ‘Displacement, space and dwelling: placing gentrificution debate’, Etdics, Place and Environment, 12. 219-234.<br>
+Davidson, M, (2010) ‘Love thy neighbour? Social mixing in London’s gentrification frontiers’, Environment and Planting A, 42, 324-344.<br>
+Davidson, M. and Lees, L. 2005) “New-build “gentrification” and London’s riverside renai: and Planning A, 37, 1168-1190.<br>
+Davidson, M, and Lees, L. (2010) ‘New-build gentrification: its histories, trajectories. and critical geographies’, Population, Space and Place, 16, 395-411,<br>
+Davidson, M. and Wyly, E, (2012) *Class-ifying London’, Cia; 16, 395421,<br>
+Doucet, B., R. van Kempen, and Weesep, J. van (2011) “We&#x27;re a rich city with poor people’: municipal strategies of new-build gentrification in Rotterdam and Glasgow’, Bnvirenmicnt and Phuming A, 43, 1438-1454.<br>
+Gans, H. (1982) The Levittowners: Ways of Life and Politics ina New Sulabun Conamarity, New York: Columbia University Press.<br>
+Ghertner. D, (2014) ‘India’s urban revolution: geosraphies of displacement bevond gentrification’, Environment dud Phaming A, 46, 1554-1571,<br>
+Giddens, A. (1999) The Third Ware The Renewal of Secial Democracy, Cambridge: Polity Press,<br>
+Glass, R. (1964) Londons Aspects of Change, London: MaeGibbon &amp; Kee.<br>
+Goetz, E. (2011) Gentrification in black and white: the racial impact ol public housing demolition in American cities’, Crhua Stafies, 48, 1581 1604.<br>
+Haase, A., Kabisch, S., Steintiihrer, A.. Bouzarowski. S.. Hall, R. and Ogden, P. (2010) ‘Emergent spaces of reurbanisation: exploring the demographic dimension of inner-city residential change in a European setting’, Population, Space and Place, 16. 443-463.<br>
+Hackworth, J. and Smith. N, (2004) ‘The changing state of gentrification’, Tijdschrift voor Economische en<br>
+Socidle Geogrufic. 92, 464-477,<br>
+Aamnett, C. (1994) ‘Social polarisation in global cit<br>
+s AL 2008) “From London to Mumbai and bac<br>
+perspective’, Urban Stiadies, 45, 2407-24<br>
+arvey. D, (1978) ‘The urban process under capitalism: a framework for analysis’, Aiternutional Journal af Urban<br>
+and Regional Research, 2. 101-131,<br>
+arvey, D. (2005) Paris, Cupitel of Afodernity, 1st edn. London: Routledze.<br>
+arvey. D, (2013) Rebel Cities: From the Right to the City te the Crhan Revolution, [st edn, London: Verso.<br>
+cS. (2010) ‘New-build gentrification in Central Shanghai: demographic changes and socioeconomic implica-<br>
+tions’, Popuketion, Space anit Place, 16. 345-361.<br>
+edin, K., Clark, E.. Lundholm, E. and Malmberg, G, (2012) ‘Neoliberalization of housing in Sweden:<br>
+gentrificatiun, filtering, and social polarization’. Aimaals of the lysectation of 4 ruphety. 102,<br>
+443-163.<br>
+Heidegger, M. (1927[2008]) Being and Time. Harper.<br>
+Hsu, J. and Hsu, ¥. (2013) ‘State transformation, policy learning, urban redevelopment in Taiwan’. Urhan Geography, 34, 677-69)<br>
+Hudalah. D., Winarso, H, and Woltjer, J. (2016) “Gentrif land use conflicts and institutional dynamics at the frontier of an Indonesian metropolis’, Crban Studies, 593-608,<br>
+Immergluck, D. (2009) ‘Large redevelopment initiatives. housing values and gentrification: the case of the Atlanta Beltline’, Urban Studies, 46, 3 1745.<br>
+Kern, L. (2010) ‘Selling the “scary city&quot;: gendering freedom, fear and condominium development in the neoliberal city”, Sevicd and Cuda? Geography, 11, 209-230.<br>
+Lambert, C. and Lambert, C. (2002) “Transforming the city: post-recession gentrification and reurbanisation’, paper presented at the XVI AESOP Congress, Volos, Greece, 1015 July.<br>
+Lees, L. (2008) ‘Gentrification and social mixing: towards an inclusive urban renaissance?’, 2449-2470,<br>
+Lees, L. (2012) ‘The geography of gentrification: thinking through comparative urbanism’, Progress in Hunian<br>
+ance’, Environment<br>
+theory and evidence’, Urban Sundics, 31, 401424. again: gentrification and public policy in comparative<br>
+To otimtm m a<br>
+and exclusive displacement in the process of<br>
+Urban Studies, 45,<br>
+Geography, 36, 158-171.<br>
+Lees. L. (2014) ‘The urban injustices of New Labour&#x27;s “New Urban Renewal”: the case of the Aylesbury Estate in London’, -atipade, 46, 921-947, L., Shin. H. and Lopez-Morales, E. (2016) Phinetary Gentrification, Cambridge: Polity Press : H. (1992) The Production of Space, st edn, Oxford. UK; Cambridge, MA, USA: Wiley-Blackwell. Lemanski, C, (2014) ‘Hybrid gentrification in South Affica: theorising across southern and northern cities’. &amp; rbun Studivs, $1, 2943-2960, a ind Bao, J-G, (27015) “Tourism gentrification in Shenzhen, China: causes and socio-spatial s&#x27;, Tourism Geographics, 17, 461-481.<br>
+Lopez (27016) *“Gentritication in Santiago, Chile: a properly-led process of dispossession and exclusion’, Orhan Geography, 37. 1109-1131. Litzeler, R. (2008) “Popunation increas and “new-build gentrification” in Central Tokyo&quot;, Bndktwnde, 62, 287-299, ity in gentrification research’. Critica! Sociolugy, 38, 3348, ‘Gonteinention abandonment, and displacement: connections, causes, and policy responses » Orhan Law dnnnal: Journal of Urban and Contcniporary Law, 28, 198-240, Marcuse, P. (1993) “Degentrification and advanced homelessness: new patterns, old processes, Netherlands’.<br>
+Journal of Housing aid the Built Envivonnicut, §. 177-191. McCann, F.and Ward. &amp;. (2011) Afubile Urbunisny: Cities and Poticymaking in the Global Age, University of<br>
+Moore. R.D. (2015) ‘Gentrification and displacement: the impacts of mass transit in Bangkok’. Urban Policy aad Research, 33, 472-489.<br>
+Moulaert, F, Rodrizuez. A. and Swyngedouw, E. (2003) The Globuliced Cite: Economic Restructuring aid Social Polarization in Eurapean Cities, Oxfor ford University P!<br>
+Murphy, L. (2008) *Third-wave gentrification in New Zealand: the case of Auckland’, Urban Statics, 48.<br>
+2521 2540,<br>
+Ortega, A. (2016) &quot;Munila’s metropolitan landscape of gentrification: global urban development. accumulation by dispossession ind neoliberal warfare aginst informality’, Geoferi, 70, 35-350.<br>
+Ren. J, (2015), “Gentrification in China?’ in L. Lees. H.B Shin and E. Lopez-Morales (cds), Gloful Gentiifications: Uneven Devefoprient and Displacement. Bristol: Policy Press. pp. 329-348,<br>
+Rerat. P. (2012) ‘Gentrifiers and their choice of housing: characteristics of the households living in new developments in Swiss cities’. Fuvironaicnt and Phinuing 4, 44. 221-236,<br>
+Robinson. J. (2016) ‘Thinking cities through elsewhere: comparative tactics for a more global urban studies’, Progress in Human Geography, 40, 3-29,<br>
+Rose, D,. Germain, A., Bucqué, M., Bridge. G., Fijalkow. ¥. and Slater, T, (2013) “Social mix” und neighbourhood revitalization in a transatlantic perspective: comparing local policy discourses and expectations in Paris (France), Bristol (UK) and Montréal (Canada). faternationald Journal of Orban ond Regianal Research, 37. 430-450,<br>
+Rosen. G. and Walks, A. (2015) Castles in Toronto&#x27;s sky: condo-ism as urban transformation’. faumialof Grhan Affaire, 37, 289-310,<br>
+Shaw. K. (2002) ‘Culture, econamics and evolution in gentrification’, fast Polioy A Journal of Australian Social Policy, 28. 42-50.<br>
+Smith. D, (2011) “What is rural gentrification? Exclusionary migration, population change. and revilorised housing markets’. Phang Theerr aud Practice, 12(4). 896-605,<br>
+Smith, N, (1979) “Toward a theory of gentrification: a back to the city movement by capital, not people’, Jeu! of the American Phaming Asso 48,<br>
+Smith. N. (1996) The New Urban Frontier: Gunti ition dnd the Revaichist Cin’, Londo:<br>
+Smith, N, (2002) ‘New globalism. new urbanism: gentrification as global urban strat<br>
+Urban Task Force (1999) Towards ae Cru Renaissance, London: Routledge.<br>
+Van Criekingen. M. (2010) “Gentrifying the re-urbunisation debate”, not vice versa: the uneven socio-spatial implications of changing transitions to adulthood in Brussels’, Populetiou, Space and Place, 16, 381-394, van Gent, W. (2013) “Neoliberalization, housing institutions and \anegated gentrification: how the “third wave”<br>
+broke in Amsterdam’, fitternational Journal of Urban and Regional Research, 37. 503-522, Visser, G. and Kotze, N. (2008) ‘The state and new-build gentrification in Central Cape Town. South Afri Urban Studivs, 45, 2565-2593.<br>
+Watt. P. (2008) ‘The only class in town? Gentrification and the middle-class colonization of the city and the urban imagination’, fiteredtional Jounal of Urban and Regional Research, 32. 206-211.<br>
+Wu, F. (2015) ‘State dominance in urban redevelopment beyond gentrification in urban Chinw, Urbain -tfftirs<br>
+*, 10780874156 12930.<br>
+more, M, and Leung, B. (2014) Inner-city urban redevelopment in China metropo-<br>
+nee of gentrification: case of Yuexiu, Guangzhou’, Journal of Urban Phauitig aul<br>
+; New York: Routledge. Antipode, 34, 427-450.<br>
+Developincat, 1A0(4).</div>
+  </details>
+
+  <footer class="sourcenote">
+    Bilingual reading copy generated from a user-uploaded OCR extraction (pages 247&ndash;261) for on-screen reading. Chinese translation is a reading aid, not an authoritative published translation. This is a handbook chapter (literature review / synthesis), not a primary research article.
+  </footer>
+</main>
+
+<script>
+  window.addEventListener('scroll', function () {
+    var h = document.documentElement;
+    var scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    document.getElementById('progressFill').style.width = Math.min(100, Math.max(0, scrolled * 100)) + '%';
+  });
+
+  function setMode(mode) {
+    document.body.classList.remove('en-only', 'zh-only');
+    document.getElementById('btnBoth').classList.remove('active');
+    document.getElementById('btnEn').classList.remove('active');
+    document.getElementById('btnZh').classList.remove('active');
+    if (mode === 'en') {
+      document.body.classList.add('en-only');
+      document.getElementById('btnEn').classList.add('active');
+    } else if (mode === 'zh') {
+      document.body.classList.add('zh-only');
+      document.getElementById('btnZh').classList.add('active');
+    } else {
+      document.getElementById('btnBoth').classList.add('active');
+    }
+  }
+</script>
