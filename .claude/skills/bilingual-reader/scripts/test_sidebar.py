@@ -43,7 +43,7 @@ with sync_playwright() as p:
     errs2=[]; pg2.on("pageerror", lambda e: errs2.append(str(e)))
     pg2.goto(url)
     ck("no JS errors (narrow desktop)", not errs2, errs2)
-    ck("sidebar hidden below 1440px", not pg2.locator("#tocSidebar").is_visible())
+    ck("sidebar hidden below the 1040px breakpoint", not pg2.locator("#tocSidebar").is_visible())
     pg2.locator("#navBtn").click(); pg2.wait_for_timeout(150)
     ck("nav panel still opens on narrow viewport", pg2.locator("#navPanel").is_visible())
     ck("nav panel toc tab still has matching rows",

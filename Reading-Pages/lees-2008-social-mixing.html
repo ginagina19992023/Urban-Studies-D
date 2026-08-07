@@ -41,12 +41,26 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-se
 
 main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
 
-/* ---- persistent structure sidebar (wide viewports only; narrow falls back
-   to the 目录 tab in the floating navigator panel) ---- */
-#tocSidebar{position:fixed;top:5.5rem;left:calc(50vw - 40rem);width:15rem;
-            max-height:calc(100vh - 7.5rem);overflow-y:auto;display:none;z-index:10;
-            font-family:var(--font-sans)}
-@media (min-width:1440px){#tocSidebar{display:block}}
+/* ---- persistent structure sidebar ----
+   A real two-column layout (sidebar + main as flex siblings inside .layout),
+   not a sidebar floating in whatever margin happens to be left outside a
+   separately-centered main column. That old approach needed ~1440px of
+   viewport just to have room on both sides; this one only needs enough width
+   for sidebar + gap + article, so it shows up on an ordinary, non-maximized
+   laptop window. Narrower than that, .layout stops being a flex row (falls
+   back to block, sidebar hidden) and main reverts to centering itself exactly
+   as it does with no sidebar at all — the floating navigator's 目录 tab is
+   what covers narrow/mobile viewports. */
+.layout{display:block}
+@media (min-width:1040px){
+  .layout{display:flex;align-items:flex-start;gap:2rem;max-width:61rem;margin:0 auto}
+  main{margin:0;flex:1 1 auto;min-width:0}
+}
+#tocSidebar{display:none;width:13rem;flex-shrink:0;font-family:var(--font-sans)}
+@media (min-width:1040px){
+  #tocSidebar{display:block;position:sticky;top:5.5rem;
+              max-height:calc(100vh - 7.5rem);overflow-y:auto}
+}
 #tocSidebar .sb-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
                        color:var(--hl);font-weight:700;margin:0 0 .9rem .3rem}
 .sb-tree{position:relative;padding-left:1rem}
@@ -298,6 +312,7 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <span class="crumb">Lees 2008 · 社会混合批判 + 结论</span>
 <div class="modes"><button onclick="setMode('bilingual',this)">双语</button><button onclick="setMode('en-only',this)">EN</button><button onclick="setMode('zh-only',this)">中文</button></div>
 </div><div class="progress"><span></span></div></div>
+<div class="layout">
 <nav id="tocSidebar"><div class="sb-label">论文结构</div><div class="sb-tree">
 <a class="sb-node lvl-h2" href="#sec-0" data-secid="sec-0"><span class="en">Introduction</span><span class="zh">引言</span></a>
 <a class="sb-node lvl-h2" href="#sec-2" data-secid="sec-2"><span class="en">Gentrification and Social Mixing</span><span class="zh">绅士化与社会混合</span></a>
@@ -1040,6 +1055,7 @@ Ms Tate：呃，他们根本不互动。你知道的，他们就那样，可能�
 </section>
 <footer>译文供精读辅助之用。正式引用请依据原文与原页码。生成工具：bilingual-reader skill。</footer>
 </main>
+</div>
 <button id="navBtn" type="button">☰ 导航 <span class="n" data-zero="1">0</span></button>
 <div id="navBackdrop"></div>
 <div id="navPanel">

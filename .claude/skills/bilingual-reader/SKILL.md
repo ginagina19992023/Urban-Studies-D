@@ -240,17 +240,31 @@ for an individual spec unless the user asks for that page specifically.
 
 ### The persistent structure sidebar
 
-On wide viewports (≥1440px) a fixed sidebar renders to the left of the
-article, listing every h2/h3 as a small vertical tree — a spine line with a
-larger dot per h2 and smaller indented dots for h3, doubling as both the
-table of contents and a lightweight visual of the paper's structure. It's
-generated straight from the same heading data the floating navigator's 目录
-tab uses, requires no spec changes, and updates automatically as sections are
-added. An `IntersectionObserver` highlights whichever section is currently in
-view as the reader scrolls, so the sidebar also answers "where am I in this
+On viewports ≥1040px a sidebar renders to the left of the article, listing
+every h2/h3 as a small vertical tree — a spine line with a larger dot per h2
+and smaller indented dots for h3, doubling as both the table of contents and
+a lightweight visual of the paper's structure. It's generated straight from
+the same heading data the floating navigator's 目录 tab uses, requires no
+spec changes, and updates automatically as sections are added. An
+`IntersectionObserver` highlights whichever section is currently in view as
+the reader scrolls, so the sidebar also answers "where am I in this
 argument" while reading, not just "where can I jump to."
 
-Below 1440px there usually isn't room for a 15rem sidebar next to a 46rem
+This is a real two-column layout, not a sidebar floating in whatever margin
+happens to be left outside an independently-centered article column. `main`
+and `#tocSidebar` are flex siblings inside a shared `.layout` wrapper
+(`max-width:61rem`, centered as a unit), and the sidebar itself is
+`position:sticky` rather than `position:fixed`. That distinction is the
+reason 1040px works as a breakpoint at all — a `fixed` sidebar positioned
+relative to viewport width needs roughly double the room (enough for a fully
+centered 46rem column *plus* clear margin on both sides for the sidebar), but
+a flex layout only needs sidebar + gap + article side by side, which fits an
+ordinary, non-maximized laptop window. If you're tempted to widen the sidebar
+or lengthen node labels, remeasure against this breakpoint rather than
+assuming there's slack — it was sized deliberately tight to catch ordinary
+laptop widths, not just ultrawide monitors.
+
+Below 1040px there usually isn't room for a 13rem sidebar next to a 46rem
 article column without cramping either one, so it hides entirely and the
 floating navigator's 目录 tab is what's left to serve narrower and mobile
 viewports — don't try to also cram a shrunk sidebar into medium widths, that
