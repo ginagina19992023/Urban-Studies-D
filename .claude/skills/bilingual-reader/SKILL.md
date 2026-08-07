@@ -227,6 +227,35 @@ article — a few words in quotes for precision is fine, reproducing whole
 sentences repeatedly is not. The same convention as translating the article
 in the first place: paraphrase and cite, don't dump text.
 
+### Chinese typography
+
+The Chinese translation is the primary reading text for this skill's actual
+users, not a secondary gloss — so it renders heavier and higher-contrast than
+the English: `--font-zh` leads with sans "黑体"-style stacks (PingFang SC /
+Microsoft YaHei / Heiti SC / Noto Sans SC) rather than a serif like Songti SC,
+and the paragraph-level `.bipara p.zh` / `blockquote.cited p.zh` rules carry
+`font-weight:600` at full `--ink` contrast. This is a site-wide default, not
+something to reconsider per page — don't dial it back to serif/regular-weight
+for an individual spec unless the user asks for that page specifically.
+
+### The persistent structure sidebar
+
+On wide viewports (≥1440px) a fixed sidebar renders to the left of the
+article, listing every h2/h3 as a small vertical tree — a spine line with a
+larger dot per h2 and smaller indented dots for h3, doubling as both the
+table of contents and a lightweight visual of the paper's structure. It's
+generated straight from the same heading data the floating navigator's 目录
+tab uses, requires no spec changes, and updates automatically as sections are
+added. An `IntersectionObserver` highlights whichever section is currently in
+view as the reader scrolls, so the sidebar also answers "where am I in this
+argument" while reading, not just "where can I jump to."
+
+Below 1440px there usually isn't room for a 15rem sidebar next to a 46rem
+article column without cramping either one, so it hides entirely and the
+floating navigator's 目录 tab is what's left to serve narrower and mobile
+viewports — don't try to also cram a shrunk sidebar into medium widths, that
+navigator tab already covers it.
+
 ### File export (optional, needs a capability)
 
 `下载 .md` and `备份 .json` stay hidden unless `window.claude.downloads` is

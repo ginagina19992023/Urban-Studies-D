@@ -41,7 +41,7 @@ CSS = """
   --line:#dfe3df; --accent:#2B5C6B; --accent-soft:#eef4f5;
   --hl:#9C6B33; --hl-soft:#f7efe3; --zh-bg:#f1f3f0;
   --font-serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,serif;
-  --font-zh:"Songti SC","STSong","Noto Serif SC","PingFang SC","Hiragino Sans GB",serif;
+  --font-zh:"PingFang SC","Microsoft YaHei","Heiti SC","Noto Sans SC","Hiragino Sans GB",sans-serif;
   --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC",sans-serif;
 }
 :root[data-theme="dark"]{
@@ -76,6 +76,32 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-se
 
 main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
 
+/* ---- persistent structure sidebar (wide viewports only; narrow falls back
+   to the 目录 tab in the floating navigator panel) ---- */
+#tocSidebar{position:fixed;top:5.5rem;left:calc(50vw - 40rem);width:15rem;
+            max-height:calc(100vh - 7.5rem);overflow-y:auto;display:none;z-index:10;
+            font-family:var(--font-sans)}
+@media (min-width:1440px){#tocSidebar{display:block}}
+#tocSidebar .sb-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+                       color:var(--hl);font-weight:700;margin:0 0 .9rem .3rem}
+.sb-tree{position:relative;padding-left:1rem}
+.sb-tree::before{content:"";position:absolute;left:.28rem;top:.4rem;bottom:.4rem;
+                  width:1px;background:var(--line)}
+.sb-node{position:relative;display:block;padding:.32rem .4rem .32rem .6rem;margin-bottom:.1rem;
+         border-radius:4px;text-decoration:none;color:var(--muted);font-size:.78rem;line-height:1.4;
+         transition:background .15s,color .15s}
+.sb-node:hover{background:var(--accent-soft);color:var(--accent)}
+.sb-node::before{content:"";position:absolute;left:-.72rem;top:.62rem;width:.42rem;height:.42rem;
+                  border-radius:50%;background:var(--paper);border:2px solid var(--line)}
+.sb-node.lvl-h2{font-weight:700;color:var(--ink-soft);margin-top:.55rem}
+.sb-node.lvl-h2::before{width:.52rem;height:.52rem;left:-.77rem;border-color:var(--accent)}
+.sb-node.lvl-h2:first-child{margin-top:0}
+.sb-node.lvl-h3{padding-left:1.6rem;font-size:.73rem}
+.sb-node.lvl-h3::before{left:-.72rem;border-color:var(--line)}
+.sb-node .zh{display:block;font-size:.9em;opacity:.8;margin-top:.05rem}
+.sb-node.active{background:var(--accent-soft);color:var(--accent)}
+.sb-node.active::before{background:var(--accent);border-color:var(--accent)}
+
 .eyebrow{font-family:var(--font-sans);font-size:.65rem;text-transform:uppercase;
          letter-spacing:.14em;color:var(--hl);margin:0 0 .55rem;font-weight:700}
 h1.title{font-size:1.5rem;line-height:1.3;margin:0 0 .5rem;font-weight:600;text-wrap:balance}
@@ -100,14 +126,14 @@ article h3 .zh{display:block;font-family:var(--font-zh);font-size:.9rem;color:va
 .bipara{margin:0 0 1.35rem;padding-bottom:1rem;border-bottom:1px dashed var(--line)}
 .bipara:last-child{border-bottom:none}
 .bipara p.en{margin:0 0 .55rem;color:var(--ink-soft);text-align:justify;hyphens:auto}
-.bipara p.zh{margin:0;font-family:var(--font-zh);color:var(--muted);font-size:.92rem;
+.bipara p.zh{margin:0;font-family:var(--font-zh);font-weight:600;color:var(--ink);font-size:.94rem;
              line-height:1.9;background:var(--zh-bg);padding:.7rem .85rem;border-radius:3px}
 
 blockquote.cited{margin:1.3rem 0 1.6rem;padding:.95rem 1.05rem;border-left:3px solid var(--hl);
                  background:var(--hl-soft);border-radius:3px}
 blockquote.cited p.en{margin:0 0 .55rem;color:var(--ink-soft);font-style:italic;font-size:.93rem}
-blockquote.cited p.zh{margin:0 0 .6rem;font-family:var(--font-zh);color:var(--ink-soft);
-                      font-size:.9rem;line-height:1.9}
+blockquote.cited p.zh{margin:0 0 .6rem;font-family:var(--font-zh);font-weight:600;color:var(--ink);
+                      font-size:.92rem;line-height:1.9}
 blockquote.cited .attrib{font-family:var(--font-sans);font-size:.71rem;color:var(--hl);
                          border-top:1px solid rgba(156,107,51,.28);padding-top:.45rem;
                          margin-top:.2rem;line-height:1.6;display:block}
@@ -657,6 +683,30 @@ document.addEventListener('scroll', function(){
 
   refreshAll();
 })();
+
+/* ---------------- sidebar scroll-spy ---------------- */
+(function(){
+  var nodes = document.querySelectorAll('#tocSidebar .sb-node');
+  if(!nodes.length || !('IntersectionObserver' in window)) return;
+  var byId = {};
+  nodes.forEach(function(n){ byId[n.dataset.secid] = n; });
+  var current = null;
+  function setActive(id){
+    if(id === current) return;
+    if(current && byId[current]) byId[current].classList.remove('active');
+    current = id;
+    if(id && byId[id]) byId[id].classList.add('active');
+  }
+  var observer = new IntersectionObserver(function(entries){
+    var visible = entries.filter(function(e){ return e.isIntersecting; });
+    if(!visible.length) return;
+    visible.sort(function(a,b){ return a.boundingClientRect.top - b.boundingClientRect.top; });
+    setActive(visible[0].target.id);
+  }, {rootMargin: '-10% 0px -70% 0px', threshold: 0});
+  document.querySelectorAll('article h2[id], article h3[id]').forEach(function(h){
+    observer.observe(h);
+  });
+})();
 """
 
 
@@ -664,6 +714,17 @@ def render(spec):
     m = spec.get("meta", {})
     out = []
     a = out.append
+
+    # Pre-scan for section headings so the persistent sidebar (which sits
+    # before <main> in the DOM) can be built before the article loop reaches
+    # them. Sec-ids are purely positional (sec-{index}) and regenerated fresh
+    # on every render — unlike note ids, nothing persists across renders that
+    # depends on them, so it's fine that they shift if items are reordered.
+    toc = [
+        {"id": f"sec-{i}", "level": it["kind"], "en": it.get("en", ""), "zh": it.get("zh", "")}
+        for i, it in enumerate(spec.get("items", []))
+        if it.get("kind") in ("h2", "h3")
+    ]
 
     title = m.get("title_en") or "Bilingual reading"
     a(f"<title>{esc(title)}{' — 中英对照' if m.get('title_zh') else ''}</title>")
@@ -678,6 +739,15 @@ def render(spec):
       '<button onclick="setMode(\'zh-only\',this)">中文</button>'
       '</div>')
     a('</div><div class="progress"><span></span></div></div>')
+
+    if toc:
+        a('<nav id="tocSidebar"><div class="sb-label">论文结构</div><div class="sb-tree">')
+        for t in toc:
+            a(f'<a class="sb-node lvl-{t["level"]}" href="#{t["id"]}" data-secid="{t["id"]}">'
+              f'<span class="en">{esc(t["en"])}</span>'
+              + (f'<span class="zh">{esc(t["zh"])}</span>' if t["zh"] else "")
+              + "</a>")
+        a("</div></nav>")
 
     a("<main>")
     if m.get("eyebrow"):
@@ -705,15 +775,12 @@ def render(spec):
             "</div>"
         )
 
-    toc = []
-
     a("<article>")
     for i, it in enumerate(spec.get("items", [])):
         k = it.get("kind")
         en, zh = it.get("en", ""), it.get("zh", "")
         if k in ("h2", "h3"):
             sec_id = f"sec-{i}"
-            toc.append({"id": sec_id, "level": k, "en": en, "zh": zh})
             a(f'<{k} id="{sec_id}"><span class="en">{esc(en)}</span><span class="zh">{esc(zh)}</span></{k}>')
         elif k == "quote":
             a('<blockquote class="cited">')
