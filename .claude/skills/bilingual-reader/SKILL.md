@@ -190,6 +190,72 @@ the full text rather than the excerpt. Say this plainly when handing the page
 over — frame the button as what it is, so nobody waits for an answer that is
 not coming.
 
+### Baking your own analysis into the page
+
+When the user pastes their real annotations back into the conversation and asks
+for review, evaluation, or writing guidance, do that analysis properly — this
+is the actual point of the whole annotation system, and it deserves real
+thinking, not a rushed pass. Once you've written it, offer to bake it into the
+page itself as a permanent, dated section, rather than leaving it stranded in
+the chat transcript. Add an entry to `spec["ai_commentary"]`:
+
+```json
+"ai_commentary": [
+  {"date": "2026-08-07", "html": "<h3>提炼</h3><p>...</p><h3>评价</h3>..."}
+]
+```
+
+`html` is rendered unescaped directly into the page (light markup — `h3`, `p`,
+`ul`/`li`, `strong`, `em`, short `blockquote` — is fine; keep it consistent
+with the CSS already defined for `.aic-body`). Append a new entry each time
+rather than overwriting the old one — the page accumulates a dated history of
+commentary the same way the user's own notes accumulate.
+
+Be precise about what this is and is not: it is **not** the page generating
+anything on its own. It's you, in this conversation, writing an analysis and
+then choosing to publish it as static content by re-rendering and
+republishing the artifact to the same URL. The user still has to bring you
+their notes to get a new entry — nothing about this closes that loop
+automatically. What it does change: once written, the analysis lives on the
+page itself, so revisiting it later doesn't require digging through chat
+history or re-running the copy/paste flow just to read something you already
+wrote. Say this plainly when offering it, so it's clear what's actually
+different from the copy-to-clipboard flow and what isn't.
+
+Keep your own commentary free of long verbatim quotation from the source
+article — a few words in quotes for precision is fine, reproducing whole
+sentences repeatedly is not. The same convention as translating the article
+in the first place: paraphrase and cite, don't dump text.
+
+### Chinese typography
+
+The Chinese translation is the primary reading text for this skill's actual
+users, not a secondary gloss — so it renders heavier and higher-contrast than
+the English: `--font-zh` leads with sans "黑体"-style stacks (PingFang SC /
+Microsoft YaHei / Heiti SC / Noto Sans SC) rather than a serif like Songti SC,
+and the paragraph-level `.bipara p.zh` / `blockquote.cited p.zh` rules carry
+`font-weight:600` at full `--ink` contrast. This is a site-wide default, not
+something to reconsider per page — don't dial it back to serif/regular-weight
+for an individual spec unless the user asks for that page specifically.
+
+### The persistent structure sidebar
+
+On wide viewports (≥1440px) a fixed sidebar renders to the left of the
+article, listing every h2/h3 as a small vertical tree — a spine line with a
+larger dot per h2 and smaller indented dots for h3, doubling as both the
+table of contents and a lightweight visual of the paper's structure. It's
+generated straight from the same heading data the floating navigator's 目录
+tab uses, requires no spec changes, and updates automatically as sections are
+added. An `IntersectionObserver` highlights whichever section is currently in
+view as the reader scrolls, so the sidebar also answers "where am I in this
+argument" while reading, not just "where can I jump to."
+
+Below 1440px there usually isn't room for a 15rem sidebar next to a 46rem
+article column without cramping either one, so it hides entirely and the
+floating navigator's 目录 tab is what's left to serve narrower and mobile
+viewports — don't try to also cram a shrunk sidebar into medium widths, that
+navigator tab already covers it.
+
 ### File export (optional, needs a capability)
 
 `下载 .md` and `备份 .json` stay hidden unless `window.claude.downloads` is
