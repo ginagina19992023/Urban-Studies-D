@@ -224,6 +224,14 @@ details.pack[open] summary::before{content:"▾ "}
 .gpick:hover .term{color:var(--accent)}
 .gempty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);padding:1.2rem 0;text-align:center}
 
+#notesTools{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 .8rem}
+#notesTools button{font-family:var(--font-sans);font-size:.72rem;border:1px solid var(--line);
+                   background:transparent;color:var(--ink-soft);border-radius:6px;
+                   padding:.5rem .75rem;min-height:2.4rem;cursor:pointer;transition:all .15s}
+#notesTools button:hover{border-color:var(--accent);color:var(--accent)}
+#notesTools button.primary{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+#notesHint{font-family:var(--font-sans);font-size:.68rem;color:var(--muted);line-height:1.6;
+           margin:0 0 .8rem;padding:.5rem .65rem;background:var(--zh-bg);border-radius:4px}
 #notesList .nrow{padding:.7rem .3rem;border-bottom:1px dashed var(--line)}
 #notesList .nrow:last-child{border-bottom:none}
 #notesList .nrow .src{font-family:var(--font-sans);font-size:.72rem;color:var(--muted);line-height:1.5;
@@ -578,6 +586,15 @@ document.addEventListener('scroll', function(){
   document.getElementById('ovReview').addEventListener('click', function(){
     if(guardEmpty()) return; copyText(reviewPrompt(), this, '生成 AI 点评请求（复制）');
   });
+  /* same actions, duplicated in the 批注 nav tab so they're reachable in two
+     taps from anywhere mid-read, instead of requiring a detour through the
+     end-of-document overview every time. */
+  document.getElementById('navCopyMd').addEventListener('click', function(){
+    if(guardEmpty()) return; copyText(markdown(), this, '复制为 Markdown');
+  });
+  document.getElementById('navReview').addEventListener('click', function(){
+    if(guardEmpty()) return; copyText(reviewPrompt(), this, '生成 AI 点评请求（复制）');
+  });
   document.getElementById('ovClear').addEventListener('click', function(){
     if(guardEmpty()) return;
     if(!confirm('清空本篇全部批注？此操作无法撤销。建议先导出备份。')) return;
@@ -752,8 +769,14 @@ def render(spec):
       '<input id="gSearch" type="search" placeholder="搜索术语、人物、地名…">'
       '<div id="gList"></div></div>')
     a('<div class="navpane" data-pane="notes" hidden>'
+      '<div id="notesTools">'
+      '<button id="navReview" class="primary" type="button">生成 AI 点评请求（复制）</button>'
+      '<button id="navCopyMd" type="button">复制为 Markdown</button>'
+      '</div>'
+      '<p id="notesHint">点「生成 AI 点评请求」→ 粘贴进与 Claude 的对话 → 发送。'
+      '页面本身无法直接调用 AI，这一步跳不过去。</p>'
       '<div id="notesList"></div>'
-      '<div id="notesJumpRow"><button id="notesJump" type="button">前往批注总览与工具 →</button></div>'
+      '<div id="notesJumpRow"><button id="notesJump" type="button">前往总览（导出文件 / 清空）→</button></div>'
       '</div>')
     a('</div></div>')
 
