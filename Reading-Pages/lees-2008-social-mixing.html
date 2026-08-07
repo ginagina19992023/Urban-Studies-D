@@ -31,10 +31,10 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-se
 .topbar-inner{max-width:46rem;margin:0 auto;display:flex;align-items:center;gap:.75rem}
 .crumb{font-family:var(--font-sans);font-size:.7rem;color:var(--muted);flex:1;
        white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.modes{display:flex;gap:.25rem;flex-shrink:0}
-.modes button{font-family:var(--font-sans);font-size:.68rem;border:1px solid var(--line);
-              background:transparent;color:var(--muted);padding:.28rem .55rem;border-radius:999px;
-              cursor:pointer;transition:all .15s}
+.modes{display:flex;gap:.3rem;flex-shrink:0}
+.modes button{font-family:var(--font-sans);font-size:.7rem;border:1px solid var(--line);
+              background:transparent;color:var(--muted);padding:.4rem .7rem;border-radius:999px;
+              min-height:2.1rem;cursor:pointer;transition:all .15s}
 .modes button.active{background:var(--accent);color:var(--paper);border-color:var(--accent)}
 .progress{height:2px;background:var(--line);max-width:46rem;margin:.4rem auto 0;position:relative}
 .progress span{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent)}
@@ -100,7 +100,7 @@ details.pack[open] summary::before{content:"▾ "}
 .gitem .term{font-family:var(--font-zh);font-weight:600;color:var(--ink)}
 .gitem .def{font-family:var(--font-zh);font-size:.87rem;color:var(--muted);
             line-height:1.85;margin:.4rem 0 0}
-.gitem:target{background:var(--accent-soft);border-radius:3px;padding:.6rem;margin-left:-.6rem;margin-right:-.6rem}
+.gitem:target,.gitem.flash{background:var(--accent-soft);border-radius:3px;padding:.6rem;margin-left:-.6rem;margin-right:-.6rem;transition:background 1.2s}
 
 .refs{font-family:var(--font-sans);font-size:.72rem;color:var(--muted);line-height:1.8;margin-top:.8rem}
 
@@ -127,29 +127,86 @@ details.pack[open] summary::before{content:"▾ "}
              margin-top:.22rem;height:.9rem;opacity:0;transition:opacity .2s}
 .note-status.show{opacity:.8}
 
-/* ---- notes drawer ---- */
-#notesBtn{position:fixed;right:.9rem;bottom:.9rem;z-index:60;font-family:var(--font-sans);
-          font-size:.72rem;background:var(--accent);color:var(--paper);border:none;
-          border-radius:999px;padding:.55rem .95rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.18)}
-#notesBtn .n{background:rgba(255,255,255,.28);border-radius:999px;padding:0 .35rem;margin-left:.3rem}
-#notesPanel{position:fixed;inset:auto 0 0 0;max-height:78vh;z-index:70;background:var(--paper);
-            border-top:1px solid var(--line);box-shadow:0 -4px 24px rgba(0,0,0,.2);
-            display:none;flex-direction:column}
-#notesPanel.open{display:flex}
-#notesPanel header{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;
-                   border-bottom:1px solid var(--line);font-family:var(--font-sans);font-size:.8rem}
-#notesPanel header strong{flex:1}
-#notesPanel button{font-family:var(--font-sans);font-size:.68rem;border:1px solid var(--line);
-                   background:transparent;color:var(--muted);border-radius:4px;padding:.3rem .6rem;cursor:pointer}
-#notesPanel button:hover{border-color:var(--accent);color:var(--accent)}
-#notesList{overflow-y:auto;padding:.6rem 1rem 1.4rem;max-width:46rem;margin:0 auto;width:100%}
+/* ---- navigator (floating button + tabbed panel: 目录 / 术语 / 批注) ---- */
+#navBtn{position:fixed;right:.9rem;bottom:calc(.9rem + env(safe-area-inset-bottom,0px));z-index:60;
+        font-family:var(--font-sans);font-size:.75rem;background:var(--accent);color:var(--paper);
+        border:none;border-radius:999px;padding:.65rem 1.05rem;min-height:2.6rem;cursor:pointer;
+        box-shadow:0 2px 10px rgba(0,0,0,.18);display:flex;align-items:center;gap:.4rem}
+#navBtn .n{background:rgba(255,255,255,.28);border-radius:999px;padding:.05rem .45rem;
+           display:inline-block;min-width:.6rem;text-align:center}
+#navBtn .n:empty,#navBtn .n[data-zero="1"]{opacity:.55}
+
+#navBackdrop{position:fixed;inset:0;z-index:65;background:rgba(0,0,0,.35);
+             display:none;-webkit-tap-highlight-color:transparent}
+#navBackdrop.open{display:block}
+
+#navPanel{position:fixed;inset:auto 0 0 0;max-height:82vh;z-index:70;background:var(--paper);
+          border-top:1px solid var(--line);box-shadow:0 -4px 24px rgba(0,0,0,.2);
+          border-radius:14px 14px 0 0;
+          display:none;flex-direction:column;
+          padding-bottom:env(safe-area-inset-bottom,0px)}
+#navPanel.open{display:flex}
+
+.navtabs{display:flex;align-items:stretch;border-bottom:1px solid var(--line);
+         font-family:var(--font-sans);flex-shrink:0}
+.navtab{flex:1;background:none;border:none;color:var(--muted);font-size:.78rem;font-weight:600;
+        padding:.8rem .4rem;min-height:2.7rem;cursor:pointer;border-bottom:2px solid transparent;
+        display:flex;align-items:center;justify-content:center;gap:.3rem}
+.navtab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.navtab .navbadge{font-size:.65rem;background:var(--line);color:var(--ink-soft);border-radius:999px;
+                  padding:.02rem .4rem}
+.navtab.active .navbadge{background:var(--accent-soft);color:var(--accent)}
+#navClose{flex:0 0 auto;width:2.9rem;min-height:2.7rem;background:none;border:none;color:var(--muted);
+          font-size:1rem;cursor:pointer}
+
+.navbody{overflow-y:auto;padding:.7rem 1rem 1.2rem;max-width:46rem;margin:0 auto;width:100%}
+.navpane[hidden]{display:none}
+
+.tocrow{display:block;width:100%;text-align:left;background:none;border:none;cursor:pointer;
+        font-family:var(--font-sans);color:var(--ink-soft);padding:.55rem .3rem;min-height:2.6rem;
+        border-bottom:1px dashed var(--line)}
+.tocrow:last-child{border-bottom:none}
+.tocrow.lvl-h3{padding-left:1.3rem;color:var(--muted)}
+.tocrow .en{display:block;font-size:.86rem;font-weight:600}
+.tocrow.lvl-h3 .en{font-weight:500;font-size:.82rem;font-style:italic}
+.tocrow .zh{display:block;font-family:var(--font-zh);font-size:.78rem;color:var(--muted);margin-top:.1rem}
+.tocrow:hover .en{color:var(--accent)}
+
+#gSearch{width:100%;font-family:var(--font-sans);font-size:.85rem;border:1px solid var(--line);
+         background:var(--zh-bg);color:var(--ink);border-radius:6px;padding:.6rem .8rem;
+         min-height:2.6rem;margin-bottom:.6rem}
+#gSearch:focus{outline:none;border-color:var(--accent)}
+.gcat-header{font-family:var(--font-sans);font-size:.65rem;letter-spacing:.08em;color:var(--hl);
+             text-transform:uppercase;font-weight:700;margin:1rem 0 .3rem}
+.gcat-header:first-child{margin-top:0}
+.gpick{display:block;width:100%;text-align:left;background:none;border:none;cursor:pointer;
+       padding:.55rem .3rem;border-bottom:1px dashed var(--line)}
+.gpick:last-child{border-bottom:none}
+.gpick .term{display:block;font-family:var(--font-zh);font-weight:600;color:var(--ink);font-size:.9rem}
+.gpick .def{display:block;font-family:var(--font-zh);font-size:.78rem;color:var(--muted);
+            margin-top:.15rem;line-height:1.6;
+            display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gpick:hover .term{color:var(--accent)}
+.gempty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);padding:1.2rem 0;text-align:center}
+
+#notesList .nrow{padding:.7rem .3rem;border-bottom:1px dashed var(--line)}
+#notesList .nrow:last-child{border-bottom:none}
+#notesList .nrow .src{font-family:var(--font-sans);font-size:.72rem;color:var(--muted);line-height:1.5;
+           margin-bottom:.3rem;cursor:pointer;min-height:1.6rem}
+#notesList .nrow .src:hover{color:var(--accent)}
+#notesList .nrow .txt{font-family:var(--font-zh);font-size:.86rem;line-height:1.8;color:var(--ink-soft);white-space:pre-wrap}
+.nempty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);padding:1.2rem 0;text-align:center}
+#notesJumpRow{padding:.8rem .3rem .2rem;text-align:center}
+#notesJump{font-family:var(--font-sans);font-size:.75rem;border:1px solid var(--line);background:none;
+           color:var(--accent);border-radius:6px;padding:.5rem 1rem;min-height:2.4rem;cursor:pointer}
+
+/* shared list-row styling reused across tabs, kept generic on purpose */
 .nrow{padding:.7rem 0;border-bottom:1px dashed var(--line)}
 .nrow:last-child{border-bottom:none}
 .nrow .src{font-family:var(--font-sans);font-size:.68rem;color:var(--muted);line-height:1.5;
            margin-bottom:.3rem;cursor:pointer}
 .nrow .src:hover{color:var(--accent)}
 .nrow .txt{font-family:var(--font-zh);font-size:.86rem;line-height:1.8;color:var(--ink-soft);white-space:pre-wrap}
-.nempty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);padding:1.2rem 0;text-align:center}
 
 /* ---- end-of-document overview ---- */
 #overview{margin-top:2.6rem;border-top:2px solid var(--accent);padding-top:1.1rem}
@@ -166,17 +223,25 @@ details.pack[open] summary::before{content:"▾ "}
 #ovTools button.danger:hover{border-color:var(--warn,#8A3B2C);color:var(--warn,#8A3B2C)}
 #ovHint{font-family:var(--font-sans);font-size:.68rem;color:var(--muted);
         line-height:1.7;margin-top:.7rem;padding:.6rem .8rem;background:var(--zh-bg);border-radius:4px}
-@media print{#notesBtn,#notesPanel,.note-add,.note-edit,.topbar{display:none!important}
+@media print{#navBtn,#navPanel,.note-add,.note-edit,.topbar{display:none!important}
              .note.has .note-body{display:block}}
 
 footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
        font-family:var(--font-sans);font-size:.7rem;color:var(--muted);line-height:1.7}
 
 @media (max-width:520px){
-  h1.title{font-size:1.25rem}
-  article h2 .en{font-size:1rem}
-  main{padding:1.3rem .9rem 3.5rem}
-  .bipara p.zh{font-size:.9rem}
+  h1.title{font-size:1.3rem}
+  article h2 .en{font-size:1.05rem}
+  main{padding:1.3rem .9rem 5.5rem}
+  article{font-size:1rem}
+  .bipara p.en{font-size:1rem}
+  .bipara p.zh{font-size:.95rem;padding:.8rem .9rem}
+  blockquote.cited p.en,blockquote.cited p.zh{font-size:.95rem}
+  .note-add{padding:.5rem .8rem;min-height:2.3rem}
+  .crumb{font-size:.68rem}
+  #navBtn{padding:.7rem 1.1rem;font-size:.8rem}
+  .navtab{font-size:.82rem}
+  a.gref{padding:.05rem 0}
 }
 </style>
 <div class="topbar"><div class="topbar-inner">
@@ -192,13 +257,13 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <div class="citation"><strong>Cite as</strong> · Lees, L. (2008). Gentrification and Social Mixing: Towards an Inclusive Urban Renaissance? Urban Studies, 45(12), 2449–2470.</div>
 <div class="readnote"><strong>全文中英对照。</strong>引言、绅士化与社会混合的政策背景（荷兰／英国／美国三节案例研究，含伦敦<a class="gref" href="#g-elephant">象堡</a>（Elephant and Castle）<a class="gref" href="#g-aylesbury">艾尔斯伯里社区</a>的公共住房拆除案例）、六条批判与结论现已全部纳入。<br><br>两点提示：（1）原文为双栏排版，PDF 文本抽取后一度出现局部分栏错位；本次已依据 PDF 双栏坐标重新核对、拼接大部分段落（包括此前误判为“残缺”的 ODPM／艾尔斯伯里段落，实为分栏顺序问题，现已按正确顺序还原），但仍有一处残句无法确认原文完整措辞——见正文“批判之五”一节中标 <em>［原文此处分栏错位，语义不全］</em> 处，请以纸本或出版商版本为准。（2）经与 PDF 版面核对，正文“批判之五”“批判之六”两节标题与其经验内容，在原始版面的左右两栏中出现的先后顺序，其实与本页沿用的既有编排顺序相反（原版面中，“What Kinds and How Much Social Mixing…”一节的标题与内容，原本出现在“Social Mix Policy Fails to Demonstrate…”一节之前）。因既有节选内容与顺序不可改动，本页保留原有编排；两节的论证实质均完整无缺，只是标题相对位置与原版面顺序略有出入，特此说明，供引用时留意。</div>
 <article>
-<h2><span class="en">Introduction</span><span class="zh">引言</span></h2>
+<h2 id="sec-0"><span class="en">Introduction</span><span class="zh">引言</span></h2>
 <div class="bipara">
 <p class="en">Nearly 30 years ago now, Briavel Holcomb and Robert Beauregard (1981, p. 3) were critical of the way that it was assumed by authors like Altshuler (1969), Lowry (1960) and Smith (1971) that the benefits of urban revitalisation/gentrification would ‘trickle down’ to the lower and working classes in a manner similar to that hypothesised in the housing market. Nevertheless, despite fierce academic debate about whether or not gentrification leads to displacement, segregation and social polarisation, it is increasingly promoted in policy circles on the assumption that it will lead to more socially mixed, less segregated, more liveable and sustainable communities. In keeping with a longstanding strand of research that has identified the liberal desires of the new middle classes for difference and diversity in the city as key to the process of gentrification and to the creation of a more diverse and tolerant city (see Lees, 2000; and Lees et al., 2008, on ‘the emancipatory city thesis’), the benefits of functionally as well as socially mixed urban communities have become something of an unquestioned gospel in policy discourse (Lees, 2003a, 2003b). Yet there is a poor evidence base for the widespread policy assumption that gentrification will help increase the social mix, foster social mixing and thereby increase the social capital and social cohesion of inner-city communities. As Damaris Rose (2004, p. 280) says, there is an “uneasy cohabitation” between gentrification and social mix. It is this uneasy cohabitation that this paper investigates.</p>
 <p class="zh">早在近三十年前，Briavel Holcomb 与 Robert Beauregard（1981，第3页）就已批评过这样一种预设——Altshuler（1969）、Lowry（1960）与 <a class="gref" href="#g-smith">Smith</a>（1971）等作者曾假定，城市复兴／绅士化的好处会像住房市场理论所设想的那样，向下“渗滴”（trickle down）到中下层与工人阶级。然而，尽管学界围绕绅士化是否导致置换、隔离与社会两极化展开过激烈辩论，它在政策圈中却<strong>日益被提倡</strong>，其预设是：绅士化将带来更加社会混合、更少隔离、更宜居、更可持续的社区。与一支由来已久的研究脉络相呼应——该脉络认为，新中产阶级对城市中差异与多样性的自由派渴望，正是绅士化过程、以及营造一座更多样、更宽容之城市的关键所在（见 Lees, 2000；以及 Lees et al., 2008 论“<a class="gref" href="#g-emancipatorycity">解放性城市命题</a>”〔the emancipatory city thesis〕）——功能上与社会上都实现混合的城市社区所具有的种种好处，在政策话语中已然成为一种不容置疑的信条（Lees, 2003a, 2003b）。然而，对于“绅士化将有助于增加社会混合、促进社会混合、从而提升内城社区的社会资本与社会凝聚力”这一广泛流行的政策预设，其证据基础却相当<strong>薄弱</strong>。正如 Damaris Rose（2004，第280页）所言，绅士化与社会混合之间存在一种“别扭的同居关系”（uneasy cohabitation）。本文所探究的，正是这种别扭的同居关系。</p>
 <div class="note" data-nid="4ac1b42783"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
-<h2><span class="en">Gentrification and Social Mixing</span><span class="zh">绅士化与社会混合</span></h2>
+<h2 id="sec-2"><span class="en">Gentrification and Social Mixing</span><span class="zh">绅士化与社会混合</span></h2>
 <div class="bipara">
 <p class="en">Gentrification has long been associated with appeals to diversity and difference, to social mixing. As Irving Allen argued, some time ago now, in an essay titled ‘The ideology of dense neighbourhood redevelopment’</p>
 <p class="zh">绅士化长期以来都与对多样性、差异，以及社会混合的诉求联系在一起。正如 Irving Allen 早年在一篇题为《密集街区再开发的意识形态》（'The ideology of dense neighbourhood redevelopment'）的文章中所论：</p>
@@ -264,7 +329,7 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <p class="zh">在本文中，我要质疑的是：社会混合——即把中等收入人群迁入低收入内城街区——究竟是不是一件好事。围绕“社会混合”或“混合社区”这一概念，已经积累了大量研究：从详尽的文献综述（如 Goodchild and Cole, 2001；Atkinson, 2005；Tunstall and Fenton, 2006；Cheshire, 2007），到关于公共住房社区<a class="gref" href="#g-tenure">业权</a>多元化的经验研究（如 Atkinson and Kintrea, 2000；Tunstall, 2003），再到关于新建开发项目中混合社区的经验研究（Rowlands et al., 2006），以及质疑社会混合政策本身的新近研究（Galster, 2007）。本文将汇集这些研究，以及新近涌现的关于绅士化与社会混合的研究（例如 Davidson，审稿中；Freeman, 2006；Lees et al., 2008；Rose, 2004；Uitermark et al., 2007；Walks and Maaranen, 2008），以质疑当下作为发达世界大部分“城市复兴”议程核心组成部分的社会混合政策。在此过程中，我将对那些试图把绅士化当作一种“积极的公共政策工具”、用以振兴内城街区的现行社会混合政策，展开详细的批判（关于绅士化作为“积极的公共政策工具”，见 Cameron, 2003；关于国家主导的“积极”绅士化，见 Lees et al., 2008）。</p>
 <div class="note" data-nid="b6050e7fd2"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
-<h2><span class="en">Policies of Gentrification and Social Mixing</span><span class="zh">绅士化与社会混合的政策</span></h2>
+<h2 id="sec-15"><span class="en">Policies of Gentrification and Social Mixing</span><span class="zh">绅士化与社会混合的政策</span></h2>
 <div class="bipara">
 <p class="en">In recent years, there has been a resurgence of interest among national and local governments, urban policy-makers and urban scholars in the concept of social mixing. Encouraging socially mixed neighbourhoods and communities has become a major urban policy and planning goal in the UK, Ireland, the Netherlands, Scandinavia, Australia, Canada and the United States. As Rose argues</p>
 <p class="zh">近年来，国家与地方政府、城市政策制定者以及城市研究学者，对“社会混合”这一概念的兴趣再度高涨。鼓励社会混合的街区与社区，已成为英国、爱尔兰、荷兰、北欧诸国、澳大利亚、加拿大与美国的一项主要城市政策与规划目标。正如 Rose 所论：</p>
@@ -302,7 +367,7 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <p class="zh">尽管已有作者论及爱尔兰（如 Norris, 2006）、北欧（如 Musterd and Andersson, 2005）、澳大利亚（如 Ruming et al., 2004），关于加拿大的文献也在不断增长（本文后面会大量使用，详见相关处的引注），但社会混合方面的文献大多集中在英国、美国与荷兰这三个国家。这三个国家都把推动社会混合作为各自“城市复兴”议程的一部分，做法相似而又各有不同。英国是通过“混合社区”政策，以及针对（通常是工人阶级）自有住房“失败地区”所谓的“住房市场更新”，来推动公共住房的国家主导型绅士化。美国则是通过旨在实现<strong>贫困空间去集中化</strong>（spatial deconcentration of poverty）的政策来推动社会混合。而荷兰所奉行的政策，是通过拆除与重建，打散大片的低收入住房区域；与英国类似，荷兰也出台了相关政策，规定新开发项目必须满足“混合入住”的条件，方能获得规划许可与／或资金支持。</p>
 <div class="note" data-nid="7f47fe1e91"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
-<h3><span class="en">The United Kingdom</span><span class="zh">英国</span></h3>
+<h3 id="sec-23"><span class="en">The United Kingdom</span><span class="zh">英国</span></h3>
 <div class="bipara">
 <p class="en">The UK’s New Labour government (under Tony Blair and now Gordon Brown) is as committed to social diversity and mixing as were Barnsbury’s pioneer gentrifiers, some of whom were quoted earlier. It is perhaps no surprise that Tony Blair and a number of other cabinet members have lived in Barnsbury! Their pro-urban and pro-social-mixing ideologies are those of classic gentrification texts. In recent policy statements they sell gentrification, which they prefer to call ‘urban renaissance’, to us through the neutralising vein of social mixing (Lees, 2003a; Lees et al., 2008). As stated earlier, the benefits of diversity and of functionally as well as socially mixed urban communities stand central to, and unquestioned in, these policy documents. The British government’s stated intention to bring the middle classes back to the central city, read gentrification, is motivated by, and indeed sold to us, as an attempt to reduce socio-spatial segregation and strengthen the ‘social tissue’ of deprived neighbourhoods. Social mixing and improved social balance are viewed as key to reducing what they term ‘neighbourhood effects’. This was the ODPM’s argument</p>
 <p class="zh">英国<a class="gref" href="#g-newlabour">新工党</a>政府（先是 Tony Blair，如今是 Gordon Brown 领导）对社会多样性与混合的执着，丝毫不逊于前文引述过的那几位巴恩斯伯里先锋型绅士化者。Tony Blair 与不少其他内阁成员都曾住在巴恩斯伯里，这或许并不令人意外！他们那套亲城市、亲社会混合的意识形态，正是经典绅士化文本中的那一套。在近期的政策声明中，他们通过“社会混合”这一中和性的话语，向我们兜售绅士化——尽管他们更愿意称之为“城市复兴”（Lees, 2003a；Lees et al., 2008）。如前所述，多样性以及功能上与社会上都实现混合的城市社区所具有的种种好处，在这些政策文件中始终居于核心地位，且从未受到质疑。英国政府所宣称的、要把中产阶级带回中心城区——说白了就是绅士化——这一意图，其动机（也正是其向我们兜售的说辞）被表述为：试图减少社会空间隔离，强化贫困街区的“社会肌理”。社会混合与更好的社会平衡，被视为削减他们所谓“街区效应”（neighbourhood effects）的关键所在。这正是 <a class="gref" href="#g-odpm">ODPM</a>（副首相办公室）的论证：</p>
@@ -368,7 +433,7 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <p class="zh">艾尔斯伯里社区当前的拆除与重建策略，规划建造3200套私有新建住房，而社会租赁新建住房却只有2000套——这恰好满足了统一开发规划（UDP）中“40%社会住房”的最低要求。实质上，他们要做的是拆除艾尔斯伯里社区的绝大部分（尽管其中许多建筑在结构上依然完好），并建起一片供享有特权的中产阶级居住的新建开发区。这一规划既没有承认该地区<strong>本已存在</strong>的混合状态（该地区在社会与族裔层面本就已经相当多样），也没有回应社会可持续性方面的种种问题。正如 Chris Allen（2008）所言，拆除低成本的工人阶级住房，去建造那些据称中产阶级会买单的高价值“产品”，这违背了工人阶级对待住房的整套“存在方式”（作为栖居之所，而非某种社会位置空间中的一个位置）。</p>
 <div class="note" data-nid="50e8309e8c"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
-<h3><span class="en">The United States</span><span class="zh">美国</span></h3>
+<h3 id="sec-36"><span class="en">The United States</span><span class="zh">美国</span></h3>
 <div class="bipara">
 <p class="en">Gentrification, marketed as poverty deconcentration in the US, is seen to be a spatial fix for the poor tax bases and concentrations of poverty in American inner cities. In cities that are highly dependent on property taxes as a source of revenue, seeking to increase your tax base by increasing the percentage of middle-class homeowners in the central city is seen to be fiscal pragmatism (Lees et al., 2008). Significant spatial concentrations of poverty are seen to produce certain pathologies</p>
 <p class="zh">在美国，绅士化被包装成“贫困去集中化”，被视为解决美国内城疲弱税基与贫困集聚问题的一种<strong>空间性对策</strong>（spatial fix）。在高度依赖财产税作为财政收入来源的城市里，通过提高中心城区中产阶级有房者的比例来扩大税基，被视为一种财政上务实的做法（Lees et al., 2008）。而显著的贫困空间集聚，则被认为会产生某些“病理”：</p>
@@ -418,7 +483,7 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <span class="attrib">全国住房法律项目（National Housing Law Project）等（2002）原话，经 Lees 转引——Lees&lt;strong&gt;认同并借用&lt;/strong&gt;此论断，作为美国案例部分的收束，与她本人对贫困去集中化政策的批判立场一致。</span>
 <div class="note" data-nid="eab3369f39"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </blockquote>
-<h3><span class="en">The Netherlands</span><span class="zh">荷兰</span></h3>
+<h3 id="sec-46"><span class="en">The Netherlands</span><span class="zh">荷兰</span></h3>
 <div class="bipara">
 <p class="en">Compared with the US and the UK, spatial segregation is comparatively low in the Netherlands (van Kempen et al., 1992) due to the different composition of the housing market, where over half the housing is owned and rented out by public housing corporations. Traditionally, all sections of society have made use of this public housing regardless of income (Murie and Musterd, 1996), although this is now changing with higher-income households now almost entirely absent from publically provided housing. Nevertheless, despite the low levels of spatial segregation, social segregation and social mixing are high on governmental agendas. In the Netherlands, a policy of ‘housing redifferentiation’ (see Hulsbergen and Stouten, 2001; Musterd et al., 1999; Priemus, 1995, 1998, 2001; Uitermark, 2003) as they call it, has been underway since 1996. The British Urban Task Force were especially excited by this policy. Housing redifferentiation is a policy of adding more expensive dwellings to low-income areas by removing inexpensive dwellings through demolition, together with the sale and upgrading of existing dwellings—the idea being to create a more socially mixed population in neighbourhoods via gentrification.</p>
 <p class="zh">与美国和英国相比，荷兰的空间隔离程度相对较低（van Kempen et al., 1992），这是因为其住房市场构成不同：超过一半的住房由公共住房公司所拥有并出租。传统上，无论收入高低，社会各阶层都会使用这类公共住房（Murie and Musterd, 1996）——不过如今这一情况正在改变，高收入家庭如今几乎已完全退出公共提供的住房体系。尽管如此，尽管空间隔离程度较低，社会隔离与社会混合问题依然高居政府议程之列。在荷兰，一项他们称之为“住房再分异”（housing redifferentiation）的政策（见 Hulsbergen and Stouten, 2001；Musterd et al., 1999；Priemus, 1995, 1998, 2001；Uitermark, 2003）自1996年起就已在推行。英国的“城市工作组”（Urban Task Force）对这项政策尤其感到振奋。所谓“住房再分异”，是指通过拆除来清除低收入地区的廉价住房、并加入更昂贵的住房，同时出售并升级现存住房——其构想是要通过绅士化，在街区中造就一个社会混合程度更高的人口结构。</p>
@@ -451,7 +516,7 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <p class="zh">已有多项研究考察了这些经过重构的荷兰街区中的社会互动，结果发现，邻里之间的社会网络仍然趋于社会性隔离，尤其是在社会经济地位与族裔这两个维度上。Uitermark 等人（2007）明确指出：中产阶级居民涌入弱势街区，<strong>并不会</strong>提升社会凝聚力；相反，低收入与高收入家庭之间的接触，往好里说也不过是浮于表面，往坏里说则是彻头彻尾的敌意（关于成败对照的案例，见 Aalbers, 2006 论阿姆斯特丹郊区的贝尔美尔〔Bijlmermeer〕）。</p>
 <div class="note" data-nid="26c126322e"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
-<h2><span class="en">Gentrification and Social Mixing: A Critique</span><span class="zh">绅士化与社会混合：一种批判</span></h2>
+<h2 id="sec-53"><span class="en">Gentrification and Social Mixing: A Critique</span><span class="zh">绅士化与社会混合：一种批判</span></h2>
 <blockquote class="cited">
 <p class="en">As of yet ... there is little systematic evidence that gentrification actually leads to greater levels of social mix at the neighbourhood scale. Indeed, it is not even apparent that social mix can achieve the goals hoped of it ... Moreover, it is not clear exactly what kind of ‘mix’ is most desirable, or what sort of mix matters most in producing the expected positive outcomes ... (Walks and Maaranen, 2008, p. 294).</p>
 <p class="zh">迄今为止⋯⋯几乎没有系统性证据表明，绅士化真的会在街区尺度上带来更高程度的社会混合。事实上，就连社会混合能否达成人们对它所寄予的目标，也远非显而易见⋯⋯此外，究竟哪一种“混合”最为理想，或者哪一种混合对于产生预期中的正面结果最为关键，也并不清楚⋯⋯（Walks and Maaranen, 2008, 第294页）。</p>
@@ -468,7 +533,7 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <p class="zh">然而，大量政策文献仍然支持前文所述那类做法——通过绅士化稀释业权结构、在低收入地区建设市场化住房，寄望于由此营造出社会异质性更高、也更均衡的街区（Kearns and Mason, 2007）。例如 Tunstall and Fenton（2006）自称汇集了迄今为止英国在这一课题上最好的研究（第2页），得出的结论是：尽管知识上仍有一些空白，“混合社区最常见的那些理据依然是站得住的”（第3页）。与此相对，审视社会混合政策的地理学者们，得出的结论却是：支持这些政策的真实证据相当匮乏。例如 Doherty 等人（2006，第60页）利用英国人口普查数据与苏格兰纵向研究数据展开的大型定量研究，最终不得不“得出这样的结论：在住房开发项目中蓄意混合业权、以求改善社会福祉的这项政策，迄今为止的研究证据在很大程度上仍无法为其提供支持”。此外，<a class="gref" href="#g-cheshire">Cheshire</a>（2007）对能否在街区层面真正实现社会混合，也持怀疑态度。而且，正如我在前面几节中所指出的，近年来，社会混合这一理念，已开始受到来自绅士化研究者的一些重要学术批评。在本文这一实质性章节中，我将汇集这批研究成果，以及更广泛的、对社会混合持批判态度的文献，展开六条彼此有所关联的、针对社会混合政策的批判。</p>
 <div class="note" data-nid="84e8e10f57"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
-<h2><span class="en">Critique 1 — Gentrification Causes Overwhelmingly Negative Effects</span><span class="zh">批判之一 —— 绅士化导致压倒性的负面效应</span></h2>
+<h2 id="sec-57"><span class="en">Critique 1 — Gentrification Causes Overwhelmingly Negative Effects</span><span class="zh">批判之一 —— 绅士化导致压倒性的负面效应</span></h2>
 <div class="bipara">
 <p class="en">Social mixing is being promoted through gentrification in the face of evidence that gentrification leads to social segregation, social polarisation and displacement. The movement of middle-income groups into low-income areas creates overwhelmingly negative effects, the most significant of which is the displacement of low-income groups (Atkinson, 2004). Far from being tolerant, gentrification is part of an aggressive, revanchist ideology designed to retake the inner city for the middle classes (Smith, 1996). There are long-standing claims, mostly from the US, that gentrification leads to displacement and socio-spatial segregation, rather than alleviating social segregation, as working-class and minority residents are steadily priced out of gentrified areas (for example, Marcuse, 1986; Smith, 1996; Wyly and Hammel, 2004). In the UK, Lyons (1996) and Atkinson (2000) both used the longitudinal survey and found evidence suggesting gentrification-induced displacement in London. Davidson and Lees (2005) also found evidence of gentrification-induced displacement in riverside wards along the Thames that had experienced new-build gentrification. The spatially based mechanisms designed to increase social mixing—such as reduced spatial segregation, better urban design and compact cities (the exact policy ingredients in the case of new-build gentrification along the Thames)—have been ineffective in increasing social mixing at the neighbourhood/community level.</p>
 <p class="zh">尽管已有证据表明，绅士化会导致社会隔离、社会两极化与置换，但社会混合仍在通过绅士化被大力推广。中等收入群体迁入低收入地区，会产生压倒性的负面效应，其中最重大的一项，就是低收入群体的<strong>置换</strong>（displacement）（Atkinson, 2004）。绅士化远非宽容之举，而是一种旨在为中产阶级重新夺回内城的、带有攻击性的<a class="gref" href="#g-revanchist">复仇主义</a>（revanchist）意识形态的一部分（Smith, 1996）。长期以来，一直有说法（大多来自美国）指出，绅士化导致的是置换与社会空间隔离，而非缓解社会隔离，因为工人阶级与少数族裔居民正被持续地从绅士化地区的高房价中挤出（例如 Marcuse, 1986；Smith, 1996；Wyly and Hammel, 2004）。在英国，Lyons（1996）与 Atkinson（2000）都利用纵向调查数据，找到了伦敦存在绅士化驱动型置换的证据。Davidson and Lees（2005）同样在经历过新建式绅士化的泰晤士河沿岸各选区，找到了绅士化驱动型置换的证据。那些旨在增加社会混合的空间性机制——例如减少空间隔离、改善城市设计、建设紧凑城市（这些正是泰晤士河沿岸新建式绅士化案例中所采用的确切政策要素）——在街区／社区层面增加社会混合方面，被证明是<strong>无效的</strong>。</p>
@@ -501,7 +566,7 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <span class="attrib">Walks and Maaranen (2008) 原话，经 Lees 转引——Lees&lt;strong&gt;认同并借用&lt;/strong&gt;此论断，作为“批判之一”的收束性证据与政策启示，与她本人立场完全一致。</span>
 <div class="note" data-nid="6054730ed7"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </blockquote>
-<h2><span class="en">Critique 2 — Gentrification does not engender social mixing</span><span class="zh">批判之二 —— 绅士化并不会催生社会混合</span></h2>
+<h2 id="sec-64"><span class="en">Critique 2 — Gentrification does not engender social mixing</span><span class="zh">批判之二 —— 绅士化并不会催生社会混合</span></h2>
 <div class="bipara">
 <p class="en">Work which has been sceptical about the voyeuristic and appropriative relationship of gentrification to difference by authors such as May (1996) and Merrifield (2000) has been given new impetus by recent empirical research into the social interactions of actual gentrifiers. The middle-class gentrifiers interviewed by Butler (1997), Butler and Robson (2001) and Butler with Robson (2003), engaged in little social mixing with local low-income groups. Social interaction was greatest in areas where other groups had been largely pushed aside and, where they had not, gentrification tended to result in ‘tectonic’ juxtapositions of polarised socio-economic groups rather than in socially cohesive communities. Butler (1997) found that Hackney’s gentrifiers sought out people with similar cultural and political values, ones attuned to what inner-city living had to offer, such as social and cultural diversity. His interviewees had similar pro-social-mixing views to the pioneer gentrifiers in Barnsbury quoted at the beginning of this paper. As one of his interviewees said</p>
 <p class="zh">May（1996）、Merrifield（2000）等作者曾对绅士化与差异之间那种<strong>窥视性、攫取性</strong>的关系持怀疑态度，而近来关于实际绅士化者社会互动的经验研究，为这批怀疑性研究注入了新的动力。<a class="gref" href="#g-butler">Butler</a>（1997）、Butler and Robson（2001）以及 Butler with Robson（2003）所访谈的中产阶级绅士化者，与本地低收入群体之间几乎<strong>没有</strong>发生社会混合。社会互动最活跃的地区，恰恰是其他群体已被大量排挤出去的地区；而在尚未被排挤出去的地区，绅士化往往造就的是两极化社会经济群体之间“板块构造”式（tectonic）的并置，而非具有社会凝聚力的社区。Butler（1997）发现，哈克尼（Hackney）的绅士化者们寻找的是与自己文化与政治价值观相近的人——那些懂得欣赏内城生活所能提供之物（例如社会与文化多样性）的人。他的受访者所持的亲社会混合观点，与本文开篇所引述的巴恩斯伯里先锋型绅士化者颇为相似。正如他的一位受访者所说：</p>
@@ -584,7 +649,7 @@ Ms Tate：呃，他们根本不互动。你知道的，他们就那样，可能�
 <span class="attrib">Galster (2007) 原话，经 Lees 转引——Lees&lt;strong&gt;认同并借用&lt;/strong&gt;此论断，作为“批判之二”的收束，呼应她本段的整体论证：社会互动不会因空间混合而自动发生。</span>
 <div class="note" data-nid="c208ee2d0c"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </blockquote>
-<h2><span class="en">Critique 3 — Social Mixing is a One-sided Strategy that is Seldom Advocated in Wealthier Neighbourhoods</span><span class="zh">批判之三 —— 社会混合是一种单方面的策略，鲜少被提倡用于更富裕的街区</span></h2>
+<h2 id="sec-80"><span class="en">Critique 3 — Social Mixing is a One-sided Strategy that is Seldom Advocated in Wealthier Neighbourhoods</span><span class="zh">批判之三 —— 社会混合是一种单方面的策略，鲜少被提倡用于更富裕的街区</span></h2>
 <blockquote class="cited">
 <p class="en">higher-income households have largely been absent from contemporary academic and public policy discussions about how to achieve a socially just or inclusive residential patterning, even though aspirations of social balance and diversity clearly pre-occupy a returning government’s urban agenda (Atkinson, 2006, pp. 819–820).</p>
 <p class="zh">高收入家庭，在当代学术界与公共政策界围绕“如何实现社会公正或包容性居住格局”所展开的讨论中，在很大程度上始终是<strong>缺席</strong>的——尽管社会平衡与多样性的种种诉求，显然一直萦绕在重新执政政府的城市议程之中（Atkinson, 2006, 第819–820页）。</p>
@@ -596,7 +661,7 @@ Ms Tate：呃，他们根本不互动。你知道的，他们就那样，可能�
 <p class="zh">社会混合是一种<strong>单方面</strong>的策略：它很少被提倡用于那些可能同样在社会构成上高度同质的富裕街区——例如，穷人并没有被搬迁或吸引到中等收入的郊区（见 Blomley, 2004）。话虽如此，或许值得指出的是，绅士化者“大概比郊区中产阶级更能容忍以穷人为邻”（Freeman, 2006, 第206页）。而在少数几次穷人真的被搬迁到富裕街区的情形中——例如美国的试点项目“<a class="gref" href="#g-mto">流动机会计划</a>”（Moving to Opportunity，MTO）——人们所预期的社会与经济流动性，<strong>并未</strong>发生。MTO 项目设立于1992年，旨在协助低收入家庭从贫困高度集聚的地区迁往贫困集聚程度较低的地区。与“希望六号”计划一样，它的前提预设是：让穷人接触到更富裕的人群，将有利于穷人。它作为一项试点性政策实验，在美国五个城市展开，用以检验（或证明）实现更混合社区所能带来的好处。然而，正如 Atkinson（2005）所论，只有那些本身就更可能拥有较好就业与教育表现的“好”租户，才被选中参与这项实验。Cheshire（2007, 2008）对短期与长期的研究结果都做了有益的总结。这项政策<strong>并不成功</strong>：它既没有带来所宣称的社会与经济效益（例如经济与社会流动性的提升），本身也不是一个具有成本效益的项目（见 Kling and Liebman, 2004；Kling et al., 2005, 2007）。Katz 等人（2001）考察了波士顿的 MTO 项目，同样没有发现就业、收入与福利依赖程度方面有任何显著改善。这一证据之所以重要，是因为：如果穷人搬入更富裕地区之后，生活并未因此改善，那么，至少可以说，让中等收入人群涌入他们所在的街区，同样<strong>不太可能</strong>改善他们的生活。</p>
 <div class="note" data-nid="92821a18e6"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
-<h2><span class="en">Critique 4 — Gentrification-induced Social Mix Threatens the Benefits Accrued from Social Segregation</span><span class="zh">批判之四 —— 绅士化诱发的社会混合，威胁到了社会隔离本可积累的种种收益</span></h2>
+<h2 id="sec-83"><span class="en">Critique 4 — Gentrification-induced Social Mix Threatens the Benefits Accrued from Social Segregation</span><span class="zh">批判之四 —— 绅士化诱发的社会混合，威胁到了社会隔离本可积累的种种收益</span></h2>
 <div class="bipara">
 <p class="en">Gentrification research has shown that increased social mix within declining neighbourhoods can worsen the quality of life for existing residents (Smith, 1996; Atkinson, 2000). Moreover, gentrification-induced social mix threatens the welfare benefits and supportive networks that emerge from living in neighbourhoods with complementary and similar households (Cheshire, 2006). It destroys one kind of social capital to try and create another. Here, social mixing is seen to threaten the benefits accrued from social segregation. University of Chicago policy analyst John Betancur found that gentrification had indeed destroyed neighbourhood support networks and institutions in West Town, Chicago</p>
 <p class="zh">绅士化研究表明，在衰败街区中增加社会混合，反而可能<strong>恶化</strong>既有居民的生活质量（Smith, 1996；Atkinson, 2000）。此外，绅士化诱发的社会混合，还威胁到了生活在构成互补、彼此相近的家庭所组成的街区中所能获得的福利收益与支持性网络（Cheshire, 2006）。它摧毁了一种社会资本，去尝试创造另一种。在这个意义上，社会混合被视为威胁到了社会隔离本可积累的种种收益。芝加哥大学政策分析师 John Betancur 发现，绅士化的确摧毁了芝加哥西城区（West Town）的街区支持网络与各类机构：</p>
@@ -613,7 +678,7 @@ Ms Tate：呃，他们根本不互动。你知道的，他们就那样，可能�
 <p class="zh">Peach（1996，第387页）主张，隔离可以在维系群体——无论是弱势群体还是富裕群体——方面发挥重要作用，因为“隔离与集聚发挥着一种<strong>保护性</strong>作用，就像野牛群抵御群狼一样”。他提出，隔离的一个正面意义，或许在于它能让政治上被剥夺权利的群体找到一处庇护所，并在其中实现一种与低收入或族裔集聚地区之外那套权力关系相反转的秩序。而在关于社会混合的政策讨论中，社会隔离的这些正面意义却被<strong>弃置不顾</strong>。这方面的证据基础需要被重新评估、抑或从头建立，因为正如 Cheshire（2008，第17页）所论，人们的福祉，与其说取决于自身的绝对收入，不如说更多取决于自身收入相对于居住在附近的其他人收入的<strong>相对水平</strong>。Luttmer（2005）指出，这正是人们选择居住在按收入隔离的街区中的一个有力原因。正如 Cheshire（2008，第17页）所言：“这恰恰暗示着与‘混合街区’政策<strong>截然相反</strong>的方向”。</p>
 <div class="note" data-nid="3d395773b7"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
-<h2><span class="en">Critique 5 — Social Mix Policy Fails to Demonstrate How ‘Social Mixing’ between Diverse Neighbourhood Groups is Going to be Achieved</span><span class="zh">批判之五 —— 社会混合政策从未说明，不同街区群体之间的“社会混合”究竟要如何实现</span></h2>
+<h2 id="sec-87"><span class="en">Critique 5 — Social Mix Policy Fails to Demonstrate How ‘Social Mixing’ between Diverse Neighbourhood Groups is Going to be Achieved</span><span class="zh">批判之五 —— 社会混合政策从未说明，不同街区群体之间的“社会混合”究竟要如何实现</span></h2>
 <div class="bipara">
 <p class="en">Social mix policies fail to demonstrate how ‘social mixing’ between diverse neighbourhood groups is actually going to be achieved. The assumption is that if you place middle-class people side-by-side with poor people, they will make the decision to mix and thereby start mixing. Yet, as discussed earlier, Butler with Robson (2003) have argued that the spatial proximity of middle-class and working-class groups in gentrified/fying neighbourhoods does not automatically generate neighbourhood-level social mixing (see also Freeman, 2006; Davidson, under review).</p>
 <p class="zh">社会混合政策从未说明，不同街区群体之间的“<a class="gref" href="#g-socialmix">社会混合</a>”实际上要如何达成。其预设是：只要把中产阶级和穷人并排安置在一起，他们就会作出混合的决定，混合于是开始发生。然而，如前文所论，Butler 与 Robson（2003）主张，在已绅士化／正在绅士化的街区中，中产阶级与工人阶级群体在空间上的邻近，并不会自动生成街区层面的社会混合（另见 Freeman, 2006；Davidson，审稿中）。</p>
@@ -634,7 +699,7 @@ Ms Tate：呃，他们根本不互动。你知道的，他们就那样，可能�
 <p class="zh">政府所设计的机制⋯⋯辨明经由绅士化而来的社会混合修辞，将如何转化为坚实的街区社会肌理。<br><em>［原文此处分栏错位，语义不全——此句在纸本中应有缺失成分，请以出版商版本核对］</em></p>
 <div class="note" data-nid="6c5836d9c1"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
-<h2><span class="en">Critique 6 — What Kinds and How Much Social Mixing — And Why — Are Often Poorly Specified</span><span class="zh">批判之六 —— 究竟需要何种、多少社会混合，以及为什么，政策文献往往语焉不详</span></h2>
+<h2 id="sec-92"><span class="en">Critique 6 — What Kinds and How Much Social Mixing — And Why — Are Often Poorly Specified</span><span class="zh">批判之六 —— 究竟需要何种、多少社会混合，以及为什么，政策文献往往语焉不详</span></h2>
 <div class="bipara">
 <p class="en">Precisely what kinds and how much social mixing are best for fostering an inclusive urban renaissance—and why—are often poorly specified in the policy literature (Randolph and Wood, 2003). For instance, in his testimony to the Select Committee on Environment, Transport and Regional Affairs (2001, para 33), Labour MP Nick Raynsford maintained that</p>
 <p class="zh">究竟哪一种、多大程度的社会混合最有利于培育一场包容的<a class="gref" href="#g-renaissance">城市复兴</a>——以及为什么——在政策文献中往往被交代得很含糊（Randolph and Wood, 2003）。举例来说，工党议员 Nick Raynsford 在向环境、交通与地区事务特别委员会作证时（2001，第 33 段）主张：</p>
@@ -661,7 +726,7 @@ Ms Tate：呃，他们根本不互动。你知道的，他们就那样，可能�
 <p class="zh">这六条批判迫使我们追问一个问题：由绅士化所诱发的社会混合，是一件好事吗？Goodchild 与 Cole（2001）在考察“社会混合是否是好事”时，提出的追问方式是：更高的街区社会多样性，是否真的增加了富人与穷人之间的互动？社会混合是否改善了街区居民的生活质量？如果我们把同样的问题拿来问“由绅士化所诱发的社会混合”，那么本文所讨论的证据给出的答案是：<strong>不</strong>。</p>
 <div class="note" data-nid="4bfd8b8568"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
-<h2><span class="en">Conclusion</span><span class="zh">结论</span></h2>
+<h2 id="sec-98"><span class="en">Conclusion</span><span class="zh">结论</span></h2>
 <div class="bipara">
 <p class="en">Socially mixed urban communities created by the in-movement of middle-class people into poor, marginal areas of the inner city are being posited, under the rubric of urban renaissance, as the desegregating answer to lives that are lived in parallel or in isolation along class, income, ethnic and tenurial fault lines. It is ironic that a process that results in segregation and polarisation—gentrification—is being promoted via social mix policies as the ‘positive’ solution to segregation. By abstractly celebrating formal equality under the law, the rhetoric of social mixing tends to conceal the inequalities of fortune and economic circumstance that are produced through the process of gentrification.</p>
 <p class="zh">由中产阶级迁入内城贫困、边缘地带所造就的社会混合型城市社区，正在“城市复兴”的名目下，被设定为一剂去隔离的解药——用以对治那些沿着阶级、收入、族裔与业权断层线各自平行、彼此隔绝地过着的生活。而讽刺之处在于：一个<strong>本身导致隔离与两极化</strong>的过程——绅士化——正通过社会混合政策，被推销为解决隔离问题的“正面”方案。社会混合的修辞，通过抽象地颂扬法律面前的形式平等，往往遮蔽了绅士化过程所生产出来的财富与经济境遇上的不平等。</p>
@@ -878,9 +943,16 @@ Ms Tate：呃，他们根本不互动。你知道的，他们就那样，可能�
 </section>
 <footer>译文供精读辅助之用。正式引用请依据原文与原页码。生成工具：bilingual-reader skill。</footer>
 </main>
-<button id="notesBtn" type="button">批注 <span class="n">0</span></button>
-<div id="notesPanel"><header><strong>我的批注</strong><button id="notesJump" type="button">前往总览</button><button id="notesCopy" type="button">复制为 Markdown</button><button id="notesClose" type="button">关闭</button></header><div id="notesList"></div></div>
-<script>window.__BR_DOC="lees-2008-social-mixing";</script>
+<button id="navBtn" type="button">☰ 导航 <span class="n" data-zero="1">0</span></button>
+<div id="navBackdrop"></div>
+<div id="navPanel">
+<div class="navtabs"><button class="navtab active" data-tab="toc" type="button">目录</button><button class="navtab" data-tab="gloss" type="button">术语</button><button class="navtab" data-tab="notes" type="button">批注 <span class="navbadge" id="notesTabBadge">0</span></button><button id="navClose" type="button">✕</button></div>
+<div class="navbody">
+<div class="navpane" data-pane="toc"><div id="tocList"></div></div>
+<div class="navpane" data-pane="gloss" hidden><input id="gSearch" type="search" placeholder="搜索术语、人物、地名…"><div id="gList"></div></div>
+<div class="navpane" data-pane="notes" hidden><div id="notesList"></div><div id="notesJumpRow"><button id="notesJump" type="button">前往批注总览与工具 →</button></div></div>
+</div></div>
+<script>window.__BR_DOC="lees-2008-social-mixing";window.__BR_TOC=[{"id": "sec-0", "level": "h2", "en": "Introduction", "zh": "引言"}, {"id": "sec-2", "level": "h2", "en": "Gentrification and Social Mixing", "zh": "绅士化与社会混合"}, {"id": "sec-15", "level": "h2", "en": "Policies of Gentrification and Social Mixing", "zh": "绅士化与社会混合的政策"}, {"id": "sec-23", "level": "h3", "en": "The United Kingdom", "zh": "英国"}, {"id": "sec-36", "level": "h3", "en": "The United States", "zh": "美国"}, {"id": "sec-46", "level": "h3", "en": "The Netherlands", "zh": "荷兰"}, {"id": "sec-53", "level": "h2", "en": "Gentrification and Social Mixing: A Critique", "zh": "绅士化与社会混合：一种批判"}, {"id": "sec-57", "level": "h2", "en": "Critique 1 — Gentrification Causes Overwhelmingly Negative Effects", "zh": "批判之一 —— 绅士化导致压倒性的负面效应"}, {"id": "sec-64", "level": "h2", "en": "Critique 2 — Gentrification does not engender social mixing", "zh": "批判之二 —— 绅士化并不会催生社会混合"}, {"id": "sec-80", "level": "h2", "en": "Critique 3 — Social Mixing is a One-sided Strategy that is Seldom Advocated in Wealthier Neighbourhoods", "zh": "批判之三 —— 社会混合是一种单方面的策略，鲜少被提倡用于更富裕的街区"}, {"id": "sec-83", "level": "h2", "en": "Critique 4 — Gentrification-induced Social Mix Threatens the Benefits Accrued from Social Segregation", "zh": "批判之四 —— 绅士化诱发的社会混合，威胁到了社会隔离本可积累的种种收益"}, {"id": "sec-87", "level": "h2", "en": "Critique 5 — Social Mix Policy Fails to Demonstrate How ‘Social Mixing’ between Diverse Neighbourhood Groups is Going to be Achieved", "zh": "批判之五 —— 社会混合政策从未说明，不同街区群体之间的“社会混合”究竟要如何实现"}, {"id": "sec-92", "level": "h2", "en": "Critique 6 — What Kinds and How Much Social Mixing — And Why — Are Often Poorly Specified", "zh": "批判之六 —— 究竟需要何种、多少社会混合，以及为什么，政策文献往往语焉不详"}, {"id": "sec-98", "level": "h2", "en": "Conclusion", "zh": "结论"}];window.__BR_GLOSSARY=[{"id": "g-socialmix", "cat": "政策/概念", "term": "社会混合（social mix / social mixing）", "def": "指通过住房与规划政策，让不同收入、阶级、业权（自有／租赁）、族裔的人口在同一街区中共居的政策取向。其官方论证通常是：混合可以打破贫困集聚、减少隔离、让低收入者获得“榜样”与社会网络。<strong>本文的整体目的就是拆解这一论证</strong>：Lees 指出它缺乏证据基础、并且实际上被用来为绅士化提供正当性。读你自己的案例时要注意：赫尔辛基的反隔离话语、悉尼 Waterloo 的 30/20/50 业权比例，都是这一政策家族的成员。"}, {"id": "g-renaissance", "cat": "政策/话语", "term": "城市复兴（urban renaissance）", "def": "英国新工党时期的核心城市政策话语，源自 1999 年由建筑师 Richard Rogers 领衔的“城市工作组”（Urban Task Force）报告。它主张通过致密化、棕地开发与混合社区，让中产阶级回到内城。Lees 的标题以问号结尾（“迈向一场包容的城市复兴？”）正是在质疑：这场复兴究竟对谁包容。"}, {"id": "g-tenure", "cat": "概念", "term": "业权 / 保有形式（tenure）", "def": "指住房的产权与占用形式——自有（owner-occupation）、私人租赁、社会／公共租赁、以及各类中间形式。“业权混合”（tenure mix）是社会混合政策最常见的操作化手段：因为政府无法直接规定谁住哪里，就转而规定各类业权的<strong>比例</strong>。Waterloo 的“30% 社会 + 20% 可负担 + 50% 市场”正是一个业权混合指标。Lees 的批判要点是：业权比例的改变，并不等于社会互动的发生。"}, {"id": "g-affluence", "cat": "理论/思潮", "term": "富裕化辩论（the affluence debate）", "def": "1960—70 年代英国社会学的一场核心争论：随着战后工资上涨，工人阶级是否正在“变成”中产阶级（即所谓 embourgeoisement／资产阶级化命题）。Goldthorpe 等人（1969）的《富裕工人》研究给出否定答案：经济上确有趋同，但社会与规范层面没有。Lees 把它搬出来，是为了指出社会混合政策<strong>正在重犯半个世纪前就已被证伪的假设</strong>——以为经济上的并置会自动带来社会融合。"}, {"id": "g-blomley", "cat": "人物", "term": "Nicholas Blomley", "def": "加拿大地理学家（西门菲莎大学），研究财产权、法律与城市空间的关系，著有《城市之未安：城市土地与财产政治》（Unsettling the City: Urban Land and the Politics of Property, 2004）。Lees 借他来说明：社会混合政策通过把“财产”与“得体”捆绑，在道德上把自有房产者建构为正常、把社会住房租户建构为问题——这正是政策丧失道德权威之处。你在赫尔辛基论文（Yrjänä 2026）里也会遇到 Blomley 被引用于同一论点。"}, {"id": "g-cleansing", "cat": "概念", "term": "社会清洗（social cleansing）", "def": "对“社会工程”（social engineering）的一个刻意尖锐的改写，指以政策手段系统性地更换某一地区的人口构成。Lees 在文中两次使用并明确说“我甚至敢说”（dare I say），表明这是<strong>有意为之的政治性措辞</strong>，用以剥去政策的中性外衣。引用时要注意这是作者本人有意选择的强词，不是中性描述。"}, {"id": "g-newlabour", "cat": "政策/机构", "term": "新工党（New Labour）", "def": "1994—2010 年间 Tony Blair 与 Gordon Brown 领导下的英国工党，其意识形态基础是 Anthony Giddens 的“第三条道路”。其城市政策以“城市复兴”“可持续社区”“混合社区”为核心词。Lees 与 Davidson 都指出：正是这套<strong>听起来进步的中间偏左修辞</strong>，让国家主导的绅士化得以被包装成社会改善。这是把 Lees 与 Davidson 两篇接起来的关键节点。"}, {"id": "g-justcity", "cat": "理论/思潮", "term": "正义之城（the just city）", "def": "由美国规划理论家 Susan Fainstein 发展的规范性框架，主张以公平（equity）、多样性（diversity）与民主（democracy）三项标准来评价城市政策，而非仅以增长或效率。Lees 引它作为社会混合的替代出路。对你的 Waterloo 论文而言，Fainstein 引文中那句“而不是被用来为摧毁公共住房提供正当性的公式”是<strong>可直接引用的批判武器</strong>。"}, {"id": "g-young", "cat": "人物", "term": "Iris Marion Young（1949–2006）", "def": "美国政治哲学家，著有《正义与差异政治》（Justice and the Politics of Difference, 1990）。她反对把“融合”当作理想，转而主张一种承认群体差异、但保持边界模糊（fuzzy boundaries）、允许群体在社会空间中交融的城市理想。Lees 借她提出一个重要转向：应当提供促成互动的<strong>空间</strong>，而不是强行规定混合的<strong>街区</strong>——但同时也坦承这一思路有承认已绅士化街区正当性的隐患。"}, {"id": "g-emancipatorycity", "cat": "理论/思潮", "term": "解放性城市命题（the emancipatory city thesis）", "def": "Lees 本人在其编著（Lees, 2004）中提出的命题，主张应当从城市中辨识并珍视那些真正具有解放潜力、能促成跨群体接触与政治能动性的空间与实践，而不是简单地把“多样性”本身当作目的。本文开篇提及这一命题，是为了与官方“社会混合”话语中被抽空、被工具化的“多样性”修辞形成对照。"}, {"id": "g-revanchist", "cat": "理论/思潮", "term": "复仇主义城市（the revanchist city）", "def": "由 Neil Smith 提出的概念（<em>The New Urban Frontier: Gentrification and the Revanchist City</em>, 1996），指1990年代以来西方内城针对贫困人口与边缘群体的一系列强硬治理与空间清理措施——如同对此前“失去”内城这件事的报复性夺回。Lees 在文中引用 Smith 的这一判断，为全文定下基调：她所要拆穿的“社会混合”话语，其底色其实是这种复仇主义式的夺回，而非温和包容。"}, {"id": "g-nimby", "cat": "概念", "term": "邻避主义（NIMBY / NIMBYism）", "def": "“Not In My Back Yard”的缩写，指居民支持某类政策或设施本身，却反对将其落实在自己家门口的现象。Lees 用它描述多伦多南帕克代尔（South Parkdale）社会混合政策实施后，既有自有住房居民对新迁入低收入群体的抵触反应——说明“混合”即便真正发生，也可能激化、而非消解社会矛盾。"}, {"id": "g-elephant", "cat": "地名", "term": "象堡（Elephant and Castle）", "def": "伦敦南岸 Southwark 区的一处交通枢纽与地名，因其毗邻的<a class=\"gref\" href=\"#g-aylesbury\">艾尔斯伯里社区</a>及后续的象堡地区再开发计划，成为英国“国家主导型绅士化”与公共住房拆除最具代表性的案例之一。Lees 与 Davidson 在多篇论文中反复以此为案例。对悉尼 Waterloo 案例而言，这是英语文献中最直接可比的历史先例：同样是大型公共住房社区，同样以“社会混合”之名被拆除重建。"}, {"id": "g-aylesbury", "cat": "地名", "term": "艾尔斯伯里社区（Aylesbury Estate）", "def": "位于伦敦南岸<a class=\"gref\" href=\"#g-elephant\">象堡</a>附近的大型公共住房社区，建成于1970年代，是欧洲规模最大的公共住房社区之一。2000年代起，在“城市复兴”与“混合社区”政策名义下被列入拆除重建计划：新建方案中私有产权住房（3,200套）远多于社会租赁住房（2,000套）。Lees 引此案例，是为了具体化她对“社会混合”政策的批判——业权比例的重新配置，实质上是把大量工人阶级住房替换为面向中产阶级的商品房，而非真正意义上的“混合”。"}, {"id": "g-hope6", "cat": "政策/机构", "term": "“希望六号”计划（HOPE VI）", "def": "美国联邦住房与城市发展部（HUD）自1992年起推行的公共住房再开发计划，核心做法是拆除高密度的“社会住房项目”（public housing projects），代之以低密度、业权混合的新社区。Lees 引用该计划及<a class=\"gref\" href=\"#g-cabrini\">卡布里尼-格林</a>等案例，说明“社会混合”政策在美国的实践，实质上是以贫困去集中化之名推行的绅士化与置换。"}, {"id": "g-cabrini", "cat": "地名", "term": "卡布里尼-格林（Cabrini Green）", "def": "芝加哥近北区的一处公共住房社区，因治安问题被联邦住房与城市发展部认定为“美国最恶劣的公共住房个案”，1990年代起在<a class=\"gref\" href=\"#g-hope6\">HOPE VI</a>计划下大规模拆除重建。Lees 将其作为“希望六号”计划及其“代金券化”（vouchering out）机制导致大规模置换的典型例证。"}, {"id": "g-mto", "cat": "政策/机构", "term": "流动机会计划（Moving to Opportunity, MTO）", "def": "美国1992年启动的一项住房政策试点，向居住在高贫困集聚地区的低收入家庭发放住房券，协助其迁往贫困集聚程度较低的地区，前提假设与“希望六号”相同：让穷人接触到更富裕的邻里将有利于穷人本身。后续追踪研究（Katz et al., 2001；Kling et al., 2007）发现该计划并未带来预期的经济与社会流动性改善。Lees 用它说明：即便反向操作（把穷人迁入富裕街区），社会混合也未能兑现其承诺的效果。"}, {"id": "g-odpm", "cat": "政策/机构", "term": "副首相办公室（ODPM）与社区与地方政府部（DCLG）", "def": "英国新工党政府时期主管城市政策与住房事务的中央部门：副首相办公室（Office of the Deputy Prime Minister, ODPM）于2006年改组为社区与地方政府部（Department for Communities and Local Government, DCLG）。文中所引的“街区效应”论证与《住房绿皮书》，均出自这一系政府部门，是 Lees 逐一检验、质疑的官方政策论证的主要来源。"}, {"id": "g-pimfortuyn", "cat": "人物", "term": "Pim Fortuyn 与“宜居鹿特丹”（Leefbaar Rotterdam）", "def": "Pim Fortuyn（1948–2002）是荷兰右翼民粹政治人物，2002年遇刺身亡；其追随者创立的地方政党“宜居鹿特丹”（Leefbaar Rotterdam）此后在鹿特丹市政中长期具有影响力，主张对贫困与移民人口实施疏散、并推动社会混合式的城市更新。Lees 借此说明荷兰社会混合政策与排外性移民政治之间的历史关联。"}, {"id": "g-butler", "cat": "人物", "term": "Tim Butler", "def": "伦敦国王学院地理学家，长期研究伦敦绅士化街区（尤其是哈克尼 Hackney）中中产阶级的居住实践与阶级再生产，代表作是与 Garry Robson 合著的 <em>London Calling: The Middle Classes and the Re-making of Inner London</em>（2003，文中简称 Butler with Robson, 2003）。他关于绅士化者“口头上拥护多样性、实际上自我隔离”的经验发现，是 Lees 全文最重要的证据来源之一。"}, {"id": "g-atkinson", "cat": "人物", "term": "Rowland Atkinson", "def": "英国社会政策学者，长期研究绅士化引发的置换效应与社会混合政策的证据基础，代表作包括对伦敦绅士化置换的纵向调查研究，以及对社会混合政策“证据薄弱”的系统性评估。文中在多处被引用，既作为绅士化置换研究的权威，也作为社会混合政策怀疑论的重要声音。"}, {"id": "g-cheshire", "cat": "人物", "term": "Paul Cheshire", "def": "伦敦政治经济学院城市经济学家，对“混合社区”政策持系统性怀疑立场，主张该类政策本质上是“信仰式政策”（faith-based policy），缺乏真实证据支撑。他关于“人的福祉取决于相对收入而非绝对收入”的论点，被 Lees 用来为社会隔离被忽视的正面功能辩护。本文结论部分大量借重他的论述。"}, {"id": "g-smith", "cat": "人物", "term": "Neil Smith（1954–2012）", "def": "美国／苏格兰地理学家，租隙理论（rent gap theory）与“复仇主义城市”（见词条）概念的提出者，绅士化研究领域最具影响力的学者之一，代表作 <em>The New Urban Frontier: Gentrification and the Revanchist City</em>（1996）。Lees 在文中多次引用他，将绅士化定性为一种攻击性的、旨在为中产阶级夺回内城的意识形态。"}, {"id": "g-rose", "cat": "人物", "term": "Damaris Rose", "def": "加拿大（魁北克大学蒙特利尔分校）城市地理学家，长期研究蒙特利尔的绅士化与社会混合，代表作是对蒙特利尔市中心填充式开发中绅士化者与社会住房邻里关系的经验研究（Rose, 2004）。她提出绅士化与社会混合之间存在“别扭的同居关系”（uneasy cohabitation）这一说法，被 Lees 用作全文的问题意识起点。"}, {"id": "g-freeman", "cat": "人物", "term": "Lance Freeman", "def": "美国城市规划学者（哥伦比亚大学），代表作 <em>There Goes the 'Hood: Views of Gentrification from the Ground Up</em>（2006），通过访谈哈莱姆与克林顿山两个黑人绅士化街区中的绅士化者与原住居民，发现两个群体之间社会联系稀薄、生活空间彼此分离。Lees 大量引用他的民族志证据，作为“绅士化不会自动催生社会混合”这一批判的经验支撑。"}, {"id": "g-uitermark", "cat": "人物", "term": "Justus Uitermark", "def": "荷兰城市社会学家，研究荷兰（尤其是鹿特丹）的社会混合与绅士化政策，代表作是对鹿特丹“宜居鹿特丹”运动及其社会清洗式话语的批判性分析（Uitermark et al., 2007）。Lees 借他的研究说明：荷兰社会混合政策背后的真实动机是强化城市经济地位，而非弱势居民的社会福祉。"}];</script>
 <script>
 function setMode(m, btn){
   document.body.className = m;
@@ -914,8 +986,11 @@ document.addEventListener('scroll', function(){
   }
   function count(){ return Object.keys(notes).filter(function(k){return (notes[k]||'').trim();}).length; }
   function refreshBtn(){
-    var b=document.getElementById('notesBtn');
-    if(b) b.querySelector('.n').textContent=count();
+    var n=count();
+    var badge=document.querySelector('#navBtn .n');
+    if(badge){ badge.textContent=n; badge.dataset.zero = n===0 ? '1' : '0'; }
+    var tabBadge=document.getElementById('notesTabBadge');
+    if(tabBadge) tabBadge.textContent=n;
   }
   function paint(wrap){
     var id=wrap.dataset.nid, v=(notes[id]||'').trim();
@@ -972,7 +1047,7 @@ document.addEventListener('scroll', function(){
       if(e.key==='Enter' && (e.metaKey||e.ctrlKey)){ ta.blur(); }
     });
   });
-  var panel=document.getElementById('notesPanel');
+  var panel=document.getElementById('navPanel');
 
   function entries(){
     var out=[];
@@ -1000,7 +1075,7 @@ document.addEventListener('scroll', function(){
       var s=document.createElement('div'); s.className='src';
       s.textContent=(r.isQuote?'［引文］“':'“')+r.src.slice(0,110)+(r.src.length>110?'…':'')+'”';
       s.addEventListener('click', function(){
-        if(closeAfterJump) panel.classList.remove('open');
+        if(closeAfterJump) closePanel();
         r.el.scrollIntoView({behavior:'smooth',block:'center'});
       });
       var t=document.createElement('div'); t.className='txt'; t.textContent=r.txt;
@@ -1073,17 +1148,102 @@ document.addEventListener('scroll', function(){
     return false;
   }
 
-  document.getElementById('notesBtn').addEventListener('click', function(){
-    refreshAll(); panel.classList.toggle('open');
+  /* ---- navigator: tab switching ---- */
+  function showTab(name){
+    document.querySelectorAll('.navtab').forEach(function(b){ b.classList.toggle('active', b.dataset.tab===name); });
+    document.querySelectorAll('.navpane').forEach(function(p){ p.hidden = (p.dataset.pane!==name); });
+    try{ localStorage.setItem('brNavTab', name); }catch(e){}
+  }
+  document.querySelectorAll('.navtab').forEach(function(b){
+    b.addEventListener('click', function(){ showTab(b.dataset.tab); });
   });
-  document.getElementById('notesClose').addEventListener('click', function(){ panel.classList.remove('open'); });
+  var backdrop=document.getElementById('navBackdrop');
+  function openPanel(){ refreshAll(); panel.classList.add('open'); backdrop.classList.add('open'); }
+  function closePanel(){ panel.classList.remove('open'); backdrop.classList.remove('open'); }
+  /* The FAB sits under the panel once it's open (the sheet covers that corner
+     of the screen), so a real tap there can never reach this button again —
+     it always hits the backdrop first, which already closes on click. So this
+     only ever needs to open; a toggle-to-close branch here would be dead code. */
+  document.getElementById('navBtn').addEventListener('click', openPanel);
+  document.getElementById('navClose').addEventListener('click', closePanel);
+  backdrop.addEventListener('click', closePanel);
   document.getElementById('notesJump').addEventListener('click', function(){
-    panel.classList.remove('open');
+    closePanel();
     document.getElementById('overview').scrollIntoView({behavior:'smooth',block:'start'});
   });
-  document.getElementById('notesCopy').addEventListener('click', function(){
-    if(guardEmpty()) return; copyText(markdown(), this, '复制为 Markdown');
-  });
+
+  /* ---- 目录 tab ---- */
+  function buildToc(){
+    var list=document.getElementById('tocList');
+    var toc=window.__BR_TOC||[];
+    list.innerHTML='';
+    if(!toc.length){ list.innerHTML='<div class="gempty">这篇没有分节标题。</div>'; return; }
+    toc.forEach(function(t){
+      var b=document.createElement('button');
+      b.type='button'; b.className='tocrow lvl-'+t.level;
+      var en=document.createElement('span'); en.className='en'; en.textContent=t.en;
+      b.appendChild(en);
+      if(t.zh){ var zh=document.createElement('span'); zh.className='zh'; zh.textContent=t.zh; b.appendChild(zh); }
+      b.addEventListener('click', function(){
+        closePanel();
+        var el=document.getElementById(t.id);
+        if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+      list.appendChild(b);
+    });
+  }
+
+  /* ---- 术语 tab ---- */
+  var GLOSS_CAT_ORDER=['理论/思潮','人物','概念','政策/机构','地名'];
+  function stripTags(html){
+    var d=document.createElement('div'); d.innerHTML=html||''; return d.textContent||'';
+  }
+  function buildGlossary(filter){
+    var list=document.getElementById('gList');
+    var items=window.__BR_GLOSSARY||[];
+    var q=(filter||'').trim().toLowerCase();
+    var filtered=items.filter(function(g){
+      if(!q) return true;
+      var hay=(g.term+' '+stripTags(g.def)).toLowerCase();
+      return hay.indexOf(q)!==-1;
+    });
+    list.innerHTML='';
+    if(!filtered.length){ list.innerHTML='<div class="gempty">没有匹配的术语。</div>'; return; }
+    var byCat={};
+    filtered.forEach(function(g){ (byCat[g.cat||'其他']=byCat[g.cat||'其他']||[]).push(g); });
+    var cats=Object.keys(byCat).sort(function(a,b){
+      var ia=GLOSS_CAT_ORDER.indexOf(a), ib=GLOSS_CAT_ORDER.indexOf(b);
+      if(ia===-1) ia=99; if(ib===-1) ib=99;
+      return ia-ib;
+    });
+    cats.forEach(function(cat){
+      var h=document.createElement('div'); h.className='gcat-header'; h.textContent=cat;
+      list.appendChild(h);
+      byCat[cat].forEach(function(g){
+        var b=document.createElement('button');
+        b.type='button'; b.className='gpick';
+        var term=document.createElement('span'); term.className='term'; term.textContent=g.term;
+        var def=document.createElement('span'); def.className='def'; def.textContent=stripTags(g.def);
+        b.appendChild(term); b.appendChild(def);
+        b.addEventListener('click', function(){
+          closePanel();
+          var el=document.getElementById(g.id);
+          if(!el) return;
+          var details=el.closest('details'); if(details) details.open=true;
+          el.scrollIntoView({behavior:'smooth',block:'center'});
+          el.classList.add('flash');
+          setTimeout(function(){ el.classList.remove('flash'); }, 1500);
+        });
+        list.appendChild(b);
+      });
+    });
+  }
+  var gSearch=document.getElementById('gSearch');
+  if(gSearch){ gSearch.addEventListener('input', function(){ buildGlossary(gSearch.value); }); }
+
+  buildToc();
+  buildGlossary('');
+  try{ showTab(localStorage.getItem('brNavTab')||'toc'); }catch(e){ showTab('toc'); }
 
   document.getElementById('ovCopy').addEventListener('click', function(){
     if(guardEmpty()) return; copyText(markdown(), this, '复制为 Markdown');

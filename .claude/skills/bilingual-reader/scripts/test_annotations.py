@@ -14,6 +14,11 @@ with sync_playwright() as p:
     ck("no JS runtime errors on load", not errs, errs)
 
     first = pg.locator(".note").first
+    # Grab whatever the first annotatable paragraph's English text actually is —
+    # don't hardcode a literal sentence here, since the underlying spec's first
+    # block can change as sections get prepended/appended between test runs.
+    first_en = first.locator("xpath=ancestor::*[contains(@class,'bipara') or self::blockquote][1]//p[@class='en']").inner_text()
+    first_en_snippet = first_en[:40]
     ck("edit box hidden initially", not first.locator(".note-edit").is_visible())
     ck("add button visible", first.locator(".note-add").is_visible())
 
@@ -30,8 +35,8 @@ with sync_playwright() as p:
     ck("note-body visible after blur", first.locator(".note-body").is_visible())
     ck("note-body shows text", "空间邻近" in first.locator(".note-body").inner_text())
     ck("has 我的批注 label", "我的批注" in first.locator(".note-body").inner_text())
-    ck("badge count = 1", pg.locator("#notesBtn .n").inner_text()=="1",
-       pg.locator("#notesBtn .n").inner_text())
+    ck("nav badge count = 1", pg.locator("#navBtn .n").inner_text()=="1",
+       pg.locator("#navBtn .n").inner_text())
 
     # second note on a quote block
     q = pg.locator("blockquote.cited .note").first
@@ -40,25 +45,29 @@ with sync_playwright() as p:
     pg.wait_for_timeout(700)
     pg.locator("body").click(position={"x":5,"y":5})
     pg.wait_for_timeout(200)
-    ck("badge count = 2", pg.locator("#notesBtn .n").inner_text()=="2",
-       pg.locator("#notesBtn .n").inner_text())
+    ck("nav badge count = 2", pg.locator("#navBtn .n").inner_text()=="2",
+       pg.locator("#navBtn .n").inner_text())
 
-    # drawer
-    pg.locator("#notesBtn").click()
+    # navigator panel -> 批注 tab
+    pg.locator("#navBtn").click()
     pg.wait_for_timeout(250)
-    ck("panel opens", pg.locator("#notesPanel").is_visible())
+    ck("panel opens", pg.locator("#navPanel").is_visible())
+    pg.locator('.navtab[data-tab="notes"]').click()
+    pg.wait_for_timeout(150)
+    ck("notes tab badge shows 2", pg.locator("#notesTabBadge").inner_text()=="2")
     ck("panel lists 2 rows", pg.locator("#notesList .nrow").count()==2, pg.locator("#notesList .nrow").count())
     ck("panel shows note text", "空间邻近" in pg.locator("#notesList").inner_text())
-    ck("panel shows source quote", "Social mix policies fail" in pg.locator("#notesList").inner_text())
+    ck("panel shows source quote", first_en_snippet in pg.locator("#notesList").inner_text(),
+       first_en_snippet)
 
-    pg.locator("#notesClose").click(); pg.wait_for_timeout(200)
-    ck("panel closes", not pg.locator("#notesPanel").is_visible())
+    pg.locator("#navClose").click(); pg.wait_for_timeout(200)
+    ck("panel closes", not pg.locator("#navPanel").is_visible())
 
     # persistence across reload
     pg.reload(); pg.wait_for_timeout(400)
     ck("no JS errors after reload", not errs, errs)
     ck("note survives reload", "空间邻近" in pg.locator(".note").first.locator(".note-body").inner_text())
-    ck("badge survives reload", pg.locator("#notesBtn .n").inner_text()=="2")
+    ck("badge survives reload", pg.locator("#navBtn .n").inner_text()=="2")
 
     # mode toggle still works with notes present
     pg.locator(".modes button").nth(2).click(); pg.wait_for_timeout(150)

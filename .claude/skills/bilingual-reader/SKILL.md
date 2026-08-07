@@ -216,6 +216,42 @@ Two things to be aware of, and to tell the user when it matters:
 Always set an explicit, stable `meta.doc_id`. It defaults to `title_en`, which
 means a later title tweak would silently detach every note on the page.
 
+### The navigator (目录 / 术语 / 批注) — also built in, nothing to configure
+
+A long article is unusable without a way to jump around it. The floating
+`☰ 导航` button opens a bottom-sheet panel with three tabs, generated
+automatically from the spec:
+
+- **目录** — every `h2`/`h3` in the document, tap to jump straight to that
+  section instead of scrolling.
+- **术语** — the glossary, grouped by category and live-searchable by term or
+  definition, so a 30+ entry glossary stays findable instead of forcing a
+  scroll to the bottom of the page to scan a flat list. Tapping a result jumps
+  to its full entry at the end of the article and briefly highlights it.
+- **批注** — the same note list the end-of-document overview shows, reachable
+  from anywhere mid-read rather than only after finishing. It links onward to
+  the overview for the full toolset (copy / AI-review prompt / export / clear).
+
+Tapping outside the panel (the dimmed backdrop) or the ✕ closes it — standard
+bottom-sheet behavior. The floating button itself only ever *opens* the panel;
+once open it sits underneath the sheet, so a second tap on that same screen
+position lands on the backdrop instead and closes it. Don't reintroduce a
+toggle-to-close branch on the button's own handler — it would be dead code,
+since a real tap can never land back on a button that's visually covered by
+what it opened.
+
+This is the reason `h2`/`h3` blocks get an `id="sec-{index}"` at render time:
+position-based, regenerated fresh on every render, with no persistence concern
+like note ids have — nothing reads those ids back later, they only need to be
+internally consistent within one render for the TOC links to resolve.
+
+If you're extending the renderer, verify all three tabs with a live browser
+rather than trusting that HTML structure alone: `node --check` catches syntax
+errors but not tab-switching logic, search filtering, or scroll-jump timing —
+on a long (100+ block) page, a `scrollIntoView({behavior:'smooth'})` can take
+close to a second to settle, so a test asserting the resulting scroll position
+needs to wait accordingly rather than checking immediately after the click.
+
 ### 7. Check before handing over
 
 - Block count matches the source's paragraph count for the range you covered

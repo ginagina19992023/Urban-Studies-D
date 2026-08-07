@@ -66,10 +66,10 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-se
 .topbar-inner{max-width:46rem;margin:0 auto;display:flex;align-items:center;gap:.75rem}
 .crumb{font-family:var(--font-sans);font-size:.7rem;color:var(--muted);flex:1;
        white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.modes{display:flex;gap:.25rem;flex-shrink:0}
-.modes button{font-family:var(--font-sans);font-size:.68rem;border:1px solid var(--line);
-              background:transparent;color:var(--muted);padding:.28rem .55rem;border-radius:999px;
-              cursor:pointer;transition:all .15s}
+.modes{display:flex;gap:.3rem;flex-shrink:0}
+.modes button{font-family:var(--font-sans);font-size:.7rem;border:1px solid var(--line);
+              background:transparent;color:var(--muted);padding:.4rem .7rem;border-radius:999px;
+              min-height:2.1rem;cursor:pointer;transition:all .15s}
 .modes button.active{background:var(--accent);color:var(--paper);border-color:var(--accent)}
 .progress{height:2px;background:var(--line);max-width:46rem;margin:.4rem auto 0;position:relative}
 .progress span{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent)}
@@ -135,7 +135,7 @@ details.pack[open] summary::before{content:"▾ "}
 .gitem .term{font-family:var(--font-zh);font-weight:600;color:var(--ink)}
 .gitem .def{font-family:var(--font-zh);font-size:.87rem;color:var(--muted);
             line-height:1.85;margin:.4rem 0 0}
-.gitem:target{background:var(--accent-soft);border-radius:3px;padding:.6rem;margin-left:-.6rem;margin-right:-.6rem}
+.gitem:target,.gitem.flash{background:var(--accent-soft);border-radius:3px;padding:.6rem;margin-left:-.6rem;margin-right:-.6rem;transition:background 1.2s}
 
 .refs{font-family:var(--font-sans);font-size:.72rem;color:var(--muted);line-height:1.8;margin-top:.8rem}
 
@@ -162,29 +162,86 @@ details.pack[open] summary::before{content:"▾ "}
              margin-top:.22rem;height:.9rem;opacity:0;transition:opacity .2s}
 .note-status.show{opacity:.8}
 
-/* ---- notes drawer ---- */
-#notesBtn{position:fixed;right:.9rem;bottom:.9rem;z-index:60;font-family:var(--font-sans);
-          font-size:.72rem;background:var(--accent);color:var(--paper);border:none;
-          border-radius:999px;padding:.55rem .95rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.18)}
-#notesBtn .n{background:rgba(255,255,255,.28);border-radius:999px;padding:0 .35rem;margin-left:.3rem}
-#notesPanel{position:fixed;inset:auto 0 0 0;max-height:78vh;z-index:70;background:var(--paper);
-            border-top:1px solid var(--line);box-shadow:0 -4px 24px rgba(0,0,0,.2);
-            display:none;flex-direction:column}
-#notesPanel.open{display:flex}
-#notesPanel header{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;
-                   border-bottom:1px solid var(--line);font-family:var(--font-sans);font-size:.8rem}
-#notesPanel header strong{flex:1}
-#notesPanel button{font-family:var(--font-sans);font-size:.68rem;border:1px solid var(--line);
-                   background:transparent;color:var(--muted);border-radius:4px;padding:.3rem .6rem;cursor:pointer}
-#notesPanel button:hover{border-color:var(--accent);color:var(--accent)}
-#notesList{overflow-y:auto;padding:.6rem 1rem 1.4rem;max-width:46rem;margin:0 auto;width:100%}
+/* ---- navigator (floating button + tabbed panel: 目录 / 术语 / 批注) ---- */
+#navBtn{position:fixed;right:.9rem;bottom:calc(.9rem + env(safe-area-inset-bottom,0px));z-index:60;
+        font-family:var(--font-sans);font-size:.75rem;background:var(--accent);color:var(--paper);
+        border:none;border-radius:999px;padding:.65rem 1.05rem;min-height:2.6rem;cursor:pointer;
+        box-shadow:0 2px 10px rgba(0,0,0,.18);display:flex;align-items:center;gap:.4rem}
+#navBtn .n{background:rgba(255,255,255,.28);border-radius:999px;padding:.05rem .45rem;
+           display:inline-block;min-width:.6rem;text-align:center}
+#navBtn .n:empty,#navBtn .n[data-zero="1"]{opacity:.55}
+
+#navBackdrop{position:fixed;inset:0;z-index:65;background:rgba(0,0,0,.35);
+             display:none;-webkit-tap-highlight-color:transparent}
+#navBackdrop.open{display:block}
+
+#navPanel{position:fixed;inset:auto 0 0 0;max-height:82vh;z-index:70;background:var(--paper);
+          border-top:1px solid var(--line);box-shadow:0 -4px 24px rgba(0,0,0,.2);
+          border-radius:14px 14px 0 0;
+          display:none;flex-direction:column;
+          padding-bottom:env(safe-area-inset-bottom,0px)}
+#navPanel.open{display:flex}
+
+.navtabs{display:flex;align-items:stretch;border-bottom:1px solid var(--line);
+         font-family:var(--font-sans);flex-shrink:0}
+.navtab{flex:1;background:none;border:none;color:var(--muted);font-size:.78rem;font-weight:600;
+        padding:.8rem .4rem;min-height:2.7rem;cursor:pointer;border-bottom:2px solid transparent;
+        display:flex;align-items:center;justify-content:center;gap:.3rem}
+.navtab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.navtab .navbadge{font-size:.65rem;background:var(--line);color:var(--ink-soft);border-radius:999px;
+                  padding:.02rem .4rem}
+.navtab.active .navbadge{background:var(--accent-soft);color:var(--accent)}
+#navClose{flex:0 0 auto;width:2.9rem;min-height:2.7rem;background:none;border:none;color:var(--muted);
+          font-size:1rem;cursor:pointer}
+
+.navbody{overflow-y:auto;padding:.7rem 1rem 1.2rem;max-width:46rem;margin:0 auto;width:100%}
+.navpane[hidden]{display:none}
+
+.tocrow{display:block;width:100%;text-align:left;background:none;border:none;cursor:pointer;
+        font-family:var(--font-sans);color:var(--ink-soft);padding:.55rem .3rem;min-height:2.6rem;
+        border-bottom:1px dashed var(--line)}
+.tocrow:last-child{border-bottom:none}
+.tocrow.lvl-h3{padding-left:1.3rem;color:var(--muted)}
+.tocrow .en{display:block;font-size:.86rem;font-weight:600}
+.tocrow.lvl-h3 .en{font-weight:500;font-size:.82rem;font-style:italic}
+.tocrow .zh{display:block;font-family:var(--font-zh);font-size:.78rem;color:var(--muted);margin-top:.1rem}
+.tocrow:hover .en{color:var(--accent)}
+
+#gSearch{width:100%;font-family:var(--font-sans);font-size:.85rem;border:1px solid var(--line);
+         background:var(--zh-bg);color:var(--ink);border-radius:6px;padding:.6rem .8rem;
+         min-height:2.6rem;margin-bottom:.6rem}
+#gSearch:focus{outline:none;border-color:var(--accent)}
+.gcat-header{font-family:var(--font-sans);font-size:.65rem;letter-spacing:.08em;color:var(--hl);
+             text-transform:uppercase;font-weight:700;margin:1rem 0 .3rem}
+.gcat-header:first-child{margin-top:0}
+.gpick{display:block;width:100%;text-align:left;background:none;border:none;cursor:pointer;
+       padding:.55rem .3rem;border-bottom:1px dashed var(--line)}
+.gpick:last-child{border-bottom:none}
+.gpick .term{display:block;font-family:var(--font-zh);font-weight:600;color:var(--ink);font-size:.9rem}
+.gpick .def{display:block;font-family:var(--font-zh);font-size:.78rem;color:var(--muted);
+            margin-top:.15rem;line-height:1.6;
+            display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gpick:hover .term{color:var(--accent)}
+.gempty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);padding:1.2rem 0;text-align:center}
+
+#notesList .nrow{padding:.7rem .3rem;border-bottom:1px dashed var(--line)}
+#notesList .nrow:last-child{border-bottom:none}
+#notesList .nrow .src{font-family:var(--font-sans);font-size:.72rem;color:var(--muted);line-height:1.5;
+           margin-bottom:.3rem;cursor:pointer;min-height:1.6rem}
+#notesList .nrow .src:hover{color:var(--accent)}
+#notesList .nrow .txt{font-family:var(--font-zh);font-size:.86rem;line-height:1.8;color:var(--ink-soft);white-space:pre-wrap}
+.nempty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);padding:1.2rem 0;text-align:center}
+#notesJumpRow{padding:.8rem .3rem .2rem;text-align:center}
+#notesJump{font-family:var(--font-sans);font-size:.75rem;border:1px solid var(--line);background:none;
+           color:var(--accent);border-radius:6px;padding:.5rem 1rem;min-height:2.4rem;cursor:pointer}
+
+/* shared list-row styling reused across tabs, kept generic on purpose */
 .nrow{padding:.7rem 0;border-bottom:1px dashed var(--line)}
 .nrow:last-child{border-bottom:none}
 .nrow .src{font-family:var(--font-sans);font-size:.68rem;color:var(--muted);line-height:1.5;
            margin-bottom:.3rem;cursor:pointer}
 .nrow .src:hover{color:var(--accent)}
 .nrow .txt{font-family:var(--font-zh);font-size:.86rem;line-height:1.8;color:var(--ink-soft);white-space:pre-wrap}
-.nempty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);padding:1.2rem 0;text-align:center}
 
 /* ---- end-of-document overview ---- */
 #overview{margin-top:2.6rem;border-top:2px solid var(--accent);padding-top:1.1rem}
@@ -201,17 +258,25 @@ details.pack[open] summary::before{content:"▾ "}
 #ovTools button.danger:hover{border-color:var(--warn,#8A3B2C);color:var(--warn,#8A3B2C)}
 #ovHint{font-family:var(--font-sans);font-size:.68rem;color:var(--muted);
         line-height:1.7;margin-top:.7rem;padding:.6rem .8rem;background:var(--zh-bg);border-radius:4px}
-@media print{#notesBtn,#notesPanel,.note-add,.note-edit,.topbar{display:none!important}
+@media print{#navBtn,#navPanel,.note-add,.note-edit,.topbar{display:none!important}
              .note.has .note-body{display:block}}
 
 footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
        font-family:var(--font-sans);font-size:.7rem;color:var(--muted);line-height:1.7}
 
 @media (max-width:520px){
-  h1.title{font-size:1.25rem}
-  article h2 .en{font-size:1rem}
-  main{padding:1.3rem .9rem 3.5rem}
-  .bipara p.zh{font-size:.9rem}
+  h1.title{font-size:1.3rem}
+  article h2 .en{font-size:1.05rem}
+  main{padding:1.3rem .9rem 5.5rem}
+  article{font-size:1rem}
+  .bipara p.en{font-size:1rem}
+  .bipara p.zh{font-size:.95rem;padding:.8rem .9rem}
+  blockquote.cited p.en,blockquote.cited p.zh{font-size:.95rem}
+  .note-add{padding:.5rem .8rem;min-height:2.3rem}
+  .crumb{font-size:.68rem}
+  #navBtn{padding:.7rem 1.1rem;font-size:.8rem}
+  .navtab{font-size:.82rem}
+  a.gref{padding:.05rem 0}
 }
 """
 
@@ -248,8 +313,11 @@ document.addEventListener('scroll', function(){
   }
   function count(){ return Object.keys(notes).filter(function(k){return (notes[k]||'').trim();}).length; }
   function refreshBtn(){
-    var b=document.getElementById('notesBtn');
-    if(b) b.querySelector('.n').textContent=count();
+    var n=count();
+    var badge=document.querySelector('#navBtn .n');
+    if(badge){ badge.textContent=n; badge.dataset.zero = n===0 ? '1' : '0'; }
+    var tabBadge=document.getElementById('notesTabBadge');
+    if(tabBadge) tabBadge.textContent=n;
   }
   function paint(wrap){
     var id=wrap.dataset.nid, v=(notes[id]||'').trim();
@@ -306,7 +374,7 @@ document.addEventListener('scroll', function(){
       if(e.key==='Enter' && (e.metaKey||e.ctrlKey)){ ta.blur(); }
     });
   });
-  var panel=document.getElementById('notesPanel');
+  var panel=document.getElementById('navPanel');
 
   function entries(){
     var out=[];
@@ -334,7 +402,7 @@ document.addEventListener('scroll', function(){
       var s=document.createElement('div'); s.className='src';
       s.textContent=(r.isQuote?'［引文］“':'“')+r.src.slice(0,110)+(r.src.length>110?'…':'')+'”';
       s.addEventListener('click', function(){
-        if(closeAfterJump) panel.classList.remove('open');
+        if(closeAfterJump) closePanel();
         r.el.scrollIntoView({behavior:'smooth',block:'center'});
       });
       var t=document.createElement('div'); t.className='txt'; t.textContent=r.txt;
@@ -407,17 +475,102 @@ document.addEventListener('scroll', function(){
     return false;
   }
 
-  document.getElementById('notesBtn').addEventListener('click', function(){
-    refreshAll(); panel.classList.toggle('open');
+  /* ---- navigator: tab switching ---- */
+  function showTab(name){
+    document.querySelectorAll('.navtab').forEach(function(b){ b.classList.toggle('active', b.dataset.tab===name); });
+    document.querySelectorAll('.navpane').forEach(function(p){ p.hidden = (p.dataset.pane!==name); });
+    try{ localStorage.setItem('brNavTab', name); }catch(e){}
+  }
+  document.querySelectorAll('.navtab').forEach(function(b){
+    b.addEventListener('click', function(){ showTab(b.dataset.tab); });
   });
-  document.getElementById('notesClose').addEventListener('click', function(){ panel.classList.remove('open'); });
+  var backdrop=document.getElementById('navBackdrop');
+  function openPanel(){ refreshAll(); panel.classList.add('open'); backdrop.classList.add('open'); }
+  function closePanel(){ panel.classList.remove('open'); backdrop.classList.remove('open'); }
+  /* The FAB sits under the panel once it's open (the sheet covers that corner
+     of the screen), so a real tap there can never reach this button again —
+     it always hits the backdrop first, which already closes on click. So this
+     only ever needs to open; a toggle-to-close branch here would be dead code. */
+  document.getElementById('navBtn').addEventListener('click', openPanel);
+  document.getElementById('navClose').addEventListener('click', closePanel);
+  backdrop.addEventListener('click', closePanel);
   document.getElementById('notesJump').addEventListener('click', function(){
-    panel.classList.remove('open');
+    closePanel();
     document.getElementById('overview').scrollIntoView({behavior:'smooth',block:'start'});
   });
-  document.getElementById('notesCopy').addEventListener('click', function(){
-    if(guardEmpty()) return; copyText(markdown(), this, '复制为 Markdown');
-  });
+
+  /* ---- 目录 tab ---- */
+  function buildToc(){
+    var list=document.getElementById('tocList');
+    var toc=window.__BR_TOC||[];
+    list.innerHTML='';
+    if(!toc.length){ list.innerHTML='<div class="gempty">这篇没有分节标题。</div>'; return; }
+    toc.forEach(function(t){
+      var b=document.createElement('button');
+      b.type='button'; b.className='tocrow lvl-'+t.level;
+      var en=document.createElement('span'); en.className='en'; en.textContent=t.en;
+      b.appendChild(en);
+      if(t.zh){ var zh=document.createElement('span'); zh.className='zh'; zh.textContent=t.zh; b.appendChild(zh); }
+      b.addEventListener('click', function(){
+        closePanel();
+        var el=document.getElementById(t.id);
+        if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+      list.appendChild(b);
+    });
+  }
+
+  /* ---- 术语 tab ---- */
+  var GLOSS_CAT_ORDER=['理论/思潮','人物','概念','政策/机构','地名'];
+  function stripTags(html){
+    var d=document.createElement('div'); d.innerHTML=html||''; return d.textContent||'';
+  }
+  function buildGlossary(filter){
+    var list=document.getElementById('gList');
+    var items=window.__BR_GLOSSARY||[];
+    var q=(filter||'').trim().toLowerCase();
+    var filtered=items.filter(function(g){
+      if(!q) return true;
+      var hay=(g.term+' '+stripTags(g.def)).toLowerCase();
+      return hay.indexOf(q)!==-1;
+    });
+    list.innerHTML='';
+    if(!filtered.length){ list.innerHTML='<div class="gempty">没有匹配的术语。</div>'; return; }
+    var byCat={};
+    filtered.forEach(function(g){ (byCat[g.cat||'其他']=byCat[g.cat||'其他']||[]).push(g); });
+    var cats=Object.keys(byCat).sort(function(a,b){
+      var ia=GLOSS_CAT_ORDER.indexOf(a), ib=GLOSS_CAT_ORDER.indexOf(b);
+      if(ia===-1) ia=99; if(ib===-1) ib=99;
+      return ia-ib;
+    });
+    cats.forEach(function(cat){
+      var h=document.createElement('div'); h.className='gcat-header'; h.textContent=cat;
+      list.appendChild(h);
+      byCat[cat].forEach(function(g){
+        var b=document.createElement('button');
+        b.type='button'; b.className='gpick';
+        var term=document.createElement('span'); term.className='term'; term.textContent=g.term;
+        var def=document.createElement('span'); def.className='def'; def.textContent=stripTags(g.def);
+        b.appendChild(term); b.appendChild(def);
+        b.addEventListener('click', function(){
+          closePanel();
+          var el=document.getElementById(g.id);
+          if(!el) return;
+          var details=el.closest('details'); if(details) details.open=true;
+          el.scrollIntoView({behavior:'smooth',block:'center'});
+          el.classList.add('flash');
+          setTimeout(function(){ el.classList.remove('flash'); }, 1500);
+        });
+        list.appendChild(b);
+      });
+    });
+  }
+  var gSearch=document.getElementById('gSearch');
+  if(gSearch){ gSearch.addEventListener('input', function(){ buildGlossary(gSearch.value); }); }
+
+  buildToc();
+  buildGlossary('');
+  try{ showTab(localStorage.getItem('brNavTab')||'toc'); }catch(e){ showTab('toc'); }
 
   document.getElementById('ovCopy').addEventListener('click', function(){
     if(guardEmpty()) return; copyText(markdown(), this, '复制为 Markdown');
@@ -519,12 +672,16 @@ def render(spec):
             "</div>"
         )
 
+    toc = []
+
     a("<article>")
-    for it in spec.get("items", []):
+    for i, it in enumerate(spec.get("items", [])):
         k = it.get("kind")
         en, zh = it.get("en", ""), it.get("zh", "")
         if k in ("h2", "h3"):
-            a(f'<{k}><span class="en">{esc(en)}</span><span class="zh">{esc(zh)}</span></{k}>')
+            sec_id = f"sec-{i}"
+            toc.append({"id": sec_id, "level": k, "en": en, "zh": zh})
+            a(f'<{k} id="{sec_id}"><span class="en">{esc(en)}</span><span class="zh">{esc(zh)}</span></{k}>')
         elif k == "quote":
             a('<blockquote class="cited">')
             a(f'<p class="en">{esc(en)}</p>')
@@ -580,14 +737,33 @@ def render(spec):
         a(f"<footer>{m['footer']}</footer>")
     a("</main>")
 
-    a('<button id="notesBtn" type="button">批注 <span class="n">0</span></button>')
-    a('<div id="notesPanel"><header><strong>我的批注</strong>'
-      '<button id="notesJump" type="button">前往总览</button>'
-      '<button id="notesCopy" type="button">复制为 Markdown</button>'
-      '<button id="notesClose" type="button">关闭</button></header>'
-      '<div id="notesList"></div></div>')
+    a('<button id="navBtn" type="button">☰ 导航 <span class="n" data-zero="1">0</span></button>')
+    a('<div id="navBackdrop"></div>')
+    a('<div id="navPanel">')
+    a('<div class="navtabs">'
+      '<button class="navtab active" data-tab="toc" type="button">目录</button>'
+      '<button class="navtab" data-tab="gloss" type="button">术语</button>'
+      '<button class="navtab" data-tab="notes" type="button">批注 <span class="navbadge" id="notesTabBadge">0</span></button>'
+      '<button id="navClose" type="button">✕</button>'
+      '</div>')
+    a('<div class="navbody">')
+    a('<div class="navpane" data-pane="toc"><div id="tocList"></div></div>')
+    a('<div class="navpane" data-pane="gloss" hidden>'
+      '<input id="gSearch" type="search" placeholder="搜索术语、人物、地名…">'
+      '<div id="gList"></div></div>')
+    a('<div class="navpane" data-pane="notes" hidden>'
+      '<div id="notesList"></div>'
+      '<div id="notesJumpRow"><button id="notesJump" type="button">前往批注总览与工具 →</button></div>'
+      '</div>')
+    a('</div></div>')
 
-    a(f"<script>window.__BR_DOC={json.dumps(doc_key)};</script>")
+    glossary_js = [
+        {"id": g.get("id", ""), "cat": g.get("cat", ""), "term": g.get("term", ""), "def": g.get("def", "")}
+        for g in gl
+    ]
+    a(f"<script>window.__BR_DOC={json.dumps(doc_key)};"
+      f"window.__BR_TOC={json.dumps(toc, ensure_ascii=False)};"
+      f"window.__BR_GLOSSARY={json.dumps(glossary_js, ensure_ascii=False)};</script>")
     a(f"<script>{JS}</script>")
     return "\n".join(out)
 

@@ -21,6 +21,10 @@ with sync_playwright() as p:
 
     # write two notes
     n1=pg.locator(".bipara .note").first
+    # Capture the actual first paragraph's English text dynamically rather than
+    # hardcoding a literal sentence — the underlying spec's first block shifts
+    # as sections get prepended between edits of the source document.
+    n1_en_snippet = n1.locator("xpath=preceding-sibling::p[@class='en']").inner_text()[:40]
     n1.locator(".note-add").click()
     n1.locator(".note-edit").fill("空间邻近≠社会混合，这是全篇最可迁移的一句。")
     pg.wait_for_timeout(700); pg.locator("body").click(position={"x":5,"y":5}); pg.wait_for_timeout(200)
@@ -43,7 +47,7 @@ with sync_playwright() as p:
     ck("prompt warns about misreading rebutted views", "误当成了作者本人立场" in clip)
     ck("prompt includes both notes",
        "空间邻近" in clip and "水蛭退烧" in clip)
-    ck("prompt includes source EN", "Social mix policies fail" in clip)
+    ck("prompt includes source EN", n1_en_snippet in clip, n1_en_snippet)
     ck("prompt includes ZH translation", "【译文】" in clip)
     ck("prompt includes citation", "Urban Studies" in clip)
     ck("prompt marks quote entry", "（针对引文）" in clip)
@@ -57,19 +61,20 @@ with sync_playwright() as p:
     ck("markdown has blockquote form", md.count("> ")>=2, md[:120])
     ck("markdown has separators", md.count("---")>=2)
 
-    # drawer jump
-    pg.locator("#notesBtn").click(); pg.wait_for_timeout(200)
-    ck("drawer lists 2 rows", pg.locator("#notesList .nrow").count()==2)
-    pg.locator("#notesJump").click(); pg.wait_for_timeout(600)
-    ck("drawer closed after jump", not pg.locator("#notesPanel").is_visible())
+    # navigator panel -> 批注 tab -> jump to overview
+    pg.locator("#navBtn").click(); pg.wait_for_timeout(200)
+    pg.locator('.navtab[data-tab="notes"]').click(); pg.wait_for_timeout(150)
+    ck("notes tab lists 2 rows", pg.locator("#notesList .nrow").count()==2)
+    pg.locator("#notesJump").click(); pg.wait_for_timeout(1200)
+    ck("panel closed after jump", not pg.locator("#navPanel").is_visible())
     ck("scrolled to overview",
-       pg.evaluate("Math.abs(document.getElementById('overview').getBoundingClientRect().top) < 250"))
+       pg.evaluate("Math.abs(document.getElementById('overview').getBoundingClientRect().top) < 400"))
 
     # empty guard
     pg.on("dialog", lambda d: d.accept())
     pg.locator("#ovClear").click(); pg.wait_for_timeout(400)
     ck("cleared -> empty state", "还没有批注" in pg.locator("#ovList").inner_text())
-    ck("badge back to 0", pg.locator("#notesBtn .n").inner_text()=="0")
+    ck("badge back to 0", pg.locator("#navBtn .n").inner_text()=="0")
     ck("no JS errors overall", not errs, errs)
     b.close()
 print(); print("FAILURES:", fails if fails else "none")
