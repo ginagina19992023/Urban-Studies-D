@@ -1,0 +1,1236 @@
+<title>By any means necessary: the anti-segregation efforts and state-led gentrification in Helsinki — 中英对照</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root {
+  --paper:#FAFAF8; --ink:#1a1a1a; --ink-soft:#333; --muted:#5f6b64;
+  --line:#dfe3df; --accent:#2B5C6B; --accent-soft:#eef4f5;
+  --hl:#9C6B33; --hl-soft:#f7efe3; --zh-bg:#f1f3f0;
+  --font-serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,serif;
+  --font-zh:"Songti SC","STSong","Noto Serif SC","PingFang SC","Hiragino Sans GB",serif;
+  --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC",sans-serif;
+}
+:root[data-theme="dark"]{
+  --paper:#14181a; --ink:#e8ece9; --ink-soft:#d2d8d4; --muted:#9aa8a0;
+  --line:#333d3a; --accent:#7EB3C0; --accent-soft:#1a2729;
+  --hl:#D6A85F; --hl-soft:#2a2419; --zh-bg:#1c2220;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#14181a; --ink:#e8ece9; --ink-soft:#d2d8d4; --muted:#9aa8a0;
+    --line:#333d3a; --accent:#7EB3C0; --accent-soft:#1a2729;
+    --hl:#D6A85F; --hl-soft:#2a2419; --zh-bg:#1c2220;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-serif);
+     line-height:1.7;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+
+.topbar{position:sticky;top:0;z-index:50;background:var(--paper);
+        border-bottom:1px solid var(--line);padding:.6rem 1rem .4rem}
+.topbar-inner{max-width:46rem;margin:0 auto;display:flex;align-items:center;gap:.75rem}
+.crumb{font-family:var(--font-sans);font-size:.7rem;color:var(--muted);flex:1;
+       white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.modes{display:flex;gap:.25rem;flex-shrink:0}
+.modes button{font-family:var(--font-sans);font-size:.68rem;border:1px solid var(--line);
+              background:transparent;color:var(--muted);padding:.28rem .55rem;border-radius:999px;
+              cursor:pointer;transition:all .15s}
+.modes button.active{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+.progress{height:2px;background:var(--line);max-width:46rem;margin:.4rem auto 0;position:relative}
+.progress span{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent)}
+
+main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
+
+.eyebrow{font-family:var(--font-sans);font-size:.65rem;text-transform:uppercase;
+         letter-spacing:.14em;color:var(--hl);margin:0 0 .55rem;font-weight:700}
+h1.title{font-size:1.5rem;line-height:1.3;margin:0 0 .5rem;font-weight:600;text-wrap:balance}
+h1.title .zh{display:block;font-family:var(--font-zh);font-size:1.13rem;color:var(--muted);
+             margin-top:.35rem;font-weight:500}
+.byline{font-family:var(--font-sans);font-size:.82rem;color:var(--muted);margin:0 0 1rem;line-height:1.6}
+.citation{font-family:var(--font-sans);font-size:.72rem;color:var(--muted);
+          background:var(--accent-soft);border-left:3px solid var(--accent);
+          padding:.7rem .9rem;border-radius:3px;margin:0 0 1.2rem;line-height:1.65}
+.readnote{font-family:var(--font-sans);font-size:.76rem;color:var(--ink-soft);
+          background:var(--hl-soft);border-left:3px solid var(--hl);
+          padding:.7rem .9rem;border-radius:3px;margin:0 0 1.6rem;line-height:1.65}
+
+article h2{margin:2.4rem 0 .9rem;padding-bottom:.45rem;border-bottom:1px solid var(--line)}
+article h2 .en{display:block;font-size:1.08rem;color:var(--accent);font-weight:600}
+article h2 .zh{display:block;font-family:var(--font-zh);font-size:.97rem;color:var(--accent);
+               font-weight:600;margin-top:.22rem;opacity:.85}
+article h3{margin:1.8rem 0 .7rem}
+article h3 .en{display:block;font-size:.97rem;color:var(--ink);font-weight:600;font-style:italic}
+article h3 .zh{display:block;font-family:var(--font-zh);font-size:.9rem;color:var(--ink-soft);margin-top:.18rem}
+
+.bipara{margin:0 0 1.35rem;padding-bottom:1rem;border-bottom:1px dashed var(--line)}
+.bipara:last-child{border-bottom:none}
+.bipara p.en{margin:0 0 .55rem;color:var(--ink-soft);text-align:justify;hyphens:auto}
+.bipara p.zh{margin:0;font-family:var(--font-zh);color:var(--muted);font-size:.92rem;
+             line-height:1.9;background:var(--zh-bg);padding:.7rem .85rem;border-radius:3px}
+
+blockquote.cited{margin:1.3rem 0 1.6rem;padding:.95rem 1.05rem;border-left:3px solid var(--hl);
+                 background:var(--hl-soft);border-radius:3px}
+blockquote.cited p.en{margin:0 0 .55rem;color:var(--ink-soft);font-style:italic;font-size:.93rem}
+blockquote.cited p.zh{margin:0 0 .6rem;font-family:var(--font-zh);color:var(--ink-soft);
+                      font-size:.9rem;line-height:1.9}
+blockquote.cited .attrib{font-family:var(--font-sans);font-size:.71rem;color:var(--hl);
+                         border-top:1px solid rgba(156,107,51,.28);padding-top:.45rem;
+                         margin-top:.2rem;line-height:1.6;display:block}
+
+a.gref{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent);cursor:help}
+a.gref:hover{background:var(--accent-soft)}
+
+body.zh-only .bipara p.en, body.zh-only article h2 .en,
+body.zh-only article h3 .en, body.zh-only blockquote.cited p.en{display:none}
+body.en-only .bipara p.zh, body.en-only article h2 .zh,
+body.en-only article h3 .zh, body.en-only blockquote.cited p.zh{display:none}
+
+details.pack{margin-top:2.2rem;border-top:1px solid var(--line);padding-top:.9rem}
+details.pack summary{cursor:pointer;font-size:1rem;color:var(--accent);font-weight:600;
+                     list-style:none;padding:.35rem 0;font-family:var(--font-sans)}
+details.pack summary::-webkit-details-marker{display:none}
+details.pack summary::before{content:"▸ "}
+details.pack[open] summary::before{content:"▾ "}
+
+.gitem{margin:.9rem 0;padding-bottom:.8rem;border-bottom:1px dashed var(--line)}
+.gitem:last-child{border-bottom:none}
+.gitem .cat{display:inline-block;font-family:var(--font-sans);font-size:.62rem;
+            letter-spacing:.05em;color:var(--paper);background:var(--muted);
+            padding:.12rem .45rem;border-radius:999px;margin-right:.45rem;vertical-align:.12em}
+.gitem .term{font-family:var(--font-zh);font-weight:600;color:var(--ink)}
+.gitem .def{font-family:var(--font-zh);font-size:.87rem;color:var(--muted);
+            line-height:1.85;margin:.4rem 0 0}
+.gitem:target{background:var(--accent-soft);border-radius:3px;padding:.6rem;margin-left:-.6rem;margin-right:-.6rem}
+
+.refs{font-family:var(--font-sans);font-size:.72rem;color:var(--muted);line-height:1.8;margin-top:.8rem}
+
+/* ---- annotations ---- */
+.note{margin:.55rem 0 0}
+.note-add{font-family:var(--font-sans);font-size:.7rem;color:var(--muted);background:none;
+          border:1px dashed var(--line);border-radius:4px;padding:.25rem .6rem;cursor:pointer;
+          opacity:.55;transition:opacity .15s,border-color .15s}
+.bipara:hover .note-add, blockquote.cited:hover .note-add, .note-add:focus{opacity:1;border-color:var(--accent);color:var(--accent)}
+.note.has .note-add{display:none}
+.note-body{display:none;font-family:var(--font-zh);font-size:.87rem;line-height:1.8;
+           color:var(--ink-soft);background:var(--accent-soft);border-left:3px solid var(--accent);
+           border-radius:3px;padding:.55rem .75rem;cursor:text;white-space:pre-wrap;word-break:break-word}
+.note.has .note-body{display:block}
+.note-body .lbl{display:block;font-family:var(--font-sans);font-size:.62rem;letter-spacing:.06em;
+                color:var(--accent);margin-bottom:.25rem;opacity:.85}
+.note-edit{display:none;width:100%;font-family:var(--font-zh);font-size:.87rem;line-height:1.8;
+           color:var(--ink);background:var(--paper);border:1px solid var(--accent);border-radius:3px;
+           padding:.55rem .75rem;resize:vertical;min-height:4.2rem}
+.note-edit:focus{outline:none;box-shadow:0 0 0 2px var(--accent-soft)}
+.note.editing .note-body,.note.editing .note-add{display:none}
+.note.editing .note-edit{display:block}
+.note-status{font-family:var(--font-sans);font-size:.62rem;color:var(--accent);
+             margin-top:.22rem;height:.9rem;opacity:0;transition:opacity .2s}
+.note-status.show{opacity:.8}
+
+/* ---- notes drawer ---- */
+#notesBtn{position:fixed;right:.9rem;bottom:.9rem;z-index:60;font-family:var(--font-sans);
+          font-size:.72rem;background:var(--accent);color:var(--paper);border:none;
+          border-radius:999px;padding:.55rem .95rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+#notesBtn .n{background:rgba(255,255,255,.28);border-radius:999px;padding:0 .35rem;margin-left:.3rem}
+#notesPanel{position:fixed;inset:auto 0 0 0;max-height:78vh;z-index:70;background:var(--paper);
+            border-top:1px solid var(--line);box-shadow:0 -4px 24px rgba(0,0,0,.2);
+            display:none;flex-direction:column}
+#notesPanel.open{display:flex}
+#notesPanel header{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;
+                   border-bottom:1px solid var(--line);font-family:var(--font-sans);font-size:.8rem}
+#notesPanel header strong{flex:1}
+#notesPanel button{font-family:var(--font-sans);font-size:.68rem;border:1px solid var(--line);
+                   background:transparent;color:var(--muted);border-radius:4px;padding:.3rem .6rem;cursor:pointer}
+#notesPanel button:hover{border-color:var(--accent);color:var(--accent)}
+#notesList{overflow-y:auto;padding:.6rem 1rem 1.4rem;max-width:46rem;margin:0 auto;width:100%}
+.nrow{padding:.7rem 0;border-bottom:1px dashed var(--line)}
+.nrow:last-child{border-bottom:none}
+.nrow .src{font-family:var(--font-sans);font-size:.68rem;color:var(--muted);line-height:1.5;
+           margin-bottom:.3rem;cursor:pointer}
+.nrow .src:hover{color:var(--accent)}
+.nrow .txt{font-family:var(--font-zh);font-size:.86rem;line-height:1.8;color:var(--ink-soft);white-space:pre-wrap}
+.nempty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);padding:1.2rem 0;text-align:center}
+
+/* ---- end-of-document overview ---- */
+#overview{margin-top:2.6rem;border-top:2px solid var(--accent);padding-top:1.1rem}
+#overview h2.ovh{font-family:var(--font-sans);font-size:1.02rem;color:var(--accent);
+                 font-weight:700;margin:0 0 .2rem;border:none;padding:0}
+#overview .ovsub{font-family:var(--font-sans);font-size:.72rem;color:var(--muted);
+                 margin:0 0 .9rem;line-height:1.6}
+#ovTools{display:flex;flex-wrap:wrap;gap:.4rem;margin:.9rem 0 .2rem}
+#ovTools button{font-family:var(--font-sans);font-size:.7rem;border:1px solid var(--line);
+                background:transparent;color:var(--ink-soft);border-radius:4px;
+                padding:.4rem .7rem;cursor:pointer;transition:all .15s}
+#ovTools button:hover{border-color:var(--accent);color:var(--accent)}
+#ovTools button.primary{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+#ovTools button.danger:hover{border-color:var(--warn,#8A3B2C);color:var(--warn,#8A3B2C)}
+#ovHint{font-family:var(--font-sans);font-size:.68rem;color:var(--muted);
+        line-height:1.7;margin-top:.7rem;padding:.6rem .8rem;background:var(--zh-bg);border-radius:4px}
+@media print{#notesBtn,#notesPanel,.note-add,.note-edit,.topbar{display:none!important}
+             .note.has .note-body{display:block}}
+
+footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
+       font-family:var(--font-sans);font-size:.7rem;color:var(--muted);line-height:1.7}
+
+@media (max-width:520px){
+  h1.title{font-size:1.25rem}
+  article h2 .en{font-size:1rem}
+  main{padding:1.3rem .9rem 3.5rem}
+  .bipara p.zh{font-size:.9rem}
+}
+</style>
+<div class="topbar"><div class="topbar-inner">
+<span class="crumb">Yrjänä 2026 · 赫尔辛基国家主导型绅士化</span>
+<div class="modes"><button onclick="setMode('bilingual',this)">双语</button><button onclick="setMode('en-only',this)">EN</button><button onclick="setMode('zh-only',this)">中文</button></div>
+</div><div class="progress"><span></span></div></div>
+<main>
+<div class="eyebrow">Journal article (in press) · State-led gentrification · Cities</div>
+<h1 class="title">By any means necessary: the anti-segregation efforts and state-led gentrification in Helsinki
+<span class="zh">不惜一切手段:赫尔辛基的反隔离努力与国家主导型绅士化</span>
+</h1>
+<div class="byline">Hanna Yrjänä · University of Helsinki, Discipline of Sociology · &lt;em&gt;Cities&lt;/em&gt;, 170 (2026), 106718 · 全文</div>
+<div class="citation"><strong>Cite as</strong> · Yrjänä, H. (2026). By any means necessary: the anti-segregation efforts and state-led gentrification in Helsinki. &lt;em&gt;Cities&lt;/em&gt;, 170, 106718.</div>
+<div class="readnote"><strong>本页为全文,非节选。</strong>作为 Waterloo Estate（悉尼）论文最重要的比较案例——公有土地所有权 + 社会混合/反隔离话语 + ‘由谁攫取更新增值’的结构性选择（赫尔辛基选择为私人投资去风险，而非公共攫取增值）——翻译力求完整、前后一致，尤其是讨论与结论部分。<br><br>本页英文正文取自本会话此前已完成 OCR 校正与分段的阅读稿（<code>yrjana_reading.html</code>）；原稿中因 PDF 分页而被截断的句子（例如被图1图注打断的‘Densification is primarily … zoned on existing plots’）已在本页合并为完整句子；正文中的图1（更新片区地图）未收录，请参见原始 PDF。原文中所有直接引用的城市政策文件、访谈与田野笔记，均已在中文译文旁标注其在文中的位置（作者本人立场 / 作者引来分析的城市官方话语 / 作者本人的一手民族志证据），以避免将被引述的政府话语误读为作者本人的观点。</div>
+<article>
+<h2><span class="en">1. Introduction</span><span class="zh">1. 引言</span></h2>
+<blockquote class="cited">
+<p class="en">“By looking at Sweden or France, you can see that segregation is a real danger. Now we are trying to avoid the development where not all children can participate in society and where neighborhoods become unequal”</p>
+<p class="zh">“看看瑞典或法国就知道,居住隔离是一种真实的危险。我们现在要努力避免的,就是那种不是所有孩子都能参与社会生活、社区之间彼此不平等的发展方向。”</p>
+<span class="attrib">当时的赫尔辛基市长 Juhana Vartiainen 接受《赫尔辛基新闻》(Helsingin Sanomat,芬兰发行量最大的报纸)采访时的原话(Palkoaho, 2024)——这是作者Yrjänä 在文章开篇引用的政治人物话语,用来呈现她接下来要分析、质疑的官方话语本身,并不是作者本人的立场。</span>
+<div class="note" data-nid="326278898a"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">Whether Finland is on ‘Sweden’s way’ towards increased riots and street violence, or not, has been a hot topic in Finland in recent years. In European comparison, Finland has a relatively low level of residential segregation (Tammaru et al., 2021). Matti Kortteinen (2022, p. 32) notes that discussions about segregation and its consequences, such as riots seen in the outskirts of Swedish and French cities, often start from the assumption that due to social mix policies and more moderate immigration, the situation is fundamentally different in Finland than in other countries. However, a concern about the increase in segregation is shared in three major cities (Helsinki, Tampere and Turku). They all apply social mixing to a varying degree, though the history of social mixing is longest in Helsinki (Ruonavaara et al., 2025).</p>
+<p class="zh">芬兰是否正走在‘瑞典式’骚乱与街头暴力增多的道路上,近年来一直是芬兰社会热议的话题。就欧洲范围的比较而言,芬兰的居住隔离程度相对较低(Tammaru et al., 2021)。Matti Kortteinen(2022, 第32页)指出,有关隔离及其后果(比如瑞典和法国城市外围发生的骚乱)的讨论,往往一开始就预设:由于社会混合政策和较为温和的移民政策,芬兰的情况与其他国家有根本性的不同。然而,对隔离加剧的担忧在三大城市(赫尔辛基、坦佩雷和图尔库)中都存在。三座城市都在不同程度上实行社会混合,但赫尔辛基推行社会混合的历史最为悠久(Ruonavaara et al., 2025)。</p>
+<div class="note" data-nid="b25d095bec"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">Social mix policies have historically responded to fears that the concentration of working-class people would lead to more open class conflict and social disorder (Arthurson, 2008). That was the case also in Helsinki. Working-class families that were relocated from inner-city neighborhoods during the slum clearance settled in a newly built post-war social housing estate in eastern Helsinki. Political concerns about disorder emerged from clashes between local youth and the police, birthing the idea of deconcentrating working-class populations in the early 1960s (Schulman et al., 2000). Due to its systematic social mix policy in the development of new residential areas since the 1970s (Kortteinen, 2022), the City of Helsinki prides itself for having better prevented segregation than its peer cities.</p>
+<p class="zh">从历史上看,社会混合政策的出台,是为了回应人们对于工人阶级人口集中可能导致更公开的阶级冲突和社会失序的担忧(<a class="gref" href="#g-arthurson">Arthurson</a>, 2008)。赫尔辛基的情况也是如此。在贫民窟清理过程中从内城社区迁出的工人阶级家庭,被安置进了赫尔辛基东部一处新建的战后社会住房社区。当地青年与警察之间发生的冲突,引发了政治层面对社会失序的忧虑,并由此催生了在20世纪60年代初分散工人阶级人口的构想(Schulman et al., 2000)。由于自20世纪70年代以来在新住宅区开发中系统性地推行社会混合政策(Kortteinen, 2022),赫尔辛基市一直以自己比同类城市更好地防止了隔离而自豪。</p>
+<div class="note" data-nid="74fb12ab16"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">To implement Helsinki’s strategic goal of maintaining its position as a European textbook example in how to prevent segregation, a ‘new urban regeneration model’ was launched in 2020. The aims of the model are to deconcentrate socioeconomically disadvantaged groups and ethnic minorities and to increase property values and the share of owner-occupied housing in four residential areas with considerable social rental housing. Some of the neighborhoods in question have for decades been objects of area-based initiatives, promoted and funded both nationally and by the European Union, such as URBAN II (2000–2006). Helsinki has had about twice as many area-based initiatives targeted to deprived neighborhoods than the other two major cities in Finland (see Ruonavaara et al., 2025).</p>
+<p class="zh">为了落实赫尔辛基‘保持其作为欧洲防止隔离教科书式典范地位’这一战略目标,该市于2020年推出了一套‘城市更新新模式’(new urban regeneration model)。这一模式的目标是分散社会经济弱势群体和少数族裔的聚居,并在四个社会租赁住房占比较高的居住区中提升房产价值和自有产权住房的比例。其中一些社区数十年来一直是各类‘片区计划’(area-based initiatives)的对象,这些计划由国家和欧盟共同推动和资助,例如URBAN II 计划(2000–2006年)。相比芬兰另外两座大城市,赫尔辛基针对弱势社区实施的片区计划数量大约是它们的两倍(见 Ruonavaara et al., 2025)。</p>
+<div class="note" data-nid="c7cc8e12db"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">Against this historical continuum of urban policy that constitutes the regeneration areas as “objects of intervention” (Dikeç, 2007, p. 21), this article analyzes the role of anti-segregation discourse in the latest round of public investments directed at two peripheral residential areas in eastern Helsinki: Mellunkylä and Meri-Rastila. A few words on the Finnish housing regime are in order. In Finland, the supply of housing has mostly been left to the market. Owner-occupation is seen as the standard and renting is considered something temporary or for those unable to access owner-occupation. Housing policy is a social policy providing state-subsidized social rental housing and housing allowances primarily for those who cannot afford private rental housing. The role of Finnish housing policy is therefore to correct the failures of the housing market (see Rasinkangas et al., 2024).</p>
+<p class="zh">正是在这样一种将更新片区不断建构为“干预对象”(Dikeç, 2007, 第21页)的城市政策历史延续中,本文分析了反隔离话语在最新一轮针对赫尔辛基东部两个边缘居住区——<a class="gref" href="#g-mellunkyla">Mellunkylä</a> 和 <a class="gref" href="#g-merirastila">Meri-Rastila</a>——的公共投资中所扮演的角色。这里有必要先简要说明芬兰的住房体制。在芬兰,住房供给主要交由市场。自有产权被视为标准状态,而租赁则被视为一种临时安排,或是那些无法获得自有产权的人的选择。住房政策属于社会政策的一部分,主要面向那些无力负担私人租赁住房的人群,提供国家补贴的社会租赁住房和住房补贴。因此,芬兰住房政策的作用是纠正住房市场的失灵(见 Rasinkangas et al., 2024)。</p>
+<div class="note" data-nid="956210ecac"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">An early 1990s retrenchment phase introduced heightened selectivity, and tenants were increasingly chosen based on social criteria. This resulted in state-subsidized housing being associated with marginalized people and perceived as a form of social assistance. In Helsinki, the stigmatization of the tenure form has contributed to territorial stigmatization of the peripheral housing estates, where social housing is disproportionally located (Hyötyläinen, 2020). It is these neighborhoods that policymakers are increasingly worried about ‘lagging behind’ the city’s socioeconomic average.</p>
+<p class="zh">20世纪90年代初的一轮紧缩改革带来了更严格的准入筛选,承租人的选择也越来越依据社会性标准。这使得国家补贴住房与边缘化群体产生了关联,被视为一种社会救助形式。在赫尔辛基,这种租赁形式本身的污名化,进一步造成了社会住房过度集中的边缘居住区的地域污名化(territorial stigmatization)(Hyötyläinen, 2020)。正是这些社区,让政策制定者越来越担心其社会经济水平‘落后于’全市平均水平。</p>
+<div class="note" data-nid="051496b371"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">If there is Finnish exceptionalism regarding the regulation of segregation (Kortteinen, 2022), this is perhaps even more so the case with gentrification. With a recent exception (Drain, 2024), gentrification in Helsinki has attracted little scholarly attention. Even less attention has been paid to the municipality’s active role in gentrification dynamics, despite the strong currency of social mix in redeveloping neighborhoods with a large number of social housing estates, which, in international literature, is associated with gentrification (see Arthurson et al., 2015; Lees, 2008). The absence of displacement in terms of spatial relocation in regeneration processes in Helsinki (Saarimaa &amp;amp; Ventovuori, 2024) has been indirectly advocated as ‘positive gentrification’ (Shaw &amp;amp; Hagemans, 2015).</p>
+<p class="zh">如果说在隔离治理问题上确实存在“芬兰例外论”(Kortteinen, 2022),那么这一点在绅士化问题上或许更加突出。除了最近的一项例外研究(Drain, 2024),赫尔辛基的绅士化几乎没有得到学界关注,而市政当局在绅士化动态中所扮演的能动角色,受到的关注就更少了——尽管在国际文献中,社会混合恰恰与大量社会住房社区的重建密切相关,并被普遍视为绅士化的一种形式(见 Arthurson et al., 2015; <a class="gref" href="#g-lees">Lees</a>, 2008)。赫尔辛基更新过程中在空间迁移意义上不存在“置换”(displacement)这一事实(Saarimaa &amp; Ventovuori, 2024),已被间接地包装为一种‘<a class="gref" href="#g-positive-gent">积极的绅士化</a>’(positive gentrification)(Shaw &amp; Hagemans, 2015)。</p>
+<div class="note" data-nid="6ed5932e55"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">In fact, Helsinki has explicitly viewed gentrification as a counterforce to segregation.</p>
+<p class="zh">事实上,赫尔辛基一直明确地将绅士化视为对抗隔离的一种反作用力。</p>
+<div class="note" data-nid="28b4f8085a"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">“When planning infill construction, segregation can be purposefully combated, and the possibility of the areas’ gentrification can be emphasized. Gentrification refers to the socio-economic rise of areas with lower status.”</p>
+<p class="zh">“在规划填充式建设(infill construction)时,可以有意识地对抗隔离,并强调这些片区实现绅士化的可能性。绅士化指的是地位较低地区在社会经济层面的地位上升。”</p>
+<span class="attrib">赫尔辛基市城市规划文件《郊区复兴》(Suburban Renaissance, City of Helsinki, 2008: 9)原文——作者引用这份官方规划文件,是为了证明赫尔辛基城市政策曾经何等直白地把‘绅士化’当作反隔离的正面手段来使用,这是作者接下来要批判、揭示其代价的官方话语,并非作者本人的立场。</span>
+<div class="note" data-nid="8938d37436"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">Although policy language has since replaced the ‘dirty word’ (Smith, 1996) with terms that avoid class dispositions of the process, such as urban regeneration, urban renaissance, and urban sustainability (Porter &amp;amp; Shaw, 2013; Smith, 1996), the goals and the means of land use and housing policies remain. Increased financialization of housing markets and intensified urban regeneration processes have already caused concerns about displacement pressures in other Nordic states, which have historically had regulated housing systems and good tenant protections (Listerborn &amp;amp; Baeten, 2022). However, contemporary gentrification is a global phenomenon with local variations (Thörn &amp;amp; Holgersson, 2016), and the legal and institutional framework that regulates investment and disinvestment (Krijnen, 2018) distinguishes Helsinki from its Nordic counterparts as well.</p>
+<p class="zh">虽然此后的政策话语已经用‘城市更新’(urban regeneration)、‘城市复兴’(urban renaissance)、‘城市可持续性’(urban sustainability)等回避阶级色彩的说法,取代了‘绅士化’这个‘脏词’(dirty word)(<a class="gref" href="#g-smith">Smith</a>, 1996;Porter &amp; Shaw, 2013),但土地利用与住房政策的目标和手段并没有改变。住房市场金融化程度的加深和城市更新进程的加剧,已经在其他北欧国家引发了对置换压力的担忧,而这些国家历来拥有受管制的住房体系和较好的租户保护(Listerborn &amp; Baeten, 2022)。然而,当代绅士化是一种具有地方差异的全球现象(Thörn &amp; Holgersson, 2016),而调节投资与撤资的法律与制度框架(<a class="gref" href="#g-krijnen">Krijnen</a>, 2018),同样使赫尔辛基有别于其北欧同类城市。</p>
+<div class="note" data-nid="130e15a6a0"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">This article contributes to the burgeoning literature on state-led gentrification in the Nordic countries by asking: What is the significance of policy in creating gentrifiable areas in Helsinki and how is the policy legitimated? Inspired by Maarten Hajer (1995), this article looks at how politically approved urban planning documents create the problem of segregation in Helsinki in such a way that urban regeneration offers a solution to it. The policy analysis is enriched with ethnographic fieldnotes from the regeneration areas Mellunkylä and Meri-Rastila and other case study methods, to identify the inherent instability of urban regeneration and its material consequences.</p>
+<p class="zh">本文通过提出以下问题,为方兴未艾的北欧<a class="gref" href="#g-stateled">国家主导型绅士化</a>(state-led gentrification)研究文献作出贡献:政策在赫尔辛基‘使某些片区变得可绅士化’(gentrifiable)的过程中发挥了怎样的作用?这种政策又是如何获得正当性的?受 Maarten Hajer(1995)启发,本文考察了经过政治程序批准的城市规划文件,是如何在赫尔辛基建构出‘隔离问题’,并使城市更新恰好成为这一问题的解决方案的。政策分析还辅以来自 Mellunkylä 和 Meri-Rastila 两个更新片区的民族志田野笔记及其他案例研究方法,以识别城市更新内在的不稳定性及其在物质层面的后果。</p>
+<div class="note" data-nid="765a29b29f"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">Not only has current economic uncertainty stagnated the construction industry, but the regeneration areas can be considered difficult to develop (Hackworth &amp;amp; Smith, 2001) due to vast municipal landownership and the stigma attached to dense social housing. These factors have hindered investments and made state interventions necessary. This article thus responds to Gray and Kallin (2023) call to critically investigate the state’s facilitation in stagnant regeneration processes. The article continues with an elaboration of a theoretical framework on state-led gentrification. It then presents the city’s new urban regeneration model, the selected case areas and the methods. It next analyzes the justifications for urban regeneration and how the city utilizes planning monopoly and land ownership in attempts to form and close rent gaps in the two disinvested areas. It concludes that Helsinki’s social mix policy as a corrective anti-segregation measure is a form of state-led gentrification that, instead of challenging urban inequality, legitimizes the status quo of neoliberal urbanism.</p>
+<p class="zh">当前的经济不确定性不仅使建筑行业陷入停滞,更新片区本身也因大量的市属土地所有权和高密度社会住房带来的污名,而可以被视为‘难以开发’的地区(Hackworth &amp; Smith, 2001)。这些因素阻碍了投资,使得国家干预变得必要。因此,本文回应了 <a class="gref" href="#g-gray">Gray</a> 和 Kallin(2023)提出的呼吁,即批判性地考察国家在停滞的更新进程中所起的促成作用。文章接下来先阐述国家主导型绅士化的理论框架,再介绍该市的城市更新新模式、所选案例片区及研究方法;随后分析城市更新的正当化论述,以及该市如何运用其<a class="gref" href="#g-planningmonopoly">规划垄断</a>权和土地所有权,试图在两个撤资片区中形成并弥合租隙(rent gap)。最后得出结论:赫尔辛基将社会混合政策作为一种反隔离的矫正措施,实质上是国家主导型绅士化的一种形式——它非但没有挑战城市不平等,反而使新自由主义城市主义的现状得以正当化。</p>
+<div class="note" data-nid="640927b5ab"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<h2><span class="en">2. Theoretical perspective: State-led gentrification</span><span class="zh">2. 理论视角:国家主导型绅士化</span></h2>
+<div class="bipara">
+<p class="en">European welfare states have historically been able to moderate gentrification’s worst social consequences by stricter regulation of the movement of capital (Lees, 2012; Risager, 2022). However, even in Nordic welfare states, where planning and regulation have usually ruled over the land market, local governments are increasingly treating land as a financial asset according to the rent it grants (Hyötyläinen, 2022). Since the neoliberalization of the Nordic welfare state, welfare provision and governance have relied increasingly on the movement of capital. Processes like gentrification are thus sometimes instrumentalized by the state without the movement of capital as its only aim (Krijnen, 2018; Risager, 2022).</p>
+<p class="zh">从历史上看,欧洲福利国家一直能够通过对资本流动的更严格管制,来缓和绅士化最严重的社会后果(Lees, 2012; Risager, 2022)。然而,即便在规划与管制历来主导土地市场的北欧福利国家,地方政府也越来越倾向于按照土地所能带来的地租,把土地当作一种金融资产来对待(Hyötyläinen, 2022)。自北欧福利国家新自由主义化以来,福利供给与治理越来越依赖资本的流动。因此,像绅士化这样的过程,有时会被国家工具化地加以利用,而资本流动本身并非其唯一目的(Krijnen, 2018; Risager, 2022)。</p>
+<div class="note" data-nid="cd69e906de"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">The gentrification process is famously explained by Neil Smith’s (1979) rent gap theory. Rent-gap refers to the increase in the value of land and real estate brought about by different urban development strategies when the state seeks to maximize the value of real estate and land, by bridging the gap between current and potential value. The urban development strategies can include densification (Cavicchia, 2021) and demolition (Watt, 2023), or be more related to green gentrification, for example investing in parks and public spaces (Wallin, 2021) and transit-oriented development (Lutz et al., 2024).</p>
+<p class="zh">绅士化过程最著名的理论解释来自 Neil Smith(1979)的<a class="gref" href="#g-rentgap">租隙理论(rent gap theory)</a>。<a class="gref" href="#g-rentgap">租隙(rent gap)</a>指的是当国家试图通过弥合土地与地产的现有价值与潜在价值之间的差距,来实现地产与土地价值最大化时,不同城市开发策略所带来的土地与地产价值的增长。这些城市开发策略可以包括密集化建设(densification)(Cavicchia, 2021)和拆除重建(demolition)(<a class="gref" href="#g-watt">Watt</a>, 2023),也可以更多地与绿色绅士化(green gentrification)相关,例如对公园和公共空间的投资(Wallin, 2021),以及以公共交通为导向的开发(transit-oriented development)(Lutz et al., 2024)。</p>
+<div class="note" data-nid="145b60e90f"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">Although gentrification has been an urban planning strategy in Helsinki for years (Mäenpää, 2011), the peripheral neighborhoods with concentrated social housing stock continue to be ‘objects of intervention’ (Dikeç, 2007, p. 21) – implying some type of ‘failure’. Krijnen (2018) proposes an analytical distinction between rent gap formation and rent gap closure: formation of a rent gap does not guarantee its closure, e.g., gentrification. How rent gaps are formed depends on institutional frameworks including political, social, and cultural processes that regulate investment and disinvestment in a given location. The state’s role in the formation and closure of rent gaps becomes even more central in ‘difficult-to-develop’ neighborhoods (Hackworth &amp;amp; Smith, 2001; Mösgen et al., 2019) and in times of economic crisis.</p>
+<p class="zh">尽管绅士化作为一种城市规划策略,在赫尔辛基已经存在多年(Mäenpää, 2011),但社会住房高度集中的边缘社区却始终是‘干预对象’(Dikeç, 2007, 第21页)——这本身就暗示着某种‘失败’。Krijnen(2018)提出了一个分析性的区分:租隙的形成(rent gap formation)与租隙的弥合(rent gap closure)。租隙的形成并不保证它一定会被弥合,也就是说,并不必然导向绅士化。租隙如何形成,取决于调节特定地点投资与撤资的制度框架,包括政治、社会和文化过程。在‘难以开发’的社区(Hackworth &amp; Smith, 2001; Mösgen et al., 2019)以及经济危机时期,国家在租隙形成与弥合中所扮演的角色就变得尤为关键。</p>
+<div class="note" data-nid="9af7889fd9"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">State subsidy gap refers to the economic gap that the state must bridge to de-risk development and create the conditions for private investments. The state can bridge the subsidy gap through, for example, land remedies, land sales, and increased land purchases from private landowners (Gray, 2022; Gray &amp;amp; Kallin, 2023). The discourse that has resonated loudest in urban regeneration, and through which the need for it has been most frequently articulated and justified, has been one of lessening concentrated disadvantage through social mix (Sisson, 2021a). Statistical data and cartographic representations have played important roles in legitimating the discourse of social mix by portraying housing estates as if they were separate and isolated territories of disadvantage that are disconnected from their surrounding sociopolitical context (Dikeç, 2007; Sisson, 2021a).</p>
+<p class="zh"><a class="gref" href="#g-subsidygap">国家补贴缺口(state subsidy gap)</a>指的是国家为给开发‘去风险’(de-risk)、为私人投资创造条件而必须弥合的那部分经济缺口。国家可以通过诸如土地整治、出售土地、加大从私人土地所有者手中购地等方式来弥合这一补贴缺口(Gray, 2022; Gray &amp; Kallin, 2023)。在城市更新中回响最响亮、最经常被用来阐述和正当化更新必要性的话语,是通过<a class="gref" href="#g-socialmix">社会混合(social mix)</a>来减少弱势群体集中的话语(Sisson, 2021a)。统计数据和制图表征在使社会混合话语正当化的过程中发挥了重要作用,它们把住房社区描绘成仿佛是与周围社会政治情境相脱节的、孤立分离的弱势‘领地’(Dikeç, 2007; Sisson, 2021a)。</p>
+<div class="note" data-nid="a5c40a02a8"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">Indeed, the formation of rent gaps cannot exist without the activation of territorial stigma (Kallin &amp;amp; Slater, 2014; Thörn &amp;amp; Holgersson, 2016), that reduces a place to a one-dimensional ‘badland’ (Dikeç, 2007) and thus justifies radical policy interventions targeted at the stigmatized neighborhoods (Olsen &amp;amp; Larsen, 2023). Kallin (2017) introduces the term reputational gap to explain the role of territorial stigma in the visionary work of state-led gentrification. Holding the imagined ‘potential’ of a place against the current defamed version serves to increase the chances of urban intervention. The state thus facilitates the stigma of a place to form the rent gap that it aims to close through urban regeneration. For Kallin (2017) the emphasis is on the desire and determination for the existence of a rent gap, which have more power than the actual existence of one.</p>
+<p class="zh">事实上,租隙的形成离不开<a class="gref" href="#g-territorialstigma">地域污名(territorial stigma)</a>的激活(Kallin &amp; <a class="gref" href="#g-slater">Slater</a>, 2014; Thörn &amp; Holgersson, 2016)——污名将一个地方简化为单一维度的‘恶地’(badland)(Dikeç, 2007),从而使针对污名化社区的激进政策干预获得正当性(Olsen &amp; Larsen, 2023)。<a class="gref" href="#g-kallin">Kallin</a>(2017)提出了<a class="gref" href="#g-reputationgap">声誉缺口(reputational gap)</a>这一概念,用以解释地域污名在国家主导型绅士化的‘愿景构建’工作中所起的作用。将一个地方想象中的‘潜力’与其当下被污名化的版本相对照,能够提高城市干预获得推进的机会。由此,国家借助地方污名来形成它随后打算通过城市更新加以弥合的租隙。对 Kallin(2017)而言,重点在于人们对租隙存在的渴望与决心,而这种渴望和决心,其力量甚至超过了租隙是否真实存在本身。</p>
+<div class="note" data-nid="562c19946d"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">The effects of gentrification on the poor are often linked to physical displacement, which can occur via demolition of public housing estates and the following redevelopment of the area as mixed tenure (Hubbard &amp;amp; Lees, 2021; Watt, 2021) or via other regeneration strategies like renovation and upgrading of existing estates (Baeten et al., 2017; Polanska &amp;amp; Richard, 2021; Pull &amp;amp; Richard, 2021). Nevertheless, an understanding of displacement only as a spatial event of relocation is insufficient and can serve to legitimize pro-gentrification policies (Davidson, 2009), when the absence of physical relocation is taken as an absence of displacement (see Saarimaa &amp;amp; Ventovuori, 2024).</p>
+<p class="zh">绅士化对穷人的影响,通常被与物理性的<a class="gref" href="#g-displacement">置换(displacement)</a>联系在一起——这种置换可能通过拆除公共住房社区、随后将该地区重建为混合产权住区而发生(Hubbard &amp; Lees, 2021; Watt, 2021),也可能通过翻新和升级既有社区等其他更新策略而发生(Baeten et al., 2017; Polanska &amp; Richard, 2021; Pull &amp; Richard, 2021)。然而,仅仅把置换理解为一种空间上的迁移事件是不够的,当没有发生实际的物理迁移就被当作没有发生置换时(见 Saarimaa &amp; Ventovuori, 2024),这种理解甚至可能反过来为支持绅士化的政策提供正当性(Davidson, 2009)。</p>
+<div class="note" data-nid="836e04d5a4"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">A socio-cultural displacement can occur when a person continues to live in the same apartment, but the neighborhood and environment become a foreign place to them, for example through new infill construction (Davidson, 2009, 228.) The precarity of urban regeneration in itself can create ontological insecurity among residents (Watt, 2021). Displacement can also be indirect and exclusionary (Marcuse, 1985) – when the pool of affordable housing becomes smaller, this prevents lower income households from moving into a neighborhood.</p>
+<p class="zh">社会文化层面的置换(socio-cultural displacement)也可能发生:一个人仍然住在同一套公寓里,但由于新的填充式建设等原因,周边的社区和环境已经变得对他们而言十分陌生(Davidson, 2009, 第228页)。城市更新本身的不确定性,就可能在居民中造成本体论层面的不安全感(ontological insecurity)(Watt, 2021)。置换也可能是间接的、排斥性的(exclusionary)(Marcuse, 1985)——当可负担住房的存量变小时,这会阻止低收入家庭迁入某个社区。</p>
+<div class="note" data-nid="23bf4494f1"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<h2><span class="en">3. Case: Helsinki’s new urban regeneration model</span><span class="zh">3. 案例:赫尔辛基的城市更新新模式</span></h2>
+<div class="bipara">
+<p class="en">Helsinki Metropolitan Area is the largest urban area in Finland. In 2025, the population of the metropolitan area was around 1,280,000, of which around 689,758 lived in the city of Helsinki. Helsinki has a higher population growth rate than most other municipalities, and much of it is due to a growing immigrant population. However, Finland has a rather novel history with immigration, and ethnic segregation in Helsinki is not comparable to other Nordic capitals such as Stockholm (see Tammaru et al., 2021). Segregation in Helsinki is foremost socioeconomic, although ethnic and socioeconomic segregation are increasingly overlapping also in the Finnish capital (Bernelius &amp;amp; Vilkama, 2019; Saikkonen et al., 2018).</p>
+<p class="zh">赫尔辛基都市区是芬兰最大的城市区域。截至2025年,该都市区人口约128万,其中约689,758人居住在赫尔辛基市本身。赫尔辛基的人口增长率高于芬兰大多数其他市镇,其中很大一部分增长来自移民人口的增加。然而,芬兰在移民问题上的历史相当晚近,赫尔辛基的族裔隔离程度也无法与斯德哥尔摩等其他北欧首都相比(见 Tammaru et al., 2021)。赫尔辛基的隔离首先是社会经济性质的,尽管在这座芬兰首都,族裔隔离与社会经济隔离也正日益重叠(Bernelius &amp; Vilkama, 2019; Saikkonen et al., 2018)。</p>
+<div class="note" data-nid="769baf8868"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">To realize its strategic anti-segregation goal, the City of Helsinki launched a new urban regeneration model in 2020 as part of the Implementation Program on Housing and Related Land Use. The model, focusing on four urban regeneration areas in the periphery of Helsinki (Fig. 1), is planned to serve as a pilot for future development of disadvantaged neighborhoods. The stated purposes of the urban regeneration are to strengthen the social sustainability and the overall comfort and safety of the areas, and to upgrade the profile and reputation of the neighborhoods through increased vitality and attractiveness. The development is monitored using indicators such as share of foreign language speakers, a socioeconomic sum index (education, income, and unemployment levels), the number of recipients of housing allowance and income support, price per square meter, and distribution of housing tenure:</p>
+<p class="zh">为了实现其反隔离的战略目标,赫尔辛基市于2020年作为<a class="gref" href="#g-landuseprogram">《住房及相关土地利用实施方案》</a>(Implementation Program on Housing and Related Land Use)的一部分,推出了一套城市更新新模式。该模式聚焦于赫尔辛基边缘地区的四个城市更新片区(见图1),计划作为未来开发弱势社区的试点。城市更新的官方目标是加强这些片区的社会可持续性以及整体的舒适度与安全性,并通过提升活力与吸引力来改善社区的形象和声誉。这一开发过程通过以下指标加以监测:外语使用人口比例、社会经济综合指数(教育、收入与失业水平)、住房补贴与收入救济领取人数、每平方米房价,以及住房产权形式的分布:</p>
+<div class="note" data-nid="59096229b6"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">Considering various factors, these areas need special attention from the city to stay comfortable and attractive. The areas have lagged behind the rest of the city in terms of socio-economic indicators.</p>
+<p class="zh">综合考虑各种因素,这些片区需要市政府的特别关注,才能维持其舒适性与吸引力。这些片区在社会经济指标上,已经落后于全市其他地区。</p>
+<span class="attrib">赫尔辛基市官方说明文件原文(City of Helsinki, n.d.-a)——作者引用这段城市官方话语,是为了呈现城市自身如何用‘落后’‘需要特别关注’这类语言来界定和证成对这些片区的干预,并非作者本人的评价。</span>
+<div class="note" data-nid="e0eb4bb691"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">In addition to socioeconomic factors, an important requirement for the development of regeneration areas was their location along rail networks. In accordance with the cross-municipal development strategy (MAL), transit nodes along the railway and metro lines are made into hotspots of densification. It makes them easily accessible by public transportation, which will be expanded within the regeneration timeline. Another criterion for regeneration was the share of rentals. The areas’ socioeconomic decline has long been associated with the share of social rental housing, but developments in recent years have shown that increased financialization and concentrations of private rentals have also become a segregating factor in the capital region (see City of Helsinki, 2021a; Lilius &amp;amp; Hirvonen, 2021; Rosengren et al., 2024). Therefore, in areas where the share of rentals exceeds 50 % of the area’s housing stock and does not align with the city’s goal (City of Helsinki, 2021a, p. 70), urban regeneration focuses mostly on introducing owner-occupied housing through infill development. Densification is primarily zoned on existing plots and around metro stations.</p>
+<p class="zh">除了社会经济因素之外,更新片区能否入选的一项重要条件,是它们是否位于轨道交通网络沿线。根据跨市镇发展战略(MAL),铁路和地铁沿线的交通节点被打造成密集化建设的热点区域,这使得这些片区更容易通过公共交通到达,而公共交通网络也将在更新的时间框架内进一步扩展。更新片区的另一项遴选标准,是租赁住房的比例。这些片区社会经济地位的下滑长期以来被归因于社会租赁住房的比例,但近年来的发展表明,金融化程度的加深以及私人租赁住房的集中,也已成为都市区的一种致隔离因素(见 City of Helsinki, 2021a; Lilius &amp; Hirvonen, 2021; Rosengren et al., 2024)。因此,在租赁住房比例超过该片区住房存量50%、与城市目标不符的地区(City of Helsinki, 2021a, 第70页),城市更新的重点主要是通过填充式开发引入自有产权住房。密集化建设主要规划在既有地块以及地铁站周边区域。</p>
+<div class="note" data-nid="44d4deadeb"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">The urban regeneration model, despite being a meaningful part of the city’s urban policy, lacks official documents on the strategy and details of the model. This can be explained by the fact that Helsinki does not have a specific program or policy aimed at segregation. An anti-segregation framework is integrated into the strategy, land use, and housing policies. The article’s analysis is primarily based on the following documents that were selected based on being (politically negotiated) guiding policy documents. Finnish municipalities have legal planning monopolies, but growing urban regions are also bounded by MAL-agreements. MAL-agreement is a cross-municipal planning cooperation, where agreements regarding land use (M), housing (A) and transportation (L) are made between urban regions and the state. MAL-agreements from 2020 and 2024 were analyzed here. The 2024 agreement, agreed during Petteri Orpo’s right-wing government, differs significantly from its predecessor in that it does not provide municipalities with state support for implementing housing policy or achieving housing production targets.</p>
+<p class="zh">尽管城市更新新模式已是该市城市政策中颇具分量的一部分,但关于该模式的战略和细节,却并没有专门的官方文件。这可以解释为:赫尔辛基并没有一项专门针对隔离问题的独立方案或政策,反隔离框架是被整合进城市战略、土地利用与住房政策之中的。本文的分析主要基于以下几类文件,它们均是经过政治协商、具有指导性的政策文件。芬兰各市镇在法律上拥有规划垄断权(planning monopoly),但不断扩张的城市区域也受制于<a class="gref" href="#g-mal">MAL协议(MAL-agreement)</a>的约束。MAL协议是一种跨市镇的规划合作机制,由城市区域与国家就土地利用(M)、住房(A)和交通(L)达成协议。本文分析了2020年和2024年两版MAL协议。2024年协议是在 Petteri Orpo 领导的右翼政府任内达成的,与前一版相比有显著差异:它不再为市镇提供落实住房政策或实现住房建设目标所需的国家支持。</p>
+<div class="note" data-nid="1dab1dfc36"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">Helsinki City Strategies (2017 and 2021) serve as guidelines for the city’s future operations and finances for four years and are its most explicitly political documents. That is where branding happens, and the future is imagined. The Master Plan (City of Helsinki, 2013) is a long-term land use plan that guides development of the city’s urban structure and predicts what Helsinki will be like decades from now. The Master Plan is drawn up approximately every 10 years. The long-term planning of housing and land policy is steered by the Implementation Program on Housing and Related Land Use (hereafter Land Use), which is prepared every council term. The most recent Land Use program (City of Helsinki, 2024a) envisions a Helsinki growing in a socially sustainable manner with diverse high-quality housing options that contribute to the vitality and attractiveness of the city. Most of the urban regeneration is discussed in Land Use programs from 2020 and 2024.</p>
+<p class="zh">赫尔辛基《城市战略》(City Strategy,2017年版与2021年版)是该市未来四年运营和财政的指导文件,也是其政治色彩最为鲜明的文件——品牌化的塑造和未来的想象,正是在这里完成的。《总体规划》(Master Plan, City of Helsinki, 2013)是一份长期土地利用规划,用以指导该市城市结构的发展,并对赫尔辛基未来数十年的面貌作出预测,大约每十年编制一次。住房与土地政策的长期规划,则由每届市议会任期编制一次的《住房及相关土地利用实施方案》(Implementation Program on Housing and Related Land Use,以下简称“土地利用方案”/Land Use)来引导。最新一版土地利用方案(City of Helsinki, 2024a)设想赫尔辛基将以一种社会可持续的方式增长,提供多样化、高品质的住房选择,以增进城市的活力与吸引力。本文讨论的绝大多数城市更新内容,均出自2020年版和2024年版的土地利用方案。</p>
+<div class="note" data-nid="29d220da47"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">My approach to the urban policy documents was inspired by Maarten Hajer. I wanted to understand why a particular approach to preventing urban inequality at this time and place gains (and maintains) authority while discrediting other measures. According to Hajer (1995), policymaking is the creation of the kinds of problems that institutions can handle and respond to. Central to Hajer’s work is the concept of storylines that reduce the discursive complexity of a problem and create the possibility of a problem closure, where fragmented meanings given to physical and social reality are made into one. As the storyline is increasingly accepted by different actors, it starts to give a certain permanence to debate, rationalizing a particular approach to what seems to be a consistent problem.</p>
+<p class="zh">我对这些城市政策文件的分析方法,受到了 Maarten Hajer 的启发。我想理解的是:为什么在此时此地,某种特定的应对城市不平等的方式能够获得(并维持)权威地位,同时使其他措施丧失说服力。按照 Hajer(1995)的观点,政策制定的本质,是创造出那些制度能够处理和回应的‘问题’。<a class="gref" href="#g-hajer">Hajer</a>理论的核心概念是<a class="gref" href="#g-storyline">故事线(storyline)</a>:它把一个问题的话语复杂性加以简化,并由此创造出‘问题封闭’(problem closure)的可能性——原本对物理与社会现实赋予的碎片化意义,被整合成了单一的一种意义。随着某一故事线被越来越多的行动者所接受,它开始为相关争论赋予某种持久性,并使一种针对‘看似一以贯之的问题’的特定应对方式得到合理化。</p>
+<div class="note" data-nid="b6c64960bb"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">the power of storylines is essentially based on the idea that it sounds about right.</p>
+<p class="zh">故事线的力量,本质上建立在‘听起来大致没错’这种感觉之上。</p>
+<span class="attrib">Hajer(1995, 第63页)本人的理论表述——作者引用这句话是采纳、赞同 Hajer 的理论立场,作为本文分析框架的核心依据,而非要反驳的对象。</span>
+<div class="note" data-nid="85e44a2c59"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">Storylines help create the problem that the policy solves, but they also aid in constructing social and moral order in domains. Storylines can also influence knowledge production of actors (Hajer, 1995, p. 67). In the field of urban studies, the “subordination of scholarly to policy agendas” has been criticized by Slater (2021, p. 3) among many others. Storylines gain a hegemonic position when they fulfill the conditions of discourse structuration, i.e., when the credibility of actors requires them to draw on concepts and ideas from the discourse, and discourse institutionalization, when the discourse is integrated into political practices and institutional arrangements. Through this hegemonization process discursive closure is reached, giving the policymaking a defined target (Hajer, 1995).</p>
+<p class="zh">故事线不仅有助于制造出政策所要解决的‘问题’本身,也有助于在各个领域构建社会与道德秩序。故事线还可以影响行动者的知识生产过程(Hajer, 1995, 第67页)。在城市研究领域,‘学术议程从属于政策议程’这一现象,已受到 Slater(2021, 第3页)等诸多学者的批评。当故事线满足以下两个条件时,便能获得霸权地位:一是<a class="gref" href="#g-storyline">话语结构化(discourse structuration)</a>——即行动者的可信度要求他们援引该话语中的概念与观念;二是话语制度化(discourse institutionalization)——即该话语被整合进政治实践和制度安排之中。通过这一霸权化过程,话语封闭(discursive closure)得以实现,政策制定由此获得一个确定的目标(Hajer, 1995)。</p>
+<div class="note" data-nid="100d3e78e6"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">The present policy analysis is enriched with ethnographic case study methods focusing on two regeneration areas located in East Helsinki (Fig. 1): Meri-Rastila and the Mellunkylä district. Selection of the case areas was influenced by the fact that both have been subjected to territorial stigma (Wacquant et al., 2014) and then efforts to revitalize them, for decades. Mellunkylä (comprising neighborhoods Mellunmäki, Kontula, Vesala, Kivikko and Kurkimäki) is the largest district in Helsinki with 40,000 residents. Vesala consists mainly of single-family houses from the 1950s and apartment buildings from the 1980s. The largest neighborhoods in the district, Mellunmäki and Kontula, have large-scale post-war housing developed during the 1960s and 1970s when Finland was undergoing rapid urbanization.</p>
+<p class="zh">本文的政策分析还辅以聚焦于赫尔辛基东部两个更新片区(见图1)的民族志案例研究方法:Meri-Rastila 和 Mellunkylä 区。之所以选择这两个案例片区,是因为它们都数十年来一直遭受地域污名(Wacquant et al., 2014),随后又都经历了旨在使其‘复兴’的种种努力。Mellunkylä(包括 <a class="gref" href="#g-mellunmaki">Mellunmäki</a>、<a class="gref" href="#g-kontula">Kontula</a>、<a class="gref" href="#g-vesala">Vesala</a>、Kivikko 和 Kurkimäki 等社区)是赫尔辛基最大的行政区,居民约4万人。Vesala 主要由20世纪50年代的独户住宅和80年代的公寓楼组成。该区最大的两个社区 Mellunmäki 和 Kontula,拥有芬兰在20世纪60至70年代快速城市化时期建成的大规模战后住宅。</p>
+<div class="note" data-nid="d68ff44d2e"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">In an attempt to meet the increased demand for housing, the state subsidized construction of both owner-occupied and an increased share of social rental housing in the periphery of the city (see Juntto, 1990). Since their construction, Kontula in particular has symbolized a failed urbanity ranging from the ‘rootlessness’ of rural people during urbanization to recession and ethnic segregation since the 1990s (Tuominen, 2020). Kurkimäki and Kivikko were built next to Kontula in the 1980s and 1990s as state-subsidized infill constructions, increasing the share of social housing in the Mellunkylä district. In 2024, the share of foreign-language speakers in the district ranged between 30 and 49.5 % compared to the city average of 20.8 % (City of Helsinki, n.d.-b).</p>
+<p class="zh">为了应对住房需求的增长,国家在城市边缘地区补贴建设了自有产权住房,也提高了社会租赁住房的比例(见 Juntto, 1990)。自建成以来,Kontula 尤其象征着一种失败的城市性(failed urbanity)——从城市化过程中乡村人口的‘无根性’(rootlessness),到20世纪90年代以来的经济衰退与族裔隔离,无所不包(Tuominen, 2020)。Kurkimäki 和 Kivikko 是在20世纪80至90年代,作为国家补贴的填充式建设项目建在 Kontula 旁边的,进一步提高了 Mellunkylä 区社会住房的比例。截至2024年,该区外语使用人口的比例在30%至49.5%之间,而全市平均水平为20.8%(City of Helsinki, n.d.-b)。</p>
+<div class="note" data-nid="ea8e089465"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">Meri-Rastila is a smaller seaside neighborhood belonging to the Vuosaari district. It consists of low-rise buildings and was built in the early 1990s with state subsidies when private housing production was impacted by a severe recession. That caused a large share of the building stock to be social housing. The share of foreign-language speakers in Meri-Rastila ranged between 40 and 49.5 % in 2024 (City of Helsinki, n.d.-b). The share of people with an immigrant background and the abundance of social housing have both significantly contributed to the neighborhood’s stigma.</p>
+<p class="zh">Meri-Rastila 是隶属于 <a class="gref" href="#g-vuosaari">Vuosaari</a> 区的一个规模较小的滨海社区,由低层建筑组成,建于20世纪90年代初——当时私人住房建设正受到一场严重经济衰退的冲击,该社区因此得到了国家补贴,这也导致其住房存量中有很大比例是社会住房。2024年,Meri-Rastila 的外语使用人口比例在40%至49.5%之间(City of Helsinki, n.d.-b)。移民背景人口的比例与社会住房的大量存在,二者都对该社区的污名化产生了重要影响。</p>
+<div class="note" data-nid="0b751126d9"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">The fieldwork was initially meant to serve as background information for the policy analysis. However, several visits to the field over a period of more than two years revealed the precarity of urban regeneration and nuanced my understanding of the city’s efforts to make the neighborhoods gentrifiable. That in turn influenced the theoretical choice to study the reputational gap and subsidy gap (see Gray &amp;amp; Kallin, 2023) that the city need to bridge in order for regeneration to proceed. Most of the relevant data for this article was collected in 2024–2025 when I participated in various community events in Meri-Rastila and all of the Mellunkylä neighborhoods. These events were often coordinated by local activists and majority of them focused on urban regeneration, with planners and politicians presenting the regeneration plans to residents who were able to comment and ask questions. At these events I talked to residents, activists, local retailers, and city authorities. Detailed fieldnotes were written after every visit to the neighborhoods. To get a more comprehensive understanding of some of the plans, the observations, informal conversations and document analysis were complemented with one semi-structured interview conducted with an urban planner working with the urban regeneration.</p>
+<p class="zh">最初,田野调查只是打算为政策分析提供背景信息。然而,两年多时间里多次的实地走访,揭示出城市更新过程本身的不稳定性(precarity),也让我对该市‘使这些社区变得可绅士化’之努力的理解更加细致入微。这反过来影响了我的理论选择——转而研究该市为推进更新所必须弥合的声誉缺口与补贴缺口(见 Gray &amp; Kallin, 2023)。本文所用的大部分相关数据,收集于2024至2025年间,当时我参与了 Meri-Rastila 及 Mellunkylä 各社区的多场社区活动。这些活动通常由当地活动人士组织协调,大多数聚焦于城市更新议题,由规划师和政治人物向居民介绍更新方案,居民则可以发表意见和提问。在这些活动中,我与居民、活动人士、本地商户以及市政当局人员进行了交谈。每次实地走访之后,我都撰写了详细的田野笔记。为了更全面地理解部分规划方案,除了观察、非正式交谈和文件分析之外,我还与一位参与城市更新工作的城市规划师进行了一次半结构化访谈。</p>
+<div class="note" data-nid="f125ae1fae"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<h2><span class="en">4. Helsinki: “a textbook example in how to prevent segregation”</span><span class="zh">4. 赫尔辛基:“防止隔离的教科书式典范”</span></h2>
+<div class="bipara">
+<p class="en">Both physical and economic growth of Helsinki rely greatly on extensive densification, which the Master Plan (City of Helsinki, 2013) enables everywhere in the city. However, a majority of infill construction is allocated to the regeneration areas, where the goal of the Land Use program 2020 (City of Helsinki, 2021a) was to ensure the conditions for a 30 % increase in housing stock by 2035. Infill construction is presented as a way to prevent segregation and improve the social sustainability of the regeneration areas, by developing the distribution of tenure forms in the housing stock towards the city’s set goals. Preventing segregation, along with ecological and energy efficient construction, is presented as the goal that all land use decisions must adhere to. In his foreword to the Land Use program (City of Helsinki, 2024a), the Mayor of Helsinki promises that the city will do everything it can to combat the ‘unfortunate trend’ of segregation. Maintaining social cohesion was seen as an important competitive factor for Helsinki even during the previous council term:</p>
+<p class="zh">赫尔辛基无论是物理空间还是经济上的增长,都在很大程度上依赖于大规模的密集化建设,而《总体规划》(City of Helsinki, 2013)在全市范围内都为此类建设开了绿灯。然而,大部分填充式建设被分配到了更新片区,2020年版土地利用方案(City of Helsinki, 2021a)的目标是确保到2035年住房存量增长30%的条件。填充式建设被呈现为一种防止隔离、改善更新片区社会可持续性的方式,其手段是推动住房存量中产权形式的分布向该市设定的目标靠拢。防止隔离,连同生态与节能建设一起,被呈现为所有土地利用决策都必须遵循的目标。在为土地利用方案(City of Helsinki, 2024a)所作的前言中,赫尔辛基市长承诺该市将竭尽全力对抗这种‘令人遗憾的’隔离趋势。即便在上一届市议会任期内,维持社会凝聚力也被视为赫尔辛基一项重要的竞争优势:</p>
+<div class="note" data-nid="6fdc306f5f"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">In Helsinki, the differentiation between different neighborhoods in terms of income and wellbeing is taken very seriously. By international comparison, Helsinki has managed to control such differentiation better than most peer cities. In the future, too, Helsinki will strive to hold its position as a textbook example of how to prevent segregation.</p>
+<p class="zh">在赫尔辛基,不同社区之间在收入和福祉方面的分化被极为严肃地对待。就国际比较而言,赫尔辛基在控制这种分化方面,做得比大多数同类城市都要好。未来,赫尔辛基也将继续努力,保持其作为防止隔离教科书式典范的地位。</p>
+<span class="attrib">赫尔辛基《城市战略2017—2021》原文(City of Helsinki, 2017)——作者引用这段市政官方自我表述,是为了呈现城市如何自我定位为‘防止隔离的典范’,以便接下来揭示这一自我形象与其实际政策后果之间的落差,并非作者本人的评价。</span>
+<div class="note" data-nid="d8f48b61bb"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">Despite its current position as a poster child of segregation prevention, the city is increasingly concerned about “vulnerable people in urban places, where destitution, illness and crime often congregate” (City of Helsinki, 2021b, p. 8). The strategy presents a multisectoral anti-segregation approach in all its activities from housing policy and zoning to social work, education, culture, and leisure (ibid.) This positive discrimination directs investments specifically to urban regeneration areas that “lag behind” the development of the rest of the city in terms of socioeconomic indicators, i.e., income and education levels and employment rates (City of Helsinki, n.d.-a).</p>
+<p class="zh">尽管目前已是隔离防治的‘模范生’,该市却越来越担忧“城市空间中那些贫困、疾病和犯罪往往聚集在一起的弱势人群”(City of Helsinki, 2021b, 第8页)。《城市战略》提出了一种跨部门的反隔离方法,贯穿从住房政策、区划到社会工作、教育、文化和休闲的方方面面(同上)。这种‘积极歧视’(positive discrimination)将投资专门导向那些在社会经济指标(即收入、教育水平和就业率)上“落后于”全市其他地区发展水平的城市更新片区(City of Helsinki, n.d.-a)。</p>
+<div class="note" data-nid="8d3a5c2763"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">Policymakers in Helsinki seem to have fallen into an imported “segregation mania” (Tahvilzadeh, 2021, p. 14), where anti-segregation policies are discussed mainly in terms of problems found in certain ‘socially disadvantaged’ residential areas. Although residualization has disproportionally concentrated stigmatized groups to social housing estates in the regeneration areas (see Hyötyläinen, 2020), it is equally true that Mellunkylä is a good example of a truly mixed and diverse district with owner-occupied, intermediate, and rental (both social and private) housing ranging from single-family homes to apartment buildings.</p>
+<p class="zh">赫尔辛基的政策制定者们,似乎已经陷入了一种由外部输入的“隔离狂热”(segregation mania)(Tahvilzadeh, 2021, 第14页):反隔离政策的讨论,主要围绕在某些‘社会弱势’居住区中发现的‘问题’展开。虽然剩余化(residualization)确实使污名化群体过度集中在更新片区的社会住房社区中(见 Hyötyläinen, 2020),但同样真实的是:Mellunkylä 本身其实就是一个真正混合多元的社区的良好范例——它兼有自有产权住房、中间产权住房和租赁住房(既有社会租赁,也有私人租赁),住宅类型从独户住宅到公寓楼一应俱全。</p>
+<div class="note" data-nid="eab7969a0f"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">To obscure the regeneration’s ulterior objectives, such as increased land value and set construction goals, the city portrays, with the help of statistical representations like Helsinki’s socioeconomic index, the regeneration neighborhoods as “one-sided” territories of disadvantage (see Sisson, 2021a):</p>
+<p class="zh">为了掩盖城市更新背后的真实目的——比如提升土地价值、完成既定建设目标——该市借助赫尔辛基社会经济指数等统计表征手段,将这些更新社区描绘成“单一化”的弱势‘领地’(见 Sisson, 2021a):</p>
+<div class="note" data-nid="f8741b67ef"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">One-sided residential areas are to be avoided. The share of apartments located in rental apartment buildings in the area’s housing stock should, as a general rule, be no more than 50 %.</p>
+<p class="zh">应当避免单一化的居住区。原则上,一个片区住房存量中位于租赁公寓楼内的住宅比例,一般不应超过50%。</p>
+<span class="attrib">赫尔辛基2021年版《住房及相关土地利用实施方案》原文(City of Helsinki, 2021a)——城市官方政策文件语言,作者引用它来呈现城市自身如何设定和证成‘产权混合’的量化标准,并非作者本人的立场。</span>
+<div class="note" data-nid="516f7dd0df"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">To legitimate its policy of ‘diversifying’ the neighborhoods, the city channels the stigma of social housing and their residents:</p>
+<p class="zh">为了使自己‘使社区多元化’的政策获得正当性,该市借用了社会住房及其居民所背负的污名:</p>
+<div class="note" data-nid="bb9b03ddca"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">The most challenging times were during the economic recession of the 1990s, when for the revival of the construction industry, the production of rental housing was almost exclusively state-subsidized for a few years. However, there were only a few residential areas under construction, which resulted in strong concentrations of rental housing. Work has been done to address the challenges of these areas for years, and in the future, efforts should be made to diversify the areas, especially through densification.</p>
+<p class="zh">最艰难的时期是在20世纪90年代的经济衰退期间,当时为了振兴建筑行业,有几年时间里租赁住房的建设几乎完全依靠国家补贴。然而,当时在建的居住区数量有限,这导致了租赁住房的高度集中。多年来,针对这些片区所面临的挑战,已经开展了不少工作,今后也应继续努力,尤其是通过密集化建设,使这些片区变得更加多元化。</p>
+<span class="attrib">赫尔辛基2021年版《住房及相关土地利用实施方案》原文(City of Helsinki, 2021a)——城市官方政策文件语言,作者引用它来展示城市如何把90年代福利紧缩时期国家补贴集中建设租赁住房的历史,重新讲述为一个需要‘多元化’来纠正的‘问题’,并非作者本人的立场。</span>
+<div class="note" data-nid="cb07fd75b4"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">The land use program engages in a “false choice urbanism” narrative (Slater, 2014) by presenting gentrification as the only alternative to decline. By utilizing the history of failed area-based initiatives in neighborhoods with social housing estates, the city can legitimize gentrification as the ‘only hope’ in its anti-segregation work. Representations of urban places as “beyond salvage” (Wacquant, 2010, p. 218) where “something must be done” (Gray &amp;amp; Kallin, 2023, p. 1036) provides policy makers a moral legitimacy to restructure the areas. An important aspect of gentrification is the idea that the retrieval of a place is accomplished by civilizing it, which in the policy lingo tends to be described in terms of “upgrading”, “sustainability” and “safety” (Thörn &amp;amp; Holgersson, 2016, p. 671).</p>
+<p class="zh">这份土地利用方案采用了一种“虚假选择的城市主义”(false choice urbanism)叙事(Slater, 2014),把绅士化呈现为对抗衰败的唯一选项。通过援引社会住房社区中片区计划屡屡失败的历史,该市得以把绅士化正当化为其反隔离工作中的‘唯一希望’。将某个城市地方表征为“无可挽救”(beyond salvage)(Wacquant, 2010, 第218页)、“必须有所作为”(something must be done)(Gray &amp; Kallin, 2023, 第1036页)之地,为政策制定者重构这些地区提供了道德上的正当性。绅士化的一个重要面向,在于这样一种观念:对一个地方的‘挽救’是通过使其‘文明化’来实现的,而这种文明化在政策话语中,往往被描述为“提档升级”(upgrading)、“可持续性”(sustainability)和“安全”(safety)(Thörn &amp; Holgersson, 2016, 第671页)。</p>
+<div class="note" data-nid="00d695ccac"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">By densifying urban regeneration areas in the periphery of the city, Helsinki claims to maintain their vitality and social sustainability, increase their attractivity and raise their profiles:</p>
+<p class="zh">通过对边缘地区更新片区的密集化建设,赫尔辛基声称自己能够维持这些片区的活力和社会可持续性,提升其吸引力,改善其形象:</p>
+<div class="note" data-nid="5a712c8d00"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">The goal of housing production in urban regeneration areas is to balance the area’s housing stock structure, increase the number of residents in areas with an aging population structure, and raise the profile of the areas by means of new construction. For this reason, housing production in urban renewal areas cannot only aim for quantity, but housing production must be of high-quality and attractive and primarily focused on other than rental housing.</p>
+<p class="zh">城市更新片区住房建设的目标,是平衡该片区的住房存量结构,在人口结构趋于老龄化的片区增加居民数量,并通过新建来提升该片区的形象。为此,城市更新片区的住房建设不能只追求数量,还必须是高品质、有吸引力的,并且主要面向租赁住房以外的其他产权形式。</p>
+<span class="attrib">赫尔辛基2024年版《住房及相关土地利用实施方案》原文(City of Helsinki, 2024a)——城市官方政策文件语言,作者引用它来说明该市如何明确将新建住房的产权类型限定为‘非租赁’,并非作者本人的立场。</span>
+<div class="note" data-nid="66d3d80d2a"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">Social mix is an unwritten rule in Helsinki (Ruonavaara et al., 2025). As is often the case with social mix policies (Blomley, 2004), urban policy in Helsinki tends to assume that it is neighborhoods characterized by high levels of social housing that lack mix, hence the focus on introducing larger proportions of owner occupation. A change in the tenure structure and population composition of an area, even without an actual change in local social processes, is believed to suffice to improve the reputation of an area (Livingston et al., 2013).</p>
+<p class="zh">社会混合在赫尔辛基是一条不成文的规则(Ruonavaara et al., 2025)。正如社会混合政策通常呈现出的那样(Blomley, 2004),赫尔辛基的城市政策往往预设:正是社会住房比例高的社区缺乏‘混合’,因此政策重点便放在引入更高比例的自有产权住房上。人们认为,即便在地方社会过程本身没有实际改变的情况下,仅仅改变一个片区的产权结构和人口构成,就足以改善该片区的声誉(Livingston et al., 2013)。</p>
+<div class="note" data-nid="155b04b4ee"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">While city strategies still embrace an ideal of diverse housing stock throughout the city, the Land Use program (City of Helsinki, 2024a) acknowledges the difficulty of implementing social housing in central locations due to the high cost of new build construction and higher land rent. In search of a problem for already existing solutions, it is thus convenient for the city to imply that it is neighborhoods with social housing that lack mix. That ‘problem’ (Hajer, 1995) is easier for the city to solve through housing policy than the concentration of wealthy residents and rising land and property values in other parts of the city.</p>
+<p class="zh">虽然《城市战略》仍然坚持全市住房存量多元化这一理想,但土地利用方案(City of Helsinki, 2024a)也承认,由于新建成本高、地租更高,在市中心地段推行社会住房存在困难。在为既有的解决方案寻找问题的过程中,该市很方便地暗示:正是拥有社会住房的社区才‘缺乏混合’。相比城市其他地区富裕居民的聚集以及地价和房价的上涨,这个被建构出来的‘问题’(Hajer, 1995)对该市而言,显然更容易通过住房政策来‘解决’。</p>
+<div class="note" data-nid="030c360706"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">However, territorial stigma and the pro-gentrification policies it legitimizes are also contested (Sisson, 2021b). In Meri-Rastila, some residents have raised concerns about the area losing its character due to extensive densification. One January evening, a former chapel building, which a local activist group had saved from demolition, was filled with residents listening to politicians and city authorities discuss their plans for the area:</p>
+<p class="zh">然而,地域污名以及它所正当化的支持绅士化的政策,也并非没有争议(Sisson, 2021b)。在 Meri-Rastila,一些居民对大规模密集化建设可能使该地区失去自身特色表示担忧。一月的一个傍晚,一座曾被当地活动人士团体从拆除中挽救下来的旧教堂建筑内,坐满了前来聆听政治人物和市政官员讨论该地区规划方案的居民:</p>
+<div class="note" data-nid="44c22ddb6f"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">Referring to activists’ and some residents’ earlier criticism of urban regeneration as a process of reorganizing the area, the deputy mayor reassured the residents of Meri-Rastila that the aim of regeneration is not to replace the buildings and the people. The aim is to make the “old and new meet” and make the area more attractive also for the current residents.</p>
+<p class="zh">针对此前活动人士和部分居民对城市更新是‘重组该地区’的过程这一批评,副市长向 Meri-Rastila 的居民保证,更新的目的并不是要替换掉建筑和居民,而是要让“新旧相遇”,并让该地区对现有居民而言也更具吸引力。</p>
+<span class="attrib">作者本人的田野笔记(Fieldnote 01/23/2025),记录副市长在社区会议上的发言——这是作者以民族志方式记录下的政治人物话语,用以呈现官方对居民置换疑虑的公开回应,并非作者本人的立场;作者紧接着在下一段明确指出,实际的更新做法恰恰与这番安抚言辞相悖。</span>
+<div class="note" data-nid="8414692fb8"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">Next, I discuss how the city’s implementation of social mix as a corrective measure (see Ruonavaara et al., 2025) against segregation does in fact replace several buildings and may risk replacing the people too, despite the deputy mayor’s eloquent speeches.</p>
+<p class="zh">接下来,我将讨论该市将社会混合作为对抗隔离的一种矫正措施(见 Ruonavaara et al., 2025)加以落实的过程中,如何在事实上替换掉了若干建筑,并且也可能有替换居民本身的风险——尽管副市长的言辞十分动听。</p>
+<div class="note" data-nid="e074813172"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<h3><span class="en">4.1. Mobilizing the potential</span><span class="zh">4.1 动员“潜力”</span></h3>
+<div class="bipara">
+<p class="en">In an interview for the city-owned magazine, a special planning officer coordinating the regeneration explained why, in addition to the anti-segregation perspective, investing in the neighborhoods is important:</p>
+<p class="zh">在接受市属杂志采访时,一位负责协调该更新工作的专项规划官员解释了为什么除了反隔离的视角之外,对这些社区进行投资也很重要:</p>
+<div class="note" data-nid="934b6f91c0"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">We see potential in these areas. They have a strong local identity, diverse services, good transport connections, and a local nature where people like to spend their time.</p>
+<p class="zh">我们在这些片区看到了潜力。它们拥有强烈的地方认同感、多元化的服务、良好的交通连接,以及人们喜欢在其中消磨时光的本地自然环境。</p>
+<span class="attrib">市属《赫尔辛基杂志》(Helsinki Magazine, 2024)对一位负责更新工作的规划官员的采访原话——作者引用这段城市官员的话语,是把它作为‘声誉缺口’形成过程的经验证据来分析,而非作者本人对这些片区的评价。</span>
+<div class="note" data-nid="74674c4da5"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">The fact that the city sees potential in the areas is an important part of the formation of the rent gap. Next, I will present two cases of reputational gap (Kallin, 2017) where the potential of the places has been held against their current defamed versions to increase the chances of urban intervention. The upgrading of Kontula, which has a long history as a national symbol of social problems, urban rootlessness, and failed integration of immigrants (Tuominen, 2020), is concentrated on refurbishment of the shopping mall. The Kontula mall has mainstream chain retailers, many bars, and ethnic retailers and the latter have spontaneously made it into one of the liveliest centers in Helsinki (see Hewidy &amp;amp; Lilius, 2022). The mall, however, has been in a regeneration limbo since 2004, and a managed decline (Watt, 2023) is evident. The infrastructure is decayed, with small business owners reporting a fear of not being able to stay put in the new mall due to higher rents and the property owners’ hesitancy to maintain the premises due to demolition plans (Pietiläinen, 2023).</p>
+<p class="zh">城市‘在这些片区中看到潜力’这一事实本身,正是租隙形成过程中的重要一环。接下来,我将呈现两个声誉缺口(reputational gap)(Kallin, 2017)的案例,在这两个案例中,一个地方想象中的‘潜力’都被拿来与其当下被诋毁的版本相对照,以提高城市干预推进的机会。Kontula 长期以来一直是社会问题、城市无根性和移民融入失败的全国性象征(Tuominen, 2020),对它的‘提档升级’集中体现在对购物中心的翻新上。Kontula 购物中心拥有连锁零售商、众多酒吧以及族裔商户,后者自发地使其成为赫尔辛基最具活力的中心之一(见 Hewidy &amp; Lilius, 2022)。然而,该购物中心自2004年以来一直处于更新的悬置状态,一种‘管理式衰败’(managed decline)(Watt, 2023)清晰可见。基础设施已经破败,小业主们反映,由于担心租金上涨,以及产权方因拆除计划而不愿维护物业,他们担心自己无法在新购物中心中继续立足(Pietiläinen, 2023)。</p>
+<div class="note" data-nid="8e2d562978"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">In addition to the existing public services and retail stores, the Master Plan (City of Helsinki, 2013) enabled housing construction in the mall. An architectural competition, which can give legitimacy to political decisions by appearing neutral and technical (see Hautamäki &amp;amp; Lindgren, 2025), was organized for the mall’s new vision. The winning plan, which involved complete demolition of the shopping mall, offered a stark contrast to its current condition and was with its imagined potential part of the formation of a reputational gap (Kallin, 2017) in Kontula. Uncertainty over the fate of the mall continued as of March 2025, when the Swedish developer NCC Property Development withdrew from the project.</p>
+<p class="zh">除了既有的公共服务和零售商店之外,《总体规划》(City of Helsinki, 2013)也为在购物中心内建设住房开了绿灯。市政府为购物中心的新愿景组织了一场建筑设计竞赛——这类竞赛因其看似中立、技术性的外观,能够为政治决策赋予正当性(见 Hautamäki &amp; Lindgren, 2025)。获胜方案涉及对购物中心的整体拆除,与其当下的状况形成鲜明对比,其所设想的‘潜力’正是 Kontula 声誉缺口(Kallin, 2017)形成过程的一部分。截至2025年3月,购物中心的命运依然悬而未决——瑞典开发商 NCC Property Development 已退出该项目。</p>
+<div class="note" data-nid="c2d8881497"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">The reputational gap (Kallin, 2017) concerns all regeneration areas. However, the neighborhood’s proximity to green areas and beaches, elements which have increased property values in other parts of Helsinki (Lönnqvist, 2015), makes the reputational gap notably wide in Meri-Rastila. Lots of visionary work and branding has been done, including placemaking led by consulting firms and an architectural competition for the community center, the neighborhood’s flagship project. Another flagship project is the redevelopment of the Haruspuisto playground into a multifunctional park with an aquatic theme:</p>
+<p class="zh">声誉缺口(Kallin, 2017)是所有更新片区都存在的问题。然而,Meri-Rastila 因为毗邻绿地和海滩——这类要素在赫尔辛基其他地区已被证明能够提升房产价值(Lönnqvist, 2015)——其声誉缺口显得格外宽。大量的愿景构建与品牌塑造工作已经展开,包括由咨询公司主导的地方营造(placemaking),以及为该社区的旗舰项目——社区中心——举办的建筑设计竞赛。另一个旗舰项目,是将 Haruspuisto 游乐场改造为一座以水景为主题的多功能公园:</p>
+<div class="note" data-nid="aefb5a52fe"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">The goal of the urban renewal in Meri-Rastila is to diversify the housing stock. At the moment it seems to be the only goal, so to speak. And maybe, if you think about it cynically, the construction of the Haruspuisto and so on, they are kind of just doing it to raise the image of the area.</p>
+<p class="zh">Meri-Rastila 城市更新的目标是让住房存量多元化。可以说,目前这似乎是唯一的目标。而如果往悲观一点想,Haruspuisto 之类的建设,或许说白了就是为了提升这个片区的形象而已。</p>
+<span class="attrib">作者对一位城市规划师(City Planner)所做的半结构化访谈原话——这是一位受访规划从业者本人相当自我批判的坦言,作者引用它作为内部知情人对‘形象工程/声誉缺口’本质的证言,并非作者本人杜撰的评价,但与作者的分析结论方向一致。</span>
+<div class="note" data-nid="cd1420596d"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">Upgrading the image of the regeneration areas often focused on beautifying public spaces, such as the refurbishment of the playground in Meri-Rastila, or the demolition of old shopping malls. Demolition of residential buildings is not the primary method in the city of Helsinki’s densification efforts. However, it is in the toolbox:</p>
+<p class="zh">提升更新片区形象的努力,往往集中于美化公共空间,比如翻新 Meri-Rastila 的游乐场,或是拆除老旧购物中心。拆除住宅建筑并不是赫尔辛基密集化建设的主要手段,但它确实在这套工具箱之中:</p>
+<div class="note" data-nid="c1c262184c"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">Due to the poor condition of the housing stock in the urban regeneration areas and, as a rule, low construction efficiency, one third of the housing production is carried out as demolitions. For example, in Meri-Rastila, even more than 50 % of the new building rights are implemented by demolishing the existing residential buildings.</p>
+<p class="zh">由于城市更新片区住房存量的状况欠佳,加上通常较低的建设效率,三分之一的住房建设是通过拆除来实现的。例如在 Meri-Rastila,新建筑权中甚至有超过50%是通过拆除现有住宅建筑来落实的。</p>
+<span class="attrib">赫尔辛基2024年版《住房及相关土地利用实施方案》原文(City of Helsinki, 2024a)——城市官方政策文件语言,作者引用它作为拆除规模的数据证据,并非作者本人的立场。</span>
+<div class="note" data-nid="971afecfa4"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">Meri-Rastila has a large share of social housing stock in low-rise buildings that were built with significant state support in the early 1990s during the recession. The neighborhood is facing vast renewal to make more ‘efficient’ use of land by building more mixed-tenure high-rise buildings on existing plots. A local activist group managed to change the city’s previous plan to allocate densification to surrounding forest areas. Now, more than half of new building permits are implemented by demolishing 30-year-old, mostly social housing stock, that is in poor condition due to neglected maintenance. As symbolic denigration of disinvested neighborhoods is often linked to the built environment, the stigma thus ‘primes’ Meri-Rastila for renewal where demolitions appear necessary and even benevolent (see Wacquant, 2010).</p>
+<p class="zh">Meri-Rastila 的社会住房大量集中在20世纪90年代初经济衰退期间依靠大量国家支持建成的低层建筑中。该社区目前正面临大规模更新,通过在既有地块上建设更多混合产权的高层建筑,来实现土地的‘更高效’利用。当地一个活动人士团体成功促使该市改变了此前将密集化建设分配到周边林地的计划。如今,超过一半的新建许可,是通过拆除这些建成30年、以社会住房为主、因维护不善而状况不佳的建筑来落实的。由于对撤资社区的象征性贬低往往与建成环境本身相关联,污名因此为 Meri-Rastila 的更新做好了‘铺垫’(prime),使拆除显得不仅必要,甚至是善意之举(见 Wacquant, 2010)。</p>
+<div class="note" data-nid="a082e58e06"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">The tenure form on the Meri-Rastila demolition sites is secured, and the plan is to increase the total population so that the proportion but not the absolute number of low-income social housing dwellers declines – so called ‘positive gentrification’ (Shaw &amp;amp; Hagemans, 2015). However, a few things can be expected to affect the availability of affordable housing. First, new production is always more expensive, leading to higher rents – even for social housing. Second, due to a change in the municipal housing company’s rent setting system in 2019 towards an emphasis on use value, the social housing rents now reflect the market rents of the area. After the renewal of Myllypuro, the city’s example of successful urban regeneration, the social housing rents increased more than in other neighborhoods, indicating that low-income households may pay the price for reinvestments in the area (see Lilius &amp;amp; Hirvonen, 2021).</p>
+<p class="zh">Meri-Rastila 拆除地块上的产权形式是有保障的,计划是通过增加总人口,使低收入社会住房居民的比例(而非绝对数量)下降——也就是所谓的‘积极的绅士化’(positive gentrification)(Shaw &amp; Hagemans, 2015)。然而,可以预见有几个因素将影响可负担住房的可得性。首先,新建住房的成本总是更高,这会导致租金上涨——即便是社会住房也不例外。其次,由于市属住房公司于2019年将其租金制定体系改为更强调‘使用价值’,社会住房的租金如今已经反映出该地区的市场租金水平。在该市引以为成功更新典范的 <a class="gref" href="#g-myllypuro">Myllypuro</a> 完成更新之后,当地社会住房租金的涨幅超过了其他社区,这表明低收入家庭可能正在为该地区的再投资付出代价(见 Lilius &amp; Hirvonen, 2021)。</p>
+<div class="note" data-nid="21a756abea"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">Therefore, the demolition of old rental housing, along with the rule of an increased share of owner-occupied housing, can lead to exclusionary displacement (Marcuse, 1985) of low-income people due to the lack of affordable housing following the increased land value. Then the expected advantages of densification, such as improved services, might mostly end up benefiting middle- and high-income people (see Lutz et al., 2024). The tension between the current and the potential has material consequences, and the dialectical nature of estate regeneration and degeneration (Watt, 2023) became clear during my fieldwork in the regeneration areas.</p>
+<p class="zh">因此,拆除老旧租赁住房,加上提高自有产权住房比例这一规则,可能会因土地价值上升后可负担住房的缺乏,而对低收入群体造成排斥性置换(exclusionary displacement)(Marcuse, 1985)。而密集化建设所预期带来的好处(比如服务设施的改善),到头来可能主要惠及中高收入群体(见 Lutz et al., 2024)。‘现状’与‘潜力’之间的张力具有实实在在的物质后果,而住区更新(regeneration)与衰败(degeneration)之间的辩证性质(Watt, 2023),在我于这些更新片区所做的田野调查中变得清晰可见。</p>
+<div class="note" data-nid="5c0d3d1960"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">In Vesala, seven social housing buildings built in the 1980s were zoned to be demolished and replaced with wooden buildings because the Mellunkylä district served as a ‘living lab’ for carbon neutral densification - yet another attempt to bridge the reputational gap. New building permits were granted to social rental and right-of-occupancy housing. However, because the city abolished its own regulated owner-occupied housing production (HITAS) and the government abolished the right-to-occupancy model, the plans were abandoned. In the time of writing, a new detailed plan was forthcoming but lacked developers.</p>
+<p class="zh">在 Vesala,七栋建于20世纪80年代的社会住房建筑被规划为拆除,并以木结构建筑取而代之,原因是 Mellunkylä 区被当作碳中和密集化建设的‘生活实验室’(living lab)——这是弥合声誉缺口的又一次尝试。新的建筑许可被批给了社会租赁住房和<a class="gref" href="#g-hitas">居住权住房(right-of-occupancy housing)</a>。然而,由于该市废止了自己受管制的自有产权住房建设项目(HITAS),中央政府又废止了居住权住房模式,这些计划最终被搁置。截至本文写作之时,一份新的详细规划正在酝酿之中,但尚未有开发商接手。</p>
+<div class="note" data-nid="9d15b25852"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">The following fieldnote is from a Q&amp;amp;A meeting in Mellunmäki with local politicians and the board of the municipal rental housing company (Heka). The event, where the topic of drastic rent increases (8.4 % in 2024 and 5.3 % in 2025) was discussed, was held in the local elementary school cafeteria. The meeting attracted mostly social housing residents from all over Mellunkylä district, but some had even come from the other side of Helsinki.</p>
+<p class="zh">以下这段田野笔记,来自在 Mellunmäki 举行的一场问答会,与会者包括当地政治人物和市属租赁住房公司(<a class="gref" href="#g-heka">Heka</a>)董事会成员。会议在当地一所小学的食堂举行,讨论的主题是租金的大幅上涨(2024年上涨8.4%,2025年上涨5.3%)。前来参会的大多是来自 Mellunkylä 各社区的社会住房居民,其中一些人甚至是从赫尔辛基的另一端赶来的。</p>
+<div class="note" data-nid="7b1e2f392c"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">Several residents raised maintenance issues. A resident from the Vesala demolition sites expressed frustration over the fact that the rents were increasing although repairs were not being made due to the eventual demolition. The resident feared that the hardware in their home is going to break down at any moment but won’t be fixed. An elderly woman talked about her and her neighbors’ apartments being cold in the winter, and an elderly man expressed concern that due to poor snow plowing, emergency vehicles cannot access the buildings. Families also reported difficulties planning for the future, such as which school to register their children for, due to the uncertainty of relocation.</p>
+<p class="zh">多位居民提出了维护方面的问题。一位来自 Vesala 拆除地块的居民表达了不满,因为尽管房屋因最终将被拆除而不再进行维修,租金却仍在上涨。这位居民担心自家的设备随时可能损坏,却得不到维修。一位年长的女性谈到自己和邻居的公寓在冬天很冷,一位年长的男性则担忧由于除雪不到位,紧急车辆无法驶入楼群。也有家庭反映,由于搬迁的不确定性,他们在为未来做规划时遇到困难,比如不知道该给孩子登记哪所学校。</p>
+<span class="attrib">作者本人的田野笔记(Fieldnote 2/4/2025),记录社会住房居民在问答会上的发言——这是作者呈现的一手民族志证据,用以说明‘管理式衰败’对居民造成的实际伤害,是本文论证的重要经验支撑,而非作者引来反驳的对立观点。</span>
+<div class="note" data-nid="2e030e9114"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">Managed decline (Watt, 2023) during mid-phase regeneration, where existing buildings are neglected in expectation of demolition, had caused distress among the residents. Displacement anxiety (Watt, 2021) can occur when residents hear rumors and information about demolitions or other changes sometimes years before any actual proceedings (see Juhila et al., 2023). The stagnant and uncertain demolition timeline was also causing worry in Meri-Rastila, where social housing residents wished for better communication of plans:</p>
+<p class="zh">更新中期阶段的‘管理式衰败’(managed decline)(Watt, 2023)——即既有建筑因预期将被拆除而遭到忽视——已经给居民造成了困扰。置换焦虑(displacement anxiety)(Watt, 2021)可能在居民听到有关拆除或其他变化的传闻和信息时便已产生,而这往往发生在实际程序启动的数年之前(见 Juhila et al., 2023)。在 Meri-Rastila,停滞而不确定的拆除时间表同样引发了担忧,社会住房居民希望规划方能加强沟通:</p>
+<div class="note" data-nid="6dd3fb4976"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">As an example of poor communication, a resident brought up a nearby social housing estate where the residents found out about the demolition of their buildings from a local newspaper instead of Heka. Another social housing tenant wanted to know what will happen to her apartment. The representative of Heka explained that a return to the demolition sites is not guaranteed, because the new building does not necessarily have similar apartments. A separate decision will be made on the possible right of return, but it had not been made for the Meri-Rastila demolition sites.</p>
+<p class="zh">作为沟通不善的一个例子,一位居民提到附近一个社会住房社区,那里的居民是从地方报纸而不是从 Heka 那里得知自己所住楼栋将被拆除的消息的。另一位社会住房租户想知道自己的公寓将会怎样。Heka 的代表解释说,能否返回拆除地块并无保证,因为新建筑不一定会有类似的户型。是否享有回迁权,将另行作出决定,但就 Meri-Rastila 的拆除地块而言,这一决定尚未作出。</p>
+<span class="attrib">作者本人的田野笔记(Fieldnote 01/23/2025),记录社区会议中居民与 Heka 代表的对话——这是作者呈现的一手民族志证据,用以说明规划沟通不足给居民带来的不确定性,是本文论证的经验支撑,而非作者引来反驳的对立观点。</span>
+<div class="note" data-nid="2dc69a07f8"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">The municipal rental housing provider Heka is obligated to find temporary housing for tenants whose residential buildings are renovated or demolished. Tenants have the right to return to their renovated apartment or stay in their new apartment. However, according to the Heka representative, returning to the Meri-Rastila demolition sites was not guaranteed, because the new building might not meet tenant needs.</p>
+<p class="zh">市属租赁住房提供方 Heka 有义务为其住宅楼被翻新或拆除的租户安排临时住房。租户有权返回经翻新的公寓,或留在自己的新公寓中。然而,据 Heka 代表所说,返回 Meri-Rastila 拆除地块并无保证,因为新建筑可能无法满足租户的需求。</p>
+<div class="note" data-nid="d4db7d9f22"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<h3><span class="en">4.2. Socializing risks</span><span class="zh">4.2 将风险社会化</span></h3>
+<div class="bipara">
+<p class="en">The uncertainty of the regeneration timeline reflected in the displacement anxiety of some of the residents is the sum of many things. In the urban regeneration areas, site plan solutions must support the implementation of unregulated or intermediate housing production (City of Helsinki, 2021a). However, in 2024 the Finnish government decided to stop financing new production of right-to-occupancy housing by the end of 2025, phasing out the current system. This new and challenging ‘operational environment’ caused by the state’s welfare retrenchment was acknowledged in the latest Land Use program (City of Helsinki, 2024a), which emphasizes the increasing importance of the balancing role of new housing production during the current program period.</p>
+<p class="zh">部分居民置换焦虑中所反映出的更新时间表的不确定性,是多重因素叠加的结果。在城市更新片区,场地规划方案必须支持非管制住房或中间产权住房建设的落实(City of Helsinki, 2021a)。然而,芬兰政府在2024年决定,到2025年底停止资助新建居住权住房,逐步淘汰现行体制。国家福利紧缩所造成的这种全新且充满挑战的‘运作环境’,在最新版土地利用方案(City of Helsinki, 2024a)中得到了承认,该方案强调在当前规划周期内,新建住房所扮演的‘平衡’角色将愈发重要。</p>
+<div class="note" data-nid="1840a63509"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">Until Helsinki launches a new model for regulated owner-occupied housing, most of the housing production in the regeneration areas will be unregulated owner-occupied housing in the name of anti-segregation:</p>
+<p class="zh">在赫尔辛基推出新的受管制自有产权住房模式之前,更新片区中的大部分住房建设,都将以反隔离的名义,以非管制自有产权住房的形式进行:</p>
+<div class="note" data-nid="c81e435b1b"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">In urban regeneration areas, intermediate housing production cannot be replaced by rental housing from the perspective of preventing segregation, so currently, unregulated owner-occupied housing production is almost the only alternative to right-of-occupancy production in these areas</p>
+<p class="zh">在城市更新片区,从防止隔离的角度出发,中间产权住房的建设不能被租赁住房所替代,因此目前在这些片区,非管制自有产权住房建设几乎是居住权住房建设唯一的替代选项</p>
+<span class="attrib">赫尔辛基2024年版《住房及相关土地利用实施方案》原文(City of Helsinki, 2024a)——城市官方政策文件语言,作者引用它来揭示该市如何用‘防止隔离’的理由,把‘非管制自有产权住房’论证为唯一可行的建设选项,并非作者本人的立场。</span>
+<div class="note" data-nid="6aede2211c"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">Replacing the city’s own regulated owner-occupation with unregulated housing production is represented as the only alternative in areas dominated by rental apartments. It could be argued, with Lilius and Hirvonen (2021), that one factor that has been able to regulate negative consequences of gentrification in Helsinki (such as large-scale displacement of low-income residents) is the housing allowance. However, the housing allowance is one of the benefits that has been most targeted by the current Finnish government’s welfare cuts. Even though austerity politics at the national level can be expected to increase the need for affordable housing in Helsinki, the city stands firmly on its principle of mixed neighborhoods:</p>
+<p class="zh">以非管制住房建设取代该市自身受管制的自有产权住房建设,被呈现为在以租赁公寓为主的地区唯一可行的选项。可以援引 Lilius 和 Hirvonen(2021)的观点认为,住房补贴(housing allowance)正是能够在赫尔辛基调节绅士化负面后果(比如低收入居民的大规模置换)的因素之一。然而,住房补贴恰恰是当前芬兰政府福利削减最主要针对的福利项目之一。尽管可以预见国家层面的紧缩政治将增加赫尔辛基对可负担住房的需求,该市却依然坚定地固守其‘混合社区’的原则:</p>
+<div class="note" data-nid="d7441f42dd"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">The city is hesitant to raise the total share of ARA [state-subsidized] rental production. Increased ARA production would mean increasing the share also in areas that already have plenty of ARA rental and other rental housing stock, and from the point of view of preventing segregation, increasing rental production in these areas is not recommended.</p>
+<p class="zh">该市不愿提高<a class="gref" href="#g-ara">ARA</a>[国家补贴]租赁住房建设的总体占比。增加ARA住房建设意味着也要在那些已经拥有大量ARA租赁住房及其他租赁住房存量的片区提高其比例,而从防止隔离的角度看,在这些片区增加租赁住房建设是不被推荐的。</p>
+<span class="attrib">赫尔辛基2024年版《住房及相关土地利用实施方案》原文(City of Helsinki, 2024a)——城市官方政策文件语言,作者引用它来展示该市如何用‘防止隔离’的说法为拒绝增加社会租赁住房辩护,并非作者本人的立场。</span>
+<div class="note" data-nid="024237786f"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">Furthermore, the City Council confirmed its own version of this same principle:</p>
+<p class="zh">此外,市议会也确认了同一原则的另一种官方表述:</p>
+<div class="note" data-nid="1dbea9d489"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">However, the city will adhere to the Land Use program’s segregation prevention goals in all situations. […] Therefore, for example, in areas already dominated by rental housing, changes from owner-occupied housing to rental housing would not be possible in principle in the future.</p>
+<p class="zh">然而,该市将在任何情况下都坚持土地利用方案所设定的防止隔离目标。［……］因此,举例来说,在已经以租赁住房为主的片区,原则上今后将不再可能出现从自有产权住房向租赁住房的转变。</p>
+<span class="attrib">赫尔辛基市议会决议原文(City Council, 2024)——市议会官方表态,作者引用它来说明‘防止隔离’的说法如何被用来把‘只增自有产权、不增租赁住房’的规则固定为原则,并非作者本人的立场。</span>
+<div class="note" data-nid="704a2a9d32"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">As a municipality with a planning monopoly, Helsinki has the tools to influence the supply of social housing, if it wishes. The city is unwilling to raise the total share of state-subsidized rental production because doing so would hinder the goal of mixed communities in rental-dominated areas. City council confirmed that the city will adhere to segregation prevention goals in all situations, making changes in the production from owner-occupied to rental housing impossible in the regeneration areas. The quotes above demonstrate the common-sense position of social mix in Helsinki’s urban policy. Prioritizing diversification of the housing stock, even during an affordability crisis, shows how the hegemonic position of the storyline about the problems of social housing is integrated into political practices and institutional arrangements through social mix (see Hajer, 1995).</p>
+<p class="zh">作为一个拥有规划垄断权的市镇,赫尔辛基如果愿意,原本拥有影响社会住房供给的手段。该市之所以不愿提高国家补贴租赁住房建设的总体占比,是因为这样做会妨碍在以租赁住房为主的片区实现‘混合社区’的目标。市议会确认,该市将在任何情况下都坚持防止隔离的目标,这使得更新片区从自有产权住房向租赁住房方向的建设转变在原则上不再可能。以上引述表明,社会混合在赫尔辛基城市政策中所占据的、近乎常识般不容质疑的地位。即便在可负担性危机之中,也依然优先推进住房存量多元化,这恰恰说明了关于‘社会住房问题’的故事线的霸权地位,是如何通过社会混合被整合进政治实践与制度安排之中的(见 Hajer, 1995)。</p>
+<div class="note" data-nid="a92be4ebe2"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">However, diversification of the housing stock turned out to be more difficult than expected. Alongside the national changes to the housing policy, increased interest rates and their particularly negative impact on the construction industry were another challenge for Helsinki’s set goals for housing. Before the ongoing economic impacts of the Ukrainian war, real estate investors were interested in densification in urban regeneration areas (City of Helsinki, 2021a). According to city planners, large international investors such as NREP had made plot reservations in Meri-Rastila. Since then, regeneration has been disrupted because many plans have not attracted developers. The national government’s decision to stop funding right-of-occupancy production, which according to the Land Use program (City of Helsinki, 2024a) has encouraged the production of unregulated housing, was predicted to further slow all housing construction in the urban regeneration areas.</p>
+<p class="zh">然而,住房存量的多元化,结果被证明比预期更加困难。除了国家层面住房政策的变化之外,利率上升及其对建筑行业尤为负面的冲击,也给赫尔辛基既定的住房目标带来了另一重挑战。在乌克兰战争持续造成经济冲击之前,房地产投资者对更新片区的密集化建设一直抱有兴趣(City of Helsinki, 2021a)。据城市规划师介绍,像 NREP 这样的大型国际投资者曾在 Meri-Rastila 预留过地块。此后,由于许多规划方案未能吸引到开发商,更新工作因此受阻。据土地利用方案(City of Helsinki, 2024a)所述,中央政府停止资助居住权住房建设的决定,曾经推动了非管制住房的建设,而这一决定预计将进一步拖慢更新片区所有住房建设的步伐。</p>
+<div class="note" data-nid="1002ed27bd"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">When the city cannot de-risk (Gray, 2022) the development of unregulated housing with intermediate housing production, private investors are even less eager to invest. In this new situation the city, together with industry actors, has had to find other ways to stand for the risks and costs of land development so that private capital does not have to. To create better conditions for private investments in these “un-gentrifiable” (Mösgen et al., 2019) neighborhoods, the city has tried to initiate urban regeneration through green gentrification strategies (Wallin, 2021) such as refurbishing public environments, streets and parks, land remediation, and improving transport connections.</p>
+<p class="zh">当该市无法再借助中间产权住房建设来为非管制住房开发‘去风险’(de-risk)(Gray, 2022)时,私人投资者就更加缺乏投资意愿。在这一新的形势下,该市不得不与产业界行动者一道,寻找其他方式来承担土地开发的风险和成本,从而使私人资本不必承担这些风险和成本。为了给这些“不可绅士化”(un-gentrifiable)的社区(Mösgen et al., 2019)创造更好的私人投资条件,该市尝试通过绿色绅士化策略(green gentrification strategies)(Wallin, 2021)——比如翻新公共环境、街道和公园,进行土地整治,改善交通连接——来启动城市更新。</p>
+<div class="note" data-nid="34bcd5a7b5"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">Haruspuisto is what they started the renewal of Meri-Rastila with, so that it would attract unregulated housing production there. But yes, there is also a will with that park planning project, that they really want to do good for the existing residents as well.</p>
+<p class="zh">他们是从 Haruspuisto 开始启动 Meri-Rastila 更新的,为的是能吸引非管制住房建设落地那里。不过没错,那个公园规划项目背后也确实有一份心意,他们也是真心希望能为现有居民做点好事的。</p>
+<span class="attrib">作者对城市规划师(City Planner)所做访谈的原话——受访规划从业者本人对公园项目‘引资’和‘为居民好’两种动机并存的坦承,作者引用它来支持其分析(公共投资首先是为‘去风险’服务),并非作者本人杜撰,而是与作者结论方向一致的第一手证言。</span>
+<div class="note" data-nid="4b46a48ad8"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">Although refurbished public spaces were thought to benefit existing residents as well, the main motive was for them to speed up housing production by attracting private investments. This has meant a significant increase in the city’s own investments in the areas. In the city budget for 2022, 7.5 million euros were allocated for the refurbishment of public spaces in Mellunkylä for the following three years (City of Helsinki, 2021c). Three years later, the city allocated 19.5 million euros for Mellunkylä and 14 million euros for Meri-Rastila for the next three years (City of Helsinki, 2024b).</p>
+<p class="zh">虽然翻新后的公共空间也被认为能让现有居民受益,但其主要动机是通过吸引私人投资来加快住房建设的速度。这意味着该市在这些片区自身投资的显著增加。在2022年城市预算中,未来三年用于 Mellunkylä 公共空间翻新的拨款为750万欧元(City of Helsinki, 2021c;当时 Meri-Rastila 尚未被纳入更新片区,故不计入此项预算)。三年后,该市为接下来三年在 Mellunkylä 和 Meri-Rastila 分别拨款1950万欧元和1400万欧元(City of Helsinki, 2024b)。</p>
+<div class="note" data-nid="6aa610651e"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">In Kontula, where the development of the shopping mall was standing still, the city was frantically looking for solutions to show that something was being done for the area. Kontula was a pilot area for the ‘incentive experiment’ where the city offered to pay a larger share of the corresponding market value of the plot if the building right was sold to the city. Because densification is largely based on the initiative of private landowners and housing condominiums, the city encouraged them with financial incentives. Another policy measure to support the marketability of housing projects was to enable the sale of the plot at a ‘flexible’ price, instead of renting it (City of Helsinki, 2024a). The transfer of land by selling has increased in Helsinki (Hyötyläinen, 2015), in order to increase the city’s attractiveness and business activities, as well as to achieve set sales targets.</p>
+<p class="zh">在购物中心开发陷入停滞的 Kontula,该市正焦急地寻找各种解决方案,以显示自己正在为这个片区‘有所作为’。Kontula 是‘激励实验’(incentive experiment)的试点片区之一——在这一实验中,如果建筑权被出售给该市,市政府将支付相应地块市场价值中更大的一部分份额。由于密集化建设在很大程度上有赖于私人土地所有者和住宅公司的主动配合,该市便以财政激励来鼓励他们。另一项支持住房项目可销售性的政策措施,是允许以‘灵活’的价格出售地块,而不是出租地块(City of Helsinki, 2024a)。在赫尔辛基,以出售方式转让土地的做法已经有所增加(Hyötyläinen, 2015),目的是提升该市的吸引力和商业活动水平,并实现既定的销售目标。</p>
+<div class="note" data-nid="546d20b8a7"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">In the city council’s decision (2024), the new policy of the sale of plots for unregulated owner-occupied housing production and increasing price competition to ensure market pricing of plots was mainly, but not only, limited to urban regeneration areas. An attempt by a representative from Left Alliance to restrict the sale of plots only to regeneration areas (City Council, 2024) implies that the storyline of the causes of urban inequality and the hegemonic position of social mix legitimizes neoliberal land use policy, even for political actors that would otherwise be critical of the marketization of urban land. These efforts by the city to address market failure show how crucial state intervention is to the formation and potential closure of rent gaps (Gray, 2022).</p>
+<p class="zh">在市议会的决议(2024年)中,这项为非管制自有产权住房建设出售地块、并通过加强价格竞争来确保地块市场化定价的新政策,主要(但不仅仅)局限于城市更新片区。左翼联盟(Left Alliance)一位代表曾试图将地块出售仅限制在更新片区范围内(City Council, 2024),这一尝试恰恰表明:关于城市不平等成因的故事线,以及社会混合的霸权地位,即便对那些本应对城市土地市场化持批判态度的政治行动者而言,也已经使新自由主义土地利用政策获得了正当性。该市为应对‘市场失灵’所做的这些努力表明,国家干预对于租隙的形成及其可能的弥合,是何等关键(Gray, 2022)。</p>
+<div class="note" data-nid="62ca34696d"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<h2><span class="en">5. Discussion</span><span class="zh">5. 讨论</span></h2>
+<div class="bipara">
+<p class="en">With a case of stalling urban regeneration in Helsinki, this article contributes to the literature on state-led gentrification by showing how the state intervention to capitalist reproduction has been justified with an anti-segregation narrative. The growth of Helsinki, both physically and economically, relies greatly on the densification of existing residential areas in the suburban zone. I argue that statistical representations (see Sisson, 2021a) of segregation offer a useful problem that gives the city a depoliticized, moral justification to intensified market dominance in housing and land use policy. At the same time, reorganizing the disinvested neighborhoods with increased owner-occupation allows Helsinki to maintain its image as the posterchild of segregation prevention and an (at least statistically) egalitarian city.</p>
+<p class="zh">通过一个赫尔辛基城市更新停滞的案例,本文为国家主导型绅士化的相关文献作出了贡献,展示了国家对资本主义再生产的干预,是如何借助反隔离叙事获得正当性的。赫尔辛基无论在物理空间还是经济层面的增长,都在很大程度上依赖于对郊区既有居住区的密集化建设。我认为,关于隔离的统计表征(见 Sisson, 2021a)提供了一个‘有用的问题’,使该市在住房和土地利用政策中不断强化的市场主导地位,获得了一种去政治化的道德正当性。与此同时,以增加自有产权住房的方式对撤资社区进行重组,也让赫尔辛基得以维持其作为隔离防治模范生、以及一座(至少在统计意义上)平等主义城市的形象。</p>
+<div class="note" data-nid="74d22b6e6e"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">Through social mix discourse, the complexity of urban inequality is reduced to a problem of “one-sided housing stock” that can be solved through diversification policy. Legitimation for social mix now also as a corrective measure is not a difficult task in Helsinki, where social mix policy enjoys widespread popularity due to the city’s rather successful history of building mixed-tenure neighborhoods. The appeal of social mix is normative as well - “it sounds right” (Hajer, 1995, p. 63) to have mixed communities. The power of social mix discourse is in bringing different interests together by manufacturing consent (Bacqué &amp;amp; Charmes, 2024).</p>
+<p class="zh">通过社会混合话语,城市不平等的复杂性被简化为一个“单一化住房存量”的问题,而这个问题可以通过多元化政策来解决。如今,把社会混合作为一种矫正措施加以正当化,在赫尔辛基并非难事,因为该市在建设混合产权社区方面有着相当成功的历史,社会混合政策因此享有广泛的支持度。社会混合的吸引力也具有规范性的一面——拥有混合社区“听起来就是对的”(Hajer, 1995, 第63页)。社会混合话语的力量,就在于它能够通过制造共识(manufacturing consent)把不同的利益方汇聚到一起(Bacqué &amp; Charmes, 2024)。</p>
+<div class="note" data-nid="57d5807e74"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">While the motive for urban regeneration is ultimately profit, many of the actors and intentions behind its mechanics are well meaning (Krijnen, 2018); the city planners involved in the refurbishment of Haruspark in Meri-Rastila do it for the existing residents, not solely or even primarily to attract private investments in the area. It is important to note that there is moral commitment in the interventions, one which the stigmatizing storyline of "problematic" social housing concentrations has helped to construct. The stigma legitimates intervention through notions of fairness, not only as an external justification but likely also as an internal justification at the level of the institution (Kallin, 2017).</p>
+<p class="zh">虽然城市更新的动机归根结底是利润,但推动其运作机制的许多行动者及其意图,本身是出于善意的(Krijnen, 2018)——参与 Meri-Rastila 的 Haruspark(即 Haruspuisto)翻新工作的城市规划师们,是为了现有居民而这样做的,而不完全是、甚至主要不是为了吸引私人投资进入该地区。值得注意的是,这些干预措施中确实包含着一种道德承诺(moral commitment),而这种承诺,恰恰是被那套将‘问题化’的社会住房集聚地污名化的故事线所塑造出来的。污名通过‘公平’的观念使干预获得正当性,这种正当化不仅是一种对外的辩护,很可能也是一种在制度层面的内部自我辩护(Kallin, 2017)。</p>
+<div class="note" data-nid="52bbf26126"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<blockquote class="cited">
+<p class="en">whether social mix policies are harmless or insidious depends in part on the social and political context in which they are situated.</p>
+<p class="zh">社会混合政策究竟是无害的,还是暗藏危害,部分取决于它们所处的社会和政治情境。</p>
+<span class="attrib">Arthurson(2008, 第499页)本人的理论表述——作者引用这句话是采纳、赞同其观点,并以此为跳板提出自己的判断(见下一句“I argue that…”),这是作者借他人之口引出自己论点的方式,并非要反驳的对象。</span>
+<div class="note" data-nid="bdebaceb2b"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</blockquote>
+<div class="bipara">
+<p class="en">I argue that, situated in the context of intensified welfare retrenchment, the city’s stubborn devotion to the social mix policy risks legitimizing instead of challenging urban inequality. The national government’s cuts to both supply-side housing subsidies (Rasinkangas et al., 2024) and housing allowances, together with rent increases in municipally owned social housing, have already materialized in increased evictions (Kuokkanen, 2024) and a rise in homelessness for the first time in over a decade (ARA, 2024). This can make the question of physical displacement relevant in the Finnish context, where it has until now remained a marginal phenomenon due to housing allowances that have allowed low-income households to stay put.</p>
+<p class="zh">我认为,在福利紧缩不断加剧的这一情境之下,该市对社会混合政策的固执坚持,有可能非但没有挑战城市不平等,反而使其获得正当性。中央政府对供给侧住房补贴(Rasinkangas et al., 2024)和住房补贴金(housing allowances)的双重削减,加上市属社会住房租金的上涨,已经切实转化为驱逐(evictions)案例的增加(Kuokkanen, 2024),以及十多年来首次出现的无家可归人数上升(ARA, 2024)。这可能使物理性置换问题在芬兰语境下重新变得具有现实意义——迄今为止,由于住房补贴金一直使低收入家庭得以留在原地,物理性置换在芬兰始终只是一个边缘现象。</p>
+<div class="note" data-nid="eaa9557e91"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">Research has shown that home ownership among both low-income and middle-income households has decreased in Helsinki due to the high cost of housing (Saikkonen et al., 2018). For young people, home ownership has increasingly become out of reach due to financialization of smaller flats and the high cost of larger apartments (Vaattovaara &amp;amp; Vuori, 2023). Still, the city insists on increasing the share of unregulated owner-occupation in the regeneration areas. By affirming the dominance of private market housing provision, the city does not only justify the status quo but, according to recent examples from the Helsinki Metropolitan Area, the city might contribute to increased financialization of housing, without much impact on the socioeconomic profile of the areas (see Lilius &amp;amp; Hirvonen, 2021).</p>
+<p class="zh">研究表明,由于住房成本高昂,赫尔辛基低收入和中等收入家庭的自有住房率都在下降(Saikkonen et al., 2018)。对年轻人来说,由于小户型公寓的金融化以及大户型公寓的高昂成本,自有产权住房已经变得越来越遥不可及(Vaattovaara &amp; Vuori, 2023)。尽管如此,该市仍然坚持在更新片区提高非管制自有产权住房的比例。通过肯定私人市场供房的主导地位,该市不仅使现状获得了正当性,而且根据赫尔辛基都市区近期的一些实例来看,该市的做法甚至可能加剧住房的金融化,却对这些片区的社会经济状况几乎没有什么实质影响(见 Lilius &amp; Hirvonen, 2021)。</p>
+<div class="note" data-nid="8e4031a854"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">Furthermore, the mere focus on segregation metrics can result in false conclusion regarding increased equality by overlooking other dimensions of urban inequality, such as limited affordable housing options (Uitermark et al., 2024). As a Nordic municipality, the tools for securing housing affordability are good. But in adhering to its anti-segregation goal, the city is hesitating to increase the share of state-subsidized rental housing production in the city as a whole because doing so would mean increasing it in the urban regeneration areas as well. However, without genuine efforts to ensure access to affordable housing densification does not contribute to urban equality – it can contribute to gentrification (see Cavicchia, 2021).</p>
+<p class="zh">此外,单纯聚焦于隔离指标,可能会因忽视城市不平等的其他维度(比如可负担住房选择的有限性)(Uitermark et al., 2024),而得出关于‘平等程度提升’的错误结论。作为一个北欧市镇,赫尔辛基原本拥有确保住房可负担性的良好制度工具。但由于坚持其反隔离目标,该市在提高全市国家补贴租赁住房建设占比这件事上一直犹豫不决,因为这样做也就意味着要在城市更新片区提高这一比例。然而,如果缺乏确保可负担住房可得性的真正努力,密集化建设本身并不能促进城市平等——它反而可能助长绅士化(见 Cavicchia, 2021)。</p>
+<div class="note" data-nid="0b3ae191b1"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">The case areas, Mellunkylä and Meri-Rastila, have long histories with stigma and decades’ worth of efforts to ‘revitalize’ them. The efforts have formed the basis for the continuation of similar measures, such as the city’s new urban regeneration model scrutinized in this article. This article shows that by engaging in false choice urbanism (Slater, 2014) the city has successfully rationalized social mix as the only solution to what seems to be a ‘consistent problem’ (see Hajer, 1995) of enduring socioeconomic decline in its periphery. In spite of that, untapping the ‘potential’ of the selected regeneration areas required municipal interventions. Through placemaking and visionary work, such as architectural competitions and neighborhood branding through ‘innovation districts’ (seemingly neutral and technical processes), an imagined future was held against the current disinvested state of the neighborhoods. By exploiting the symbolic denigration of the areas to prime them for renewal, the city could justify radical measures like demolition.</p>
+<p class="zh">案例片区 Mellunkylä 和 Meri-Rastila,都有着长期背负污名、并被数十年来的种种努力‘复兴’的历史。这些努力构成了继续推行类似措施——比如本文所审视的这套城市更新新模式——的基础。本文表明,通过采取虚假选择的城市主义(false choice urbanism)(Slater, 2014),该市成功地将社会混合合理化为应对其边缘地区长期社会经济衰退这一看似‘一以贯之的问题’(见 Hajer, 1995)的唯一解决方案。尽管如此,要真正挖掘出所选更新片区的‘潜力’,依然离不开市政当局的干预。通过地方营造(placemaking)和愿景构建工作——比如建筑设计竞赛,以及借助‘创新街区’(innovation districts)之类看似中立、技术性的过程来进行社区品牌塑造——一个想象中的未来被拿来与这些社区当下的撤资状态相对照。通过利用对这些片区的象征性贬低来为更新‘铺垫’,该市得以将拆除之类的激进措施正当化。</p>
+<div class="note" data-nid="3d767d165e"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">A reputational gap (Kallin, 2017) was formed, and urban regeneration was offered as a solution to its closure. However, working on the image of the neighborhoods was not enough for the formation of rent gaps; the city also had to materially bridge the subsidy gap (Gray, 2022). To improve conditions for private investment in these “economically risky” neighborhoods, the city initiated regeneration by significantly increasing public funding for the refurbishment of public spaces and other green gentrification strategies, as well as restructuring land ownership. In other words, the city has chosen to use its planning monopoly and land ownership as a tool (Olsson, 2018) to facilitate urban redevelopment by subsidizing investment costs for developers, thus “privatizing profits and socializing losses” (Risager, 2022, p. 209).</p>
+<p class="zh">一道声誉缺口(reputational gap)(Kallin, 2017)由此形成,而城市更新则被呈现为弥合这道缺口的解决方案。然而,仅仅在社区形象上做文章,并不足以形成租隙;该市还必须在物质层面弥合补贴缺口(subsidy gap)(Gray, 2022)。为了改善私人投资在这些“经济上高风险”社区的条件,该市大幅增加了用于公共空间翻新等绿色绅士化策略的公共资金投入,并对土地所有权进行了重组,以此启动更新工作。换言之,该市选择将自己的规划垄断权和土地所有权当作一种工具(Olsson, 2018),通过为开发商的投资成本提供补贴来促成城市重建,从而实现“利润私有化、损失社会化”(privatizing profits and socializing losses)(Risager, 2022, 第209页)。</p>
+<div class="note" data-nid="20cff88ac9"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">The case of Helsinki has demonstrated the necessity of state mediation to the reproduction of capitalist relations, especially in times of economic crisis and in stigmatized, peripheral neighborhoods. Whether the city can revive the interrupted regeneration and close the rent gaps in the regeneration areas or not remains to be seen. Neighborhoods such as Kontula and Meri-Rastila, that are stuck in this regeneration limbo for years or even decades, are necessary casualties of the vulnerability of capitalist reproduction, when potential failure is baked into the profit logic that drives urban regeneration (see Gray &amp;amp; Kallin, 2023).</p>
+<p class="zh">赫尔辛基这一案例,展示了国家中介(state mediation)对于资本主义关系再生产而言的必要性,尤其是在经济危机时期,以及在污名化的边缘社区之中。该市能否重启中断的更新进程、弥合这些更新片区的租隙,目前仍是未知数。像 Kontula 和 Meri-Rastila 这样已在更新悬置状态中滞留多年甚至数十年的社区,正是资本主义再生产脆弱性的必然代价——因为潜在的失败,本就内嵌在驱动城市更新的利润逻辑之中(见 Gray &amp; Kallin, 2023)。</p>
+<div class="note" data-nid="17bc4e44a3"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">Living through the precarities of urban regeneration has implications for residents, perhaps even more so in stalling regeneration processes (see Wallace, 2015). Although no definitive conclusions can be drawn from my ethnographic fieldwork, the ontological insecurity of the residents caused by degeneration (Watt, 2023) and uncertain demolition timelines should be taken seriously. Even without immediate displacement of lower income residents, the new urban regeneration model reflects a broader development where the city is produced for more affluent users (see Lilius, 2021). For those who want to see a just city, it is therefore important to acknowledge other forms of displacement (Davidson, 2009; Marcuse, 1985) to avoid falling into the seemingly progressive trap of pro-gentrification policies.</p>
+<p class="zh">亲身经历城市更新的不确定性,会给居民带来切实的影响,而在更新进程陷入停滞的情况下,这种影响或许更甚(见 Wallace, 2015)。虽然我的民族志田野调查无法得出确定性的结论,但由衰败(degeneration)(Watt, 2023)和不确定的拆除时间表所导致的居民本体论层面的不安全感,理应得到认真对待。即便低收入居民没有立即遭到置换,这套城市更新新模式,依然反映出一种更广泛的发展趋势——这座城市正在被生产出来,以服务于更富裕的使用者(见 Lilius, 2021)。因此,对于那些希望看到一座‘公正城市’的人而言,承认其他形式的置换(Davidson, 2009; Marcuse, 1985)十分重要,这样才能避免落入支持绅士化政策那种看似进步的陷阱之中。</p>
+<div class="note" data-nid="5ab1aa01f7"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">The article has shown that Helsinki, like many other Western European cities (Uitermark &amp;amp; Bosker, 2014), is in a difficult and contradictory situation. The Finnish government wants to deepen private market dominance in housing policy, which leads to increased urban inequality. At the same time, both the state and the city want to prevent segregation to avoid going “Sweden’s way.” To manage this dilemma, the city has in its periphery implemented ‘gentrification in disguise’ (Lees, 2008), wrapped in anti-segregation discourse. However, this only affirms the status quo of neoliberal urbanism.</p>
+<p class="zh">本文表明,赫尔辛基与许多其他西欧城市一样(Uitermark &amp; Bosker, 2014),正处于一种艰难而充满矛盾的处境之中。芬兰政府希望在住房政策中进一步深化私人市场的主导地位,而这会导致城市不平等的加剧;与此同时,国家和该市又都希望防止隔离,以避免走上‘瑞典式’道路。为了应对这一两难困境,该市在其边缘地区实施了一种包裹在反隔离话语之中的‘伪装的绅士化’(gentrification in disguise)(Lees, 2008)。然而,这样做只不过是在肯定新自由主义城市主义的现状而已。</p>
+<div class="note" data-nid="23a11651b5"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<div class="bipara">
+<p class="en">A better approach to the reasonable desire to combat segregation could be, for example, a proper housing policy where access to affordable housing is not regarded as a social policy but a normal need (see Hyötyläinen, 2020). Helsinki is ultimately, due to its planning monopoly and high land ownership, well-equipped to influence the supply of social housing. Instead of socializing risks when the development of unregulated housing fails to proceed, the city could prioritize state-subsidized rental housing. For Helsinki to truly be a counterforce to austerity politics on the national level, as some progressive councilors proudly describe it, it needs to reassess its position on social housing and public ownership.</p>
+<p class="zh">要回应对抗隔离这一合理诉求,一种更好的方式,或许是推行一套恰当的住房政策——将获得可负担住房视为一种正常需求,而不是一种社会救济(见 Hyötyläinen, 2020)。归根结底,凭借其规划垄断权和高比例的土地所有权,赫尔辛基原本完全有能力影响社会住房的供给。与其在非管制住房开发无法推进时选择将风险社会化,该市原本可以优先发展国家补贴租赁住房。如果赫尔辛基真的想成为一些进步派市议员所自豪宣称的那种、对抗国家层面紧缩政治的反作用力,它就需要重新审视自己在社会住房和公共产权问题上的立场。</p>
+<div class="note" data-nid="41c2208199"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<h3><span class="en">CRediT authorship contribution statement</span><span class="zh">CRediT 作者贡献声明</span></h3>
+<div class="bipara">
+<p class="en">Hanna Yrjänä: Writing – original draft, Project administration, Methodology, Formal analysis, Data curation, Conceptualization.</p>
+<p class="zh">Hanna Yrjänä:论文初稿撰写、项目管理、研究方法设计、正式分析、数据整理、概念构建。</p>
+<div class="note" data-nid="01638eb152"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<h3><span class="en">Declaration of competing interest</span><span class="zh">利益冲突声明</span></h3>
+<div class="bipara">
+<p class="en">The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.</p>
+<p class="zh">作者声明,本人不存在任何已知的、可能被认为影响本文所述研究工作的经济利益冲突或个人关系。</p>
+<div class="note" data-nid="1bdbb565b5"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+<h3><span class="en">Data availability</span><span class="zh">数据可得性声明</span></h3>
+<div class="bipara">
+<p class="en">No data was used for the research described in the article.</p>
+<p class="zh">本文所述研究未使用可公开提供的数据集。</p>
+<div class="note" data-nid="c2d0c6849a"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+</div>
+</article>
+<details class="pack" open><summary>名词与人物详解 <span style="font-weight:400;font-size:.75rem">(36 条)</span></summary>
+<div class="gitem" id="g-stateled">
+<span class="cat">理论/思潮</span>
+<span class="term">国家主导型绅士化(state-led gentrification)</span>
+<p class="def">指国家/地方政府并非仅仅为资本流动扫清障碍,而是主动运用规划权、土地所有权和公共资金,把某个片区变得‘可绅士化’(gentrifiable)的过程。本文的核心论点正是:赫尔辛基城市更新新模式,是国家(市政府)以反隔离之名主动促成绅士化的一个案例——它不是市场自发驱动的绅士化,而是政府用公共资源为私人投资‘去风险’、主动制造条件的绅士化。</p>
+</div>
+<div class="gitem" id="g-falsechoice">
+<span class="cat">理论/思潮</span>
+<span class="term">虚假选择的城市主义(false choice urbanism)</span>
+<p class="def">Tom Slater(2014)提出的概念,指政策话语把绅士化包装成应对社区衰败‘唯一别无选择’的出路,从而掩盖其他可能的政策选项(例如加大公共住房投资)。本文用它来分析赫尔辛基的土地利用方案:方案把绅士化式的密集化建设呈现为对抗衰败的唯一出路,让居民和政治人物都难以设想别的替代方案。</p>
+</div>
+<div class="gitem" id="g-storyline">
+<span class="cat">理论/思潮</span>
+<span class="term">故事线 / 话语结构化与制度化(storyline / discourse structuration &amp;amp; institutionalization)</span>
+<p class="def"><a class="gref" href="#g-hajer">Maarten Hajer</a>(1995)的核心概念。‘故事线’是一种能把某个问题的复杂性加以简化、并让不同行动者在其中获得共同理解的叙事装置——它的说服力主要来自‘听起来大致没错’,而非严谨论证。当行动者为了显得可信而必须援引该话语(话语结构化),且该话语被写进政策和制度安排(话语制度化)时,故事线就获得了霸权地位。本文用这一框架分析‘社会混合能纠正隔离’这一故事线,如何在赫尔辛基的城市政策文件中逐步获得了不容置疑的‘常识’地位。</p>
+</div>
+<div class="gitem" id="g-territorialstigma">
+<span class="cat">概念</span>
+<span class="term">地域污名(territorial stigma / stigmatisation)</span>
+<p class="def">Loïc <a class="gref" href="#g-wacquant">Wacquant</a> 等学者发展的概念,指某个地方(而非仅仅是居住其中的人)本身被贴上负面标签,被塑造成‘恶地’(badland)、‘无可救药’之地。本文指出,地域污名的‘激活’是<a class="gref" href="#g-rentgap">租隙</a>形成不可或缺的一环:正是把 Kontula、Meri-Rastila 描绘成问题丛生的地方,才使得激进的干预(如拆除)显得必要且‘善意’。</p>
+</div>
+<div class="gitem" id="g-managed-decline">
+<span class="cat">概念</span>
+<span class="term">管理式衰败(managed decline)</span>
+<p class="def">Paul Watt(2023)提出的概念,指在更新中期阶段,产权方或住房公司有意放松对既有建筑的维护——因为反正计划要拆除——从而任由建筑状况恶化,间接为拆除提供了正当理由。本文中 Kontula 购物中心与 Vesala 社会住房楼栋的状况,都是‘管理式衰败’的具体例证。</p>
+</div>
+<div class="gitem" id="g-positive-gent">
+<span class="cat">概念</span>
+<span class="term">‘积极的绅士化’ / 无置换的绅士化(positive gentrification / gentrification without displacement)</span>
+<p class="def">Shaw &amp; Hagemans(2015)提出的说法,指绅士化过程中即便没有发生居民的物理迁移(即无<a class="gref" href="#g-displacement">置换</a>),也仍可能通过改变一个地区的人口构成比例(例如让低收入居民占比下降而非绝对数量下降)来实现地区的‘提升’。本文对这一说法持批判态度:作者指出,‘没有物理置换’不等于‘没有伤害’,现有低收入居民依然可能承受租金上涨、维护缺失、社会文化疏离等代价。</p>
+</div>
+<div class="gitem" id="g-smith">
+<span class="cat">人物</span>
+<span class="term">Neil Smith</span>
+<p class="def">美国地理学家,绅士化研究的奠基人物之一,以其1979年提出的<a class="gref" href="#g-rentgap">租隙理论(rent gap theory)</a>著称——该理论认为,绅士化的动力来自地产现有价值与潜在价值之间的差距,而非单纯的消费者品味变化。他后来的《新城市边疆》(The New Urban Frontier, 1996)进一步把绅士化理论化为资本对城市空间的‘再征服’。本文开篇即援引 Smith(1979)的租隙理论作为全文分析框架的理论基石。</p>
+</div>
+<div class="gitem" id="g-lees">
+<span class="cat">人物</span>
+<span class="term">Loretta Lees</span>
+<p class="def">英国城市地理学家,绅士化与社会混合政策的重要批判者,代表作包括《绅士化》(Gentrification, 与 Slater、Wyly 合著)及本文多次引用的《绅士化与社会混合:迈向一场包容的城市复兴?》(Lees, 2008)。本文借用她‘伪装的绅士化’(gentrification in disguise)一说,来概括赫尔辛基把绅士化包裹在反隔离话语之中的做法。</p>
+</div>
+<div class="gitem" id="g-hajer">
+<span class="cat">人物</span>
+<span class="term">Maarten Hajer</span>
+<p class="def">荷兰政治学家/规划学者,代表作《环境话语的政治学》(The Politics of Environmental Discourse, 1995),提出了<a class="gref" href="#g-storyline">故事线(storyline)</a>及话语结构化/制度化的分析框架。本文的方法论直接受 Hajer 启发,用以分析赫尔辛基城市规划文件如何‘制造’出隔离这一问题,并使城市更新顺理成章地成为其解决方案。作者对 Hajer 的理论是采纳而非反驳的态度。</p>
+</div>
+<div class="gitem" id="g-krijnen">
+<span class="cat">人物</span>
+<span class="term">Martijn Krijnen</span>
+<p class="def">以研究租隙的形成与全球绅士化理论化著称的学者,代表作《绅士化与租隙的创造和形成》(Krijnen, 2018)。本文采用他在‘租隙形成’(rent gap formation)与‘租隙弥合’(rent gap closure)之间所做的分析性区分:租隙的形成并不保证它会被弥合为现实的绅士化,这正是本文用以解释赫尔辛基更新片区长期陷入‘停滞’状态的关键理论工具。</p>
+</div>
+<div class="gitem" id="g-kallin">
+<span class="cat">人物</span>
+<span class="term">Hannah Kallin</span>
+<p class="def">研究地域污名与绅士化关系的学者,提出了<a class="gref" href="#g-reputationgap">声誉缺口(reputational gap)</a>概念(Kallin, 2017),并与 Neil Gray 合著《资本的福利依赖》(Gray &amp; Kallin, 2023),分析国家在停滞更新进程中的角色。本文大量借用她的声誉缺口概念,来分析 Kontula 购物中心与 Meri-Rastila 的‘愿景构建’工作。</p>
+</div>
+<div class="gitem" id="g-gray">
+<span class="cat">人物</span>
+<span class="term">Neil Gray</span>
+<p class="def">研究苏格兰(格拉斯哥、爱丁堡)停滞更新与国家补贴的学者,提出了<a class="gref" href="#g-subsidygap">国家补贴缺口(state subsidy gap)</a>概念(Gray, 2022),并与 Kallin 合著呼吁批判性研究国家在停滞更新过程中所起的促成作用(Gray &amp; Kallin, 2023)。本文的核心分析框架(声誉缺口+补贴缺口)直接建立在 Gray 与 Kallin 的研究基础上。</p>
+</div>
+<div class="gitem" id="g-wacquant">
+<span class="cat">人物</span>
+<span class="term">Loïc Wacquant</span>
+<p class="def">法国社会学家,以‘超级贫民窟’(hyperghetto)与污名化研究著称,代表作探讨‘城市荒芜与象征性贬低’(Wacquant, 2010)以及地域污名的‘行动中’表现(Wacquant, Slater &amp; Pereira, 2014)。本文借用他关于‘无可挽救’(beyond salvage)地方表征的说法,分析赫尔辛基的更新片区如何被建构为‘必须有所作为’的问题地区。</p>
+</div>
+<div class="gitem" id="g-slater">
+<span class="cat">人物</span>
+<span class="term">Tom Slater</span>
+<p class="def">苏格兰爱丁堡大学地理学家,绅士化批判研究的重要学者,提出<a class="gref" href="#g-falsechoice">虚假选择的城市主义(false choice urbanism)</a>(Slater, 2014),并批评城市研究中‘学术议程从属于政策议程’的倾向(Slater, 2021)。本文的批判立场在方法论和措辞上都明显承袭自 Slater。</p>
+</div>
+<div class="gitem" id="g-arthurson">
+<span class="cat">人物</span>
+<span class="term">Kathy Arthurson</span>
+<p class="def">澳大利亚学者,长期研究公共住房与社会混合政策,代表作分析澳大利亚公共住房中社会混合的历史(Arthurson, 2008)。本文引用她的观点——社会混合政策‘是无害还是有害,部分取决于其所处的社会政治情境’——作为作者自己论点(赫尔辛基语境下社会混合正在legitimize不平等)的理论跳板。</p>
+</div>
+<div class="gitem" id="g-marcuse">
+<span class="cat">人物</span>
+<span class="term">Peter Marcuse</span>
+<p class="def">美国城市规划学者,较早系统区分不同类型置换的学者之一,提出‘排斥性置换’(exclusionary displacement)概念(Marcuse, 1985)——即当可负担住房存量减少,使得低收入家庭无法迁入某地区时所发生的置换,即便没有人被直接赶走。本文用这一概念分析赫尔辛基更新片区拆除老旧租赁住房后可能产生的间接后果。</p>
+</div>
+<div class="gitem" id="g-davidson-scholar">
+<span class="cat">人物</span>
+<span class="term">Mark Davidson</span>
+<p class="def">研究置换概念化问题的学者,提出应将置换理解为不仅是空间上的物理迁移,还包括‘社会文化置换’(socio-cultural displacement)——居民虽仍住在原处,但周遭环境已变得陌生(Davidson, 2009)。本文借此概念,批评把‘无物理迁移’直接等同于‘无置换’的简化理解(这正是赫尔辛基官方话语默认的立场)。</p>
+</div>
+<div class="gitem" id="g-watt">
+<span class="cat">人物</span>
+<span class="term">Paul Watt</span>
+<p class="def">英国住房与更新研究学者,代表作研究伦敦住区更新中的‘置换焦虑’(displacement anxiety, Watt, 2021)以及更新前后的长期视角与<a class="gref" href="#g-managed-decline">‘管理式衰败’</a>(managed decline, Watt, 2023)。本文大量借用 Watt 的概念分析田野中观察到的居民不安全感。</p>
+</div>
+<div class="gitem" id="g-rentgap">
+<span class="cat">概念</span>
+<span class="term">租隙(rent gap)</span>
+<p class="def">由 Neil Smith(1979)提出的经典绅士化理论概念,指一块土地/地产的现有资本化价值与其在‘最高最佳利用’下的潜在价值之间的差距。当这一差距足够大时,重新开发就变得有利可图,从而驱动绅士化。本文进一步采用 Krijnen(2018)的区分——‘租隙的形成’不等于‘租隙的弥合’——来解释为什么赫尔辛基的更新片区虽已形成租隙,却长期未能真正被‘弥合’为完成的绅士化。</p>
+</div>
+<div class="gitem" id="g-subsidygap">
+<span class="cat">概念</span>
+<span class="term">国家补贴缺口(state subsidy gap)</span>
+<p class="def">Neil Gray(2022)提出的概念,指国家/地方政府为了给开发‘去风险’、为私人投资创造有利条件,而必须在经济上加以弥合的那部分缺口——例如通过土地整治、以优惠条件出售或出租土地、直接投资公共空间等方式。本文用它来分析赫尔辛基如何通过增加公共资金投入(如 Haruspuisto 公园翻新、Mellunkylä 公共空间改造)来为私人开发商‘承担风险’。</p>
+</div>
+<div class="gitem" id="g-reputationgap">
+<span class="cat">概念</span>
+<span class="term">声誉缺口(reputational gap)</span>
+<p class="def">Hannah Kallin(2017)提出的概念,指把一个地方‘想象中的潜力’与它当下被污名化的版本相对照,从而为城市干预创造正当性和紧迫感的话语操作。Kallin 强调,重要的不是租隙是否真实存在,而是行动者对它‘应该存在’的渴望与确信。本文用这一概念分析 Kontula 购物中心改造方案和 Meri-Rastila 的‘地方营造’(placemaking)工作。</p>
+</div>
+<div class="gitem" id="g-socialmix">
+<span class="cat">概念</span>
+<span class="term">社会混合(social mix)</span>
+<p class="def">一种城市/住房政策理念,主张通过在同一片区混合不同产权形式(自有产权、中间产权、租赁)、不同收入群体的住房,来防止贫困和弱势群体的空间集中,进而防止隔离。在赫尔辛基,社会混合政策历史悠久,被视为该市防止隔离最重要、最成功的手段;但本文的核心论点正是:当社会混合被当作对抗隔离的‘矫正措施’、并被用来正当化对社会住房集中片区的密集化开发和拆除时,它实际上成为了国家主导型绅士化获得道德正当性的话语工具,而不是真正挑战城市不平等的手段。</p>
+</div>
+<div class="gitem" id="g-displacement">
+<span class="cat">概念</span>
+<span class="term">置换(displacement)</span>
+<p class="def">绅士化研究中的核心概念,指原有居民因绅士化过程而被迫离开(物理性置换),或即便未离开却因环境剧变而与地方产生疏离(社会文化置换,见 <a class="gref" href="#g-davidson-scholar">Davidson</a>),抑或因可负担住房减少而被排除在迁入某地区的可能性之外(排斥性置换,见 <a class="gref" href="#g-marcuse">Marcuse</a>)。本文强调:赫尔辛基更新过程中不存在大规模的物理性置换,常被官方和部分学者引为‘无害绅士化’的证据,但这忽视了社会文化置换和排斥性置换正在发生的事实。</p>
+</div>
+<div class="gitem" id="g-planningmonopoly">
+<span class="cat">政策/机构</span>
+<span class="term">规划垄断(planning monopoly)</span>
+<p class="def">指芬兰市镇在法律上对本辖区土地利用规划拥有的独占性权力——即只有市政府才能编制和批准具有法律效力的详细规划。本文强调,正是这种规划垄断权,加上赫尔辛基市对辖区内大量土地的直接所有权,使该市在理论上完全有能力选择不同的路径(例如优先发展国家补贴租赁住房),而不是选择为私人资本‘去风险’这条路。</p>
+</div>
+<div class="gitem" id="g-mal">
+<span class="cat">政策/机构</span>
+<span class="term">MAL 协议(MAL-agreement)</span>
+<p class="def">芬兰跨市镇规划合作机制,由都市区各市镇与中央政府就土地利用(Maankäyttö, M)、住房(Asuminen, A)和交通(Liikenne, L)三方面达成的协议。本文分析了2020年和2024年两版 MAL 协议,指出2024年协议(在右翼政府任内达成)不再为落实住房政策提供国家层面的配套支持,是国家福利紧缩在住房领域的具体体现之一。</p>
+</div>
+<div class="gitem" id="g-landuseprogram">
+<span class="cat">政策/机构</span>
+<span class="term">《住房及相关土地利用实施方案》(Implementation Program on Housing and Related Land Use / “Land Use” 方案)</span>
+<p class="def">赫尔辛基市每届市议会任期编制一次的住房与土地政策长期规划文件,是本文政策分析的主要文本来源之一(2020年版与2024年版)。文中大量直接引用的城市官方表述(如‘应避免单一化住区’‘该市不愿提高ARA租赁住房占比’)均出自该方案。</p>
+</div>
+<div class="gitem" id="g-heka">
+<span class="cat">政策/机构</span>
+<span class="term">Heka</span>
+<p class="def">赫尔辛基市属租赁住房公司(Helsingin kaupungin asunnot),负责管理该市绝大部分的社会租赁住房存量。本文田野笔记中记录的居民与 Heka 代表的多次互动(如关于拆除后回迁权的问答),呈现了普通租户在更新过程中面对的不确定性。</p>
+</div>
+<div class="gitem" id="g-ara">
+<span class="cat">政策/机构</span>
+<span class="term">ARA</span>
+<p class="def">芬兰住房金融与发展中心(Asumisen rahoitus- ja kehittämiskeskus / Housing Finance and Development Centre of Finland),负责国家层面的社会住房补贴与监管,也是‘ARA 住房’(即国家补贴租赁住房)这一说法的来源。本文引用赫尔辛基土地利用方案中‘该市不愿提高 ARA 租赁住房占比’的表述,来说明社会混合话语如何被用来为限制社会住房建设辩护。</p>
+</div>
+<div class="gitem" id="g-hitas">
+<span class="cat">政策/机构</span>
+<span class="term">HITAS / 居住权住房(right-of-occupancy housing)</span>
+<p class="def">HITAS 是赫尔辛基市自行运营的一套受价格管制的自有产权住房生产模式(现已被该市废止);‘居住权住房’(right-of-occupancy housing,注脚说明:居住者先支付一笔居住权费,再按月支付使用费,以此获得在特定住宅中长期居住的权利)则是介于租赁与完全产权之间的一种中间产权模式,由芬兰政府提供资助,但该资助已于2024年被政府宣布将于2025年底终止。这两套受管制/半管制模式的先后废止或削减,正是本文所说‘国家福利紧缩’在住房生产领域最直接的体现,也是‘非管制自有产权住房’成为更新片区几乎唯一建设选项的制度背景。</p>
+</div>
+<div class="gitem" id="g-mellunkyla">
+<span class="cat">地名</span>
+<span class="term">Mellunkylä</span>
+<p class="def">赫尔辛基面积最大的行政区之一,人口约4万,本文的两个案例片区之一。辖内包括 Mellunmäki、Kontula、Vesala、Kivikko、Kurkimäki 等社区,主要由20世纪60至80年代建成的战后大规模住宅组成,社会住房比例较高。</p>
+</div>
+<div class="gitem" id="g-kontula">
+<span class="cat">地名</span>
+<span class="term">Kontula</span>
+<p class="def">Mellunkylä 区最大的社区之一,自建成以来长期被视为芬兰‘城市失败’的全国性象征(从城市化时期乡村人口的‘无根性’,到90年代经济衰退后的族裔隔离)。本文详细分析了 Kontula 购物中心自2004年以来陷入更新僵局、并最终以‘完全拆除’方案胜出建筑竞赛,却因开发商(NCC)撤资而再度陷入不确定的过程,是本文‘声誉缺口’概念最主要的案例。</p>
+</div>
+<div class="gitem" id="g-merirastila">
+<span class="cat">地名</span>
+<span class="term">Meri-Rastila</span>
+<p class="def">隶属 Vuosaari 区的一个滨海社区,本文的另一个核心案例片区。20世纪90年代初经济衰退期间以大量国家补贴建成低层社会住房,如今因毗邻海滩与绿地而拥有较高的‘声誉缺口’潜力。本文详细分析了该片区的 Haruspuisto 公园翻新、超过半数新建筑权通过拆除既有社会住房落实等情况。</p>
+</div>
+<div class="gitem" id="g-vesala">
+<span class="cat">地名</span>
+<span class="term">Vesala</span>
+<p class="def">Mellunkylä 区内的一个社区,主要由20世纪50年代独户住宅和80年代公寓楼组成。本文提及该社区七栋80年代社会住房楼栋曾被规划拆除、以‘碳中和密集化生活实验室’的名义改建为木结构建筑,后因HITAS和居住权住房模式相继被废止而计划搁浅。</p>
+</div>
+<div class="gitem" id="g-vuosaari">
+<span class="cat">地名</span>
+<span class="term">Vuosaari</span>
+<p class="def">赫尔辛基东南部的一个大区,Meri-Rastila 是其下辖的一个社区。</p>
+</div>
+<div class="gitem" id="g-mellunmaki">
+<span class="cat">地名</span>
+<span class="term">Mellunmäki</span>
+<p class="def">Mellunkylä 区内最大的社区之一,拥有大规模战后住宅。本文的田野笔记之一记录了在当地一所小学举行的、居民就 Heka 大幅上调社会住房租金一事与市政官员和 Heka 董事会展开的问答会。</p>
+</div>
+<div class="gitem" id="g-myllypuro">
+<span class="cat">地名</span>
+<span class="term">Myllypuro</span>
+<p class="def">赫尔辛基东部的一个社区,被市政府视为‘成功的城市更新’范例。本文引用 Lilius &amp; Hirvonen(2021)的研究指出,Myllypuro 更新完成后,当地社会住房租金的涨幅超过其他社区,暗示低收入住户可能正在为该地区的再投资‘埋单’——这一细节被用来对官方的‘成功范例’叙事提出质疑。</p>
+</div>
+</details>
+<details class="pack"><summary>References（原文参考文献）</summary>
+<p class="refs">ARA. (2024). Selvitys 2/2025: Asunnottomat 2024. [Homeless 2024]. https://www.varke.fi/fi/document/asunnottomat-2024.<br>
+Arthurson, K. (2008). Australian public housing and the diverse histories of social mix. <em>Journal of Urban History</em>, 34(3), 484&ndash;501.<br>
+Arthurson, K., Levin, I., &amp; Ziersch, A. (2015). What is the meaning of &lsquo;social mix&rsquo;? Shifting perspectives in planning and implementing public housing estate redevelopment. <em>Australian Geographer</em>, 46(4), 491&ndash;505.<br>
+Bacqu&eacute;, M. H., &amp; Charmes, &Eacute;. (2024). Social mix and its critics: reflections on housing policies. In M. Mart&iacute;nez (Ed.), <em>Research handbook on urban sociology</em> (pp. 252&ndash;268). Edward Elgar Publishing.<br>
+Baeten, G., Westin, S., Pull, E., &amp; Molina, I. (2017). Pressure and violence: Housing renovation and displacement in Sweden. <em>Environment and Planning A</em>, 49(3), 631&ndash;665.<br>
+Bernelius, V., &amp; Vilkama, K. (2019). Pupils on the move: School catchment area segregation and residential mobility of urban families. <em>Urban Studies</em>, 56(15), 3095&ndash;3116.<br>
+Blomley, N. (2004). <em>Unsettling the city: Urban land and the politics of property</em>. Routledge.<br>
+Cavicchia, R. (2021). Are green, dense cities more inclusive? Densification and housing accessibility in Oslo. <em>Local Environment</em>, 26(10), 1250&ndash;1266.<br>
+City Council. (2024). M&auml;&auml;r&auml;aikaisten tonttipoliittisten periaatteiden ja toimenpiteiden hyv&auml;ksyminen asuntorakentamisen edist&auml;miseksi muuttuneessa toimintaymp&auml;rist&ouml;ss&auml;.<br>
+City of Helsinki. (2008). Esikaupunkien renessanssi. Esikaupunkien kehitt&auml;misen toimintatapoja.<br>
+City of Helsinki. (2013). Helsingin yleiskaava: Visio 2050.<br>
+City of Helsinki. (2017). Maailman Toimivin Kaupunki: Helsingin Kaupungin Strategia 2017&ndash;2021.<br>
+City of Helsinki. (2021a). Asumisen ja siihen liittyv&auml;n maank&auml;yt&ouml;n toteutusohjelma 2020.<br>
+City of Helsinki. (2021b). Kavun Paikka: Helsingin Kaupungin Strategia 2021&ndash;2025.<br>
+City of Helsinki. (2021c). Budget 2022.<br>
+City of Helsinki. (2024a). Asumisen ja siihen liittyv&auml;n maank&auml;yt&ouml;n toteutusohjelma 2024.<br>
+City of Helsinki. (2024b). Budget 2025.<br>
+City of Helsinki. (n.d.-a). Kaupunkiuudistuksen kokonaisuus.<br>
+City of Helsinki. (n.d.-b). Ulkomaalaistaustaisten alueellinen sijoittuminen ja asuminen.<br>
+Davidson, M. (2009). Displacement, space and dwelling: Placing gentrification debate. <em>Ethics, Place &amp; Environment</em>, 12(2), 219&ndash;234.<br>
+Dike&ccedil;, M. (2007). <em>Badlands of the republic: Space, politics and urban policy</em>. John Wiley &amp; Sons.<br>
+Drain, K. (2024). <em>Gentrification in a welfare state: The case of Helsinki</em>. University of Helsinki.<br>
+Gray, N. (2022). Correcting market failure? Stalled regeneration and the state subsidy gap. <em>City</em>, 26(1), 74&ndash;95.<br>
+Gray, N., &amp; Kallin, H. (2023). Capital&rsquo;s welfare dependency: Market failure, stalled regeneration and state subsidy in Glasgow and Edinburgh. <em>Urban Studies</em>, 60(6), 1031&ndash;1047.<br>
+Hackworth, J., &amp; Smith, N. (2001). The changing state of gentrification. <em>Tijdschrift voor Economische en Sociale Geografie</em>, 92(4), 464&ndash;477.<br>
+Hajer, M. A. (1995). <em>The politics of environmental discourse: Ecological modernization and the policy process</em>. Clarendon Press.<br>
+Hautam&auml;ki, R., &amp; Lindgren, T. (2025). Helsinki Garden ja kamppailu kaupunkikuvasta. <em>Yhdyskuntasuunnittelu</em>, 63(1), 77&ndash;105.<br>
+Helsinki Magazine. (2024). &ldquo;N&auml;iss&auml; alueissa n&auml;hd&auml;&auml;n potentiaalia&rdquo; &ndash; Helsinki kehitt&auml;&auml; kaupunkiuudistusalueitaan tulevina vuosina. June 6.<br>
+Hewidy, H., &amp; Lilius, J. (2022). In the blind spot: Ethnic retailing in Helsinki and the spontaneous placemaking of abandoned spaces. <em>European Planning Studies</em>, 30(8), 1493&ndash;1513.<br>
+Hubbard, P., &amp; Lees, L. (2021). Council estate renewal in London: The challenges of evidencing its gentrification-induced displacement. In G. Baeten, C. Listerborn, M. Persdotter, &amp; E. Pull (Eds.), <em>Housing displacement: conceptual and methodological issues</em> (pp. 18&ndash;32). Routledge.<br>
+Hy&ouml;tyl&auml;inen, M. (2015). Uusliberaali kaupunkipolitiikka ja kuntien maank&auml;ytt&ouml;. <em>Yhteiskuntapolitiikka</em>, 80(6), 625&ndash;634.<br>
+Hy&ouml;tyl&auml;inen, M. (2020). &ldquo;Not for normal people&rdquo;: The specialization of social rental housing in Finland. <em>ACME</em>, 19(2), 545&ndash;566.<br>
+Hy&ouml;tyl&auml;inen, M. (2022). Land rent and the struggle for the urban commons in Helsinki&rsquo;s Suvilahti Diy Skatepark. In M. Hy&ouml;tyl&auml;inen, &amp; R. Beauregard (Eds.), <em>The Political Economy of Land</em> (pp. 211&ndash;227). Routledge.<br>
+Juhila, K., Ranta, J., Ilmoniemi, M., &amp; M&auml;ki, J. (2023). Paikastaan siirretyt: Kotipaikan menett&auml;minen ja uuteen kiinnittyminen gentrifikaatioprosessissa. In S. Raitakari et al. (Eds.), <em>Sosiaality&ouml; kriiseiss&auml; ja poikkeuksellisissa olosuhteissa</em> (pp. 61&ndash;91). SoPhi.<br>
+Juntto, A. (1990). <em>Asuntokysymys Suomessa. Topeliuksesta tulopolitiikkaan</em>. Valtion painatuskeskus.<br>
+Kallin, H. (2017). Opening the reputational gap. In P. Kirkness, &amp; A. Tij&eacute;-Dram (Eds.), <em>Negative Neighbourhood Reputation and Place Attachment</em> (pp. 102&ndash;118). Routledge.<br>
+Kallin, H., &amp; Slater, T. (2014). Activating territorial stigma: Gentrifying marginality on Edinburgh&rsquo;s periphery. <em>Environment and Planning A</em>, 46(6), 1351&ndash;1368.<br>
+Kortteinen, M. (2022). Alueellinen sekoittaminen ja sosiaalinen kest&auml;vyys. Tutkimuskatsaus ja keskustelualoite. <em>Sosiaalitieteiden laitoksen julkaisuja</em>, 4, 1&ndash;62.<br>
+Krijnen, M. (2018). Gentrification and the creation and formation of rent gaps: Opening up gentrification theory to global forces of urban change. <em>City</em>, 22(3), 437&ndash;446.<br>
+Kuokkanen, K. (2024). H&auml;&auml;d&ouml;t ovat jyrk&auml;ss&auml; kasvussa Suomen suurimmalla vuokranantajalla. <em>Helsingin Sanomat</em>. September 24.<br>
+Lees, L. (2008). Gentrification and social mixing: Towards an inclusive urban renaissance? <em>Urban Studies</em>, 45(12), 2449&ndash;2470.<br>
+Lees, L. (2012). The geography of gentrification: Thinking through comparative urbanism. <em>Progress in Human Geography</em>, 36(2), 155&ndash;171.<br>
+Lilius, J. (2021). Mentally, we&rsquo;re rather country people&ndash;planssplaining the quest for urbanity in Helsinki, Finland. <em>International Planning Studies</em>, 26(1), 70&ndash;80.<br>
+Lilius, J., &amp; Hirvonen, J. (2021). The changing position of housing estate neighbourhoods in the Helsinki metropolitan area. <em>Journal of Housing and the Built Environment</em>, 38(1), 121&ndash;140.<br>
+Listerborn, C., &amp; Baeten, G. (2022). Struggling with conceptual framings to understand Swedish displacement processes. In P. Jakobsen, E. J&ouml;nsson, &amp; H. Gutzon Larsen (Eds.), <em>Socio-spatial theory in Nordic geography</em> (pp. 207&ndash;216). Springer.<br>
+Livingston, M., Kearns, A., &amp; Bailey, N. (2013). Delivering mixed communities: The relationship between housing tenure mix and social mix in England&rsquo;s neighbourhoods. <em>Housing Studies</em>, 28(7), 1056&ndash;1080.<br>
+L&ouml;nnqvist, H. (2015). On the effects of urban natural amenities, architectural quality and accessibility to workplaces on housing prices. <em>Helsingin kaupungin tietokeskus</em>, 2015(5), 1&ndash;243.<br>
+Lutz, E., Wicki, M., &amp; Kaufmann, D. (2024). Creating inequality in access to public transit? Densification, gentrification, and displacement. <em>Environment and Planning B</em>.<br>
+M&auml;enp&auml;&auml;, P. (2011). <em>Helsinki takaisin jaloilleen: askelia toimivampaan kaupunkiin</em>. Gaudeamus Helsinki University Press.<br>
+Marcuse, P. (1985). Gentrification, abandonment, and displacement: Connections, causes, and policy responses in New York City. <em>Journal of Urban &amp; Contemporary Law</em>, 28, 195&ndash;240.<br>
+M&ouml;sgen, A., Rosol, M., &amp; Schipper, S. (2019). State-led gentrification in previously &lsquo;un-gentrifiable&rsquo; areas: Examples from Vancouver/Canada and Frankfurt/Germany. <em>European Urban and Regional Studies</em>, 26(4), 419&ndash;433.<br>
+Olsen, S. H., &amp; Larsen, H. G. (2023). State-led stigmatisation of place and the politics of the exception. <em>Environment and Planning C</em>, 41(1), 148&ndash;164.<br>
+Olsson, L. (2018). The neoliberalization of municipal land policy in Sweden. <em>International Journal of Urban and Regional Research</em>, 42(4), 633&ndash;650.<br>
+Palkoaho, M. (2024). Pormestari Juhana Vartiainen ehdottaa suuria muutoksia Helsingin kouluihin. <em>Helsingin Sanomat</em>. February 7.<br>
+Pieti&auml;l&auml;inen, J. (2023). Ep&auml;varmuus kalvaa Kontulan ostarin yritt&auml;ji&auml;. <em>Helsingin Uutiset</em>. October 16.<br>
+Polanska, D. V., &amp; Richard, A. (2021). Resisting renovictions: Tenants organizing against housing companies&rsquo; renewal practices in Sweden. <em>Radical Housing Journal</em>, 4(1), 187&ndash;205.<br>
+Porter, L., &amp; Shaw, K. (2013). <em>Whose urban renaissance? An international comparison of urban regeneration strategies</em>. Routledge.<br>
+Pull, E., &amp; Richard, A. (2021). Domicide: Displacement and dispossessions in Uppsala, Sweden. <em>Social &amp; Cultural Geography</em>, 22(4), 545&ndash;556.<br>
+Rasinkangas, J., Rosengren, K., &amp; Ruonavaara, H. (2024). Objectives and barriers to promoting social housing policy in urban Finland. <em>Tidsskrift for boligforskning</em>, 7(1), 6&ndash;24.<br>
+Risager, B. S. (2022). Rent gap governance: State-led gentrification in the Danish &lsquo;ghetto&rsquo;. <em>City</em>, 26(2&ndash;3), 199&ndash;223.<br>
+Rosengren, K., Kauppinen, T. M., Lilius, J., Rasinkangas, J., &amp; Ruonavaara, H. (2024). Conflicting regional policy goals: Accessibility and segregation in the Helsinki metropolitan area. <em>Urban, Planning and Transport Research</em>, 12(1).<br>
+Ruonavaara, H., Rasinkangas, J., &amp; Rosengren, K. (2025). Preventing, curing, mitigating: Anti-segregation policies in urban Finland. <em>Cities</em>, 160, Article 105838.<br>
+Saarimaa, T., &amp; Ventovuori, M. (2024). Urban renewal and displacement of incumbent residents: Evidence from Helsinki. <em>Helsinki GSE Discussion Papers</em>, 31.<br>
+Saikkonen, P., Hannikainen, K., Kauppinen, T., Rasinkangas, J., &amp; Vaalavuo, M. (2018). <em>Sosiaalinen Kest&auml;vyys: Asuminen, Segregaatio ja Tuloerot Kolmella Kaupunkiseudulla</em>. National Institute for Health and Welfare.<br>
+Schulman, H., Pulma, P., &amp; Aalto, S. (2000). <em>Helsingin historia vuodesta 1945. 2, Suunnittelu ja rakentuminen, sosiaaliset ongelmat, urheilu</em>. City of Helsinki.<br>
+Shaw, K. S., &amp; Hagemans, I. W. (2015). &lsquo;Gentrification without displacement&rsquo; and the consequent loss of place: The effects of class transition on low-income residents of secure housing in gentrifying areas. <em>International Journal of Urban and Regional Research</em>, 39(2), 323&ndash;341.<br>
+Sisson, A. (2021a). Denigrating by numbers: Quantification, statistics and territorial stigma. <em>International Journal of Urban and Regional Research</em>, 45(3), 407&ndash;422.<br>
+Sisson, A. (2021b). Territory and territorial stigmatisation: On the production, consequences and contestation of spatial disrepute. <em>Progress in Human Geography</em>, 45(4), 659&ndash;681.<br>
+Slater, T. (2014). Unravelling false choice urbanism. <em>City</em>, 18(4&ndash;5), 517&ndash;524.<br>
+Slater, T. (2021). <em>Shaking up the city: Ignorance, inequality, and the urban question</em>. University of California Press.<br>
+Smith, N. (1979). Toward a theory of gentrification: A back to the city movement by capital, not people. <em>Journal of the American Planning Association</em>, 45(4), 538&ndash;548.<br>
+Smith, N. (1996). <em>The new urban frontier: Gentrification and the revanchist city</em>. Routledge.<br>
+Tahvilzadeh, N. (2021). <em>Kris och politik mot segregation: Generella eller selektiva &aring;tg&auml;rder?</em> Delegationen mot segregation (DELMOS).<br>
+Tammaru, T., Sinitsyna, A., Akhavizadegan, A., van Ham, M., Marcinczak, S., &amp; Musterd, S. (2021). Income inequality and residential segregation in European cities. In G. Pryce et al. (Eds.), <em>Urban inequality and segregation in Europe and China</em>. Springer.<br>
+Th&ouml;rn, C., &amp; Holgersson, H. (2016). Revisiting the urban frontier through the case of New Kvilleb&auml;cken, Gothenburg. <em>City</em>, 20(5), 663&ndash;684.<br>
+Tuominen, P. (2020). Historical and spatial layers of cultural intimacy: Urban transformation of a stigmatised suburban estate on the periphery of Helsinki. <em>Social Inclusion</em>, 8(1), 34&ndash;43.<br>
+Uitermark, J., &amp; Bosker, T. (2014). Wither the &lsquo;undivided city&rsquo;? An assessment of state-sponsored gentrification in Amsterdam. <em>Tijdschrift voor Economische en Sociale Geografie</em>, 105(2), 221&ndash;230.<br>
+Uitermark, J., Hochstenbach, C., &amp; Groot, J. (2024). Neoliberalization and urban redevelopment: The impact of public policy on multiple dimensions of spatial inequality. <em>Urban Geography</em>, 45(4), 541&ndash;564.<br>
+Vaattovaara, M. K., &amp; Vuori, P. (2023). Asuntorakentamisen muutokset p&auml;&auml;kaupunkiseudulla ja Tampereella vuosina 2015&ndash;2021. <em>The City of Helsinki</em>, 2023:2, 1&ndash;62.<br>
+Wacquant, L. (2010). Urban desolation and symbolic denigration in the hyperghetto. <em>Social Psychology Quarterly</em>, 73(3), 215&ndash;219.<br>
+Wacquant, L., Slater, T., &amp; Pereira, V. B. (2014). Territorial stigmatization in action. <em>Environment and Planning A</em>, 46(6), 1270&ndash;1280.<br>
+Wallace, A. (2015). Gentrification Interrupted in Salford, UK: From new deal to &ldquo;limbo-land&rdquo; in a contemporary urban periphery. <em>Antipode</em>, 47(2), 517&ndash;538.<br>
+Wallin, A. (2021). Ekogentrifikaatio: kaupunkien kest&auml;vyysmurroksen kiusallinen seuralainen. <em>Alue ja Ymp&auml;rist&ouml;</em>, 50(2), 101&ndash;116.<br>
+Watt, P. (2021). <em>Estate regeneration and its discontents: Public housing, place and inequality in London</em>. Policy Press.<br>
+Watt, P. (2023). Taking a long view perspective on estate regeneration: Before, during and after the New Deal for Communities in London. <em>Journal of Housing and the Built Environment</em>, 38(1), 141&ndash;170.</p></details>
+<section id="overview">
+<h2 class="ovh">我的批注 · 总览</h2>
+<p class="ovsub">下列为你在本页写下的全部批注，按出现顺序排列。点击引用的原文句可跳回该段。</p>
+<div id="ovList"></div>
+<div id="ovTools"><button id="ovReview" class="primary" type="button">生成 AI 点评请求（复制）</button><button id="ovCopy" type="button">复制为 Markdown</button><button id="ovSaveMd" type="button" style="display:none">下载 .md</button><button id="ovSaveJson" type="button" style="display:none">备份 .json</button><button id="ovClear" class="danger" type="button">清空</button></div>
+<div id="ovHint"><strong>关于「AI 点评」：</strong>发布页无法直接调用大模型，所以这个按钮的作用是把<strong>你的全部批注 + 对应原文 + 一份写好的点评指令</strong>打包复制到剪贴板。粘给 Claude 即可得到点评——它会做三件事：提炼你的关注主线、逐条判断哪些批注抓住了要害／哪些是误读（尤其是把作者引来批驳的观点误当成作者立场）、以及指出哪几条有潜力发展成论文段落。</div>
+</section>
+<footer>译文供精读辅助之用,正式引用请依据原文（Cities, 170, 2026, 106718）与原页码。生成工具:bilingual-reader skill。</footer>
+</main>
+<button id="notesBtn" type="button">批注 <span class="n">0</span></button>
+<div id="notesPanel"><header><strong>我的批注</strong><button id="notesJump" type="button">前往总览</button><button id="notesCopy" type="button">复制为 Markdown</button><button id="notesClose" type="button">关闭</button></header><div id="notesList"></div></div>
+<script>window.__BR_DOC="yrjana-2026-helsinki-state-led-gentrification";</script>
+<script>
+function setMode(m, btn){
+  document.body.className = m;
+  document.querySelectorAll('.modes button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  try{ localStorage.setItem('brMode', m); }catch(e){}
+}
+document.addEventListener('DOMContentLoaded', function(){
+  var saved='bilingual';
+  try{ saved = localStorage.getItem('brMode') || 'bilingual'; }catch(e){}
+  var map={'bilingual':0,'en-only':1,'zh-only':2};
+  var btns=document.querySelectorAll('.modes button');
+  setMode(saved, btns[map[saved]!==undefined?map[saved]:0]);
+});
+document.addEventListener('scroll', function(){
+  var h=document.documentElement;
+  var pct=(h.scrollTop)/((h.scrollHeight-h.clientHeight)||1)*100;
+  var bar=document.querySelector('.progress span');
+  if(bar) bar.style.width=Math.min(100,Math.max(0,pct))+'%';
+}, {passive:true});
+
+/* ---------------- annotations ---------------- */
+(function(){
+  var KEY='br-notes:'+(window.__BR_DOC||'doc');
+  var notes={};
+  try{ notes=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ notes={}; }
+
+  function persist(){
+    try{ localStorage.setItem(KEY, JSON.stringify(notes)); return true; }
+    catch(e){ return false; }
+  }
+  function count(){ return Object.keys(notes).filter(function(k){return (notes[k]||'').trim();}).length; }
+  function refreshBtn(){
+    var b=document.getElementById('notesBtn');
+    if(b) b.querySelector('.n').textContent=count();
+  }
+  function paint(wrap){
+    var id=wrap.dataset.nid, v=(notes[id]||'').trim();
+    var body=wrap.querySelector('.note-body');
+    if(v){ wrap.classList.add('has'); body.innerHTML='<span class="lbl">我的批注</span>'; body.appendChild(document.createTextNode(v)); }
+    else { wrap.classList.remove('has'); body.textContent=''; }
+  }
+  function flash(wrap){
+    var s=wrap.querySelector('.note-status');
+    var t=new Date();
+    s.textContent='已保存 · '+String(t.getHours()).padStart(2,'0')+':'+String(t.getMinutes()).padStart(2,'0');
+    s.classList.add('show');
+    clearTimeout(wrap.__ft); wrap.__ft=setTimeout(function(){ s.classList.remove('show'); },1800);
+  }
+  function save(wrap){
+    var id=wrap.dataset.nid, ta=wrap.querySelector('.note-edit');
+    var v=ta.value.trim();
+    if(v) notes[id]=v; else delete notes[id];
+    if(persist()){ flash(wrap); } else {
+      var s=wrap.querySelector('.note-status');
+      s.textContent='保存失败(浏览器存储不可用)'; s.classList.add('show');
+    }
+    paint(wrap);
+    /* rebuild both views, not just the badge: the end-of-document overview is
+       always on the page, so a note written mid-read must appear there without
+       requiring the drawer to be opened first. */
+    refreshAll();
+  }
+  function edit(wrap){
+    var ta=wrap.querySelector('.note-edit');
+    ta.value=notes[wrap.dataset.nid]||'';
+    wrap.classList.add('editing');
+    ta.focus();
+    ta.setSelectionRange(ta.value.length, ta.value.length);
+    autogrow(ta);
+  }
+  function autogrow(ta){ ta.style.height='auto'; ta.style.height=(ta.scrollHeight+2)+'px'; }
+
+  document.querySelectorAll('.note').forEach(function(wrap){
+    paint(wrap);
+    wrap.querySelector('.note-add').addEventListener('click', function(){ edit(wrap); });
+    wrap.querySelector('.note-body').addEventListener('click', function(){ edit(wrap); });
+    var ta=wrap.querySelector('.note-edit');
+    ta.addEventListener('input', function(){
+      autogrow(ta);
+      clearTimeout(wrap.__st);
+      wrap.__st=setTimeout(function(){ save(wrap); }, 500);
+    });
+    ta.addEventListener('blur', function(){
+      clearTimeout(wrap.__st); save(wrap); wrap.classList.remove('editing');
+    });
+    ta.addEventListener('keydown', function(e){
+      if(e.key==='Escape'){ ta.blur(); }
+      if(e.key==='Enter' && (e.metaKey||e.ctrlKey)){ ta.blur(); }
+    });
+  });
+  var panel=document.getElementById('notesPanel');
+
+  function entries(){
+    var out=[];
+    document.querySelectorAll('.note').forEach(function(w){
+      var v=(notes[w.dataset.nid]||'').trim();
+      if(!v) return;
+      var host=w.closest('.bipara')||w.closest('blockquote');
+      var en=host?host.querySelector('.en'):null;
+      var zh=host?host.querySelector('.zh'):null;
+      out.push({el:host, src:en?en.textContent.trim():'',
+                zh:zh?zh.textContent.trim():'', txt:v,
+                isQuote: !!(host&&host.tagName==='BLOCKQUOTE')});
+    });
+    return out;
+  }
+  function buildList(list, closeAfterJump){
+    var rows=entries();
+    list.innerHTML='';
+    if(!rows.length){
+      list.innerHTML='<div class="nempty">还没有批注。点击任意段落下方的「＋ 批注」开始。</div>';
+      return;
+    }
+    rows.forEach(function(r){
+      var d=document.createElement('div'); d.className='nrow';
+      var s=document.createElement('div'); s.className='src';
+      s.textContent=(r.isQuote?'［引文］“':'“')+r.src.slice(0,110)+(r.src.length>110?'…':'')+'”';
+      s.addEventListener('click', function(){
+        if(closeAfterJump) panel.classList.remove('open');
+        r.el.scrollIntoView({behavior:'smooth',block:'center'});
+      });
+      var t=document.createElement('div'); t.className='txt'; t.textContent=r.txt;
+      d.appendChild(s); d.appendChild(t); list.appendChild(d);
+    });
+  }
+  function refreshAll(){
+    buildList(document.getElementById('notesList'), true);
+    buildList(document.getElementById('ovList'), false);
+    refreshBtn();
+  }
+
+  var TITLE=document.querySelector('h1.title') ? document.querySelector('h1.title').textContent.trim() : '';
+  var CITE=document.querySelector('.citation') ? document.querySelector('.citation').textContent.trim() : '';
+
+  function markdown(){
+    var rows=entries();
+    var out=['# 批注 — '+TITLE, '', CITE, ''];
+    rows.forEach(function(r){
+      out.push('> '+r.src.replace(/\s+/g,' '));
+      out.push('');
+      out.push(r.txt);
+      out.push('');
+      out.push('---');
+      out.push('');
+    });
+    return out.join('\n');
+  }
+
+  function reviewPrompt(){
+    var rows=entries();
+    var out=[];
+    out.push('我正在精读下面这篇文献，附上原文段落与我自己写的批注。请据此完成三件事，要具体，不要泛泛而谈：');
+    out.push('');
+    out.push('【1. 提炼】我的批注实际上在追问什么？归纳成 2–4 条主线问题，并指出我可能自己还没意识到的关注点。');
+    out.push('【2. 评价】逐条判断：哪些批注准确抓住了论证要害？哪些是误读、过度解读，或者把作者引来批驳的对立观点误当成了作者本人立场？请指名道姓地说，并给出理由。');
+    out.push('【3. 建议】基于我的关注方向，指出下一步该读什么，以及哪几条批注有潜力发展成论文里的一个论证段落。');
+    out.push('');
+    out.push('文献：'+TITLE);
+    if(CITE) out.push(CITE);
+    out.push('批注条数：'+rows.length);
+    out.push('');
+    rows.forEach(function(r,i){
+      out.push('════ 第 '+(i+1)+' 条'+(r.isQuote?'（针对引文）':'')+' ════');
+      out.push('【原文】'+r.src.replace(/\s+/g,' '));
+      if(r.zh) out.push('【译文】'+r.zh.replace(/\s+/g,' '));
+      out.push('【我的批注】'+r.txt);
+      out.push('');
+    });
+    return out.join('\n');
+  }
+
+  function copyText(txt, btn, label){
+    function done(ok){
+      btn.textContent = ok?'✓ 已复制':'复制失败';
+      setTimeout(function(){ btn.textContent=label; },1800);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){done(true);},function(){done(false);});
+    } else {
+      var ta=document.createElement('textarea'); ta.value=txt;
+      ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      var ok=false; try{ ok=document.execCommand('copy'); }catch(e){}
+      document.body.removeChild(ta); done(ok);
+    }
+  }
+  function guardEmpty(){
+    if(!entries().length){ alert('还没有批注。先在段落下方写几条再来。'); return true; }
+    return false;
+  }
+
+  document.getElementById('notesBtn').addEventListener('click', function(){
+    refreshAll(); panel.classList.toggle('open');
+  });
+  document.getElementById('notesClose').addEventListener('click', function(){ panel.classList.remove('open'); });
+  document.getElementById('notesJump').addEventListener('click', function(){
+    panel.classList.remove('open');
+    document.getElementById('overview').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+  document.getElementById('notesCopy').addEventListener('click', function(){
+    if(guardEmpty()) return; copyText(markdown(), this, '复制为 Markdown');
+  });
+
+  document.getElementById('ovCopy').addEventListener('click', function(){
+    if(guardEmpty()) return; copyText(markdown(), this, '复制为 Markdown');
+  });
+  document.getElementById('ovReview').addEventListener('click', function(){
+    if(guardEmpty()) return; copyText(reviewPrompt(), this, '生成 AI 点评请求（复制）');
+  });
+  document.getElementById('ovClear').addEventListener('click', function(){
+    if(guardEmpty()) return;
+    if(!confirm('清空本篇全部批注？此操作无法撤销。建议先导出备份。')) return;
+    notes={}; persist();
+    document.querySelectorAll('.note').forEach(paint);
+    refreshAll();
+  });
+
+  /* file export — only when the downloads capability is present in this view */
+  var dl = (window.claude && window.claude.downloads) ? window.claude.downloads : null;
+  var slug=(window.__BR_DOC||'notes').replace(/[^a-zA-Z0-9_-]+/g,'-').slice(0,60);
+  if(dl){
+    ['ovSaveMd','ovSaveJson'].forEach(function(id){
+      var b=document.getElementById(id); if(b) b.style.display='';
+    });
+    function offer(btn, label, filename, data){
+      btn.disabled=true;
+      dl.save({filename:filename, data:data}).then(function(){
+        btn.textContent='✓ 已保存';
+      }).catch(function(err){
+        var c=err&&err.code;
+        btn.textContent = c==='declined' ? '已取消'
+                        : c==='rate_limited' ? '稍后再试'
+                        : c==='too_large' ? '文件过大'
+                        : '保存不可用';
+        if(c==='unavailable'||c==='not_granted'||c==='capability_disabled'||c==='capability_removed'){
+          btn.style.display='none';
+        }
+      }).then(function(){
+        btn.disabled=false;
+        setTimeout(function(){ if(btn.style.display!=='none') btn.textContent=label; },1800);
+      });
+    }
+    document.getElementById('ovSaveMd').addEventListener('click', function(){
+      if(guardEmpty()) return;
+      offer(this,'下载 .md', slug+'-notes.md', markdown());
+    });
+    document.getElementById('ovSaveJson').addEventListener('click', function(){
+      if(guardEmpty()) return;
+      offer(this,'备份 .json', slug+'-notes.json',
+            JSON.stringify({doc:window.__BR_DOC, saved:new Date().toISOString(), notes:notes}, null, 2));
+    });
+  }
+
+  refreshAll();
+})();
+</script>
