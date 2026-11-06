@@ -261,9 +261,29 @@ details.pack[open] summary::before{content:"▾ "}
 .note-edit:focus{outline:none;box-shadow:0 0 0 2px var(--accent-soft)}
 .note.editing .note-body,.note.editing .note-add{display:none}
 .note.editing .note-edit{display:block}
+.note-tags{display:none;width:100%;margin-top:.35rem;font-family:var(--font-sans);font-size:.72rem;
+           color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:3px;
+           padding:.35rem .55rem;box-sizing:border-box}
+.note-tags:focus{outline:none;border-color:var(--accent)}
+.note.editing .note-tags{display:block}
 .note-status{font-family:var(--font-sans);font-size:.62rem;color:var(--accent);
              margin-top:.22rem;height:.9rem;opacity:0;transition:opacity .2s}
 .note-status.show{opacity:.8}
+
+/* ---- self-assigned tags (free-form, not a fixed taxonomy) ---- */
+.tag-row,.note-tagrow{margin-top:.4rem;display:flex;flex-wrap:wrap;gap:.3rem}
+.tag-chip{display:inline-block;font-family:var(--font-sans);font-size:.64rem;color:var(--accent);
+          background:var(--accent-soft);border-radius:999px;padding:.1rem .5rem;cursor:pointer;
+          border:1px solid transparent}
+.tag-chip:hover{border-color:var(--accent)}
+.tag-chip.active{background:var(--accent);color:var(--paper)}
+.note-body .tag-chip{background:var(--paper);border-color:var(--accent)}
+.tag-filter-bar{font-family:var(--font-sans);font-size:.7rem;color:var(--ink-soft);
+                background:var(--zh-bg);border-radius:4px;padding:.4rem .6rem;margin-bottom:.6rem;
+                display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.tag-filter-clear{font-family:var(--font-sans);font-size:.68rem;border:1px solid var(--line);
+                   background:none;color:var(--muted);border-radius:4px;padding:.2rem .5rem;cursor:pointer}
+.tag-filter-clear:hover{border-color:var(--accent);color:var(--accent)}
 
 /* ---- navigator (floating button + tabbed panel: 目录 / 术语 / 批注) ---- */
 #navBtn{position:fixed;right:.9rem;bottom:calc(.9rem + env(safe-area-inset-bottom,0px));z-index:60;
@@ -414,6 +434,10 @@ mark.hl-anno{background:var(--hl-soft);color:inherit;border-bottom:2px solid var
         background:var(--zh-bg);border:1px solid var(--line);border-radius:4px;
         padding:.5rem .65rem;resize:vertical;min-height:4.4rem;box-sizing:border-box}
 #hlNote:focus{outline:none;border-color:var(--accent)}
+#hlTags{width:100%;margin-top:.4rem;font-family:var(--font-sans);font-size:.78rem;color:var(--ink);
+        background:var(--zh-bg);border:1px solid var(--line);border-radius:4px;
+        padding:.4rem .55rem;box-sizing:border-box}
+#hlTags:focus{outline:none;border-color:var(--accent)}
 .hl-actions{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
 .hl-actions button{font-size:.7rem;border:1px solid var(--line);background:none;color:var(--ink-soft);
                     border-radius:6px;padding:.4rem .7rem;cursor:pointer}
@@ -498,8 +522,42 @@ document.addEventListener('scroll', function(){
     try{ localStorage.setItem(KEY, JSON.stringify(notes)); return true; }
     catch(e){ return false; }
   }
+  /* Free-form tags, self-assigned by the reader (e.g. "可引用 待查"), not a
+     fixed taxonomy. Paragraph notes predate tags and were plain strings in
+     localStorage — noteOf() reads either the legacy string form or the new
+     {text,tags} object form, so existing saved notes don't need migrating. */
+  function parseTags(s){
+    return (s||'').split(/[,，\s]+/).map(function(t){return t.trim();}).filter(Boolean);
+  }
+  function tagsLabel(tags){ return (tags||[]).join(' '); }
+  function noteOf(id){
+    var raw=notes[id];
+    if(!raw) return {text:'', tags:[]};
+    if(typeof raw==='string') return {text:raw, tags:[]};
+    return {text:raw.text||'', tags:raw.tags||[]};
+  }
+  function focusSoon(el){
+    el.focus();
+    requestAnimationFrame(function(){ el.focus(); });
+  }
+  var activeTagFilter=null;
+  function toggleTagFilter(tag){
+    activeTagFilter=(activeTagFilter===tag)?null:tag;
+    refreshAll();
+  }
+  function buildTagRow(tags){
+    var row=document.createElement('div'); row.className='tag-row';
+    tags.forEach(function(t){
+      var chip=document.createElement('span'); chip.className='tag-chip';
+      if(t===activeTagFilter) chip.classList.add('active');
+      chip.textContent='#'+t;
+      chip.addEventListener('click', function(e){ e.stopPropagation(); toggleTagFilter(t); });
+      row.appendChild(chip);
+    });
+    return row;
+  }
   function count(){
-    var n=Object.keys(notes).filter(function(k){return (notes[k]||'').trim();}).length;
+    var n=Object.keys(notes).filter(function(k){return noteOf(k).text.trim();}).length;
     n += highlights.filter(function(h){return (h.note||'').trim();}).length;
     return n;
   }
@@ -511,9 +569,14 @@ document.addEventListener('scroll', function(){
     if(tabBadge) tabBadge.textContent=n;
   }
   function paint(wrap){
-    var id=wrap.dataset.nid, v=(notes[id]||'').trim();
+    var id=wrap.dataset.nid, nd=noteOf(id), v=nd.text.trim();
     var body=wrap.querySelector('.note-body');
-    if(v){ wrap.classList.add('has'); body.innerHTML='<span class="lbl">我的批注</span>'; body.appendChild(document.createTextNode(v)); }
+    if(v){
+      wrap.classList.add('has');
+      body.innerHTML='<span class="lbl">我的批注</span>';
+      body.appendChild(document.createTextNode(v));
+      if(nd.tags.length) body.appendChild(buildTagRow(nd.tags));
+    }
     else { wrap.classList.remove('has'); body.textContent=''; }
   }
   function flash(wrap){
@@ -525,8 +588,10 @@ document.addEventListener('scroll', function(){
   }
   function save(wrap){
     var id=wrap.dataset.nid, ta=wrap.querySelector('.note-edit');
+    var tagInput=wrap.querySelector('.note-tags');
     var v=ta.value.trim();
-    if(v) notes[id]=v; else delete notes[id];
+    var tags=tagInput?parseTags(tagInput.value):[];
+    if(v) notes[id]={text:v, tags:tags}; else delete notes[id];
     if(persist()){ flash(wrap); } else {
       var s=wrap.querySelector('.note-status');
       s.textContent='保存失败(浏览器存储不可用)'; s.classList.add('show');
@@ -539,13 +604,26 @@ document.addEventListener('scroll', function(){
   }
   function edit(wrap){
     var ta=wrap.querySelector('.note-edit');
-    ta.value=notes[wrap.dataset.nid]||'';
+    var tagInput=wrap.querySelector('.note-tags');
+    var nd=noteOf(wrap.dataset.nid);
+    ta.value=nd.text;
+    if(tagInput) tagInput.value=tagsLabel(nd.tags);
     wrap.classList.add('editing');
-    ta.focus();
+    focusSoon(ta);
     ta.setSelectionRange(ta.value.length, ta.value.length);
     autogrow(ta);
   }
   function autogrow(ta){ ta.style.height='auto'; ta.style.height=(ta.scrollHeight+2)+'px'; }
+  function scheduleCollapseCheck(wrap){
+    /* Tabbing from the note textarea to its tag-input field blurs the
+       textarea, but focus is still inside the SAME note — collapsing the
+       editing UI on that blur would hide the tag field before the reader
+       can even reach it. Defer the check a tick so the newly-focused element
+       (if it's still within this wrap) is already document.activeElement. */
+    setTimeout(function(){
+      if(!wrap.contains(document.activeElement)) wrap.classList.remove('editing');
+    }, 0);
+  }
 
   var nidToBlock={};
   document.querySelectorAll('.note').forEach(function(wrap){
@@ -555,40 +633,70 @@ document.addEventListener('scroll', function(){
     wrap.querySelector('.note-add').addEventListener('click', function(){ edit(wrap); });
     wrap.querySelector('.note-body').addEventListener('click', function(){ edit(wrap); });
     var ta=wrap.querySelector('.note-edit');
+    var tagInput=wrap.querySelector('.note-tags');
     ta.addEventListener('input', function(){
       autogrow(ta);
       clearTimeout(wrap.__st);
       wrap.__st=setTimeout(function(){ save(wrap); }, 500);
     });
     ta.addEventListener('blur', function(){
-      clearTimeout(wrap.__st); save(wrap); wrap.classList.remove('editing');
+      clearTimeout(wrap.__st); save(wrap); scheduleCollapseCheck(wrap);
     });
     ta.addEventListener('keydown', function(e){
       if(e.key==='Escape'){ ta.blur(); }
       if(e.key==='Enter' && (e.metaKey||e.ctrlKey)){ ta.blur(); }
     });
+    if(tagInput){
+      tagInput.addEventListener('input', function(){
+        clearTimeout(wrap.__st);
+        wrap.__st=setTimeout(function(){ save(wrap); }, 500);
+      });
+      tagInput.addEventListener('blur', function(){
+        clearTimeout(wrap.__st); save(wrap); scheduleCollapseCheck(wrap);
+      });
+      tagInput.addEventListener('keydown', function(e){
+        if(e.key==='Escape'){ tagInput.blur(); }
+        if(e.key==='Enter'){ e.preventDefault(); tagInput.blur(); }
+      });
+    }
   });
   var panel=document.getElementById('navPanel');
 
   function entries(){
     var out=[];
     document.querySelectorAll('.note').forEach(function(w){
-      var v=(notes[w.dataset.nid]||'').trim();
+      var nd=noteOf(w.dataset.nid);
+      var v=nd.text.trim();
       if(!v) return;
       var host=w.closest('.bipara')||w.closest('blockquote');
       var en=host?host.querySelector('.en'):null;
       var zh=host?host.querySelector('.zh'):null;
       out.push({el:host, src:en?en.textContent.trim():'',
                 zh:zh?zh.textContent.trim():'', txt:v,
-                isQuote: !!(host&&host.tagName==='BLOCKQUOTE')});
+                isQuote: !!(host&&host.tagName==='BLOCKQUOTE'), tags:nd.tags});
     });
     highlights.forEach(function(h){
       var v=(h.note||'').trim();
       if(!v || !h.frags || !h.frags.length) return;
       out.push({el:nidToBlock[h.frags[0].nid], src:h.frags.map(function(f){return f.text;}).join('" ... "'),
-                zh:'', txt:v, isQuote:false, isHighlight:true, frags:h.frags, hlId:h.id});
+                zh:'', txt:v, isQuote:false, isHighlight:true, frags:h.frags, hlId:h.id, tags:h.tags||[]});
     });
     return out;
+  }
+  function filteredRows(){
+    var rows=entries();
+    if(!activeTagFilter) return rows;
+    return rows.filter(function(r){ return (r.tags||[]).indexOf(activeTagFilter)!==-1; });
+  }
+  function filterBarInto(container){
+    if(!activeTagFilter) return;
+    var bar=document.createElement('div'); bar.className='tag-filter-bar';
+    bar.appendChild(document.createTextNode('筛选：#'+activeTagFilter+' '));
+    var clear=document.createElement('button');
+    clear.type='button'; clear.className='tag-filter-clear'; clear.textContent='✕ 清除筛选';
+    clear.addEventListener('click', function(){ activeTagFilter=null; refreshAll(); });
+    bar.appendChild(clear);
+    container.appendChild(bar);
   }
   /* Shared by buildList() (nav 批注 tab / overview) and buildSidebarList():
      a highlight note with more than one linked fragment ("+ 关联另一段")
@@ -628,10 +736,13 @@ document.addEventListener('scroll', function(){
     }
   }
   function buildList(list, closeAfterJump){
-    var rows=entries();
+    var rows=filteredRows();
     list.innerHTML='';
+    filterBarInto(list);
     if(!rows.length){
-      list.innerHTML='<div class="nempty">还没有批注。点击任意段落下方的「＋ 批注」开始。</div>';
+      var empty=document.createElement('div'); empty.className='nempty';
+      empty.textContent=activeTagFilter?('没有标签为 "'+activeTagFilter+'" 的批注。'):'还没有批注。点击任意段落下方的「＋ 批注」开始。';
+      list.appendChild(empty);
       return;
     }
     rows.forEach(function(r){
@@ -639,16 +750,21 @@ document.addEventListener('scroll', function(){
       renderSrcInto(d, r, {truncLen:110, singleClass:'src',
         afterJump:function(){ if(closeAfterJump) closePanel(); }});
       var t=document.createElement('div'); t.className='txt'; t.textContent=r.txt;
-      d.appendChild(t); list.appendChild(d);
+      d.appendChild(t);
+      if(r.tags && r.tags.length) d.appendChild(buildTagRow(r.tags));
+      list.appendChild(d);
     });
   }
   function buildSidebarList(){
     var list=document.getElementById('nsList');
     if(!list) return;
-    var rows=entries();
+    var rows=filteredRows();
     list.innerHTML='';
+    filterBarInto(list);
     if(!rows.length){
-      list.innerHTML='<div class="ns-empty">还没有批注。选中文字，或点段落下方的「＋批注」。</div>';
+      var empty=document.createElement('div'); empty.className='ns-empty';
+      empty.textContent=activeTagFilter?('没有标签为 "'+activeTagFilter+'" 的批注。'):'还没有批注。选中文字，或点段落下方的「＋批注」。';
+      list.appendChild(empty);
       return;
     }
     rows.forEach(function(r){
@@ -671,7 +787,9 @@ document.addEventListener('scroll', function(){
           if(w) setTimeout(function(){ edit(w); }, 650);
         });
       }
-      row.appendChild(t); row.appendChild(editBtn);
+      row.appendChild(t);
+      if(r.tags && r.tags.length) row.appendChild(buildTagRow(r.tags));
+      row.appendChild(editBtn);
       list.appendChild(row);
     });
   }
@@ -686,8 +804,9 @@ document.addEventListener('scroll', function(){
   var CITE=document.querySelector('.citation') ? document.querySelector('.citation').textContent.trim() : '';
 
   function markdown(){
-    var rows=entries();
+    var rows=filteredRows();
     var out=['# 批注 — '+TITLE, '', CITE, ''];
+    if(activeTagFilter){ out.push('（仅导出标签：#'+activeTagFilter+'）'); out.push(''); }
     rows.forEach(function(r){
       if(r.isHighlight && r.frags && r.frags.length>1){
         r.frags.forEach(function(f){ out.push('> '+f.text.replace(/\\s+/g,' ')); });
@@ -696,6 +815,7 @@ document.addEventListener('scroll', function(){
       }
       out.push('');
       out.push(r.txt);
+      if(r.tags && r.tags.length) out.push('标签：'+r.tags.map(function(t){return '#'+t;}).join(' '));
       out.push('');
       out.push('---');
       out.push('');
@@ -704,7 +824,7 @@ document.addEventListener('scroll', function(){
   }
 
   function reviewPrompt(){
-    var rows=entries();
+    var rows=filteredRows();
     var out=[];
     out.push('我正在精读下面这篇文献，附上原文段落与我自己写的批注。请据此完成三件事，要具体，不要泛泛而谈：');
     out.push('');
@@ -715,6 +835,7 @@ document.addEventListener('scroll', function(){
     out.push('文献：'+TITLE);
     if(CITE) out.push(CITE);
     out.push('批注条数：'+rows.length);
+    if(activeTagFilter) out.push('（仅包含标签 #'+activeTagFilter+' 的批注）');
     out.push('');
     rows.forEach(function(r,i){
       var tag = r.isQuote ? '（针对引文）'
@@ -728,6 +849,7 @@ document.addEventListener('scroll', function(){
       }
       if(r.zh) out.push('【译文】'+r.zh.replace(/\\s+/g,' '));
       out.push('【我的批注】'+r.txt);
+      if(r.tags && r.tags.length) out.push('【标签】'+r.tags.map(function(t){return '#'+t;}).join(' '));
       out.push('');
     });
     return out.join('\\n');
@@ -749,7 +871,10 @@ document.addEventListener('scroll', function(){
     }
   }
   function guardEmpty(){
-    if(!entries().length){ alert('还没有批注。先在段落下方写几条再来。'); return true; }
+    if(!filteredRows().length){
+      alert(activeTagFilter ? ('没有标签为 "'+activeTagFilter+'" 的批注。') : '还没有批注。先在段落下方写几条再来。');
+      return true;
+    }
     return false;
   }
 
@@ -917,6 +1042,7 @@ document.addEventListener('scroll', function(){
   var hint=document.getElementById('hlHint');
   var pendingFrags=null;      /* set while waiting for a second selection to link */
   var pendingNoteDraft='';
+  var pendingTagsDraft='';
   var editingHlId=null;
   var draftFrags=[];
 
@@ -984,7 +1110,7 @@ document.addEventListener('scroll', function(){
     if(pendingFrags){
       pendingFrags.push({nid:v.nid, lang:v.lang, text:v.text});
       hint.style.display='none';
-      openCard(pendingFrags, editingHlId, pendingNoteDraft);
+      openCard(pendingFrags, editingHlId, pendingNoteDraft, pendingTagsDraft);
       pendingFrags=null;
     } else {
       openCard([{nid:v.nid, lang:v.lang, text:v.text}], null);
@@ -1006,15 +1132,19 @@ document.addEventListener('scroll', function(){
     hint.style.display='none';
     pendingFrags=null; editingHlId=null; draftFrags=[];
   }
-  function openCard(frags, hlId, presetNote){
+  function openCard(frags, hlId, presetNote, presetTags){
     draftFrags=frags; editingHlId=hlId||null;
     renderCardFrags();
     var ta=document.getElementById('hlNote');
+    var tagsInput=document.getElementById('hlTags');
+    var existing = hlId ? highlights.filter(function(h){return h.id===hlId;})[0] : null;
     if(typeof presetNote==='string') ta.value=presetNote;
-    else ta.value = hlId ? ((highlights.filter(function(h){return h.id===hlId;})[0]||{}).note||'') : '';
+    else ta.value = existing ? (existing.note||'') : '';
+    if(typeof presetTags==='string') tagsInput.value=presetTags;
+    else tagsInput.value = existing ? tagsLabel(existing.tags) : '';
     document.getElementById('hlDelete').style.display = hlId ? '' : 'none';
     card.style.display='block';
-    ta.focus();
+    focusSoon(ta);
   }
   function openCardById(hlId){
     var h=highlights.filter(function(x){return x.id===hlId;})[0];
@@ -1024,19 +1154,21 @@ document.addEventListener('scroll', function(){
   document.getElementById('hlLink').addEventListener('click', function(){
     pendingFrags=draftFrags.slice();
     pendingNoteDraft=document.getElementById('hlNote').value;
+    pendingTagsDraft=document.getElementById('hlTags').value;
     card.style.display='none';
     hint.style.display='block';
   });
   document.getElementById('hlCancel').addEventListener('click', closeCard);
   document.getElementById('hlSave').addEventListener('click', function(){
     var txt=document.getElementById('hlNote').value.trim();
+    var tags=parseTags(document.getElementById('hlTags').value);
     if(!txt){ closeCard(); return; }
     if(editingHlId){
       var h=highlights.filter(function(x){return x.id===editingHlId;})[0];
-      if(h){ h.note=txt; h.frags=draftFrags; }
+      if(h){ h.note=txt; h.frags=draftFrags; h.tags=tags; }
     } else {
       highlights.push({id:'hl'+Date.now()+Math.random().toString(36).slice(2,6),
-                        frags:draftFrags, note:txt, ts:new Date().toISOString()});
+                        frags:draftFrags, note:txt, tags:tags, ts:new Date().toISOString()});
     }
     persistHL();
     closeCard();
@@ -1265,6 +1397,7 @@ def render(spec):
             f'<div class="note" data-nid="{nid(doc_key, en)}">'
             '<div class="note-body"></div>'
             '<textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea>'
+            '<input type="text" class="note-tags" placeholder="标签（可选，空格分隔，如：可引用 待查）">'
             '<button class="note-add" type="button">＋ 批注</button>'
             '<div class="note-status"></div>'
             "</div>"
@@ -1382,6 +1515,7 @@ def render(spec):
       '<div class="hl-head">选中内容的批注</div>'
       '<div id="hlFrags"></div>'
       '<textarea id="hlNote" placeholder="写下你的批注…（可用电脑自带的语音输入直接对着这里说）"></textarea>'
+      '<input type="text" id="hlTags" placeholder="标签（可选，空格分隔，如：可引用 待查）">'
       '<div class="hl-actions">'
       '<button id="hlLink" type="button">+ 关联另一段</button>'
       '<button id="hlDelete" type="button" style="display:none">删除</button>'

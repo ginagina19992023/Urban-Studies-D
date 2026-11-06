@@ -216,6 +216,44 @@ paragraph and attach a note to exactly that selection, Medium/Hypothesis-style:
   (macOS dictation, Windows voice typing, etc.) already types into the note
   textarea like any other text field, with no iframe-permission uncertainty
   and no extra code to maintain.
+- Opening a note for editing (`edit()` for paragraph notes, `openCard()` for
+  highlights) calls `focusSoon()` — `el.focus()` immediately, then again on
+  the next `requestAnimationFrame` — not a bare `.focus()`. A bare call
+  worked in this skill's own `file://` Playwright tests but was reported as
+  unreliable on the real published artifact; the double call is cheap
+  insurance against whatever layout/paint timing difference causes that, and
+  costs nothing when the first call already worked.
+
+### Self-assigned tags (free-form, not a fixed taxonomy)
+
+Both annotation kinds — paragraph notes and selection highlights — take an
+optional space/comma-separated tag field (`.note-tags` inline under the
+paragraph editor, `#hlTags` in the highlight card). Tags are read-your-own
+labels like "可引用" or "待查", not a controlled vocabulary the skill defines.
+
+- Paragraph notes predate tags and were plain strings in `localStorage`.
+  `noteOf(id)` reads either the legacy string form or the new `{text,tags}`
+  object form, so nothing needed migrating — an old saved note just has an
+  empty tag list until edited. Don't "clean up" by forcing every entry to the
+  new shape on load; the whole point of `noteOf()` is that both forms stay
+  valid indefinitely.
+- Tags render as small pill chips (`.tag-chip`) wherever a note's text shows:
+  inline under the paragraph, in the sidebar, in the nav panel's 批注 tab, and
+  in the end-of-document overview. **Clicking any chip, anywhere, toggles a
+  tag filter** (`activeTagFilter`) that narrows all three list views to
+  matching rows and scopes `markdown()`/`reviewPrompt()` to the same subset —
+  one shared filter state, not a per-list control. A `.tag-filter-bar` with a
+  clear button appears at the top of a filtered list; exports that are
+  currently filtered say so in their own text (`（仅导出标签：#…）`) so a
+  pasted export doesn't silently look like the reader's full set of notes.
+  `ovClear`/"清空" always wipes everything regardless of the active filter —
+  it's a full reset, not a scoped delete, and should stay that way.
+- Tabbing from a note's textarea into its tag field blurs the textarea, but
+  the editing UI must not collapse on that blur — `scheduleCollapseCheck()`
+  defers the check one tick so the newly-focused field (if still inside the
+  same `.note`) is already `document.activeElement` by the time it runs. Both
+  the textarea's and the tag input's blur handlers go through this, not a
+  bare `wrap.classList.remove('editing')`.
 
 ### The 「AI 点评」 button — what it can and cannot be
 
