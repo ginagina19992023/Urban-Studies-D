@@ -162,6 +162,40 @@ that stay locked inside a reading page are inert; this workflow is reading
 *toward* an essay, so notes have to come out in a form that pastes into a
 draft.
 
+### Selection-anchored annotations (highlight-and-note on any phrase)
+
+The `＋ 批注` control above is paragraph-level — one note per block. A second,
+complementary mode lets the reader select *any* phrase or sentence inside a
+paragraph and attach a note to exactly that selection, Medium/Hypothesis-style:
+
+- Selecting text inside an `.en`/`.zh` paragraph shows a small floating `＋ 批注`
+  pill near the selection. Clicking it opens a card — docked to the right edge
+  on desktop, a bottom sheet on narrow/mobile viewports — with the quoted
+  selection, a textarea, and Save/Cancel/Delete.
+- Saving wraps the selected substring in `<mark class="hl-anno">` inline, so the
+  reader sees at a glance which phrases carry a note; clicking an existing mark
+  reopens the card to edit or delete it.
+- **「+ 关联另一段」** lets one note span two passages that aren't adjacent: click
+  it, the card hides with a hint to go select elsewhere, and the next selection
+  gets appended to the same draft before the card reopens with both quoted
+  fragments and the note text you'd already typed preserved. Use this for "these
+  two claims contradict" or "this is the same move as that" style notes.
+- These live in their own `localStorage` key (`br-highlights:{doc}`, separate
+  from `br-notes:{doc}`) but feed into the *same* `entries()`/`markdown()`/
+  `reviewPrompt()` pipeline as paragraph notes — so the overview, the 批注 nav
+  tab, the badge count, and the AI-review-prompt export all include both kinds
+  without any extra reader-facing distinction beyond a `［选段］` tag.
+- Highlighting is best-effort: it only wraps a selection that sits intact
+  inside a single text node (not split across an inline tag like a glossary
+  link). When a selection crosses such a boundary, the note still saves and
+  still shows up in every list/export — it just doesn't also get the inline
+  `<mark>`. This is a deliberate scope boundary, not a bug to chase.
+- There is deliberately **no in-page voice input.** An earlier draft wired up
+  the Web Speech API, but it's pointless complexity: any OS-level dictation
+  (macOS dictation, Windows voice typing, etc.) already types into the note
+  textarea like any other text field, with no iframe-permission uncertainty
+  and no extra code to maintain.
+
 ### The 「AI 点评」 button — what it can and cannot be
 
 A published artifact **cannot call a language model at runtime.** The only
