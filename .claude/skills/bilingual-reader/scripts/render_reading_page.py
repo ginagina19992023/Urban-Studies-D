@@ -76,13 +76,38 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-se
 
 main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
 
-/* ---- persistent structure sidebar (wide viewports only; narrow falls back
-   to the 目录 tab in the floating navigator panel) ---- */
-#tocSidebar{position:fixed;top:5.5rem;left:calc(50vw - 40rem);width:15rem;
-            max-height:calc(100vh - 7.5rem);overflow-y:auto;display:none;z-index:10;
-            font-family:var(--font-sans)}
-@media (min-width:1440px){#tocSidebar{display:block}}
-#tocSidebar .sb-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+/* ---- persistent structure sidebar ----
+   A real two-column layout (sidebar + main as flex siblings inside .layout),
+   not a sidebar floating in whatever margin happens to be left outside a
+   separately-centered main column. That old approach needed ~1440px of
+   viewport just to have room on both sides; this one only needs enough width
+   for sidebar + gap + article, so it shows up on an ordinary, non-maximized
+   laptop window. Narrower than that, .layout stops being a flex row (falls
+   back to block, sidebar hidden) and main reverts to centering itself exactly
+   as it does with no sidebar at all — the floating navigator's 目录 tab is
+   what covers narrow/mobile viewports. */
+.layout{display:block}
+@media (min-width:1040px){
+  /* max-width is sized for THREE columns at once (TOC 13rem + gap 2rem +
+     main's own 46rem cap + gap 2rem + notes 14.5rem = 77.5rem) rather than
+     gating the notes sidebar behind a separate, higher breakpoint. Both
+     sidebars use flex-shrink:0, so main (flex:1 1 auto, no shrink override)
+     is what absorbs the squeeze below ~77.5rem*16px of actual viewport width
+     — it just renders narrower than its 46rem ideal between 1040px and
+     ~1240px, which still reads fine. Earlier this intentionally gated the
+     notes sidebar at 1280px on the theory that main needed to stay near
+     46rem; that was overcautious — the real floor is ~1040px, same as the
+     TOC sidebar it sits next to, and gating it higher just meant it silently
+     failed to appear on anyone whose window was 1040–1279px wide. */
+  .layout{display:flex;align-items:flex-start;gap:2rem;max-width:77.5rem;margin:0 auto}
+  main{margin:0;flex:1 1 auto;min-width:0}
+}
+#tocSidebar{display:none;width:13rem;flex-shrink:0;font-family:var(--font-sans)}
+@media (min-width:1040px){
+  #tocSidebar{display:block;position:sticky;top:5.5rem;
+              max-height:calc(100vh - 7.5rem);overflow-y:auto}
+}
+#tocSidebar .sb-label,#noteSidebar .sb-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
                        color:var(--hl);font-weight:700;margin:0 0 .9rem .3rem}
 .sb-tree{position:relative;padding-left:1rem}
 .sb-tree::before{content:"";position:absolute;left:.28rem;top:.4rem;bottom:.4rem;
@@ -101,6 +126,31 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
 .sb-node .zh{display:block;font-size:.9em;opacity:.8;margin-top:.05rem}
 .sb-node.active{background:var(--accent-soft);color:var(--accent)}
 .sb-node.active::before{background:var(--accent);border-color:var(--accent)}
+
+/* ---- persistent annotations sidebar (right column) ----
+   Deliberately separate from the floating nav panel's 批注 tab: this one is
+   always visible while reading (same ≥1040px breakpoint as #tocSidebar — see
+   the .layout rule above for why that's wide enough for all three columns),
+   and every row splits "jump to the passage" and "edit / link this note"
+   into two distinct click targets, so re-reading your own annotations
+   doesn't require scrolling away from wherever you currently are. */
+#noteSidebar{display:none;width:14.5rem;flex-shrink:0;font-family:var(--font-sans)}
+@media (min-width:1040px){
+  #noteSidebar{display:block;position:sticky;top:5.5rem;
+               max-height:calc(100vh - 7.5rem);overflow-y:auto}
+}
+.ns-row{position:relative;padding:.55rem 1.7rem .55rem .1rem;border-bottom:1px dashed var(--line)}
+.ns-row:last-child{border-bottom:none}
+.ns-q{font-size:.71rem;color:var(--muted);line-height:1.5;cursor:pointer;margin-bottom:.3rem}
+.ns-q:hover{color:var(--accent)}
+.ns-t{font-family:var(--font-zh);font-size:.78rem;line-height:1.65;color:var(--ink-soft);
+      white-space:pre-wrap;word-break:break-word}
+.ns-edit{position:absolute;right:0;top:.5rem;width:1.5rem;height:1.5rem;border-radius:4px;
+         border:1px solid var(--line);background:var(--paper);color:var(--muted);font-size:.72rem;
+         line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
+         padding:0}
+.ns-edit:hover{border-color:var(--accent);color:var(--accent)}
+.ns-empty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);padding:1.2rem 0;text-align:center}
 
 .eyebrow{font-family:var(--font-sans);font-size:.65rem;text-transform:uppercase;
          letter-spacing:.14em;color:var(--hl);margin:0 0 .55rem;font-weight:700}
@@ -140,6 +190,33 @@ blockquote.cited .attrib{font-family:var(--font-sans);font-size:.71rem;color:var
 
 a.gref{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent);cursor:help}
 a.gref:hover{background:var(--accent-soft)}
+
+/* ---- glossary term popover ----
+   a.gref used to be a plain anchor jump to the glossary section near the
+   bottom of the page — fine for a short article, disorienting on a long one:
+   you lose your place and have to scroll all the way back. This intercepts
+   the click and shows the definition in a floating popover right where you
+   clicked instead; the glossary section itself still exists as a fallback
+   (reachable from the 术语 nav tab, or the "查看完整条目" link in the popover)
+   for anyone who wants the full list with category grouping. */
+#grefPop{position:fixed;z-index:85;width:19rem;max-width:88vw;
+         background:var(--paper);border:1px solid var(--line);border-radius:10px;
+         box-shadow:0 6px 28px rgba(0,0,0,.22);padding:.85rem .95rem;
+         font-family:var(--font-sans);display:none}
+#grefPop .gp-cat{display:inline-block;font-size:.62rem;letter-spacing:.05em;color:var(--paper);
+                 background:var(--muted);padding:.12rem .45rem;border-radius:999px;margin-bottom:.4rem}
+#grefPop .gp-term{display:block;font-family:var(--font-zh);font-weight:600;color:var(--ink);
+                  font-size:.95rem;margin-bottom:.4rem}
+#grefPop .gp-def{font-family:var(--font-zh);font-size:.84rem;line-height:1.8;color:var(--ink-soft);
+                 max-height:40vh;overflow-y:auto}
+#grefPop .gp-def p{margin:0 0 .6rem}
+#grefPop .gp-def p:last-child{margin-bottom:0}
+#grefPop .gp-jump{display:inline-block;margin-top:.55rem;font-size:.68rem;color:var(--accent);
+                  text-decoration:none;border-bottom:1px dotted var(--accent)}
+@media (max-width:640px){
+  #grefPop{left:.8rem;right:.8rem;width:auto;top:auto!important;bottom:.8rem}
+}
+@media print{#grefPop{display:none!important}}
 
 body.zh-only .bipara p.en, body.zh-only article h2 .en,
 body.zh-only article h3 .en, body.zh-only blockquote.cited p.en{display:none}
@@ -184,9 +261,29 @@ details.pack[open] summary::before{content:"▾ "}
 .note-edit:focus{outline:none;box-shadow:0 0 0 2px var(--accent-soft)}
 .note.editing .note-body,.note.editing .note-add{display:none}
 .note.editing .note-edit{display:block}
+.note-tags{display:none;width:100%;margin-top:.35rem;font-family:var(--font-sans);font-size:.72rem;
+           color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:3px;
+           padding:.35rem .55rem;box-sizing:border-box}
+.note-tags:focus{outline:none;border-color:var(--accent)}
+.note.editing .note-tags{display:block}
 .note-status{font-family:var(--font-sans);font-size:.62rem;color:var(--accent);
              margin-top:.22rem;height:.9rem;opacity:0;transition:opacity .2s}
 .note-status.show{opacity:.8}
+
+/* ---- self-assigned tags (free-form, not a fixed taxonomy) ---- */
+.tag-row,.note-tagrow{margin-top:.4rem;display:flex;flex-wrap:wrap;gap:.3rem}
+.tag-chip{display:inline-block;font-family:var(--font-sans);font-size:.64rem;color:var(--accent);
+          background:var(--accent-soft);border-radius:999px;padding:.1rem .5rem;cursor:pointer;
+          border:1px solid transparent}
+.tag-chip:hover{border-color:var(--accent)}
+.tag-chip.active{background:var(--accent);color:var(--paper)}
+.note-body .tag-chip{background:var(--paper);border-color:var(--accent)}
+.tag-filter-bar{font-family:var(--font-sans);font-size:.7rem;color:var(--ink-soft);
+                background:var(--zh-bg);border-radius:4px;padding:.4rem .6rem;margin-bottom:.6rem;
+                display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.tag-filter-clear{font-family:var(--font-sans);font-size:.68rem;border:1px solid var(--line);
+                   background:none;color:var(--muted);border-radius:4px;padding:.2rem .5rem;cursor:pointer}
+.tag-filter-clear:hover{border-color:var(--accent);color:var(--accent)}
 
 /* ---- navigator (floating button + tabbed panel: 目录 / 术语 / 批注) ---- */
 #navBtn{position:fixed;right:.9rem;bottom:calc(.9rem + env(safe-area-inset-bottom,0px));z-index:60;
@@ -277,6 +374,17 @@ details.pack[open] summary::before{content:"▾ "}
 .nrow .src:hover{color:var(--accent)}
 .nrow .txt{font-family:var(--font-zh);font-size:.86rem;line-height:1.8;color:var(--ink-soft);white-space:pre-wrap}
 
+/* a linked (多段关联) highlight note's row: a badge plus one clickable line
+   per fragment, each jumping to its own passage — see renderSrcInto() */
+.frag-badge{font-weight:700;color:var(--hl);margin-bottom:.35rem}
+.frag-row{display:flex;align-items:flex-start;gap:.35rem;cursor:pointer;margin-bottom:.3rem;
+          color:var(--muted);line-height:1.5}
+.frag-row:hover{color:var(--accent)}
+.frag-row:hover .jump-icon{color:var(--accent)}
+.frag-row .jump-icon{flex-shrink:0;color:var(--hl);font-weight:700}
+.nrow .frag-badge,.nrow .frag-row{font-family:var(--font-sans);font-size:.7rem}
+.ns-row .frag-badge,.ns-row .frag-row{font-family:var(--font-sans);font-size:.7rem}
+
 /* ---- end-of-document overview ---- */
 #overview{margin-top:2.6rem;border-top:2px solid var(--accent);padding-top:1.1rem}
 #overview h2.ovh{font-family:var(--font-sans);font-size:1.02rem;color:var(--accent);
@@ -294,6 +402,64 @@ details.pack[open] summary::before{content:"▾ "}
         line-height:1.7;margin-top:.7rem;padding:.6rem .8rem;background:var(--zh-bg);border-radius:4px}
 
 /* ---- baked-in AI commentary (static, written by Claude, not generated by the page) ---- */
+/* ---- selection-anchored highlight annotations ----
+   A second, complementary annotation mode: select any phrase/sentence inside
+   a paragraph (not just the whole block) and a small pill offers to attach a
+   note to exactly that selection. The note card can also pull in a second,
+   unrelated selection elsewhere in the article ("+ 关联另一段") so one note
+   can discuss the relationship between two passages. Lives in its own
+   localStorage key and its own DOM marks, but feeds into the same entries()/
+   markdown()/reviewPrompt() used by paragraph notes, so export and the
+   AI-review prompt cover both kinds without separate UI. */
+#selPill{position:absolute;z-index:80;font-family:var(--font-sans);font-size:.72rem;
+         background:var(--accent);color:var(--paper);border:none;border-radius:999px;
+         padding:.35rem .75rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+mark.hl-anno{background:var(--hl-soft);color:inherit;border-bottom:2px solid var(--hl);
+             padding:0 .1em;cursor:pointer}
+/* The whole sibling paragraph gets tinted, not just a small icon — a tiny
+   glyph alone wasn't noticeable enough in practice. Uses --accent (not --hl,
+   which mark.hl-anno and blockquote.cited already use) so it reads as "a
+   cross-reference to a note elsewhere" and stays visually distinct even
+   inside an already hl-tinted quote block. box-shadow (not background) so it
+   layers over whatever background the paragraph already has (plain for
+   p.en, --zh-bg for p.zh, --hl-soft inside a blockquote) instead of fighting
+   with it, and costs no layout shift since it doesn't affect padding. */
+p.en.has-linked-note, p.zh.has-linked-note{
+  box-shadow: inset 3px 0 0 0 var(--accent), inset 0 0 0 999px var(--accent-soft);
+  border-radius: 3px;
+}
+.linked-note-dot{display:inline-block;margin:.4rem 0 0;font-family:var(--font-sans);
+                  font-size:.68rem;cursor:pointer;color:var(--accent);background:var(--accent-soft);
+                  border:1px solid var(--accent);border-radius:999px;padding:.15rem .6rem}
+.linked-note-dot:hover{background:var(--accent);color:var(--paper)}
+#hlHint{position:fixed;top:.8rem;left:50%;transform:translateX(-50%);z-index:85;
+        font-family:var(--font-sans);font-size:.72rem;color:var(--paper);background:var(--hl);
+        padding:.5rem .9rem;border-radius:999px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+#selCard{position:fixed;z-index:85;width:19rem;max-width:90vw;right:1rem;top:4.2rem;
+         background:var(--paper);border:1px solid var(--line);border-radius:10px;
+         box-shadow:0 6px 28px rgba(0,0,0,.22);padding:.9rem;font-family:var(--font-sans)}
+.hl-head{font-size:.7rem;color:var(--muted);margin-bottom:.5rem;font-weight:600}
+#hlFrags{margin-bottom:.5rem;max-height:7rem;overflow-y:auto}
+.hl-frag{font-family:var(--font-zh);font-size:.78rem;color:var(--ink-soft);
+         background:var(--hl-soft);border-left:3px solid var(--hl);border-radius:3px;
+         padding:.4rem .55rem;margin-bottom:.4rem;line-height:1.6}
+#hlNote{width:100%;font-family:var(--font-zh);font-size:.87rem;line-height:1.75;color:var(--ink);
+        background:var(--zh-bg);border:1px solid var(--line);border-radius:4px;
+        padding:.5rem .65rem;resize:vertical;min-height:4.4rem;box-sizing:border-box}
+#hlNote:focus{outline:none;border-color:var(--accent)}
+#hlTags{width:100%;margin-top:.4rem;font-family:var(--font-sans);font-size:.78rem;color:var(--ink);
+        background:var(--zh-bg);border:1px solid var(--line);border-radius:4px;
+        padding:.4rem .55rem;box-sizing:border-box}
+#hlTags:focus{outline:none;border-color:var(--accent)}
+.hl-actions{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+.hl-actions button{font-size:.7rem;border:1px solid var(--line);background:none;color:var(--ink-soft);
+                    border-radius:6px;padding:.4rem .7rem;cursor:pointer}
+.hl-actions button.primary{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+@media (max-width:640px){
+  #selCard{left:.8rem;right:.8rem;width:auto;top:auto;bottom:.8rem}
+}
+@media print{#selPill,#selCard,#hlHint{display:none!important}}
+
 #aiCommentary{margin-top:2.6rem;border-top:2px solid var(--hl);padding-top:1.1rem}
 .aic-entry{margin:0 0 1.8rem;padding-bottom:1.4rem;border-bottom:1px dashed var(--line)}
 .aic-entry:last-child{border-bottom:none}
@@ -357,11 +523,57 @@ document.addEventListener('scroll', function(){
   var notes={};
   try{ notes=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ notes={}; }
 
+  var HL_KEY='br-highlights:'+(window.__BR_DOC||'doc');
+  var highlights=[];
+  try{ highlights=JSON.parse(localStorage.getItem(HL_KEY)||'[]'); }catch(e){ highlights=[]; }
+  function persistHL(){
+    try{ localStorage.setItem(HL_KEY, JSON.stringify(highlights)); return true; }
+    catch(e){ return false; }
+  }
+
   function persist(){
     try{ localStorage.setItem(KEY, JSON.stringify(notes)); return true; }
     catch(e){ return false; }
   }
-  function count(){ return Object.keys(notes).filter(function(k){return (notes[k]||'').trim();}).length; }
+  /* Free-form tags, self-assigned by the reader (e.g. "可引用 待查"), not a
+     fixed taxonomy. Paragraph notes predate tags and were plain strings in
+     localStorage — noteOf() reads either the legacy string form or the new
+     {text,tags} object form, so existing saved notes don't need migrating. */
+  function parseTags(s){
+    return (s||'').split(/[,，\s]+/).map(function(t){return t.trim();}).filter(Boolean);
+  }
+  function tagsLabel(tags){ return (tags||[]).join(' '); }
+  function noteOf(id){
+    var raw=notes[id];
+    if(!raw) return {text:'', tags:[]};
+    if(typeof raw==='string') return {text:raw, tags:[]};
+    return {text:raw.text||'', tags:raw.tags||[]};
+  }
+  function focusSoon(el){
+    el.focus();
+    requestAnimationFrame(function(){ el.focus(); });
+  }
+  var activeTagFilter=null;
+  function toggleTagFilter(tag){
+    activeTagFilter=(activeTagFilter===tag)?null:tag;
+    refreshAll();
+  }
+  function buildTagRow(tags){
+    var row=document.createElement('div'); row.className='tag-row';
+    tags.forEach(function(t){
+      var chip=document.createElement('span'); chip.className='tag-chip';
+      if(t===activeTagFilter) chip.classList.add('active');
+      chip.textContent='#'+t;
+      chip.addEventListener('click', function(e){ e.stopPropagation(); toggleTagFilter(t); });
+      row.appendChild(chip);
+    });
+    return row;
+  }
+  function count(){
+    var n=Object.keys(notes).filter(function(k){return noteOf(k).text.trim();}).length;
+    n += highlights.filter(function(h){return (h.note||'').trim();}).length;
+    return n;
+  }
   function refreshBtn(){
     var n=count();
     var badge=document.querySelector('#navBtn .n');
@@ -370,9 +582,14 @@ document.addEventListener('scroll', function(){
     if(tabBadge) tabBadge.textContent=n;
   }
   function paint(wrap){
-    var id=wrap.dataset.nid, v=(notes[id]||'').trim();
+    var id=wrap.dataset.nid, nd=noteOf(id), v=nd.text.trim();
     var body=wrap.querySelector('.note-body');
-    if(v){ wrap.classList.add('has'); body.innerHTML='<span class="lbl">我的批注</span>'; body.appendChild(document.createTextNode(v)); }
+    if(v){
+      wrap.classList.add('has');
+      body.innerHTML='<span class="lbl">我的批注</span>';
+      body.appendChild(document.createTextNode(v));
+      if(nd.tags.length) body.appendChild(buildTagRow(nd.tags));
+    }
     else { wrap.classList.remove('has'); body.textContent=''; }
   }
   function flash(wrap){
@@ -384,8 +601,10 @@ document.addEventListener('scroll', function(){
   }
   function save(wrap){
     var id=wrap.dataset.nid, ta=wrap.querySelector('.note-edit');
+    var tagInput=wrap.querySelector('.note-tags');
     var v=ta.value.trim();
-    if(v) notes[id]=v; else delete notes[id];
+    var tags=tagInput?parseTags(tagInput.value):[];
+    if(v) notes[id]={text:v, tags:tags}; else delete notes[id];
     if(persist()){ flash(wrap); } else {
       var s=wrap.querySelector('.note-status');
       s.textContent='保存失败(浏览器存储不可用)'; s.classList.add('show');
@@ -398,70 +617,199 @@ document.addEventListener('scroll', function(){
   }
   function edit(wrap){
     var ta=wrap.querySelector('.note-edit');
-    ta.value=notes[wrap.dataset.nid]||'';
+    var tagInput=wrap.querySelector('.note-tags');
+    var nd=noteOf(wrap.dataset.nid);
+    ta.value=nd.text;
+    if(tagInput) tagInput.value=tagsLabel(nd.tags);
     wrap.classList.add('editing');
-    ta.focus();
+    focusSoon(ta);
     ta.setSelectionRange(ta.value.length, ta.value.length);
     autogrow(ta);
   }
   function autogrow(ta){ ta.style.height='auto'; ta.style.height=(ta.scrollHeight+2)+'px'; }
+  function scheduleCollapseCheck(wrap){
+    /* Tabbing from the note textarea to its tag-input field blurs the
+       textarea, but focus is still inside the SAME note — collapsing the
+       editing UI on that blur would hide the tag field before the reader
+       can even reach it. Defer the check a tick so the newly-focused element
+       (if it's still within this wrap) is already document.activeElement. */
+    setTimeout(function(){
+      if(!wrap.contains(document.activeElement)) wrap.classList.remove('editing');
+    }, 0);
+  }
 
+  var nidToBlock={};
   document.querySelectorAll('.note').forEach(function(wrap){
     paint(wrap);
+    var host0=wrap.closest('.bipara')||wrap.closest('blockquote');
+    if(host0) nidToBlock[wrap.dataset.nid]=host0;
     wrap.querySelector('.note-add').addEventListener('click', function(){ edit(wrap); });
     wrap.querySelector('.note-body').addEventListener('click', function(){ edit(wrap); });
     var ta=wrap.querySelector('.note-edit');
+    var tagInput=wrap.querySelector('.note-tags');
     ta.addEventListener('input', function(){
       autogrow(ta);
       clearTimeout(wrap.__st);
       wrap.__st=setTimeout(function(){ save(wrap); }, 500);
     });
     ta.addEventListener('blur', function(){
-      clearTimeout(wrap.__st); save(wrap); wrap.classList.remove('editing');
+      clearTimeout(wrap.__st); save(wrap); scheduleCollapseCheck(wrap);
     });
     ta.addEventListener('keydown', function(e){
       if(e.key==='Escape'){ ta.blur(); }
       if(e.key==='Enter' && (e.metaKey||e.ctrlKey)){ ta.blur(); }
     });
+    if(tagInput){
+      tagInput.addEventListener('input', function(){
+        clearTimeout(wrap.__st);
+        wrap.__st=setTimeout(function(){ save(wrap); }, 500);
+      });
+      tagInput.addEventListener('blur', function(){
+        clearTimeout(wrap.__st); save(wrap); scheduleCollapseCheck(wrap);
+      });
+      tagInput.addEventListener('keydown', function(e){
+        if(e.key==='Escape'){ tagInput.blur(); }
+        if(e.key==='Enter'){ e.preventDefault(); tagInput.blur(); }
+      });
+    }
   });
   var panel=document.getElementById('navPanel');
 
   function entries(){
     var out=[];
     document.querySelectorAll('.note').forEach(function(w){
-      var v=(notes[w.dataset.nid]||'').trim();
+      var nd=noteOf(w.dataset.nid);
+      var v=nd.text.trim();
       if(!v) return;
       var host=w.closest('.bipara')||w.closest('blockquote');
       var en=host?host.querySelector('.en'):null;
       var zh=host?host.querySelector('.zh'):null;
       out.push({el:host, src:en?en.textContent.trim():'',
                 zh:zh?zh.textContent.trim():'', txt:v,
-                isQuote: !!(host&&host.tagName==='BLOCKQUOTE')});
+                isQuote: !!(host&&host.tagName==='BLOCKQUOTE'), tags:nd.tags});
+    });
+    highlights.forEach(function(h){
+      var v=(h.note||'').trim();
+      if(!v || !h.frags || !h.frags.length) return;
+      out.push({el:nidToBlock[h.frags[0].nid], src:h.frags.map(function(f){return f.text;}).join('" ... "'),
+                zh:'', txt:v, isQuote:false, isHighlight:true, frags:h.frags, hlId:h.id, tags:h.tags||[]});
     });
     return out;
   }
-  function buildList(list, closeAfterJump){
+  function filteredRows(){
     var rows=entries();
+    if(!activeTagFilter) return rows;
+    return rows.filter(function(r){ return (r.tags||[]).indexOf(activeTagFilter)!==-1; });
+  }
+  function filterBarInto(container){
+    if(!activeTagFilter) return;
+    var bar=document.createElement('div'); bar.className='tag-filter-bar';
+    bar.appendChild(document.createTextNode('筛选：#'+activeTagFilter+' '));
+    var clear=document.createElement('button');
+    clear.type='button'; clear.className='tag-filter-clear'; clear.textContent='✕ 清除筛选';
+    clear.addEventListener('click', function(){ activeTagFilter=null; refreshAll(); });
+    bar.appendChild(clear);
+    container.appendChild(bar);
+  }
+  /* Shared by buildList() (nav 批注 tab / overview) and buildSidebarList():
+     a highlight note with more than one linked fragment ("+ 关联另一段")
+     used to collapse into one joined-quote line that jumped only to the
+     FIRST fragment — the other fragment(s) were invisible and unreachable
+     from the list. Now a multi-fragment row gets a "🔗 关联 N 处" badge plus
+     one small jump row per fragment, each independently clickable, so the
+     list actually reflects that this note spans more than one passage. */
+  function renderSrcInto(container, r, opts){
+    opts=opts||{};
+    var truncLen=opts.truncLen||110;
+    var singleClass=opts.singleClass||'src';
+    if(r.isHighlight && r.frags && r.frags.length>1){
+      var badge=document.createElement('div'); badge.className='frag-badge';
+      badge.textContent='🔗 关联 '+r.frags.length+' 处，点击分别跳转：';
+      container.appendChild(badge);
+      r.frags.forEach(function(f){
+        var fr=document.createElement('div'); fr.className='frag-row';
+        var icon=document.createElement('span'); icon.className='jump-icon'; icon.textContent='↳';
+        fr.appendChild(icon);
+        fr.appendChild(document.createTextNode('“'+fragLabel(f.text)+'”'));
+        fr.addEventListener('click', function(){
+          var host=nidToBlock[f.nid];
+          if(host) host.scrollIntoView({behavior:'smooth',block:'center'});
+          if(opts.afterJump) opts.afterJump();
+        });
+        container.appendChild(fr);
+      });
+    } else {
+      var s=document.createElement('div'); s.className=singleClass;
+      s.textContent=(r.isHighlight?'［选段］“':(r.isQuote?'［引文］“':'“'))+r.src.slice(0,truncLen)+(r.src.length>truncLen?'…':'')+'”';
+      s.addEventListener('click', function(){
+        if(r.el) r.el.scrollIntoView({behavior:'smooth',block:'center'});
+        if(opts.afterJump) opts.afterJump();
+      });
+      container.appendChild(s);
+    }
+  }
+  function buildList(list, closeAfterJump){
+    var rows=filteredRows();
     list.innerHTML='';
+    filterBarInto(list);
     if(!rows.length){
-      list.innerHTML='<div class="nempty">还没有批注。点击任意段落下方的「＋ 批注」开始。</div>';
+      var empty=document.createElement('div'); empty.className='nempty';
+      empty.textContent=activeTagFilter?('没有标签为 "'+activeTagFilter+'" 的批注。'):'还没有批注。点击任意段落下方的「＋ 批注」开始。';
+      list.appendChild(empty);
       return;
     }
     rows.forEach(function(r){
       var d=document.createElement('div'); d.className='nrow';
-      var s=document.createElement('div'); s.className='src';
-      s.textContent=(r.isQuote?'［引文］“':'“')+r.src.slice(0,110)+(r.src.length>110?'…':'')+'”';
-      s.addEventListener('click', function(){
-        if(closeAfterJump) closePanel();
-        r.el.scrollIntoView({behavior:'smooth',block:'center'});
-      });
+      renderSrcInto(d, r, {truncLen:110, singleClass:'src',
+        afterJump:function(){ if(closeAfterJump) closePanel(); }});
       var t=document.createElement('div'); t.className='txt'; t.textContent=r.txt;
-      d.appendChild(s); d.appendChild(t); list.appendChild(d);
+      d.appendChild(t);
+      if(r.tags && r.tags.length) d.appendChild(buildTagRow(r.tags));
+      list.appendChild(d);
+    });
+  }
+  function buildSidebarList(){
+    var list=document.getElementById('nsList');
+    if(!list) return;
+    var rows=filteredRows();
+    list.innerHTML='';
+    filterBarInto(list);
+    if(!rows.length){
+      var empty=document.createElement('div'); empty.className='ns-empty';
+      empty.textContent=activeTagFilter?('没有标签为 "'+activeTagFilter+'" 的批注。'):'还没有批注。选中文字，或点段落下方的「＋批注」。';
+      list.appendChild(empty);
+      return;
+    }
+    rows.forEach(function(r){
+      var row=document.createElement('div'); row.className='ns-row';
+      renderSrcInto(row, r, {truncLen:70, singleClass:'ns-q'});
+      var t=document.createElement('div'); t.className='ns-t';
+      t.textContent=r.txt.slice(0,90)+(r.txt.length>90?'…':'');
+      var editBtn=document.createElement('button');
+      editBtn.type='button'; editBtn.className='ns-edit'; editBtn.textContent='✎';
+      if(r.isHighlight){
+        editBtn.title='编辑或关联其他段落（不跳转）';
+        editBtn.addEventListener('click', function(e){ e.stopPropagation(); openCardById(r.hlId); });
+      } else {
+        editBtn.title='前往并编辑';
+        editBtn.addEventListener('click', function(e){
+          e.stopPropagation();
+          if(!r.el) return;
+          r.el.scrollIntoView({behavior:'smooth',block:'center'});
+          var w=r.el.querySelector('.note');
+          if(w) setTimeout(function(){ edit(w); }, 650);
+        });
+      }
+      row.appendChild(t);
+      if(r.tags && r.tags.length) row.appendChild(buildTagRow(r.tags));
+      row.appendChild(editBtn);
+      list.appendChild(row);
     });
   }
   function refreshAll(){
     buildList(document.getElementById('notesList'), true);
     buildList(document.getElementById('ovList'), false);
+    buildSidebarList();
     refreshBtn();
   }
 
@@ -469,12 +817,18 @@ document.addEventListener('scroll', function(){
   var CITE=document.querySelector('.citation') ? document.querySelector('.citation').textContent.trim() : '';
 
   function markdown(){
-    var rows=entries();
+    var rows=filteredRows();
     var out=['# 批注 — '+TITLE, '', CITE, ''];
+    if(activeTagFilter){ out.push('（仅导出标签：#'+activeTagFilter+'）'); out.push(''); }
     rows.forEach(function(r){
-      out.push('> '+r.src.replace(/\\s+/g,' '));
+      if(r.isHighlight && r.frags && r.frags.length>1){
+        r.frags.forEach(function(f){ out.push('> '+f.text.replace(/\\s+/g,' ')); });
+      } else {
+        out.push('> '+r.src.replace(/\\s+/g,' '));
+      }
       out.push('');
       out.push(r.txt);
+      if(r.tags && r.tags.length) out.push('标签：'+r.tags.map(function(t){return '#'+t;}).join(' '));
       out.push('');
       out.push('---');
       out.push('');
@@ -483,7 +837,7 @@ document.addEventListener('scroll', function(){
   }
 
   function reviewPrompt(){
-    var rows=entries();
+    var rows=filteredRows();
     var out=[];
     out.push('我正在精读下面这篇文献，附上原文段落与我自己写的批注。请据此完成三件事，要具体，不要泛泛而谈：');
     out.push('');
@@ -494,12 +848,21 @@ document.addEventListener('scroll', function(){
     out.push('文献：'+TITLE);
     if(CITE) out.push(CITE);
     out.push('批注条数：'+rows.length);
+    if(activeTagFilter) out.push('（仅包含标签 #'+activeTagFilter+' 的批注）');
     out.push('');
     rows.forEach(function(r,i){
-      out.push('════ 第 '+(i+1)+' 条'+(r.isQuote?'（针对引文）':'')+' ════');
-      out.push('【原文】'+r.src.replace(/\\s+/g,' '));
+      var tag = r.isQuote ? '（针对引文）'
+              : r.isHighlight ? (r.frags.length>1 ? '（关联 '+r.frags.length+' 段）' : '（选中片段）')
+              : '';
+      out.push('════ 第 '+(i+1)+' 条'+tag+' ════');
+      if(r.isHighlight && r.frags && r.frags.length>1){
+        r.frags.forEach(function(f,fi){ out.push('【原文片段'+(fi+1)+'】'+f.text.replace(/\\s+/g,' ')); });
+      } else {
+        out.push('【原文】'+r.src.replace(/\\s+/g,' '));
+      }
       if(r.zh) out.push('【译文】'+r.zh.replace(/\\s+/g,' '));
       out.push('【我的批注】'+r.txt);
+      if(r.tags && r.tags.length) out.push('【标签】'+r.tags.map(function(t){return '#'+t;}).join(' '));
       out.push('');
     });
     return out.join('\\n');
@@ -521,7 +884,10 @@ document.addEventListener('scroll', function(){
     }
   }
   function guardEmpty(){
-    if(!entries().length){ alert('还没有批注。先在段落下方写几条再来。'); return true; }
+    if(!filteredRows().length){
+      alert(activeTagFilter ? ('没有标签为 "'+activeTagFilter+'" 的批注。') : '还没有批注。先在段落下方写几条再来。');
+      return true;
+    }
     return false;
   }
 
@@ -641,47 +1007,382 @@ document.addEventListener('scroll', function(){
     if(guardEmpty()) return;
     if(!confirm('清空本篇全部批注？此操作无法撤销。建议先导出备份。')) return;
     notes={}; persist();
+    highlights=[]; persistHL();
     document.querySelectorAll('.note').forEach(paint);
+    paintHighlights();
     refreshAll();
   });
 
-  /* file export — only when the downloads capability is present in this view */
+  /* file export: the Claude-artifact `downloads` capability when present
+     (gives the viewer a save-location picker), falling back to a universal
+     Blob + <a download> otherwise — so export keeps working when this same
+     rendered HTML is served as a plain web page (e.g. from GitHub Pages),
+     where window.claude doesn't exist at all. */
+  function nativeDownload(filename, data){
+    try{
+      var blob=new Blob([data], {type:'text/plain;charset=utf-8'});
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a');
+      a.href=url; a.download=filename;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+      return true;
+    }catch(e){ return false; }
+  }
   var dl = (window.claude && window.claude.downloads) ? window.claude.downloads : null;
   var slug=(window.__BR_DOC||'notes').replace(/[^a-zA-Z0-9_-]+/g,'-').slice(0,60);
-  if(dl){
-    ['ovSaveMd','ovSaveJson'].forEach(function(id){
-      var b=document.getElementById(id); if(b) b.style.display='';
-    });
-    function offer(btn, label, filename, data){
-      btn.disabled=true;
-      dl.save({filename:filename, data:data}).then(function(){
-        btn.textContent='✓ 已保存';
-      }).catch(function(err){
-        var c=err&&err.code;
-        btn.textContent = c==='declined' ? '已取消'
-                        : c==='rate_limited' ? '稍后再试'
-                        : c==='too_large' ? '文件过大'
-                        : '保存不可用';
-        if(c==='unavailable'||c==='not_granted'||c==='capability_disabled'||c==='capability_removed'){
-          btn.style.display='none';
-        }
-      }).then(function(){
-        btn.disabled=false;
-        setTimeout(function(){ if(btn.style.display!=='none') btn.textContent=label; },1800);
-      });
+  ['ovSaveMd','ovSaveJson'].forEach(function(id){
+    var b=document.getElementById(id); if(b) b.style.display='';
+  });
+  function offer(btn, label, filename, data){
+    btn.disabled=true;
+    function settle(ok, msg){
+      btn.textContent = ok ? '✓ 已保存' : (msg||'保存不可用');
+      btn.disabled=false;
+      setTimeout(function(){ if(btn.style.display!=='none') btn.textContent=label; },1800);
     }
-    document.getElementById('ovSaveMd').addEventListener('click', function(){
-      if(guardEmpty()) return;
-      offer(this,'下载 .md', slug+'-notes.md', markdown());
-    });
-    document.getElementById('ovSaveJson').addEventListener('click', function(){
-      if(guardEmpty()) return;
-      offer(this,'备份 .json', slug+'-notes.json',
-            JSON.stringify({doc:window.__BR_DOC, saved:new Date().toISOString(), notes:notes}, null, 2));
+    if(dl){
+      dl.save({filename:filename, data:data}).then(function(){ settle(true); }).catch(function(err){
+        var c=err&&err.code;
+        if(c==='unavailable'||c==='not_granted'||c==='capability_disabled'||c==='capability_removed'){
+          settle(nativeDownload(filename, data));
+        } else {
+          settle(false, c==='declined'?'已取消':c==='rate_limited'?'稍后再试':c==='too_large'?'文件过大':'保存不可用');
+        }
+      });
+    } else {
+      settle(nativeDownload(filename, data));
+    }
+  }
+  document.getElementById('ovSaveMd').addEventListener('click', function(){
+    if(guardEmpty()) return;
+    offer(this,'下载 .md', slug+'-notes.md', markdown());
+  });
+  document.getElementById('ovSaveJson').addEventListener('click', function(){
+    if(guardEmpty()) return;
+    offer(this,'备份 .json', slug+'-notes.json',
+          JSON.stringify({doc:window.__BR_DOC, saved:new Date().toISOString(), notes:notes, highlights:highlights}, null, 2));
+  });
+
+  /* import: restores a previously exported "备份 .json" — the other half of
+     moving between hosts (e.g. a Claude artifact -> this page served
+     elsewhere), since there is no live channel between two pages' separate
+     localStorage to migrate data automatically. Merges by key/id rather than
+     replacing outright, so importing doesn't silently discard anything
+     already written on THIS page since the backup was made. */
+  var importBtn=document.getElementById('ovImport');
+  var importFile=document.getElementById('ovImportFile');
+  if(importBtn && importFile){
+    importBtn.addEventListener('click', function(){ importFile.click(); });
+    importFile.addEventListener('change', function(){
+      var file=importFile.files[0];
+      importFile.value='';
+      if(!file) return;
+      var reader=new FileReader();
+      reader.onload=function(){
+        var data;
+        try{ data=JSON.parse(reader.result); }catch(e){
+          alert('这不是有效的备份文件（JSON 解析失败）。'); return;
+        }
+        if(data.doc && data.doc!==window.__BR_DOC){
+          if(!confirm('这份备份来自另一篇文献（'+data.doc+'），当前页面是「'+window.__BR_DOC+'」。确定仍要导入吗？')) return;
+        }
+        var existingCount=count();
+        if(existingCount>0 && !confirm('导入会与当前已有的 '+existingCount+' 条批注合并（相同位置的批注会被备份中的版本覆盖）。确定继续吗？')) return;
+        if(data.notes){ Object.keys(data.notes).forEach(function(k){ notes[k]=data.notes[k]; }); persist(); }
+        if(data.highlights){
+          var byId={}; highlights.forEach(function(h){ byId[h.id]=h; });
+          data.highlights.forEach(function(h){ byId[h.id]=h; });
+          highlights=Object.keys(byId).map(function(k){ return byId[k]; });
+          persistHL();
+        }
+        document.querySelectorAll('.note').forEach(paint);
+        paintHighlights();
+        refreshAll();
+        alert('导入完成。');
+      };
+      reader.readAsText(file);
     });
   }
 
+  /* ---- selection-anchored highlight annotations ---- */
+  var pill=document.getElementById('selPill');
+  var card=document.getElementById('selCard');
+  var hint=document.getElementById('hlHint');
+  var pendingFrags=null;      /* set while waiting for a second selection to link */
+  var pendingNoteDraft='';
+  var pendingTagsDraft='';
+  var editingHlId=null;
+  var draftFrags=[];
+
+  function findBlockNid(el){
+    var host=el.closest('.bipara')||el.closest('blockquote.cited');
+    if(!host) return null;
+    var w=host.querySelector('.note');
+    return w?w.dataset.nid:null;
+  }
+  function fragLabel(t){ return t.length>90 ? t.slice(0,90)+'…' : t; }
+  function hidePill(){ pill.style.display='none'; }
+
+  function validSelection(){
+    var sel=window.getSelection();
+    if(!sel||sel.isCollapsed||!sel.rangeCount) return null;
+    if(!sel.toString().trim()) return null;
+    var range=sel.getRangeAt(0);
+
+    /* Anchor on the paragraph the selection STARTS in, not on requiring the
+       whole raw Range to live inside one <p>. p.en and p.zh sit close
+       together, and a real mouse drag very easily overshoots the end of a
+       wrapped line by a few pixels — enough for the browser to resolve the
+       end point into the next paragraph (even the other language). Demanding
+       the entire selection stay inside one element made that overshoot
+       silently reject the WHOLE selection, which is what made annotating a
+       paragraph look broken. */
+    var startEl=range.startContainer.nodeType===1?range.startContainer:range.startContainer.parentElement;
+    var pEl=startEl?startEl.closest('p.en, p.zh'):null;
+    if(!pEl) return null;
+    var nidv=findBlockNid(pEl);
+    if(!nidv) return null;
+
+    var clipped=range.cloneRange();
+    if(!pEl.contains(clipped.endContainer)){
+      try{ clipped.setEnd(pEl, pEl.childNodes.length); }catch(e){}
+    }
+    var text=clipped.toString().trim();
+    if(!text) return null;
+    return {text:text, lang:pEl.classList.contains('zh')?'zh':'en', nid:nidv, clippedRange:clipped};
+  }
+  document.addEventListener('selectionchange', function(){
+    clearTimeout(window.__selT);
+    window.__selT=setTimeout(function(){
+      var v=validSelection();
+      if(!v){ hidePill(); return; }
+      var rect=v.clippedRange.getBoundingClientRect();
+      if(!rect||(!rect.width&&!rect.height)){ hidePill(); return; }
+      pill.style.display='block';
+      var top=window.scrollY+rect.top-42;
+      var left=window.scrollX+rect.left;
+      var maxLeft=window.scrollX+document.documentElement.clientWidth-140;
+      pill.style.top=Math.max(window.scrollY+4, top)+'px';
+      pill.style.left=Math.min(Math.max(8, left), maxLeft)+'px';
+      pill.__sel=v;
+    }, 120);
+  });
+  document.addEventListener('mousedown', function(e){
+    if(pill.style.display!=='none' && !pill.contains(e.target) && !card.contains(e.target)) hidePill();
+  });
+  pill.addEventListener('mousedown', function(e){ e.preventDefault(); });
+  pill.addEventListener('click', function(){
+    var v=pill.__sel;
+    if(!v) return;
+    hidePill();
+    if(pendingFrags){
+      pendingFrags.push({nid:v.nid, lang:v.lang, text:v.text});
+      hint.style.display='none';
+      openCard(pendingFrags, editingHlId, pendingNoteDraft, pendingTagsDraft);
+      pendingFrags=null;
+    } else {
+      openCard([{nid:v.nid, lang:v.lang, text:v.text}], null);
+    }
+    window.getSelection().removeAllRanges();
+  });
+
+  function renderCardFrags(){
+    var wrap=document.getElementById('hlFrags');
+    wrap.innerHTML='';
+    draftFrags.forEach(function(f){
+      var d=document.createElement('div'); d.className='hl-frag';
+      d.textContent='“'+fragLabel(f.text)+'”';
+      wrap.appendChild(d);
+    });
+  }
+  function closeCard(){
+    card.style.display='none';
+    hint.style.display='none';
+    pendingFrags=null; editingHlId=null; draftFrags=[];
+  }
+  function openCard(frags, hlId, presetNote, presetTags){
+    draftFrags=frags; editingHlId=hlId||null;
+    renderCardFrags();
+    var ta=document.getElementById('hlNote');
+    var tagsInput=document.getElementById('hlTags');
+    var existing = hlId ? highlights.filter(function(h){return h.id===hlId;})[0] : null;
+    if(typeof presetNote==='string') ta.value=presetNote;
+    else ta.value = existing ? (existing.note||'') : '';
+    if(typeof presetTags==='string') tagsInput.value=presetTags;
+    else tagsInput.value = existing ? tagsLabel(existing.tags) : '';
+    document.getElementById('hlDelete').style.display = hlId ? '' : 'none';
+    card.style.display='block';
+    focusSoon(ta);
+  }
+  function openCardById(hlId){
+    var h=highlights.filter(function(x){return x.id===hlId;})[0];
+    if(!h) return;
+    openCard(h.frags.slice(), hlId);
+  }
+  document.getElementById('hlLink').addEventListener('click', function(){
+    pendingFrags=draftFrags.slice();
+    pendingNoteDraft=document.getElementById('hlNote').value;
+    pendingTagsDraft=document.getElementById('hlTags').value;
+    card.style.display='none';
+    hint.style.display='block';
+  });
+  document.getElementById('hlCancel').addEventListener('click', closeCard);
+  document.getElementById('hlSave').addEventListener('click', function(){
+    var txt=document.getElementById('hlNote').value.trim();
+    var tags=parseTags(document.getElementById('hlTags').value);
+    if(!txt){ closeCard(); return; }
+    if(editingHlId){
+      var h=highlights.filter(function(x){return x.id===editingHlId;})[0];
+      if(h){ h.note=txt; h.frags=draftFrags; h.tags=tags; }
+    } else {
+      highlights.push({id:'hl'+Date.now()+Math.random().toString(36).slice(2,6),
+                        frags:draftFrags, note:txt, tags:tags, ts:new Date().toISOString()});
+    }
+    persistHL();
+    closeCard();
+    paintHighlights();
+    refreshAll();
+  });
+  document.getElementById('hlDelete').addEventListener('click', function(){
+    if(!editingHlId) return;
+    highlights=highlights.filter(function(x){return x.id!==editingHlId;});
+    persistHL();
+    closeCard();
+    paintHighlights();
+    refreshAll();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key!=='Escape') return;
+    if(pendingFrags){ pendingFrags=null; hint.style.display='none'; }
+    if(card.style.display==='block') closeCard();
+  });
+
+  function unwrapMarks(){
+    document.querySelectorAll('mark.hl-anno').forEach(function(m){
+      var parent=m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    document.querySelectorAll('.linked-note-dot').forEach(function(d){ d.remove(); });
+    document.querySelectorAll('.has-linked-note').forEach(function(p){ p.classList.remove('has-linked-note'); });
+  }
+  function addLinkedNoteDot(p, hlId){
+    /* The exact selected phrase can only be marked in the language it was
+       actually selected in — there's no reliable way to compute which
+       substring of the OTHER language's translation corresponds to it, so
+       this doesn't try. Instead the WHOLE sibling paragraph (same block,
+       other language) gets tinted via a has-linked-note class, plus a small
+       pill below it to open the note — a small icon alone wasn't noticeable
+       enough. Not a duplicate quote, just "a note touches this passage too."
+       This also matters when a reading mode (EN-only / 中文-only) hides the
+       paragraph that actually carries the exact <mark>: the tint/pill live
+       on the sibling, which is whichever language IS currently shown. */
+    p.classList.add('has-linked-note');
+    /* The pill is p's NEXT SIBLING, not a child of it: p.en/p.zh get
+       display:none under the EN-only/中文-only mode toggles, and a child
+       would disappear right along with it — which is exactly the situation
+       this exists to fix. As a sibling it survives untouched regardless of
+       which language is currently shown (same reasoning applies to the
+       has-linked-note class on p itself — it only ever matters while p is
+       actually visible, so it doesn't need separate mode-survival handling). */
+    var dot=document.createElement('span');
+    dot.className='linked-note-dot';
+    dot.textContent='🔗 关联批注';
+    dot.title='另一语言版本的对应段落有批注 · 点击查看';
+    dot.addEventListener('click', function(e){ e.stopPropagation(); openCardById(hlId); });
+    p.insertAdjacentElement('afterend', dot);
+  }
+  function wrapTextInNode(p, text, hlId){
+    /* best-effort: only wraps when the selected text sits intact inside a
+       single text node (not split across inline tags like a.gref). When the
+       original selection crossed such a boundary the note is still saved and
+       still shows up in the list/overview/export — it just won't also get an
+       inline highlight. */
+    var walker=document.createTreeWalker(p, NodeFilter.SHOW_TEXT, null, false);
+    var node;
+    while(node=walker.nextNode()){
+      if(node.parentElement && node.parentElement.closest('mark.hl-anno')) continue;
+      var idx=node.nodeValue.indexOf(text);
+      if(idx===-1) continue;
+      var range=document.createRange();
+      range.setStart(node, idx);
+      range.setEnd(node, idx+text.length);
+      var mark=document.createElement('mark');
+      mark.className='hl-anno'; mark.dataset.hlid=hlId;
+      try{ range.surroundContents(mark); }catch(e){ continue; }
+      mark.addEventListener('click', function(){ openCardById(hlId); });
+      return true;
+    }
+    return false;
+  }
+  function paintHighlights(){
+    unwrapMarks();
+    highlights.forEach(function(h){
+      h.frags.forEach(function(f){
+        var host=nidToBlock[f.nid];
+        if(!host) return;
+        var p=host.querySelector(f.lang==='zh'?'p.zh':'p.en');
+        if(!p) return;
+        wrapTextInNode(p, f.text, h.id);
+        var siblingP=host.querySelector(f.lang==='zh'?'p.en':'p.zh');
+        if(siblingP) addLinkedNoteDot(siblingP, h.id);
+      });
+    });
+  }
+  paintHighlights();
+
   refreshAll();
+})();
+
+/* ---------------- glossary term popover (a.gref) ---------------- */
+(function(){
+  var pop=document.getElementById('grefPop');
+  if(!pop) return;
+  var byId={};
+  (window.__BR_GLOSSARY||[]).forEach(function(g){ byId[g.id]=g; });
+
+  function closePop(){ pop.style.display='none'; }
+  function openPop(g, anchorEl){
+    pop.innerHTML='';
+    if(g.cat){ var c=document.createElement('span'); c.className='gp-cat'; c.textContent=g.cat; pop.appendChild(c); }
+    var t=document.createElement('span'); t.className='gp-term'; t.textContent=g.term; pop.appendChild(t);
+    var d=document.createElement('div'); d.className='gp-def'; d.innerHTML=g.def||''; pop.appendChild(d);
+    var jump=document.createElement('a'); jump.className='gp-jump'; jump.href='#'+g.id;
+    jump.textContent='在术语表中查看完整条目 →';
+    jump.addEventListener('click', function(e){
+      e.preventDefault(); closePop();
+      var el=document.getElementById(g.id);
+      if(!el) return;
+      var details=el.closest('details'); if(details) details.open=true;
+      el.scrollIntoView({behavior:'smooth',block:'center'});
+      el.classList.add('flash'); setTimeout(function(){ el.classList.remove('flash'); }, 1500);
+    });
+    pop.appendChild(jump);
+
+    pop.style.display='block';
+    var rect=anchorEl.getBoundingClientRect();
+    var popW=pop.offsetWidth||304, popH=pop.offsetHeight||160;
+    var left=Math.min(Math.max(8, rect.left), window.innerWidth-popW-8);
+    var top=rect.bottom+8;
+    if(top+popH > window.innerHeight-8) top=Math.max(8, rect.top-popH-8);
+    pop.style.left=left+'px';
+    pop.style.top=top+'px';
+  }
+  document.addEventListener('click', function(e){
+    var a=e.target.closest?e.target.closest('a.gref'):null;
+    if(a){
+      if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
+      e.preventDefault();
+      var id=(a.getAttribute('href')||'').replace(/^#/, '');
+      var g=byId[id];
+      if(g) openPop(g, a);
+      return;
+    }
+    if(!pop.contains(e.target)) closePop();
+  });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closePop(); });
 })();
 
 /* ---------------- sidebar scroll-spy ---------------- */
@@ -740,6 +1441,7 @@ def render(spec):
       '</div>')
     a('</div><div class="progress"><span></span></div></div>')
 
+    a('<div class="layout">')
     if toc:
         a('<nav id="tocSidebar"><div class="sb-label">论文结构</div><div class="sb-tree">')
         for t in toc:
@@ -770,6 +1472,7 @@ def render(spec):
             f'<div class="note" data-nid="{nid(doc_key, en)}">'
             '<div class="note-body"></div>'
             '<textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea>'
+            '<input type="text" class="note-tags" placeholder="标签（可选，空格分隔，如：可引用 待查）">'
             '<button class="note-add" type="button">＋ 批注</button>'
             '<div class="note-status"></div>'
             "</div>"
@@ -840,6 +1543,8 @@ def render(spec):
       '<button id="ovCopy" type="button">复制为 Markdown</button>'
       '<button id="ovSaveMd" type="button" style="display:none">下载 .md</button>'
       '<button id="ovSaveJson" type="button" style="display:none">备份 .json</button>'
+      '<button id="ovImport" type="button">导入备份 .json</button>'
+      '<input type="file" id="ovImportFile" accept="application/json" style="display:none">'
       '<button id="ovClear" class="danger" type="button">清空</button>'
       "</div>")
     a('<div id="ovHint"><strong>关于「AI 点评」：</strong>发布页无法直接调用大模型，'
@@ -852,6 +1557,8 @@ def render(spec):
     if m.get("footer"):
         a(f"<footer>{m['footer']}</footer>")
     a("</main>")
+    a('<nav id="noteSidebar"><div class="sb-label">我的批注</div><div id="nsList"></div></nav>')
+    a("</div>")  # .layout
 
     a('<button id="navBtn" type="button">☰ 导航 <span class="n" data-zero="1">0</span></button>')
     a('<div id="navBackdrop"></div>')
@@ -878,6 +1585,21 @@ def render(spec):
       '<div id="notesJumpRow"><button id="notesJump" type="button">前往总览（导出文件 / 清空）→</button></div>'
       '</div>')
     a('</div></div>')
+
+    a('<div id="selPill" style="display:none">＋ 批注</div>')
+    a('<div id="hlHint" style="display:none">请选中另一段文字，然后点击出现的＋按钮完成关联</div>')
+    a('<div id="selCard" style="display:none">'
+      '<div class="hl-head">选中内容的批注</div>'
+      '<div id="hlFrags"></div>'
+      '<textarea id="hlNote" placeholder="写下你的批注…（可用电脑自带的语音输入直接对着这里说）"></textarea>'
+      '<input type="text" id="hlTags" placeholder="标签（可选，空格分隔，如：可引用 待查）">'
+      '<div class="hl-actions">'
+      '<button id="hlLink" type="button">+ 关联另一段</button>'
+      '<button id="hlDelete" type="button" style="display:none">删除</button>'
+      '<button id="hlCancel" type="button">取消</button>'
+      '<button id="hlSave" class="primary" type="button">保存</button>'
+      '</div></div>')
+    a('<div id="grefPop" style="display:none"></div>')
 
     glossary_js = [
         {"id": g.get("id", ""), "cat": g.get("cat", ""), "term": g.get("term", ""), "def": g.get("def", "")}

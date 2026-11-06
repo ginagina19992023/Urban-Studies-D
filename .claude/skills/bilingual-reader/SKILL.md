@@ -162,6 +162,117 @@ that stay locked inside a reading page are inert; this workflow is reading
 *toward* an essay, so notes have to come out in a form that pastes into a
 draft.
 
+### Selection-anchored annotations (highlight-and-note on any phrase)
+
+The `＋ 批注` control above is paragraph-level — one note per block. A second,
+complementary mode lets the reader select *any* phrase or sentence inside a
+paragraph and attach a note to exactly that selection, Medium/Hypothesis-style:
+
+- Selecting text inside an `.en`/`.zh` paragraph shows a small floating `＋ 批注`
+  pill near the selection. Clicking it opens a card — docked to the right edge
+  on desktop, a bottom sheet on narrow/mobile viewports — with the quoted
+  selection, a textarea, and Save/Cancel/Delete.
+- `validSelection()` anchors on the paragraph the selection **starts** in and
+  clips the end back to that paragraph's own boundary — it does not require
+  the whole raw Range to already live inside one `<p>`. This matters because
+  `p.en` and `p.zh` sit close together: a real mouse drag very easily
+  overshoots the end of a wrapped line by a few pixels, which resolves the
+  browser's own selection Range into the *next* paragraph (sometimes the
+  other language, sometimes the following block entirely). An earlier version
+  demanded the whole selection stay inside one `<p>` and silently rejected
+  the entire selection the moment it overshot — which is what made "select a
+  phrase to annotate" effectively not work for ordinary mouse drags (it only
+  worked for drag distances/line lengths lucky enough to never overshoot). If
+  you touch this function, test it with a genuine `page.mouse` drag across a
+  wrapped line in Playwright, scrolled into view first — not just a
+  synthetic `Range`+`selectionchange` dispatch, which won't reproduce this.
+- Saving wraps the selected substring in `<mark class="hl-anno">` inline, so the
+  reader sees at a glance which phrases carry a note; clicking an existing mark
+  reopens the card to edit or delete it.
+- **「+ 关联另一段」** lets one note span two passages that aren't adjacent: click
+  it, the card hides with a hint to go select elsewhere, and the next selection
+  gets appended to the same draft before the card reopens with both quoted
+  fragments and the note text you'd already typed preserved. Use this for "these
+  two claims contradict" or "this is the same move as that" style notes.
+- These live in their own `localStorage` key (`br-highlights:{doc}`, separate
+  from `br-notes:{doc}`) but feed into the *same* `entries()`/`markdown()`/
+  `reviewPrompt()` pipeline as paragraph notes — so the overview, the 批注 nav
+  tab, the badge count, and the AI-review-prompt export all include both kinds
+  without any extra reader-facing distinction beyond a `［选段］` tag.
+- A linked (multi-fragment) note never collapses into one flattened line in
+  any of those lists — `renderSrcInto()` (shared by `buildList()` and the
+  sidebar) gives it a `🔗 关联 N 处` badge plus one independently clickable
+  `↳` row per fragment, each jumping to *that* fragment's own passage. This
+  was a real bug, not a style choice: the first version joined every
+  fragment's text into a single string whose one click target only ever
+  scrolled to the first fragment, silently stranding the others.
+- Highlighting is best-effort: it only wraps a selection that sits intact
+  inside a single text node (not split across an inline tag like a glossary
+  link). When a selection crosses such a boundary, the note still saves and
+  still shows up in every list/export — it just doesn't also get the inline
+  `<mark>`. This is a deliberate scope boundary, not a bug to chase.
+- Because the EN and ZH paragraphs are two independent translations, there's
+  no reliable way to compute which substring of the *other* language
+  corresponds to an arbitrary selected phrase — so this doesn't try to mirror
+  the exact highlight across languages. Instead, `addLinkedNoteDot()` tints
+  the WHOLE sibling paragraph (same block, other language) via a
+  `has-linked-note` class, plus a `🔗 关联批注` pill right after it to open the
+  note. A first version used only a small bare glyph; that read as too subtle
+  in real use, so the tint is the primary signal now and the pill is the
+  click target, not the other way around. Uses `--accent`/`--accent-soft`
+  rather than `--hl` deliberately — `--hl` is already `mark.hl-anno`'s own
+  color and `blockquote.cited`'s ambient background, so reusing it here would
+  make the cross-language indicator invisible against an already-tinted quote
+  block. The pill is inserted as the paragraph's sibling, not its child,
+  because `p.en`/`p.zh` get `display:none` under the EN-only/中文-only mode
+  toggles — nesting it inside the paragraph would hide it along with
+  whichever language happens to be toggled off, defeating the point (the
+  indicator matters most precisely when the OTHER language, carrying the
+  real `<mark>`, is the one currently hidden).
+- There is deliberately **no in-page voice input.** An earlier draft wired up
+  the Web Speech API, but it's pointless complexity: any OS-level dictation
+  (macOS dictation, Windows voice typing, etc.) already types into the note
+  textarea like any other text field, with no iframe-permission uncertainty
+  and no extra code to maintain.
+- Opening a note for editing (`edit()` for paragraph notes, `openCard()` for
+  highlights) calls `focusSoon()` — `el.focus()` immediately, then again on
+  the next `requestAnimationFrame` — not a bare `.focus()`. A bare call
+  worked in this skill's own `file://` Playwright tests but was reported as
+  unreliable on the real published artifact; the double call is cheap
+  insurance against whatever layout/paint timing difference causes that, and
+  costs nothing when the first call already worked.
+
+### Self-assigned tags (free-form, not a fixed taxonomy)
+
+Both annotation kinds — paragraph notes and selection highlights — take an
+optional space/comma-separated tag field (`.note-tags` inline under the
+paragraph editor, `#hlTags` in the highlight card). Tags are read-your-own
+labels like "可引用" or "待查", not a controlled vocabulary the skill defines.
+
+- Paragraph notes predate tags and were plain strings in `localStorage`.
+  `noteOf(id)` reads either the legacy string form or the new `{text,tags}`
+  object form, so nothing needed migrating — an old saved note just has an
+  empty tag list until edited. Don't "clean up" by forcing every entry to the
+  new shape on load; the whole point of `noteOf()` is that both forms stay
+  valid indefinitely.
+- Tags render as small pill chips (`.tag-chip`) wherever a note's text shows:
+  inline under the paragraph, in the sidebar, in the nav panel's 批注 tab, and
+  in the end-of-document overview. **Clicking any chip, anywhere, toggles a
+  tag filter** (`activeTagFilter`) that narrows all three list views to
+  matching rows and scopes `markdown()`/`reviewPrompt()` to the same subset —
+  one shared filter state, not a per-list control. A `.tag-filter-bar` with a
+  clear button appears at the top of a filtered list; exports that are
+  currently filtered say so in their own text (`（仅导出标签：#…）`) so a
+  pasted export doesn't silently look like the reader's full set of notes.
+  `ovClear`/"清空" always wipes everything regardless of the active filter —
+  it's a full reset, not a scoped delete, and should stay that way.
+- Tabbing from a note's textarea into its tag field blurs the textarea, but
+  the editing UI must not collapse on that blur — `scheduleCollapseCheck()`
+  defers the check one tick so the newly-focused field (if still inside the
+  same `.note`) is already `document.activeElement` by the time it runs. Both
+  the textarea's and the tag input's blur handlers go through this, not a
+  bare `wrap.classList.remove('editing')`.
+
 ### The 「AI 点评」 button — what it can and cannot be
 
 A published artifact **cannot call a language model at runtime.** The only
@@ -240,38 +351,116 @@ for an individual spec unless the user asks for that page specifically.
 
 ### The persistent structure sidebar
 
-On wide viewports (≥1440px) a fixed sidebar renders to the left of the
-article, listing every h2/h3 as a small vertical tree — a spine line with a
-larger dot per h2 and smaller indented dots for h3, doubling as both the
-table of contents and a lightweight visual of the paper's structure. It's
-generated straight from the same heading data the floating navigator's 目录
-tab uses, requires no spec changes, and updates automatically as sections are
-added. An `IntersectionObserver` highlights whichever section is currently in
-view as the reader scrolls, so the sidebar also answers "where am I in this
+On viewports ≥1040px a sidebar renders to the left of the article, listing
+every h2/h3 as a small vertical tree — a spine line with a larger dot per h2
+and smaller indented dots for h3, doubling as both the table of contents and
+a lightweight visual of the paper's structure. It's generated straight from
+the same heading data the floating navigator's 目录 tab uses, requires no
+spec changes, and updates automatically as sections are added. An
+`IntersectionObserver` highlights whichever section is currently in view as
+the reader scrolls, so the sidebar also answers "where am I in this
 argument" while reading, not just "where can I jump to."
 
-Below 1440px there usually isn't room for a 15rem sidebar next to a 46rem
+This is a real two-column layout, not a sidebar floating in whatever margin
+happens to be left outside an independently-centered article column. `main`
+and `#tocSidebar` are flex siblings inside a shared `.layout` wrapper
+(`max-width:61rem`, centered as a unit), and the sidebar itself is
+`position:sticky` rather than `position:fixed`. That distinction is the
+reason 1040px works as a breakpoint at all — a `fixed` sidebar positioned
+relative to viewport width needs roughly double the room (enough for a fully
+centered 46rem column *plus* clear margin on both sides for the sidebar), but
+a flex layout only needs sidebar + gap + article side by side, which fits an
+ordinary, non-maximized laptop window. If you're tempted to widen the sidebar
+or lengthen node labels, remeasure against this breakpoint rather than
+assuming there's slack — it was sized deliberately tight to catch ordinary
+laptop widths, not just ultrawide monitors.
+
+### The annotations sidebar (right column, ≥1040px) and glossary popover
+
+Two more pieces of the same "don't make the reader lose their place" problem:
+
+**Persistent 我的批注 sidebar.** A third flex column (`#noteSidebar`), sticky
+like `#tocSidebar`, listing every saved annotation — both paragraph notes and
+selection highlights, pulled from the same `entries()` used by the overview
+and exports — with **two separate click targets per row**: the quoted text
+jumps to the passage (`scrollIntoView`), a small `✎` button opens the note
+for editing *without* scrolling. For a highlight annotation that's a real
+distinction (its editor is the floating `#selCard`, which doesn't require
+navigating anywhere); for a plain paragraph note it still has to scroll,
+because that note's only editor is the inline textarea under the paragraph —
+`✎` there scrolls and then auto-opens the textarea, saving a click rather
+than skipping the scroll entirely. Don't conflate these into one click target
+again; a reader checking "did I already annotate this" should not be forced
+to jump away from where they're currently reading just to look.
+
+It shares the same **≥1040px** breakpoint as `#tocSidebar` rather than a
+separate, higher one. An earlier version gated it at 1280px on the theory
+that a third column needed main to stay near its full 46rem to look right —
+overcautious: both sidebars use `flex-shrink:0`, so `main` (`flex:1 1 auto`,
+no shrink override) is what absorbs the squeeze, rendering as narrow as
+~33.5rem right at 1040px and growing back to its full 46rem by ~1240px. That
+narrower column still reads fine, so there was no real reason to hide the
+sidebar on anyone whose window happened to be 1040–1279px wide — which is
+exactly the range where it had silently failed to appear. `.layout`'s
+max-width (`77.5rem` = 13 + 2 + 46 + 2 + 14.5) is sized for all three columns
+at once; if you touch sidebar widths, recompute this sum rather than guessing.
+Below 1040px, annotations are still fully reachable through the floating nav
+panel's 批注 tab — nothing is lost, the sidebar is a progressive enhancement.
+
+**Glossary term popover.** `a.gref` links used to be plain `href="#g-id"`
+anchors — clicking one jumped straight to the glossary section, which for a
+100+ block article can be most of a page-length scroll away, with no obvious
+way back except the browser's Back button. They're now intercepted globally
+(a single delegated `click` listener checking `.closest('a.gref')`) and
+open a small floating popover with the term, category, and full definition
+right next to where you clicked — no navigation, no lost scroll position.
+The popover still carries a "在术语表中查看完整条目 →" link for anyone who
+wants the full glossary with category grouping; that's the fallback, not the
+default path. A modifier-click (⌘/Ctrl/Shift/Alt) still falls through to the
+native anchor behavior, so opening the glossary entry in a new tab still
+works for anyone who wants that.
+
+Below 1040px there usually isn't room for a 13rem sidebar next to a 46rem
 article column without cramping either one, so it hides entirely and the
 floating navigator's 目录 tab is what's left to serve narrower and mobile
 viewports — don't try to also cram a shrunk sidebar into medium widths, that
 navigator tab already covers it.
 
-### File export (optional, needs a capability)
+### File export and import — works on any host, not just Claude artifacts
 
-`下载 .md` and `备份 .json` stay hidden unless `window.claude.downloads` is
-present, so the page degrades cleanly when opened as a local file. To enable
-them, publish with `capabilities: {downloads: true}`. The `.json` backup is
-worth offering because `localStorage` is genuinely fragile — it is the only
-thing standing between a reader and losing a paper's worth of annotations to a
-cleared cache. Saves are viewer-confirmed and can be declined; the button
-handles `declined`, `rate_limited`, `too_large`, and hides itself on the
-lifecycle codes.
+`下载 .md` and `备份 .json` always render (not gated behind a capability
+check): `offer()` tries the Claude-artifact `downloads` capability
+(`window.claude.downloads`) first when present — it gives the viewer a
+save-location picker — and falls back to a universal `Blob` + `<a download>`
+(`nativeDownload()`) otherwise. That fallback is what makes export work when
+this exact rendered HTML is served as a plain web page (e.g. from GitHub
+Pages) where `window.claude` doesn't exist at all, and it's also just a
+better fallback on a Claude artifact than silently hiding the buttons when
+the capability isn't granted. The `.json` backup is worth offering because
+`localStorage` is genuinely fragile — it's the only thing standing between a
+reader and losing a paper's worth of annotations to a cleared cache.
+
+`导入备份 .json` is the other half: it reads a previously-exported backup file
+(via a hidden `<input type="file">`) and **merges** it into the current
+page's `notes`/`highlights` by key/id — an imported entry overwrites one with
+the same id, but nothing already on the page gets discarded outright. This
+exists specifically for moving notes between two different hosts of the same
+reading (e.g. a Claude artifact a reader already annotated, and the same page
+later republished to GitHub Pages): there is no live channel between two
+pages' separate `localStorage`, so export-then-import is the whole
+mechanism, not a stopgap for one. It warns (not blocks) on a `doc` mismatch
+between the backup and the current page, in case the reader picks the wrong
+file.
 
 Two things to be aware of, and to tell the user when it matters:
 
-- **Notes are per browser, per device.** `localStorage` is not synced. Someone
-  who annotates on a laptop will not see those notes on their phone, and
-  clearing site data erases them. Suggest exporting anything they care about.
+- **Notes are per browser, per device, per origin.** `localStorage` is not
+  synced, and two different hosts (a Claude artifact vs. GitHub Pages, or
+  even two different GitHub Pages repos) are two different origins with
+  completely separate storage, even for byte-identical HTML. Someone who
+  annotates on a laptop will not see those notes on their phone; moving a
+  page to a new host starts that host's copy empty until an import happens.
+  Suggest exporting anything they care about before a host change.
 - **Note identity is keyed to `meta.doc_id` plus a hash of each block's English
   text.** So re-rendering after adding new sections preserves existing notes,
   which is what makes incremental section-by-section delivery safe. But
