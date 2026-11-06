@@ -172,6 +172,20 @@ paragraph and attach a note to exactly that selection, Medium/Hypothesis-style:
   pill near the selection. Clicking it opens a card — docked to the right edge
   on desktop, a bottom sheet on narrow/mobile viewports — with the quoted
   selection, a textarea, and Save/Cancel/Delete.
+- `validSelection()` anchors on the paragraph the selection **starts** in and
+  clips the end back to that paragraph's own boundary — it does not require
+  the whole raw Range to already live inside one `<p>`. This matters because
+  `p.en` and `p.zh` sit close together: a real mouse drag very easily
+  overshoots the end of a wrapped line by a few pixels, which resolves the
+  browser's own selection Range into the *next* paragraph (sometimes the
+  other language, sometimes the following block entirely). An earlier version
+  demanded the whole selection stay inside one `<p>` and silently rejected
+  the entire selection the moment it overshot — which is what made "select a
+  phrase to annotate" effectively not work for ordinary mouse drags (it only
+  worked for drag distances/line lengths lucky enough to never overshoot). If
+  you touch this function, test it with a genuine `page.mouse` drag across a
+  wrapped line in Playwright, scrolled into view first — not just a
+  synthetic `Range`+`selectionchange` dispatch, which won't reproduce this.
 - Saving wraps the selected substring in `<mark class="hl-anno">` inline, so the
   reader sees at a glance which phrases carry a note; clicking an existing mark
   reopens the card to edit or delete it.

@@ -396,6 +396,9 @@ details.pack[open] summary::before{content:"▾ "}
          padding:.35rem .75rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 mark.hl-anno{background:var(--hl-soft);color:inherit;border-bottom:2px solid var(--hl);
              padding:0 .1em;cursor:pointer}
+.linked-note-dot{display:inline-block;margin:.1rem 0 0 .1rem;font-size:.8rem;cursor:pointer;
+                  opacity:.7;line-height:1}
+.linked-note-dot:hover{opacity:1}
 #hlHint{position:fixed;top:.8rem;left:50%;transform:translateX(-50%);z-index:85;
         font-family:var(--font-sans);font-size:.72rem;color:var(--paper);background:var(--hl);
         padding:.5rem .9rem;border-radius:999px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
@@ -929,24 +932,37 @@ document.addEventListener('scroll', function(){
   function validSelection(){
     var sel=window.getSelection();
     if(!sel||sel.isCollapsed||!sel.rangeCount) return null;
-    var text=sel.toString().trim();
-    if(!text) return null;
+    if(!sel.toString().trim()) return null;
     var range=sel.getRangeAt(0);
-    var c=range.commonAncestorContainer;
-    var pEl=(c.nodeType===1?c:c.parentElement);
-    pEl=pEl?pEl.closest('p.en, p.zh'):null;
+
+    /* Anchor on the paragraph the selection STARTS in, not on requiring the
+       whole raw Range to live inside one <p>. p.en and p.zh sit close
+       together, and a real mouse drag very easily overshoots the end of a
+       wrapped line by a few pixels — enough for the browser to resolve the
+       end point into the next paragraph (even the other language). Demanding
+       the entire selection stay inside one element made that overshoot
+       silently reject the WHOLE selection, which is what made annotating a
+       paragraph look broken. */
+    var startEl=range.startContainer.nodeType===1?range.startContainer:range.startContainer.parentElement;
+    var pEl=startEl?startEl.closest('p.en, p.zh'):null;
     if(!pEl) return null;
     var nidv=findBlockNid(pEl);
     if(!nidv) return null;
-    return {text:text, lang:pEl.classList.contains('zh')?'zh':'en', nid:nidv};
+
+    var clipped=range.cloneRange();
+    if(!pEl.contains(clipped.endContainer)){
+      try{ clipped.setEnd(pEl, pEl.childNodes.length); }catch(e){}
+    }
+    var text=clipped.toString().trim();
+    if(!text) return null;
+    return {text:text, lang:pEl.classList.contains('zh')?'zh':'en', nid:nidv, clippedRange:clipped};
   }
   document.addEventListener('selectionchange', function(){
     clearTimeout(window.__selT);
     window.__selT=setTimeout(function(){
       var v=validSelection();
       if(!v){ hidePill(); return; }
-      var sel=window.getSelection();
-      var rect=sel.getRangeAt(0).getBoundingClientRect();
+      var rect=v.clippedRange.getBoundingClientRect();
       if(!rect||(!rect.width&&!rect.height)){ hidePill(); return; }
       pill.style.display='block';
       var top=window.scrollY+rect.top-42;
@@ -1048,6 +1064,28 @@ document.addEventListener('scroll', function(){
       parent.removeChild(m);
       parent.normalize();
     });
+    document.querySelectorAll('.linked-note-dot').forEach(function(d){ d.remove(); });
+  }
+  function addLinkedNoteDot(p, hlId){
+    /* The exact selected phrase can only be marked in the language it was
+       actually selected in — there's no reliable way to compute which
+       substring of the OTHER language's translation corresponds to it, so
+       this doesn't try. Instead the sibling paragraph (same block, other
+       language) gets a small, consistent marker reusing the 关联-badge's 🔗
+       glyph: not a duplicate quote, just "a note touches this passage too,"
+       which matters most when a reading mode (EN-only / 中文-only) hides the
+       paragraph that actually carries the exact <mark>. */
+    /* Inserted as p's NEXT SIBLING, not a child of it: p.en/p.zh get
+       display:none under the EN-only/中文-only mode toggles, and a dot
+       nested inside would disappear right along with it — which is exactly
+       the situation this exists to fix. As a sibling it survives untouched
+       regardless of which language is currently shown. */
+    var dot=document.createElement('span');
+    dot.className='linked-note-dot';
+    dot.textContent='🔗';
+    dot.title='另一语言版本的对应段落有批注 · 点击查看';
+    dot.addEventListener('click', function(e){ e.stopPropagation(); openCardById(hlId); });
+    p.insertAdjacentElement('afterend', dot);
   }
   function wrapTextInNode(p, text, hlId){
     /* best-effort: only wraps when the selected text sits intact inside a
@@ -1081,6 +1119,8 @@ document.addEventListener('scroll', function(){
         var p=host.querySelector(f.lang==='zh'?'p.zh':'p.en');
         if(!p) return;
         wrapTextInNode(p, f.text, h.id);
+        var siblingP=host.querySelector(f.lang==='zh'?'p.en':'p.zh');
+        if(siblingP) addLinkedNoteDot(siblingP, h.id);
       });
     });
   }
