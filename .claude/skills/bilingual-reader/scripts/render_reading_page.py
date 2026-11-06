@@ -88,18 +88,19 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
    what covers narrow/mobile viewports. */
 .layout{display:block}
 @media (min-width:1040px){
-  .layout{display:flex;align-items:flex-start;gap:2rem;max-width:61rem;margin:0 auto}
+  /* max-width is sized for THREE columns at once (TOC 13rem + gap 2rem +
+     main's own 46rem cap + gap 2rem + notes 14.5rem = 77.5rem) rather than
+     gating the notes sidebar behind a separate, higher breakpoint. Both
+     sidebars use flex-shrink:0, so main (flex:1 1 auto, no shrink override)
+     is what absorbs the squeeze below ~77.5rem*16px of actual viewport width
+     — it just renders narrower than its 46rem ideal between 1040px and
+     ~1240px, which still reads fine. Earlier this intentionally gated the
+     notes sidebar at 1280px on the theory that main needed to stay near
+     46rem; that was overcautious — the real floor is ~1040px, same as the
+     TOC sidebar it sits next to, and gating it higher just meant it silently
+     failed to appear on anyone whose window was 1040–1279px wide. */
+  .layout{display:flex;align-items:flex-start;gap:2rem;max-width:77.5rem;margin:0 auto}
   main{margin:0;flex:1 1 auto;min-width:0}
-}
-/* A third column (the annotations sidebar) genuinely needs more width than
-   the two-column TOC layout above — it needs to come alongside main at a
-   comfortable reading width, not squeeze it. 1280px is the target: common
-   enough to hit on an ordinary (non-maximized) laptop window, unlike the
-   1440px the old fixed-position TOC sidebar wrongly required. Below it,
-   notes stay reachable through the floating nav panel's 批注 tab, same as
-   always — nothing is lost, the sidebar is a progressive enhancement. */
-@media (min-width:1280px){
-  .layout{max-width:78rem}
 }
 #tocSidebar{display:none;width:13rem;flex-shrink:0;font-family:var(--font-sans)}
 @media (min-width:1040px){
@@ -128,12 +129,13 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
 
 /* ---- persistent annotations sidebar (right column) ----
    Deliberately separate from the floating nav panel's 批注 tab: this one is
-   always visible while reading (wide screens only, see the 1280px rule
-   above), and every row splits "jump to the passage" and "edit / link this
-   note" into two distinct click targets, so re-reading your own annotations
+   always visible while reading (same ≥1040px breakpoint as #tocSidebar — see
+   the .layout rule above for why that's wide enough for all three columns),
+   and every row splits "jump to the passage" and "edit / link this note"
+   into two distinct click targets, so re-reading your own annotations
    doesn't require scrolling away from wherever you currently are. */
 #noteSidebar{display:none;width:14.5rem;flex-shrink:0;font-family:var(--font-sans)}
-@media (min-width:1280px){
+@media (min-width:1040px){
   #noteSidebar{display:block;position:sticky;top:5.5rem;
                max-height:calc(100vh - 7.5rem);overflow-y:auto}
 }

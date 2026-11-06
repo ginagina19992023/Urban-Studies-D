@@ -298,7 +298,7 @@ or lengthen node labels, remeasure against this breakpoint rather than
 assuming there's slack — it was sized deliberately tight to catch ordinary
 laptop widths, not just ultrawide monitors.
 
-### The annotations sidebar (right column, ≥1280px) and glossary popover
+### The annotations sidebar (right column, ≥1040px) and glossary popover
 
 Two more pieces of the same "don't make the reader lose their place" problem:
 
@@ -316,12 +316,19 @@ than skipping the scroll entirely. Don't conflate these into one click target
 again; a reader checking "did I already annotate this" should not be forced
 to jump away from where they're currently reading just to look.
 
-This needed a wider breakpoint than the two-column TOC layout: a third
-column genuinely needs more room if `main` is going to stay a comfortable
-reading width rather than get squeezed, so it's gated at **1280px**, not
-1040px. Below that, annotations are still fully reachable through the
-floating nav panel's 批注 tab — nothing is lost, the sidebar is a progressive
-enhancement for wide windows, not the only way in.
+It shares the same **≥1040px** breakpoint as `#tocSidebar` rather than a
+separate, higher one. An earlier version gated it at 1280px on the theory
+that a third column needed main to stay near its full 46rem to look right —
+overcautious: both sidebars use `flex-shrink:0`, so `main` (`flex:1 1 auto`,
+no shrink override) is what absorbs the squeeze, rendering as narrow as
+~33.5rem right at 1040px and growing back to its full 46rem by ~1240px. That
+narrower column still reads fine, so there was no real reason to hide the
+sidebar on anyone whose window happened to be 1040–1279px wide — which is
+exactly the range where it had silently failed to appear. `.layout`'s
+max-width (`77.5rem` = 13 + 2 + 46 + 2 + 14.5) is sized for all three columns
+at once; if you touch sidebar widths, recompute this sum rather than guessing.
+Below 1040px, annotations are still fully reachable through the floating nav
+panel's 批注 tab — nothing is lost, the sidebar is a progressive enhancement.
 
 **Glossary term popover.** `a.gref` links used to be plain `href="#g-id"`
 anchors — clicking one jumped straight to the glossary section, which for a

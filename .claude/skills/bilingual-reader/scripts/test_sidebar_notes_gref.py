@@ -19,13 +19,25 @@ def select_text_in(pg, locator):
 with sync_playwright() as p:
     b = p.chromium.launch(executable_path="/opt/pw-browsers/chromium")
 
-    # ---- annotations sidebar: only at the wide (>=1280px) breakpoint ----
-    pg = b.new_page(viewport={"width":1150, "height":900})
+    # ---- annotations sidebar: same >=1040px breakpoint as the TOC sidebar ----
+    pg = b.new_page(viewport={"width":1000, "height":900})
     errs=[]; pg.on("pageerror", lambda e: errs.append(str(e)))
     pg.goto(url)
-    ck("no JS errors (1150px)", not errs, errs)
-    ck("note sidebar hidden below 1280px (toc still shown)",
-       not pg.locator("#noteSidebar").is_visible() and pg.locator("#tocSidebar").is_visible())
+    ck("no JS errors (1000px)", not errs, errs)
+    ck("both sidebars hidden below 1040px",
+       not pg.locator("#noteSidebar").is_visible() and not pg.locator("#tocSidebar").is_visible())
+    pg.close()
+
+    pg = b.new_page(viewport={"width":1040, "height":900})
+    errs1b=[]; pg.on("pageerror", lambda e: errs1b.append(str(e)))
+    pg.goto(url)
+    ck("no JS errors (1040px)", not errs1b, errs1b)
+    ck("both sidebars visible at exactly 1040px",
+       pg.locator("#noteSidebar").is_visible() and pg.locator("#tocSidebar").is_visible())
+    ck("no horizontal overflow at 1040px with both sidebars",
+       pg.evaluate("document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1"))
+    main_w = pg.eval_on_selector("main", "el => el.getBoundingClientRect().width")
+    ck("main column still a reasonable reading width at 1040px", main_w >= 480, main_w)
     pg.close()
 
     pg = b.new_page(viewport={"width":1400, "height":900})
