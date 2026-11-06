@@ -68,14 +68,59 @@ with sync_playwright() as p:
     ck("sidebar lists the highlight note too", "侧栏联动测试选段批注" in pg.locator("#nsList").inner_text())
     ck("sidebar has 2 rows", pg.locator(".ns-row").count() == 2, pg.locator(".ns-row").count())
 
+    # ---- a linked (multi-fragment) highlight gets a visible badge + one
+    # separately clickable jump row per fragment, not a single flattened line ----
+    p_link_a = pg.locator(".bipara p.en").nth(8)
+    link_a_text = p_link_a.inner_text()
+    select_text_in(pg, p_link_a)
+    pg.wait_for_timeout(250)
+    pg.locator("#selPill").click(); pg.wait_for_timeout(150)
+    pg.locator("#hlNote").fill("多段关联徽标测试")
+    pg.locator("#hlLink").click(); pg.wait_for_timeout(150)
+    p_link_b = pg.locator(".bipara p.en").nth(15)
+    link_b_text = p_link_b.inner_text()
+    select_text_in(pg, p_link_b)
+    pg.wait_for_timeout(250)
+    pg.locator("#selPill").click(); pg.wait_for_timeout(150)
+    pg.locator("#hlSave").click(); pg.wait_for_timeout(300)
+
+    linked_row = pg.locator(".ns-row", has_text="多段关联徽标测试")
+    ck("linked row shows the multi-fragment badge",
+       "关联 2 处" in linked_row.locator(".frag-badge").inner_text())
+    ck("linked row renders one jump row per fragment",
+       linked_row.locator(".frag-row").count() == 2)
+    ck("each fragment jump row has a jump icon",
+       linked_row.locator(".frag-row .jump-icon").count() == 2)
+
+    before2 = pg.evaluate("window.scrollY")
+    linked_row.locator(".frag-row").nth(0).click()
+    pg.wait_for_timeout(1000)
+    top_a = pg.evaluate(
+        "(t) => { var ps=[...document.querySelectorAll('.bipara p.en')]; "
+        "var el=ps.find(p=>p.innerText===t); return el ? el.getBoundingClientRect().top : null; }",
+        link_a_text)
+    ck("clicking the first fragment jumps near that passage", abs(top_a) < 400, top_a)
+
+    linked_row.locator(".frag-row").nth(1).click()
+    pg.wait_for_timeout(1000)
+    top_b = pg.evaluate(
+        "(t) => { var ps=[...document.querySelectorAll('.bipara p.en')]; "
+        "var el=ps.find(p=>p.innerText===t); return el ? el.getBoundingClientRect().top : null; }",
+        link_b_text)
+    ck("clicking the second fragment jumps near ITS OWN passage (not the first)",
+       abs(top_b) < 400, top_b)
+
     # the highlight row's edit button opens the floating card WITHOUT scrolling
+    # (let the prior long-distance smooth-scroll fully settle first, so this
+    # isn't measuring leftover scroll-animation momentum from the jump above)
+    pg.wait_for_timeout(600)
     before_scroll = pg.evaluate("window.scrollY")
     hl_row = pg.locator(".ns-row", has_text="侧栏联动测试选段批注")
     hl_row.locator(".ns-edit").click()
     pg.wait_for_timeout(200)
     after_scroll = pg.evaluate("window.scrollY")
     ck("edit button opens card", pg.locator("#selCard").is_visible())
-    ck("edit button does not scroll the page", before_scroll == after_scroll,
+    ck("edit button does not scroll the page", abs(before_scroll-after_scroll) <= 2,
        (before_scroll, after_scroll))
     pg.locator("#hlCancel").click(); pg.wait_for_timeout(150)
 

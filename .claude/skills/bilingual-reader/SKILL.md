@@ -185,6 +185,13 @@ paragraph and attach a note to exactly that selection, Medium/Hypothesis-style:
   `reviewPrompt()` pipeline as paragraph notes — so the overview, the 批注 nav
   tab, the badge count, and the AI-review-prompt export all include both kinds
   without any extra reader-facing distinction beyond a `［选段］` tag.
+- A linked (multi-fragment) note never collapses into one flattened line in
+  any of those lists — `renderSrcInto()` (shared by `buildList()` and the
+  sidebar) gives it a `🔗 关联 N 处` badge plus one independently clickable
+  `↳` row per fragment, each jumping to *that* fragment's own passage. This
+  was a real bug, not a style choice: the first version joined every
+  fragment's text into a single string whose one click target only ever
+  scrolled to the first fragment, silently stranding the others.
 - Highlighting is best-effort: it only wraps a selection that sits intact
   inside a single text node (not split across an inline tag like a glossary
   link). When a selection crosses such a boundary, the note still saves and

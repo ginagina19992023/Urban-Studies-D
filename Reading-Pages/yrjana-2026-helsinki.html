@@ -319,6 +319,17 @@ details.pack[open] summary::before{content:"▾ "}
 .nrow .src:hover{color:var(--accent)}
 .nrow .txt{font-family:var(--font-zh);font-size:.86rem;line-height:1.8;color:var(--ink-soft);white-space:pre-wrap}
 
+/* a linked (多段关联) highlight note's row: a badge plus one clickable line
+   per fragment, each jumping to its own passage — see renderSrcInto() */
+.frag-badge{font-weight:700;color:var(--hl);margin-bottom:.35rem}
+.frag-row{display:flex;align-items:flex-start;gap:.35rem;cursor:pointer;margin-bottom:.3rem;
+          color:var(--muted);line-height:1.5}
+.frag-row:hover{color:var(--accent)}
+.frag-row:hover .jump-icon{color:var(--accent)}
+.frag-row .jump-icon{flex-shrink:0;color:var(--hl);font-weight:700}
+.nrow .frag-badge,.nrow .frag-row{font-family:var(--font-sans);font-size:.7rem}
+.ns-row .frag-badge,.ns-row .frag-row{font-family:var(--font-sans);font-size:.7rem}
+
 /* ---- end-of-document overview ---- */
 #overview{margin-top:2.6rem;border-top:2px solid var(--accent);padding-top:1.1rem}
 #overview h2.ovh{font-family:var(--font-sans);font-size:1.02rem;color:var(--accent);
@@ -1391,6 +1402,43 @@ document.addEventListener('scroll', function(){
     });
     return out;
   }
+  /* Shared by buildList() (nav 批注 tab / overview) and buildSidebarList():
+     a highlight note with more than one linked fragment ("+ 关联另一段")
+     used to collapse into one joined-quote line that jumped only to the
+     FIRST fragment — the other fragment(s) were invisible and unreachable
+     from the list. Now a multi-fragment row gets a "🔗 关联 N 处" badge plus
+     one small jump row per fragment, each independently clickable, so the
+     list actually reflects that this note spans more than one passage. */
+  function renderSrcInto(container, r, opts){
+    opts=opts||{};
+    var truncLen=opts.truncLen||110;
+    var singleClass=opts.singleClass||'src';
+    if(r.isHighlight && r.frags && r.frags.length>1){
+      var badge=document.createElement('div'); badge.className='frag-badge';
+      badge.textContent='🔗 关联 '+r.frags.length+' 处，点击分别跳转：';
+      container.appendChild(badge);
+      r.frags.forEach(function(f){
+        var fr=document.createElement('div'); fr.className='frag-row';
+        var icon=document.createElement('span'); icon.className='jump-icon'; icon.textContent='↳';
+        fr.appendChild(icon);
+        fr.appendChild(document.createTextNode('“'+fragLabel(f.text)+'”'));
+        fr.addEventListener('click', function(){
+          var host=nidToBlock[f.nid];
+          if(host) host.scrollIntoView({behavior:'smooth',block:'center'});
+          if(opts.afterJump) opts.afterJump();
+        });
+        container.appendChild(fr);
+      });
+    } else {
+      var s=document.createElement('div'); s.className=singleClass;
+      s.textContent=(r.isHighlight?'［选段］“':(r.isQuote?'［引文］“':'“'))+r.src.slice(0,truncLen)+(r.src.length>truncLen?'…':'')+'”';
+      s.addEventListener('click', function(){
+        if(r.el) r.el.scrollIntoView({behavior:'smooth',block:'center'});
+        if(opts.afterJump) opts.afterJump();
+      });
+      container.appendChild(s);
+    }
+  }
   function buildList(list, closeAfterJump){
     var rows=entries();
     list.innerHTML='';
@@ -1400,14 +1448,10 @@ document.addEventListener('scroll', function(){
     }
     rows.forEach(function(r){
       var d=document.createElement('div'); d.className='nrow';
-      var s=document.createElement('div'); s.className='src';
-      s.textContent=(r.isHighlight?'［选段］“':(r.isQuote?'［引文］“':'“'))+r.src.slice(0,110)+(r.src.length>110?'…':'')+'”';
-      s.addEventListener('click', function(){
-        if(closeAfterJump) closePanel();
-        if(r.el) r.el.scrollIntoView({behavior:'smooth',block:'center'});
-      });
+      renderSrcInto(d, r, {truncLen:110, singleClass:'src',
+        afterJump:function(){ if(closeAfterJump) closePanel(); }});
       var t=document.createElement('div'); t.className='txt'; t.textContent=r.txt;
-      d.appendChild(s); d.appendChild(t); list.appendChild(d);
+      d.appendChild(t); list.appendChild(d);
     });
   }
   function buildSidebarList(){
@@ -1421,11 +1465,7 @@ document.addEventListener('scroll', function(){
     }
     rows.forEach(function(r){
       var row=document.createElement('div'); row.className='ns-row';
-      var q=document.createElement('div'); q.className='ns-q';
-      q.textContent=(r.isHighlight?'［选段］':(r.isQuote?'［引文］':''))+'“'+r.src.slice(0,70)+(r.src.length>70?'…':'')+'”';
-      q.addEventListener('click', function(){
-        if(r.el) r.el.scrollIntoView({behavior:'smooth',block:'center'});
-      });
+      renderSrcInto(row, r, {truncLen:70, singleClass:'ns-q'});
       var t=document.createElement('div'); t.className='ns-t';
       t.textContent=r.txt.slice(0,90)+(r.txt.length>90?'…':'');
       var editBtn=document.createElement('button');
@@ -1443,7 +1483,7 @@ document.addEventListener('scroll', function(){
           if(w) setTimeout(function(){ edit(w); }, 650);
         });
       }
-      row.appendChild(q); row.appendChild(t); row.appendChild(editBtn);
+      row.appendChild(t); row.appendChild(editBtn);
       list.appendChild(row);
     });
   }
