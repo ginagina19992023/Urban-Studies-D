@@ -91,12 +91,22 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
   .layout{display:flex;align-items:flex-start;gap:2rem;max-width:61rem;margin:0 auto}
   main{margin:0;flex:1 1 auto;min-width:0}
 }
+/* A third column (the annotations sidebar) genuinely needs more width than
+   the two-column TOC layout above — it needs to come alongside main at a
+   comfortable reading width, not squeeze it. 1280px is the target: common
+   enough to hit on an ordinary (non-maximized) laptop window, unlike the
+   1440px the old fixed-position TOC sidebar wrongly required. Below it,
+   notes stay reachable through the floating nav panel's 批注 tab, same as
+   always — nothing is lost, the sidebar is a progressive enhancement. */
+@media (min-width:1280px){
+  .layout{max-width:78rem}
+}
 #tocSidebar{display:none;width:13rem;flex-shrink:0;font-family:var(--font-sans)}
 @media (min-width:1040px){
   #tocSidebar{display:block;position:sticky;top:5.5rem;
               max-height:calc(100vh - 7.5rem);overflow-y:auto}
 }
-#tocSidebar .sb-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+#tocSidebar .sb-label,#noteSidebar .sb-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
                        color:var(--hl);font-weight:700;margin:0 0 .9rem .3rem}
 .sb-tree{position:relative;padding-left:1rem}
 .sb-tree::before{content:"";position:absolute;left:.28rem;top:.4rem;bottom:.4rem;
@@ -115,6 +125,30 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
 .sb-node .zh{display:block;font-size:.9em;opacity:.8;margin-top:.05rem}
 .sb-node.active{background:var(--accent-soft);color:var(--accent)}
 .sb-node.active::before{background:var(--accent);border-color:var(--accent)}
+
+/* ---- persistent annotations sidebar (right column) ----
+   Deliberately separate from the floating nav panel's 批注 tab: this one is
+   always visible while reading (wide screens only, see the 1280px rule
+   above), and every row splits "jump to the passage" and "edit / link this
+   note" into two distinct click targets, so re-reading your own annotations
+   doesn't require scrolling away from wherever you currently are. */
+#noteSidebar{display:none;width:14.5rem;flex-shrink:0;font-family:var(--font-sans)}
+@media (min-width:1280px){
+  #noteSidebar{display:block;position:sticky;top:5.5rem;
+               max-height:calc(100vh - 7.5rem);overflow-y:auto}
+}
+.ns-row{position:relative;padding:.55rem 1.7rem .55rem .1rem;border-bottom:1px dashed var(--line)}
+.ns-row:last-child{border-bottom:none}
+.ns-q{font-size:.71rem;color:var(--muted);line-height:1.5;cursor:pointer;margin-bottom:.3rem}
+.ns-q:hover{color:var(--accent)}
+.ns-t{font-family:var(--font-zh);font-size:.78rem;line-height:1.65;color:var(--ink-soft);
+      white-space:pre-wrap;word-break:break-word}
+.ns-edit{position:absolute;right:0;top:.5rem;width:1.5rem;height:1.5rem;border-radius:4px;
+         border:1px solid var(--line);background:var(--paper);color:var(--muted);font-size:.72rem;
+         line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
+         padding:0}
+.ns-edit:hover{border-color:var(--accent);color:var(--accent)}
+.ns-empty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);padding:1.2rem 0;text-align:center}
 
 .eyebrow{font-family:var(--font-sans);font-size:.65rem;text-transform:uppercase;
          letter-spacing:.14em;color:var(--hl);margin:0 0 .55rem;font-weight:700}
@@ -154,6 +188,33 @@ blockquote.cited .attrib{font-family:var(--font-sans);font-size:.71rem;color:var
 
 a.gref{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent);cursor:help}
 a.gref:hover{background:var(--accent-soft)}
+
+/* ---- glossary term popover ----
+   a.gref used to be a plain anchor jump to the glossary section near the
+   bottom of the page — fine for a short article, disorienting on a long one:
+   you lose your place and have to scroll all the way back. This intercepts
+   the click and shows the definition in a floating popover right where you
+   clicked instead; the glossary section itself still exists as a fallback
+   (reachable from the 术语 nav tab, or the "查看完整条目" link in the popover)
+   for anyone who wants the full list with category grouping. */
+#grefPop{position:fixed;z-index:85;width:19rem;max-width:88vw;
+         background:var(--paper);border:1px solid var(--line);border-radius:10px;
+         box-shadow:0 6px 28px rgba(0,0,0,.22);padding:.85rem .95rem;
+         font-family:var(--font-sans);display:none}
+#grefPop .gp-cat{display:inline-block;font-size:.62rem;letter-spacing:.05em;color:var(--paper);
+                 background:var(--muted);padding:.12rem .45rem;border-radius:999px;margin-bottom:.4rem}
+#grefPop .gp-term{display:block;font-family:var(--font-zh);font-weight:600;color:var(--ink);
+                  font-size:.95rem;margin-bottom:.4rem}
+#grefPop .gp-def{font-family:var(--font-zh);font-size:.84rem;line-height:1.8;color:var(--ink-soft);
+                 max-height:40vh;overflow-y:auto}
+#grefPop .gp-def p{margin:0 0 .6rem}
+#grefPop .gp-def p:last-child{margin-bottom:0}
+#grefPop .gp-jump{display:inline-block;margin-top:.55rem;font-size:.68rem;color:var(--accent);
+                  text-decoration:none;border-bottom:1px dotted var(--accent)}
+@media (max-width:640px){
+  #grefPop{left:.8rem;right:.8rem;width:auto;top:auto!important;bottom:.8rem}
+}
+@media print{#grefPop{display:none!important}}
 
 body.zh-only .bipara p.en, body.zh-only article h2 .en,
 body.zh-only article h3 .en, body.zh-only blockquote.cited p.en{display:none}
@@ -509,7 +570,7 @@ document.addEventListener('scroll', function(){
       var v=(h.note||'').trim();
       if(!v || !h.frags || !h.frags.length) return;
       out.push({el:nidToBlock[h.frags[0].nid], src:h.frags.map(function(f){return f.text;}).join('" ... "'),
-                zh:'', txt:v, isQuote:false, isHighlight:true, frags:h.frags});
+                zh:'', txt:v, isQuote:false, isHighlight:true, frags:h.frags, hlId:h.id});
     });
     return out;
   }
@@ -532,9 +593,47 @@ document.addEventListener('scroll', function(){
       d.appendChild(s); d.appendChild(t); list.appendChild(d);
     });
   }
+  function buildSidebarList(){
+    var list=document.getElementById('nsList');
+    if(!list) return;
+    var rows=entries();
+    list.innerHTML='';
+    if(!rows.length){
+      list.innerHTML='<div class="ns-empty">还没有批注。选中文字，或点段落下方的「＋批注」。</div>';
+      return;
+    }
+    rows.forEach(function(r){
+      var row=document.createElement('div'); row.className='ns-row';
+      var q=document.createElement('div'); q.className='ns-q';
+      q.textContent=(r.isHighlight?'［选段］':(r.isQuote?'［引文］':''))+'“'+r.src.slice(0,70)+(r.src.length>70?'…':'')+'”';
+      q.addEventListener('click', function(){
+        if(r.el) r.el.scrollIntoView({behavior:'smooth',block:'center'});
+      });
+      var t=document.createElement('div'); t.className='ns-t';
+      t.textContent=r.txt.slice(0,90)+(r.txt.length>90?'…':'');
+      var editBtn=document.createElement('button');
+      editBtn.type='button'; editBtn.className='ns-edit'; editBtn.textContent='✎';
+      if(r.isHighlight){
+        editBtn.title='编辑或关联其他段落（不跳转）';
+        editBtn.addEventListener('click', function(e){ e.stopPropagation(); openCardById(r.hlId); });
+      } else {
+        editBtn.title='前往并编辑';
+        editBtn.addEventListener('click', function(e){
+          e.stopPropagation();
+          if(!r.el) return;
+          r.el.scrollIntoView({behavior:'smooth',block:'center'});
+          var w=r.el.querySelector('.note');
+          if(w) setTimeout(function(){ edit(w); }, 650);
+        });
+      }
+      row.appendChild(q); row.appendChild(t); row.appendChild(editBtn);
+      list.appendChild(row);
+    });
+  }
   function refreshAll(){
     buildList(document.getElementById('notesList'), true);
     buildList(document.getElementById('ovList'), false);
+    buildSidebarList();
     refreshBtn();
   }
 
@@ -948,6 +1047,55 @@ document.addEventListener('scroll', function(){
   refreshAll();
 })();
 
+/* ---------------- glossary term popover (a.gref) ---------------- */
+(function(){
+  var pop=document.getElementById('grefPop');
+  if(!pop) return;
+  var byId={};
+  (window.__BR_GLOSSARY||[]).forEach(function(g){ byId[g.id]=g; });
+
+  function closePop(){ pop.style.display='none'; }
+  function openPop(g, anchorEl){
+    pop.innerHTML='';
+    if(g.cat){ var c=document.createElement('span'); c.className='gp-cat'; c.textContent=g.cat; pop.appendChild(c); }
+    var t=document.createElement('span'); t.className='gp-term'; t.textContent=g.term; pop.appendChild(t);
+    var d=document.createElement('div'); d.className='gp-def'; d.innerHTML=g.def||''; pop.appendChild(d);
+    var jump=document.createElement('a'); jump.className='gp-jump'; jump.href='#'+g.id;
+    jump.textContent='在术语表中查看完整条目 →';
+    jump.addEventListener('click', function(e){
+      e.preventDefault(); closePop();
+      var el=document.getElementById(g.id);
+      if(!el) return;
+      var details=el.closest('details'); if(details) details.open=true;
+      el.scrollIntoView({behavior:'smooth',block:'center'});
+      el.classList.add('flash'); setTimeout(function(){ el.classList.remove('flash'); }, 1500);
+    });
+    pop.appendChild(jump);
+
+    pop.style.display='block';
+    var rect=anchorEl.getBoundingClientRect();
+    var popW=pop.offsetWidth||304, popH=pop.offsetHeight||160;
+    var left=Math.min(Math.max(8, rect.left), window.innerWidth-popW-8);
+    var top=rect.bottom+8;
+    if(top+popH > window.innerHeight-8) top=Math.max(8, rect.top-popH-8);
+    pop.style.left=left+'px';
+    pop.style.top=top+'px';
+  }
+  document.addEventListener('click', function(e){
+    var a=e.target.closest?e.target.closest('a.gref'):null;
+    if(a){
+      if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
+      e.preventDefault();
+      var id=(a.getAttribute('href')||'').replace(/^#/, '');
+      var g=byId[id];
+      if(g) openPop(g, a);
+      return;
+    }
+    if(!pop.contains(e.target)) closePop();
+  });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closePop(); });
+})();
+
 /* ---------------- sidebar scroll-spy ---------------- */
 (function(){
   var nodes = document.querySelectorAll('#tocSidebar .sb-node');
@@ -1117,6 +1265,7 @@ def render(spec):
     if m.get("footer"):
         a(f"<footer>{m['footer']}</footer>")
     a("</main>")
+    a('<nav id="noteSidebar"><div class="sb-label">我的批注</div><div id="nsList"></div></nav>')
     a("</div>")  # .layout
 
     a('<button id="navBtn" type="button">☰ 导航 <span class="n" data-zero="1">0</span></button>')
@@ -1157,6 +1306,7 @@ def render(spec):
       '<button id="hlCancel" type="button">取消</button>'
       '<button id="hlSave" class="primary" type="button">保存</button>'
       '</div></div>')
+    a('<div id="grefPop" style="display:none"></div>')
 
     glossary_js = [
         {"id": g.get("id", ""), "cat": g.get("cat", ""), "term": g.get("term", ""), "def": g.get("def", "")}

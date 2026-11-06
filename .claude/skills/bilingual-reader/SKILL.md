@@ -298,6 +298,44 @@ or lengthen node labels, remeasure against this breakpoint rather than
 assuming there's slack — it was sized deliberately tight to catch ordinary
 laptop widths, not just ultrawide monitors.
 
+### The annotations sidebar (right column, ≥1280px) and glossary popover
+
+Two more pieces of the same "don't make the reader lose their place" problem:
+
+**Persistent 我的批注 sidebar.** A third flex column (`#noteSidebar`), sticky
+like `#tocSidebar`, listing every saved annotation — both paragraph notes and
+selection highlights, pulled from the same `entries()` used by the overview
+and exports — with **two separate click targets per row**: the quoted text
+jumps to the passage (`scrollIntoView`), a small `✎` button opens the note
+for editing *without* scrolling. For a highlight annotation that's a real
+distinction (its editor is the floating `#selCard`, which doesn't require
+navigating anywhere); for a plain paragraph note it still has to scroll,
+because that note's only editor is the inline textarea under the paragraph —
+`✎` there scrolls and then auto-opens the textarea, saving a click rather
+than skipping the scroll entirely. Don't conflate these into one click target
+again; a reader checking "did I already annotate this" should not be forced
+to jump away from where they're currently reading just to look.
+
+This needed a wider breakpoint than the two-column TOC layout: a third
+column genuinely needs more room if `main` is going to stay a comfortable
+reading width rather than get squeezed, so it's gated at **1280px**, not
+1040px. Below that, annotations are still fully reachable through the
+floating nav panel's 批注 tab — nothing is lost, the sidebar is a progressive
+enhancement for wide windows, not the only way in.
+
+**Glossary term popover.** `a.gref` links used to be plain `href="#g-id"`
+anchors — clicking one jumped straight to the glossary section, which for a
+100+ block article can be most of a page-length scroll away, with no obvious
+way back except the browser's Back button. They're now intercepted globally
+(a single delegated `click` listener checking `.closest('a.gref')`) and
+open a small floating popover with the term, category, and full definition
+right next to where you clicked — no navigation, no lost scroll position.
+The popover still carries a "在术语表中查看完整条目 →" link for anyone who
+wants the full glossary with category grouping; that's the fallback, not the
+default path. A modifier-click (⌘/Ctrl/Shift/Alt) still falls through to the
+native anchor behavior, so opening the glossary entry in a new tab still
+works for anyone who wants that.
+
 Below 1040px there usually isn't room for a 13rem sidebar next to a 46rem
 article column without cramping either one, so it hides entirely and the
 floating navigator's 目录 tab is what's left to serve narrower and mobile
