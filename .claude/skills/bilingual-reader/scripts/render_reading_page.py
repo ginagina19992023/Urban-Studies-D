@@ -416,9 +416,22 @@ details.pack[open] summary::before{content:"▾ "}
          padding:.35rem .75rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 mark.hl-anno{background:var(--hl-soft);color:inherit;border-bottom:2px solid var(--hl);
              padding:0 .1em;cursor:pointer}
-.linked-note-dot{display:inline-block;margin:.1rem 0 0 .1rem;font-size:.8rem;cursor:pointer;
-                  opacity:.7;line-height:1}
-.linked-note-dot:hover{opacity:1}
+/* The whole sibling paragraph gets tinted, not just a small icon — a tiny
+   glyph alone wasn't noticeable enough in practice. Uses --accent (not --hl,
+   which mark.hl-anno and blockquote.cited already use) so it reads as "a
+   cross-reference to a note elsewhere" and stays visually distinct even
+   inside an already hl-tinted quote block. box-shadow (not background) so it
+   layers over whatever background the paragraph already has (plain for
+   p.en, --zh-bg for p.zh, --hl-soft inside a blockquote) instead of fighting
+   with it, and costs no layout shift since it doesn't affect padding. */
+p.en.has-linked-note, p.zh.has-linked-note{
+  box-shadow: inset 3px 0 0 0 var(--accent), inset 0 0 0 999px var(--accent-soft);
+  border-radius: 3px;
+}
+.linked-note-dot{display:inline-block;margin:.4rem 0 0;font-family:var(--font-sans);
+                  font-size:.68rem;cursor:pointer;color:var(--accent);background:var(--accent-soft);
+                  border:1px solid var(--accent);border-radius:999px;padding:.15rem .6rem}
+.linked-note-dot:hover{background:var(--accent);color:var(--paper)}
 #hlHint{position:fixed;top:.8rem;left:50%;transform:translateX(-50%);z-index:85;
         font-family:var(--font-sans);font-size:.72rem;color:var(--paper);background:var(--hl);
         padding:.5rem .9rem;border-radius:999px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
@@ -1000,39 +1013,95 @@ document.addEventListener('scroll', function(){
     refreshAll();
   });
 
-  /* file export — only when the downloads capability is present in this view */
+  /* file export: the Claude-artifact `downloads` capability when present
+     (gives the viewer a save-location picker), falling back to a universal
+     Blob + <a download> otherwise — so export keeps working when this same
+     rendered HTML is served as a plain web page (e.g. from GitHub Pages),
+     where window.claude doesn't exist at all. */
+  function nativeDownload(filename, data){
+    try{
+      var blob=new Blob([data], {type:'text/plain;charset=utf-8'});
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a');
+      a.href=url; a.download=filename;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+      return true;
+    }catch(e){ return false; }
+  }
   var dl = (window.claude && window.claude.downloads) ? window.claude.downloads : null;
   var slug=(window.__BR_DOC||'notes').replace(/[^a-zA-Z0-9_-]+/g,'-').slice(0,60);
-  if(dl){
-    ['ovSaveMd','ovSaveJson'].forEach(function(id){
-      var b=document.getElementById(id); if(b) b.style.display='';
-    });
-    function offer(btn, label, filename, data){
-      btn.disabled=true;
-      dl.save({filename:filename, data:data}).then(function(){
-        btn.textContent='✓ 已保存';
-      }).catch(function(err){
-        var c=err&&err.code;
-        btn.textContent = c==='declined' ? '已取消'
-                        : c==='rate_limited' ? '稍后再试'
-                        : c==='too_large' ? '文件过大'
-                        : '保存不可用';
-        if(c==='unavailable'||c==='not_granted'||c==='capability_disabled'||c==='capability_removed'){
-          btn.style.display='none';
-        }
-      }).then(function(){
-        btn.disabled=false;
-        setTimeout(function(){ if(btn.style.display!=='none') btn.textContent=label; },1800);
-      });
+  ['ovSaveMd','ovSaveJson'].forEach(function(id){
+    var b=document.getElementById(id); if(b) b.style.display='';
+  });
+  function offer(btn, label, filename, data){
+    btn.disabled=true;
+    function settle(ok, msg){
+      btn.textContent = ok ? '✓ 已保存' : (msg||'保存不可用');
+      btn.disabled=false;
+      setTimeout(function(){ if(btn.style.display!=='none') btn.textContent=label; },1800);
     }
-    document.getElementById('ovSaveMd').addEventListener('click', function(){
-      if(guardEmpty()) return;
-      offer(this,'下载 .md', slug+'-notes.md', markdown());
-    });
-    document.getElementById('ovSaveJson').addEventListener('click', function(){
-      if(guardEmpty()) return;
-      offer(this,'备份 .json', slug+'-notes.json',
-            JSON.stringify({doc:window.__BR_DOC, saved:new Date().toISOString(), notes:notes, highlights:highlights}, null, 2));
+    if(dl){
+      dl.save({filename:filename, data:data}).then(function(){ settle(true); }).catch(function(err){
+        var c=err&&err.code;
+        if(c==='unavailable'||c==='not_granted'||c==='capability_disabled'||c==='capability_removed'){
+          settle(nativeDownload(filename, data));
+        } else {
+          settle(false, c==='declined'?'已取消':c==='rate_limited'?'稍后再试':c==='too_large'?'文件过大':'保存不可用');
+        }
+      });
+    } else {
+      settle(nativeDownload(filename, data));
+    }
+  }
+  document.getElementById('ovSaveMd').addEventListener('click', function(){
+    if(guardEmpty()) return;
+    offer(this,'下载 .md', slug+'-notes.md', markdown());
+  });
+  document.getElementById('ovSaveJson').addEventListener('click', function(){
+    if(guardEmpty()) return;
+    offer(this,'备份 .json', slug+'-notes.json',
+          JSON.stringify({doc:window.__BR_DOC, saved:new Date().toISOString(), notes:notes, highlights:highlights}, null, 2));
+  });
+
+  /* import: restores a previously exported "备份 .json" — the other half of
+     moving between hosts (e.g. a Claude artifact -> this page served
+     elsewhere), since there is no live channel between two pages' separate
+     localStorage to migrate data automatically. Merges by key/id rather than
+     replacing outright, so importing doesn't silently discard anything
+     already written on THIS page since the backup was made. */
+  var importBtn=document.getElementById('ovImport');
+  var importFile=document.getElementById('ovImportFile');
+  if(importBtn && importFile){
+    importBtn.addEventListener('click', function(){ importFile.click(); });
+    importFile.addEventListener('change', function(){
+      var file=importFile.files[0];
+      importFile.value='';
+      if(!file) return;
+      var reader=new FileReader();
+      reader.onload=function(){
+        var data;
+        try{ data=JSON.parse(reader.result); }catch(e){
+          alert('这不是有效的备份文件（JSON 解析失败）。'); return;
+        }
+        if(data.doc && data.doc!==window.__BR_DOC){
+          if(!confirm('这份备份来自另一篇文献（'+data.doc+'），当前页面是「'+window.__BR_DOC+'」。确定仍要导入吗？')) return;
+        }
+        var existingCount=count();
+        if(existingCount>0 && !confirm('导入会与当前已有的 '+existingCount+' 条批注合并（相同位置的批注会被备份中的版本覆盖）。确定继续吗？')) return;
+        if(data.notes){ Object.keys(data.notes).forEach(function(k){ notes[k]=data.notes[k]; }); persist(); }
+        if(data.highlights){
+          var byId={}; highlights.forEach(function(h){ byId[h.id]=h; });
+          data.highlights.forEach(function(h){ byId[h.id]=h; });
+          highlights=Object.keys(byId).map(function(k){ return byId[k]; });
+          persistHL();
+        }
+        document.querySelectorAll('.note').forEach(paint);
+        paintHighlights();
+        refreshAll();
+        alert('导入完成。');
+      };
+      reader.readAsText(file);
     });
   }
 
@@ -1197,24 +1266,30 @@ document.addEventListener('scroll', function(){
       parent.normalize();
     });
     document.querySelectorAll('.linked-note-dot').forEach(function(d){ d.remove(); });
+    document.querySelectorAll('.has-linked-note').forEach(function(p){ p.classList.remove('has-linked-note'); });
   }
   function addLinkedNoteDot(p, hlId){
     /* The exact selected phrase can only be marked in the language it was
        actually selected in — there's no reliable way to compute which
        substring of the OTHER language's translation corresponds to it, so
-       this doesn't try. Instead the sibling paragraph (same block, other
-       language) gets a small, consistent marker reusing the 关联-badge's 🔗
-       glyph: not a duplicate quote, just "a note touches this passage too,"
-       which matters most when a reading mode (EN-only / 中文-only) hides the
-       paragraph that actually carries the exact <mark>. */
-    /* Inserted as p's NEXT SIBLING, not a child of it: p.en/p.zh get
-       display:none under the EN-only/中文-only mode toggles, and a dot
-       nested inside would disappear right along with it — which is exactly
-       the situation this exists to fix. As a sibling it survives untouched
-       regardless of which language is currently shown. */
+       this doesn't try. Instead the WHOLE sibling paragraph (same block,
+       other language) gets tinted via a has-linked-note class, plus a small
+       pill below it to open the note — a small icon alone wasn't noticeable
+       enough. Not a duplicate quote, just "a note touches this passage too."
+       This also matters when a reading mode (EN-only / 中文-only) hides the
+       paragraph that actually carries the exact <mark>: the tint/pill live
+       on the sibling, which is whichever language IS currently shown. */
+    p.classList.add('has-linked-note');
+    /* The pill is p's NEXT SIBLING, not a child of it: p.en/p.zh get
+       display:none under the EN-only/中文-only mode toggles, and a child
+       would disappear right along with it — which is exactly the situation
+       this exists to fix. As a sibling it survives untouched regardless of
+       which language is currently shown (same reasoning applies to the
+       has-linked-note class on p itself — it only ever matters while p is
+       actually visible, so it doesn't need separate mode-survival handling). */
     var dot=document.createElement('span');
     dot.className='linked-note-dot';
-    dot.textContent='🔗';
+    dot.textContent='🔗 关联批注';
     dot.title='另一语言版本的对应段落有批注 · 点击查看';
     dot.addEventListener('click', function(e){ e.stopPropagation(); openCardById(hlId); });
     p.insertAdjacentElement('afterend', dot);
@@ -1468,6 +1543,8 @@ def render(spec):
       '<button id="ovCopy" type="button">复制为 Markdown</button>'
       '<button id="ovSaveMd" type="button" style="display:none">下载 .md</button>'
       '<button id="ovSaveJson" type="button" style="display:none">备份 .json</button>'
+      '<button id="ovImport" type="button">导入备份 .json</button>'
+      '<input type="file" id="ovImportFile" accept="application/json" style="display:none">'
       '<button id="ovClear" class="danger" type="button">清空</button>'
       "</div>")
     a('<div id="ovHint"><strong>关于「AI 点评」：</strong>发布页无法直接调用大模型，'

@@ -211,6 +211,24 @@ paragraph and attach a note to exactly that selection, Medium/Hypothesis-style:
   link). When a selection crosses such a boundary, the note still saves and
   still shows up in every list/export — it just doesn't also get the inline
   `<mark>`. This is a deliberate scope boundary, not a bug to chase.
+- Because the EN and ZH paragraphs are two independent translations, there's
+  no reliable way to compute which substring of the *other* language
+  corresponds to an arbitrary selected phrase — so this doesn't try to mirror
+  the exact highlight across languages. Instead, `addLinkedNoteDot()` tints
+  the WHOLE sibling paragraph (same block, other language) via a
+  `has-linked-note` class, plus a `🔗 关联批注` pill right after it to open the
+  note. A first version used only a small bare glyph; that read as too subtle
+  in real use, so the tint is the primary signal now and the pill is the
+  click target, not the other way around. Uses `--accent`/`--accent-soft`
+  rather than `--hl` deliberately — `--hl` is already `mark.hl-anno`'s own
+  color and `blockquote.cited`'s ambient background, so reusing it here would
+  make the cross-language indicator invisible against an already-tinted quote
+  block. The pill is inserted as the paragraph's sibling, not its child,
+  because `p.en`/`p.zh` get `display:none` under the EN-only/中文-only mode
+  toggles — nesting it inside the paragraph would hide it along with
+  whichever language happens to be toggled off, defeating the point (the
+  indicator matters most precisely when the OTHER language, carrying the
+  real `<mark>`, is the one currently hidden).
 - There is deliberately **no in-page voice input.** An earlier draft wired up
   the Web Speech API, but it's pointless complexity: any OS-level dictation
   (macOS dictation, Windows voice typing, etc.) already types into the note
@@ -408,22 +426,41 @@ floating navigator's 目录 tab is what's left to serve narrower and mobile
 viewports — don't try to also cram a shrunk sidebar into medium widths, that
 navigator tab already covers it.
 
-### File export (optional, needs a capability)
+### File export and import — works on any host, not just Claude artifacts
 
-`下载 .md` and `备份 .json` stay hidden unless `window.claude.downloads` is
-present, so the page degrades cleanly when opened as a local file. To enable
-them, publish with `capabilities: {downloads: true}`. The `.json` backup is
-worth offering because `localStorage` is genuinely fragile — it is the only
-thing standing between a reader and losing a paper's worth of annotations to a
-cleared cache. Saves are viewer-confirmed and can be declined; the button
-handles `declined`, `rate_limited`, `too_large`, and hides itself on the
-lifecycle codes.
+`下载 .md` and `备份 .json` always render (not gated behind a capability
+check): `offer()` tries the Claude-artifact `downloads` capability
+(`window.claude.downloads`) first when present — it gives the viewer a
+save-location picker — and falls back to a universal `Blob` + `<a download>`
+(`nativeDownload()`) otherwise. That fallback is what makes export work when
+this exact rendered HTML is served as a plain web page (e.g. from GitHub
+Pages) where `window.claude` doesn't exist at all, and it's also just a
+better fallback on a Claude artifact than silently hiding the buttons when
+the capability isn't granted. The `.json` backup is worth offering because
+`localStorage` is genuinely fragile — it's the only thing standing between a
+reader and losing a paper's worth of annotations to a cleared cache.
+
+`导入备份 .json` is the other half: it reads a previously-exported backup file
+(via a hidden `<input type="file">`) and **merges** it into the current
+page's `notes`/`highlights` by key/id — an imported entry overwrites one with
+the same id, but nothing already on the page gets discarded outright. This
+exists specifically for moving notes between two different hosts of the same
+reading (e.g. a Claude artifact a reader already annotated, and the same page
+later republished to GitHub Pages): there is no live channel between two
+pages' separate `localStorage`, so export-then-import is the whole
+mechanism, not a stopgap for one. It warns (not blocks) on a `doc` mismatch
+between the backup and the current page, in case the reader picks the wrong
+file.
 
 Two things to be aware of, and to tell the user when it matters:
 
-- **Notes are per browser, per device.** `localStorage` is not synced. Someone
-  who annotates on a laptop will not see those notes on their phone, and
-  clearing site data erases them. Suggest exporting anything they care about.
+- **Notes are per browser, per device, per origin.** `localStorage` is not
+  synced, and two different hosts (a Claude artifact vs. GitHub Pages, or
+  even two different GitHub Pages repos) are two different origins with
+  completely separate storage, even for byte-identical HTML. Someone who
+  annotates on a laptop will not see those notes on their phone; moving a
+  page to a new host starts that host's copy empty until an import happens.
+  Suggest exporting anything they care about before a host change.
 - **Note identity is keyed to `meta.doc_id` plus a hash of each block's English
   text.** So re-rendering after adding new sections preserves existing notes,
   which is what makes incremental section-by-section delivery safe. But

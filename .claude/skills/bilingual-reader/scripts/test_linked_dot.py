@@ -40,6 +40,10 @@ with sync_playwright() as p:
        en.locator(".linked-note-dot").count() == 0)
     ck("ZH sibling paragraph's block gets an echo dot",
        block.locator(".linked-note-dot").count() == 1)
+    ck("ZH sibling paragraph itself gets the visible tint class (not just the small dot)",
+       "has-linked-note" in (zh.get_attribute("class") or ""))
+    ck("tint is actually rendered (non-'none' box-shadow applied)",
+       pg.eval_on_selector(".has-linked-note", "el => getComputedStyle(el).boxShadow") != "none")
 
     # the dot must survive switching to 中文-only mode, where the EN
     # paragraph (and its real <mark>) gets display:none
