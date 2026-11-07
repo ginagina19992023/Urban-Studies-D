@@ -195,11 +195,23 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
    positioning, so this child's nearest scrolling ancestor is the page
    itself and it pins at the same top:5.5rem every other sidebar header
    uses; in snap mode #aiSidebar is already sticky+overflow:auto, so this
-   child instead pins to the top of THAT internal scroll area — in neither
-   case does it depend on JS, and in neither case can it scroll away. */
+   child instead pins to the top of THAT internal scroll area.
+
+   In SNAP mode specifically, top MUST be 0, not 5.5rem: #aiSidebar itself
+   is already sticky at top:5.5rem relative to the PAGE, so once it's
+   stuck its own border-box sits at viewport y≈5.5rem already. A header
+   inside it that ALSO asks for top:5.5rem is asking for "5.5rem from the
+   top of this box's own scroll frame," which is 5.5rem lower still —
+   the two offsets compound into ~11rem, which visibly overlapped the
+   first summary block (reported by a user via screenshot as garbled,
+   overlapping "AI 总结" text). Flow mode has no such compounding (#aiSidebar
+   itself isn't sticky there, so the header's nearest scrolling ancestor is
+   the page, same as every other sidebar header), so it keeps top:5.5rem;
+   only the nested, already-stuck case needs the override. */
 #aiSidebar .sb-label-row{display:flex;align-items:center;justify-content:space-between;
              gap:.5rem;margin:0 0 .9rem;position:sticky;top:5.5rem;z-index:3;
              background:var(--paper);padding-bottom:.3rem}
+body[data-ai-snap="1"] #aiSidebar .sb-label-row{top:0}
 #aiSidebar .sb-label-row .sb-label{margin:0}
 #aiSummaryInner{position:relative}
 .ai-sum-block{position:absolute;left:0;right:0;box-sizing:border-box;font-size:.78rem;
@@ -2576,10 +2588,35 @@ document.addEventListener('scroll', function(){
   var sidebar=document.getElementById('aiSidebar');
   var inner=document.getElementById('aiSummaryInner');
   var toggle=document.getElementById('aiSnapToggle');
+  var header=sidebar?sidebar.querySelector('.sb-label-row'):null;
   var nsList=document.getElementById('nsList');
   if(!sidebar || !inner || !toggle) return;
   var SUMMARIES=window.__BR_SUMMARIES||{};
   var blocks={};  /* nid -> {el, host} */
+
+  /* The header is position:sticky so the 吸附 switch stays reachable (see
+     its own CSS comment), but #aiSidebar itself is sticky in snap mode and
+     NOT sticky in flow mode -- a sticky element's own STATIC (unstuck) flow
+     position is what siblings after it reserve space against, which is NOT
+     the same as where it actually renders once "stuck." When #aiSidebar's
+     own natural top sits above the header's top:5.5rem offset (true here,
+     since #tocSidebar/#noteSidebar/main/#aiSidebar all start at the same
+     flow position, which is above 5.5rem), the header immediately sticks
+     and visually floats DOWN away from its reserved space -- and in snap
+     mode the offset compounds further, since #aiSidebar is ALSO sticky at
+     the same 5.5rem, relative to its own now-stuck box. Either way,
+     #aiSummaryInner's naive flow position ends up starting ABOVE where the
+     header is actually rendering, so the first summary block overlapped
+     the header -- reported by a user via screenshot as what looked like
+     garbled, overlapping "AI 总结" text. Rather than hand-tune a magic
+     margin for one specific layout, measure the header's ACTUAL rendered
+     bottom edge and push #aiSummaryInner down to clear it, whatever mode
+     or compounding produced that position. */
+  function reserveHeaderSpace(){
+    if(!header) return;
+    var needed=header.getBoundingClientRect().bottom - sidebar.getBoundingClientRect().top;
+    inner.style.marginTop=Math.max(0, needed)+'px';
+  }
 
   function build(){
     inner.innerHTML=''; blocks={};
@@ -2608,6 +2645,8 @@ document.addEventListener('scroll', function(){
      positioned children is otherwise 0px tall. */
   function syncFlow(){
     if(sidebar.offsetParent===null) return;
+    clearSnapPadding();
+    reserveHeaderSpace();
     var containerTop=inner.getBoundingClientRect().top;
     var maxBottom=0;
     Object.keys(blocks).forEach(function(nidv){
@@ -2622,6 +2661,27 @@ document.addEventListener('scroll', function(){
     inner.style.height=maxBottom+'px';
   }
 
+  function clearSnapPadding(){
+    if(!nsList) return;
+    nsList.querySelectorAll('.ns-row[data-snap-pad]').forEach(function(row){
+      row.style.paddingBottom='';
+      delete row.dataset.snapPad;
+    });
+  }
+  function measureGroups(innerTop){
+    var groups={};
+    nsList.querySelectorAll('.ns-row[data-nid]').forEach(function(row){
+      var nidv=row.dataset.nid;
+      var r=row.getBoundingClientRect();
+      var top=r.top-innerTop, bottom=r.bottom-innerTop;
+      if(!groups[nidv]) groups[nidv]={top:top, bottom:bottom, lastRow:row};
+      else {
+        groups[nidv].top=Math.min(groups[nidv].top, top);
+        if(bottom>groups[nidv].bottom){ groups[nidv].bottom=bottom; groups[nidv].lastRow=row; }
+      }
+    });
+    return groups;
+  }
   /* snap mode: sticky, independently scrollable (like #noteSidebar). Each
      block that has at least one matching #nsList row is positioned to span
      that row-group's vertical range; a paragraph with no annotation has
@@ -2629,34 +2689,72 @@ document.addEventListener('scroll', function(){
      position. Multiple rows sharing one nid (several notes/highlights on
      the same paragraph) widen the span to cover all of them, per the
      original request ("右侧标注比如1-3条都是第一段，那么就跟第一段summary对
-     齐，第一段summary高度为右侧1-3条的范围"). */
+     齐，第一段summary高度为右侧1-3条的范围").
+
+     The first version of this forced each block's HEIGHT down to whatever
+     its row-group's span happened to be, clipping the summary text
+     (overflow:hidden) whenever that span was shorter than the summary
+     needed -- reported by a user as visibly cut-off text, and rightly
+     called backwards: "应该是反过来...在ai总结去对齐批注的时候批注也要适应
+     于ai总结的这个长度要做一个自适应". The summary is Claude's own written
+     content; it should never be the side that gets silently truncated to
+     fit whatever height the OTHER column's content happens to produce.
+     Fixed with a three-pass layout instead of one:
+       1. measure each row-group's un-inflated natural span, and reset
+          every block to height:auto so ITS natural content height can be
+          read too (a block kept from a previous sync still has an old
+          fixed height, which would make this measurement stale).
+       2. walk the groups top-to-bottom; wherever a block's natural height
+          exceeds its group's natural span, grow the ANNOTATION side to
+          match by adding that difference as padding-bottom on the LAST row
+          of that group -- normal document flow then pushes every row
+          below it down automatically, so later groups don't need manual
+          repositioning for this.
+       3. re-measure every group's span now that the padding from step 2
+          has reflowed the list, and only THEN size/position each block --
+          by construction no block's natural height can exceed its own
+          (possibly now-inflated) group's span, so nothing gets clipped. */
   function syncSnap(){
     if(sidebar.offsetParent===null || !nsList) return;
     /* Both columns are position:sticky at the same top:5.5rem, so their
        OUTER <nav> boxes align on screen -- but #aiSummaryInner and #nsList
        sit different distances below that (the switch-row header here is a
-       different height than the plain label there), so their inner tops do
-       NOT share a viewport Y. Measuring each ns-row's offset against
-       #aiSummaryInner's own top (rather than #nsList's) sidesteps that
-       entirely: the number produced is already "where this row would sit
-       if placed inside #aiSummaryInner," which is exactly the coordinate
-       space rec.el.style.top is set in below. */
+       different height than the plain label there, and reserveHeaderSpace()
+       separately compensates for the header's OWN sticky offset -- see its
+       comment), so their inner tops do NOT share a viewport Y. Measuring
+       each ns-row's offset against #aiSummaryInner's own top (rather than
+       #nsList's) sidesteps the header-height difference specifically: the
+       number produced is already "where this row would sit if placed
+       inside #aiSummaryInner," which is exactly the coordinate space
+       rec.el.style.top is set in below. */
+    clearSnapPadding();
+    reserveHeaderSpace();
     var innerTop=inner.getBoundingClientRect().top;
-    var groups={};
-    nsList.querySelectorAll('.ns-row[data-nid]').forEach(function(row){
-      var nidv=row.dataset.nid;
-      var r=row.getBoundingClientRect();
-      var top=r.top-innerTop, bottom=r.bottom-innerTop;
-      if(!groups[nidv]) groups[nidv]={top:top, bottom:bottom};
-      else {
-        groups[nidv].top=Math.min(groups[nidv].top, top);
-        groups[nidv].bottom=Math.max(groups[nidv].bottom, bottom);
+    var groups=measureGroups(innerTop);
+    Object.keys(blocks).forEach(function(nidv){ blocks[nidv].el.style.height='auto'; });
+    Object.keys(groups).sort(function(a,b){ return groups[a].top-groups[b].top; }).forEach(function(nidv){
+      var rec=blocks[nidv];
+      if(!rec) return;
+      var g=groups[nidv];
+      var naturalBlockH=rec.el.offsetHeight;
+      var naturalGroupH=g.bottom-g.top;
+      if(naturalBlockH>naturalGroupH){
+        /* .ns-row already carries its own CSS padding-bottom (.55rem, for
+           breathing room before the next row/border); setting the inline
+           style to just the shortfall REPLACES that base padding rather
+           than adding to it, under-growing the row by however much base
+           padding it already had. Read the current computed value first
+           and add the shortfall on top of it. */
+        var basePad=parseFloat(getComputedStyle(g.lastRow).paddingBottom)||0;
+        g.lastRow.style.paddingBottom=(basePad+(naturalBlockH-naturalGroupH))+'px';
+        g.lastRow.dataset.snapPad='1';
       }
     });
+    var groups2=measureGroups(innerTop);
     var maxBottom=0;
     Object.keys(blocks).forEach(function(nidv){
-      var rec=blocks[nidv], g=groups[nidv];
-      if(!g){ rec.el.style.display='none'; return; }
+      var rec=blocks[nidv], g=groups2[nidv];
+      if(!g){ rec.el.style.display='none'; rec.el.style.height='auto'; return; }
       rec.el.style.display='';
       rec.el.style.top=g.top+'px';
       rec.el.style.height=Math.max(g.bottom-g.top, 28)+'px';

@@ -60,6 +60,22 @@ with sync_playwright() as p:
     first_block = blocks.first
     ck("each block carries a distinct label", "AI 总结" in first_block.locator(".ai-sum-lbl").inner_text())
 
+    # ---- the sticky header must never visually overlap a summary block --
+    # reported by a user via screenshot as garbled, overlapping "AI 总结"
+    # text. Root cause was a nested-sticky offset mismatch between the
+    # header's own static (unstuck) flow position and the page's own
+    # top:5.5rem anchor, independent of which block happens to be first;
+    # checked here in flow mode, and again in snap mode below where a
+    # SECOND, different compounding version of the same root cause existed
+    # (#aiSidebar itself is also sticky there, doubling the offset). ----
+    def ck_no_header_overlap(label):
+        header_box = pg.locator("#aiSidebar .sb-label-row").bounding_box()
+        block_box = pg.locator(".ai-sum-block").first.bounding_box()
+        header_bottom = header_box["y"] + header_box["height"]
+        ck(label, header_bottom <= block_box["y"] + 0.5,
+           (header_box, block_box))
+    ck_no_header_overlap("header does not overlap the first summary block (flow mode)")
+
     # ---- flow (default) mode: tracks the paragraph's own position ----
     ck("snap toggle starts off", pg.locator("#aiSnapToggle").get_attribute("aria-pressed") == "false")
     first_nid = first_block.get_attribute("data-nid")
@@ -81,19 +97,28 @@ with sync_playwright() as p:
     pg.wait_for_timeout(200)
 
     # ---- snap mode: aligns to the matching #nsList row's span ----
+    # Deliberately a SHORT note ("短") rather than a longer one: this is the
+    # exact real-world case a user reported via screenshot -- a short
+    # annotation next to a paragraph with a longer AI summary, where the
+    # summary text was visibly clipped mid-sentence. A longer note text
+    # here could coincidentally produce a tall-enough row that the
+    # clipping bug never gets exercised at all.
     first = pg.locator(".note").first
     first.locator(".note-add").click()
-    first.locator(".note-edit").fill("第一条批注，用于测试吸附对齐")
+    first.locator(".note-edit").fill("短")
     pg.wait_for_timeout(700)
     pg.locator("body").click(position={"x":5, "y":5})
     pg.wait_for_timeout(300)
 
     first_note_nid = pg.locator(".note").first.get_attribute("data-nid")
     has_summary_for_first_note = first_note_nid in [blocks.nth(i).get_attribute("data-nid") for i in range(blocks.count())]
+    pre_snap_row_h = pg.locator(f'#nsList .ns-row[data-nid="{first_note_nid}"]').bounding_box()["height"] \
+        if has_summary_for_first_note else None
 
     pg.locator("#aiSnapToggle").click()
     pg.wait_for_timeout(300)
     ck("snap toggle shows pressed state", pg.locator("#aiSnapToggle").get_attribute("aria-pressed") == "true")
+    ck_no_header_overlap("header does not overlap the first summary block (snap mode)")
 
     if has_summary_for_first_note:
         matching_block = pg.locator(f'.ai-sum-block[data-nid="{first_note_nid}"]')
@@ -107,6 +132,33 @@ with sync_playwright() as p:
            block_box["height"] >= row_box["height"] - 1, (block_box["height"], row_box["height"]))
     else:
         print("  (skip: the first paragraph's own block has no AI summary in this fixture)")
+
+    # ---- a SHORT annotation next to a LONG summary must not clip the
+    # summary text -- reported by the user via a real screenshot: the first
+    # paragraph's summary was visibly cut off mid-sentence because the old
+    # code forced the block's height down to match its (shorter) ns-row,
+    # instead of growing the ns-row to match the summary. A naive
+    # "block height >= row height" check doesn't catch this, since the old
+    # code SET the block's height FROM the row's height -- that comparison
+    # is true by construction even while clipping. scrollHeight vs
+    # clientHeight is the real test: scrollHeight still reports the full
+    # content size even when overflow:hidden is visually clipping it. ----
+    if has_summary_for_first_note:
+        natural_row_h = pre_snap_row_h
+        clipped = pg.evaluate(
+            "(nid) => { var el=document.querySelector('.ai-sum-block[data-nid=\"'+nid+'\"]'); "
+            "return el.scrollHeight - el.clientHeight; }", first_note_nid)
+        ck("the summary's own content is not clipped (scrollHeight matches the visible box)",
+           clipped <= 1, clipped)
+        inflated_row_h = matching_row.bounding_box()["height"]
+        if clipped > 1 or inflated_row_h > natural_row_h + 1:
+            ck("when the summary needs more room, the ns-row grows (padding) to match it",
+               matching_row.get_attribute("data-snap-pad") == "1")
+            ck("after growing, the row's height now matches the summary block's height",
+               abs(inflated_row_h - matching_block.bounding_box()["height"]) < 2,
+               (inflated_row_h, matching_block.bounding_box()["height"]))
+        else:
+            print("  (this fixture's first summary already fit its row naturally -- inflation path not exercised here)")
 
     # the switch must also survive SCROLLING WITHIN the snap-mode column
     # itself (it's sticky + overflow:auto in this mode, its own internal
