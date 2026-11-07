@@ -13,10 +13,9 @@ with sync_playwright() as p:
     pg.goto(url)
     ck("no JS errors on load", not errs, errs)
 
-    ck("目录/标签 switch starts on 目录", pg.locator('.sb-switch-btn[data-pane="toc"]').evaluate(
-        "el => el.classList.contains('active')"))
-    ck("TOC pane visible by default", pg.locator('.sb-pane[data-pane="toc"]').is_visible())
-    ck("tags pane hidden by default", not pg.locator('.sb-pane[data-pane="tags"]').is_visible())
+    ck("tag layer switch starts off", pg.locator('#tagLayerToggle').get_attribute("aria-pressed") == "false")
+    ck("TOC tree visible by default", pg.locator('.sb-tree').is_visible())
+    ck("tag overlay hidden by default", not pg.locator('#sbTagOverlay').is_visible())
     ck("tag directory starts with the empty state",
        "还没有标签" in pg.locator("#sbTagList").inner_text())
 
@@ -29,14 +28,12 @@ with sync_playwright() as p:
     pg.locator("body").click(position={"x":5, "y":5})
     pg.wait_for_timeout(300)
 
-    # switch to the 标签 pane
-    pg.locator('.sb-switch-btn[data-pane="tags"]').click()
+    # flip the tag-layer switch: it overlays on top of the tree, doesn't replace it
+    pg.locator('#tagLayerToggle').click()
     pg.wait_for_timeout(150)
-    ck("switching tabs activates 标签 and deactivates 目录",
-       pg.locator('.sb-switch-btn[data-pane="tags"]').evaluate("el => el.classList.contains('active')")
-       and not pg.locator('.sb-switch-btn[data-pane="toc"]').evaluate("el => el.classList.contains('active')"))
-    ck("TOC pane now hidden", not pg.locator('.sb-pane[data-pane="toc"]').is_visible())
-    ck("tags pane now visible", pg.locator('.sb-pane[data-pane="tags"]').is_visible())
+    ck("switch shows pressed state once on", pg.locator('#tagLayerToggle').get_attribute("aria-pressed") == "true")
+    ck("TOC tree stays in the DOM underneath (a layer, not a swap)", pg.locator('.sb-tree').count() == 1)
+    ck("tag overlay now visible on top of the tree", pg.locator('#sbTagOverlay').is_visible())
     ck("tag directory lists both tags", pg.locator("#sbTagList .sb-tag-row").count() == 2)
     ck("each tag row shows a count", "1" in pg.locator("#sbTagList").inner_text())
 
@@ -75,12 +72,11 @@ with sync_playwright() as p:
     ck("#hlTags is wired to the same shared datalist",
        pg.locator("#hlTags").get_attribute("list") == "tagOptions")
 
-    # the switch choice persists across reload
-    pg.locator('.sb-switch-btn[data-pane="tags"]').click()
-    pg.wait_for_timeout(100)
+    # the switch choice persists across reload (it's already on from above)
     pg.reload(); pg.wait_for_timeout(400)
-    ck("标签 pane choice persists across reload",
-       pg.locator('.sb-pane[data-pane="tags"]').is_visible())
+    ck("tag layer choice persists across reload",
+       pg.locator('#tagLayerToggle').get_attribute("aria-pressed") == "true"
+       and pg.locator('#sbTagOverlay').is_visible())
     ck("tag directory still correct after reload", pg.locator("#sbTagList .sb-tag-row").count() == 2)
 
     ck("no JS errors overall", not errs, errs)
