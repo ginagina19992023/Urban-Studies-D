@@ -78,6 +78,58 @@ with sync_playwright() as p:
     else:
         print("  (skip: the first paragraph's own block has no AI summary in this fixture)")
 
+    # ---- snap mode with a HIGHLIGHT (selection-based annotation), not just
+    # a paragraph note -- this is the more common real annotation style for
+    # this reader, and also covers TWO rows sharing one nid (a paragraph
+    # note + a highlight on the SAME paragraph) widening the snapped span to
+    # cover both, per "右侧标注比如1-3条都是第一段，那么就跟第一段summary对
+    # 齐，第一段summary高度为右侧1-3条的范围". ----
+    def select_text_in(locator):
+        locator.evaluate("""(el) => {
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            var sel = window.getSelection();
+            sel.removeAllRanges(); sel.addRange(range);
+            document.dispatchEvent(new Event('selectionchange'));
+        }""")
+
+    hl_block = pg.locator(".bipara").nth(2)
+    hl_en = hl_block.locator("p.en")
+    hl_nid = hl_block.locator(".note").get_attribute("data-nid")
+    # a second paragraph note on the SAME block as the upcoming highlight,
+    # so this nid ends up with two #nsList rows, not one
+    hl_block.locator(".note-add").click()
+    hl_block.locator(".note-edit").fill("同一段的第二条批注（段落批注）")
+    pg.wait_for_timeout(700)
+    pg.locator("body").click(position={"x":5, "y":5})
+    pg.wait_for_timeout(300)
+
+    select_text_in(hl_en)
+    pg.wait_for_timeout(250)
+    pg.locator("#selPill").click(); pg.wait_for_timeout(150)
+    pg.locator("#hlNote").fill("同一段的高亮批注")
+    pg.locator("#hlSave").click(); pg.wait_for_timeout(300)
+
+    rows_for_hl_nid = pg.locator(f'#nsList .ns-row[data-nid="{hl_nid}"]')
+    ck("paragraph note + highlight on the same block share one nid with 2 rows",
+       rows_for_hl_nid.count() == 2, rows_for_hl_nid.count())
+
+    has_summary_for_hl_block = pg.locator(f'.ai-sum-block[data-nid="{hl_nid}"]').count() > 0
+    if has_summary_for_hl_block:
+        hl_matching_block = pg.locator(f'.ai-sum-block[data-nid="{hl_nid}"]')
+        ck("the block for a note+highlight pair is visible in snap mode", hl_matching_block.is_visible())
+        box = hl_matching_block.bounding_box()
+        first_row_box = rows_for_hl_nid.nth(0).bounding_box()
+        last_row_box = rows_for_hl_nid.nth(1).bounding_box()
+        span_top = min(first_row_box["y"], last_row_box["y"])
+        span_bottom = max(first_row_box["y"]+first_row_box["height"], last_row_box["y"]+last_row_box["height"])
+        ck("snapped block's top matches the EARLIEST of the two rows sharing this nid",
+           abs(box["y"] - span_top) < 3, (box["y"], span_top))
+        ck("snapped block's height covers the FULL span of both rows (not just one)",
+           box["height"] >= (span_bottom - span_top) - 2, (box["height"], span_bottom - span_top))
+    else:
+        print("  (skip: this block has no AI summary in this fixture)")
+
     # a paragraph with a summary but NO annotation should be hidden in snap mode
     unannotated = None
     for i in range(blocks.count()):
