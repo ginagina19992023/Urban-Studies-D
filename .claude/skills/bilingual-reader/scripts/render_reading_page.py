@@ -109,18 +109,32 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
 }
 #tocSidebar .sb-label,#noteSidebar .sb-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
                        color:var(--hl);font-weight:700;margin:0 0 .9rem .3rem}
-/* #tocSidebar doubles as a 目录/标签 switch rather than two separate sidebar
-   columns — a third persistent column would need even more viewport width
-   than the two already fighting for it (see the .layout comment above), and
-   the TOC and the tag directory are never needed on screen at the same
-   time, so sharing one column's space with a toggle costs nothing a reader
-   would notice. */
-.sb-switch{display:flex;gap:.4rem;margin:0 0 1rem}
-.sb-switch-btn{flex:1;font-family:var(--font-sans);font-size:.66rem;font-weight:700;
-               letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line);
-               background:none;color:var(--muted);border-radius:4px;padding:.4rem .3rem;cursor:pointer}
-.sb-switch-btn.active{background:var(--hl);color:var(--paper);border-color:var(--hl)}
-.sb-pane[hidden]{display:none}
+/* Tags live as an overlay LAYER on top of the TOC tree, not a swapped-out
+   second pane. The left sidebar's one real destination is the TOC — that's
+   what a reader reaches for most — so it gets one real button-sized label
+   and the tree is never actually removed from the page; tags are a small
+   switch that lays a floating panel over the tree (and back off again),
+   not a second equally-weighted button implying two equally-likely
+   destinations. */
+.sb-toc-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin:0 0 .9rem}
+.sb-toc-head .sb-label{margin:0}
+.sb-layer-switch{display:flex;align-items:center;gap:.35rem;border:none;background:none;
+                  cursor:pointer;font-family:var(--font-sans);color:var(--muted);padding:.1rem}
+.sb-layer-switch-label{font-size:.65rem;letter-spacing:.05em;text-transform:uppercase}
+.sb-layer-switch-track{width:1.7rem;height:.95rem;border-radius:999px;background:var(--line);
+                        position:relative;flex-shrink:0;transition:background .15s}
+.sb-layer-switch-thumb{position:absolute;top:.1rem;left:.1rem;width:.75rem;height:.75rem;
+                        border-radius:50%;background:var(--paper);transition:left .15s;
+                        box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sb-layer-switch[aria-pressed="true"] .sb-layer-switch-track{background:var(--hl)}
+.sb-layer-switch[aria-pressed="true"] .sb-layer-switch-thumb{left:.85rem}
+.sb-layer-switch[aria-pressed="true"] .sb-layer-switch-label{color:var(--hl);font-weight:700}
+.sb-tree-wrap{position:relative}
+.sb-tag-overlay{position:absolute;inset:0;z-index:5;background:var(--paper);
+                 border:1px solid var(--line);border-radius:8px;
+                 box-shadow:0 8px 22px rgba(0,0,0,.14);padding:.7rem .65rem;
+                 max-height:calc(100vh - 7.5rem);overflow-y:auto}
+.sb-tag-overlay[hidden]{display:none}
 .sb-tag-row{display:flex;align-items:center;justify-content:space-between;gap:.4rem;
             padding:.4rem .3rem;border-bottom:1px dashed var(--line);cursor:pointer;
             font-family:var(--font-sans);font-size:.78rem;color:var(--ink-soft)}
@@ -161,18 +175,27 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
   #noteSidebar{display:block;position:sticky;top:5.5rem;
                max-height:calc(100vh - 7.5rem);overflow-y:auto}
 }
-.ns-row{position:relative;padding:.55rem 1.7rem .55rem .1rem;border-bottom:1px dashed var(--line)}
+.ns-row{position:relative;padding:.55rem 3.4rem .55rem .1rem;border-bottom:1px dashed var(--line)}
 .ns-row:last-child{border-bottom:none}
 .ns-q{font-size:.71rem;color:var(--muted);line-height:1.5;cursor:pointer;margin-bottom:.3rem}
 .ns-q:hover{color:var(--accent)}
 .ns-t{font-family:var(--font-zh);font-size:.78rem;line-height:1.65;color:var(--ink-soft);
       white-space:pre-wrap;word-break:break-word}
-.ns-edit{position:absolute;right:0;top:.5rem;width:1.5rem;height:1.5rem;border-radius:4px;
+.ns-edit,.ns-ask{position:absolute;top:.5rem;width:1.5rem;height:1.5rem;border-radius:4px;
          border:1px solid var(--line);background:var(--paper);color:var(--muted);font-size:.72rem;
          line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
          padding:0}
-.ns-edit:hover{border-color:var(--accent);color:var(--accent)}
+.ns-edit{right:0}
+.ns-ask{right:1.75rem}
+.ns-edit:hover,.ns-ask:hover{border-color:var(--accent);color:var(--accent)}
 .ns-empty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);padding:1.2rem 0;text-align:center}
+/* 「AI 解读」 is the same can't-call-an-LLM-at-runtime constraint as the
+   「AI 点评」 button (see SKILL.md), just scoped to ONE annotation instead of
+   the whole set: it copies that single note treated AS A QUESTION, plus
+   its source passage, to the clipboard as a ready-to-paste prompt. */
+.ask-ai-btn{margin-top:.4rem;font-family:var(--font-sans);font-size:.68rem;border:1px solid var(--line);
+            background:none;color:var(--muted);border-radius:999px;padding:.25rem .6rem;cursor:pointer}
+.ask-ai-btn:hover{border-color:var(--accent);color:var(--accent)}
 
 .eyebrow{font-family:var(--font-sans);font-size:.65rem;text-transform:uppercase;
          letter-spacing:.14em;color:var(--hl);margin:0 0 .55rem;font-weight:700}
@@ -784,6 +807,7 @@ document.addEventListener('scroll', function(){
       var t=document.createElement('div'); t.className='txt'; t.textContent=r.txt;
       d.appendChild(t);
       if(r.tags && r.tags.length) d.appendChild(buildTagRow(r.tags));
+      d.appendChild(buildAskBtn(r, false));
       list.appendChild(d);
     });
   }
@@ -821,6 +845,7 @@ document.addEventListener('scroll', function(){
       }
       row.appendChild(t);
       if(r.tags && r.tags.length) row.appendChild(buildTagRow(r.tags));
+      row.appendChild(buildAskBtn(r, true));
       row.appendChild(editBtn);
       list.appendChild(row);
     });
@@ -933,9 +958,35 @@ document.addEventListener('scroll', function(){
     return out.join('\\n');
   }
 
-  function copyText(txt, btn, label){
+  /* Per-note counterpart to reviewPrompt(): treats ONE annotation's text as
+     a QUESTION rather than folding it into a batch review, since "what does
+     this bit even mean" and "judge my whole reading" are different asks and
+     a reader shouldn't have to wade through every other note to get the
+     first one answered. */
+  function askPrompt(r){
+    var out=[];
+    out.push('请把我下面这条批注当作一个问题来解读：先说明原文这段在论证什么，再针对性地回答或解读我提出的问题，不要泛泛而谈。如果我的批注本身有误读的地方，也请指出来。');
+    out.push('');
+    out.push('文献：'+TITLE);
+    if(CITE) out.push(CITE);
+    out.push('');
+    if(r.isHighlight && r.frags && r.frags.length>1){
+      r.frags.forEach(function(f,fi){ out.push('【原文片段'+(fi+1)+'】'+f.text.replace(/\\s+/g,' ')); });
+    } else {
+      out.push('【原文】'+r.src.replace(/\\s+/g,' '));
+    }
+    if(r.zh) out.push('【译文】'+r.zh.replace(/\\s+/g,' '));
+    out.push('');
+    out.push('【我的问题/批注】'+r.txt);
+    if(r.tags && r.tags.length) out.push('【标签】'+r.tags.map(function(t){return '#'+t;}).join(' '));
+    return out.join('\\n');
+  }
+
+  function copyText(txt, btn, label, opts){
+    opts=opts||{};
+    var okText=opts.okText||'✓ 已复制', failText=opts.failText||'复制失败';
     function done(ok){
-      btn.textContent = ok?'✓ 已复制':'复制失败';
+      btn.textContent = ok?okText:failText;
       setTimeout(function(){ btn.textContent=label; },1800);
     }
     if(navigator.clipboard && navigator.clipboard.writeText){
@@ -947,6 +998,27 @@ document.addEventListener('scroll', function(){
       var ok=false; try{ ok=document.execCommand('copy'); }catch(e){}
       document.body.removeChild(ta); done(ok);
     }
+  }
+  /* Shared by buildList() and buildSidebarList(): a small button per row
+     that copies askPrompt(r) to the clipboard. `compact` picks the icon-only
+     ns-row variant (no room there for a text label) over the pill-with-
+     label variant used in the wider nav/overview rows. */
+  function buildAskBtn(r, compact){
+    var b=document.createElement('button');
+    b.type='button';
+    if(compact){
+      b.className='ns-ask'; b.textContent='💬';
+      b.title='生成 AI 解读请求（复制），把这条批注当问题问 AI';
+    } else {
+      b.className='ask-ai-btn'; b.textContent='💬 AI 解读';
+      b.title='把这条批注当问题，复制一份可直接粘贴给 AI 的解读请求';
+    }
+    var label=b.textContent;
+    b.addEventListener('click', function(e){
+      e.stopPropagation();
+      copyText(askPrompt(r), b, label, compact?{okText:'✓',failText:'✕'}:undefined);
+    });
+    return b;
   }
   function guardEmpty(){
     if(!filteredRows().length){
@@ -1053,26 +1125,22 @@ document.addEventListener('scroll', function(){
   buildGlossary('');
   try{ showTab(localStorage.getItem('brNavTab')||'toc'); }catch(e){ showTab('toc'); }
 
-  /* #tocSidebar's own 目录/标签 switch — a second, independent tab pair from
-     the floating nav panel's showTab() above, scoped to #tocSidebar only. */
-  document.querySelectorAll('#tocSidebar .sb-switch-btn').forEach(function(b){
-    b.addEventListener('click', function(){
-      document.querySelectorAll('#tocSidebar .sb-switch-btn').forEach(function(x){
-        x.classList.toggle('active', x===b);
-      });
-      document.querySelectorAll('#tocSidebar .sb-pane').forEach(function(pane){
-        pane.hidden = (pane.dataset.pane!==b.dataset.pane);
-      });
-      try{ localStorage.setItem('brSidebarPane', b.dataset.pane); }catch(e){}
-    });
-  });
-  try{
-    var savedPane=localStorage.getItem('brSidebarPane');
-    if(savedPane==='tags'){
-      var tagsBtn=document.querySelector('#tocSidebar .sb-switch-btn[data-pane="tags"]');
-      if(tagsBtn) tagsBtn.click();
+  /* Tags overlay the TOC tree as a layer, toggled by one small switch —
+     see the .sb-toc-head CSS comment for why this isn't a second pane. */
+  (function(){
+    var toggle=document.getElementById('tagLayerToggle');
+    var overlay=document.getElementById('sbTagOverlay');
+    if(!toggle || !overlay) return;
+    function setLayer(on){
+      toggle.setAttribute('aria-pressed', on?'true':'false');
+      overlay.hidden=!on;
+      try{ localStorage.setItem('brTagLayer', on?'1':'0'); }catch(e){}
     }
-  }catch(e){}
+    toggle.addEventListener('click', function(){
+      setLayer(toggle.getAttribute('aria-pressed')!=='true');
+    });
+    try{ setLayer(localStorage.getItem('brTagLayer')==='1'); }catch(e){}
+  })();
 
   document.getElementById('ovCopy').addEventListener('click', function(){
     if(guardEmpty()) return; copyText(markdown(), this, '复制为 Markdown');
@@ -1219,6 +1287,36 @@ document.addEventListener('scroll', function(){
     }
     return total;
   }
+  /* Splits plain text into sentence-sized chunks on EN/ZH sentence-ending
+     punctuation (keeping trailing closing quotes/brackets with the sentence
+     they close). This is a cheap heuristic — it over-splits on abbreviations
+     like "e.g." and under-splits on some run-ons — but it needs no spec.json
+     changes and no manual re-segmentation of existing content: it runs on
+     whatever EN/ZH text is already in the page. Used to narrow the
+     cross-language underline from "a fraction of the whole paragraph" down
+     to "a fraction of one sentence," which is the fix for the proportional
+     guess being noticeably off on longer paragraphs. */
+  function sentenceRanges(text){
+    var out=[], re=/[^.!?。！？…]*[.!?。！？…]+[”"'’）)]*\s*/g, m;
+    while((m=re.exec(text))){
+      if(!m[0].length){ re.lastIndex++; continue; }
+      out.push({start:m.index, end:m.index+m[0].length});
+    }
+    var covered=out.length?out[out.length-1].end:0;
+    if(covered<text.length) out.push({start:covered, end:text.length});
+    if(!out.length) out.push({start:0, end:text.length});
+    return out;
+  }
+  function locateInSentences(sents, globalOffset){
+    for(var i=0;i<sents.length;i++){
+      var s=sents[i];
+      if(globalOffset<s.end || i===sents.length-1){
+        var len=Math.max(1, s.end-s.start);
+        return {idx:i, frac:Math.max(0, Math.min(1, (globalOffset-s.start)/len))};
+      }
+    }
+    return {idx:0, frac:0};
+  }
   function validSelection(){
     var sel=window.getSelection();
     if(!sel||sel.isCollapsed||!sel.rangeCount) return null;
@@ -1246,20 +1344,28 @@ document.addEventListener('scroll', function(){
     var text=clipped.toString().trim();
     if(!text) return null;
 
-    /* Where this selection falls WITHIN its own paragraph, as a 0–1 fraction
-       of that paragraph's plain-text length. There is no real word/clause
-       alignment between the EN and ZH translations of a block, so this is a
-       heuristic, not a guarantee: applying the same fraction to the sibling
-       paragraph's length only approximates "the corresponding part," it
-       doesn't compute it exactly. It's still a much closer approximation
-       than underlining the sibling paragraph's full text, which is what an
-       earlier version did and was explicitly rejected as wrong. */
+    /* Where this selection falls WITHIN its own paragraph. There is no real
+       word/clause alignment between the EN and ZH translations of a block,
+       so none of this is a guarantee — but a flat whole-paragraph fraction
+       noticeably drifted on longer paragraphs, so this also locates the
+       selection by SENTENCE (ssIdx/esIdx within srcSentCount sentences, via
+       sentenceRanges()) plus a fraction WITHIN that sentence (ssFrac/esFrac).
+       When the sibling paragraph splits into the same number of sentences,
+       markLinkedRange() maps sentence-to-sentence by index instead of
+       guessing over the whole paragraph — much tighter in the common case.
+       startFrac/endFrac (the old whole-paragraph fraction) are kept as the
+       fallback for when the sibling's sentence count doesn't match. */
+    var startOffAbs=textOffsetInAncestor(pEl, clipped.startContainer, clipped.startOffset);
+    var endOffAbs=textOffsetInAncestor(pEl, clipped.endContainer, clipped.endOffset);
     var fullLen=pEl.textContent.length || 1;
-    var startFrac=textOffsetInAncestor(pEl, clipped.startContainer, clipped.startOffset)/fullLen;
-    var endFrac=textOffsetInAncestor(pEl, clipped.endContainer, clipped.endOffset)/fullLen;
+    var srcSents=sentenceRanges(pEl.textContent);
+    var startLoc=locateInSentences(srcSents, startOffAbs);
+    var endLoc=locateInSentences(srcSents, endOffAbs);
 
     return {text:text, lang:pEl.classList.contains('zh')?'zh':'en', nid:nidv, clippedRange:clipped,
-            startFrac:startFrac, endFrac:endFrac};
+            startFrac:startOffAbs/fullLen, endFrac:endOffAbs/fullLen,
+            ssIdx:startLoc.idx, ssFrac:startLoc.frac,
+            esIdx:endLoc.idx, esFrac:endLoc.frac, srcSentCount:srcSents.length};
   }
   document.addEventListener('selectionchange', function(){
     clearTimeout(window.__selT);
@@ -1285,7 +1391,8 @@ document.addEventListener('scroll', function(){
     var v=pill.__sel;
     if(!v) return;
     hidePill();
-    var frag={nid:v.nid, lang:v.lang, text:v.text, startFrac:v.startFrac, endFrac:v.endFrac};
+    var frag={nid:v.nid, lang:v.lang, text:v.text, startFrac:v.startFrac, endFrac:v.endFrac,
+              ssIdx:v.ssIdx, ssFrac:v.ssFrac, esIdx:v.esIdx, esFrac:v.esFrac, srcSentCount:v.srcSentCount};
     if(pendingFrags){
       pendingFrags.push(frag);
       hint.style.display='none';
@@ -1395,16 +1502,22 @@ document.addEventListener('scroll', function(){
     }
     return null;
   }
-  function markLinkedRange(p, startFrac, endFrac){
+  function markLinkedRange(p, f){
     /* The exact selected phrase can only be marked in the language it was
        actually selected in — there is no real word/clause alignment between
        the EN and ZH translations of a block to compute the true
-       corresponding substring. This applies the SAME fractional position
-       (of the selection within its own paragraph's text length) to the
-       sibling paragraph's length instead — an approximation, not a
-       guarantee, but a much closer one than underlining the sibling's full
-       text, which an earlier version did and was explicitly rejected as
-       wrong ("应该只有对应划线的那部分也有划线，而不应该是现在这样全段划上").
+       corresponding substring. Preferred approximation: if the sibling
+       paragraph splits into the SAME number of sentences as the source did
+       at selection time (f.srcSentCount, via sentenceRanges()), map
+       sentence-to-sentence by index and apply the within-sentence fraction
+       — narrows the guess from "a span of the whole paragraph" down to "a
+       span of one sentence," which is what fixed the guess being visibly
+       off on longer paragraphs. Falls back to the old whole-paragraph
+       fraction (f.startFrac/endFrac) when the sentence counts don't match.
+       Either way this is still an approximation, not a guarantee, and still
+       much closer than underlining the sibling's full text, which an
+       earlier version did and was explicitly rejected as wrong
+       ("应该只有对应划线的那部分也有划线，而不应该是现在这样全段划上").
        Wraps the estimated span in a plain <span class="linked-underline">
        (not <mark>, which is reserved for the exact, click-to-edit match) —
        purely a visual cue, no click handler. Best-effort like
@@ -1413,8 +1526,22 @@ document.addEventListener('scroll', function(){
        rather than falling back to the whole paragraph. */
     var fullLen=p.textContent.length;
     if(!fullLen) return;
-    var startOff=Math.max(0, Math.min(fullLen, Math.round(startFrac*fullLen)));
-    var endOff=Math.max(startOff+1, Math.min(fullLen, Math.round(endFrac*fullLen)));
+    var startOff, endOff;
+    if(typeof f.ssIdx==='number' && typeof f.srcSentCount==='number'){
+      var sibSents=sentenceRanges(p.textContent);
+      if(sibSents.length===f.srcSentCount){
+        var ss=sibSents[Math.min(f.ssIdx, sibSents.length-1)];
+        var es=sibSents[Math.min(f.esIdx, sibSents.length-1)];
+        startOff=Math.round(ss.start+f.ssFrac*(ss.end-ss.start));
+        endOff=Math.round(es.start+f.esFrac*(es.end-es.start));
+      }
+    }
+    if(typeof startOff!=='number' || typeof endOff!=='number'){
+      startOff=Math.round(f.startFrac*fullLen);
+      endOff=Math.round(f.endFrac*fullLen);
+    }
+    startOff=Math.max(0, Math.min(fullLen, startOff));
+    endOff=Math.max(startOff+1, Math.min(fullLen, endOff));
     var range=rangeFromGlobalOffsets(p, startOff, endOff);
     if(!range) return;
     var span=document.createElement('span');
@@ -1455,7 +1582,7 @@ document.addEventListener('scroll', function(){
         wrapTextInNode(p, f.text, h.id);
         var siblingP=host.querySelector(f.lang==='zh'?'p.en':'p.zh');
         if(siblingP && typeof f.startFrac==='number' && typeof f.endFrac==='number'){
-          markLinkedRange(siblingP, f.startFrac, f.endFrac);
+          markLinkedRange(siblingP, f);
         }
       });
     });
@@ -1573,19 +1700,22 @@ def render(spec):
     a('<div class="layout">')
     if toc:
         a('<nav id="tocSidebar">')
-        a('<div class="sb-switch">'
-          '<button type="button" class="sb-switch-btn active" data-pane="toc">目录</button>'
-          '<button type="button" class="sb-switch-btn" data-pane="tags">标签</button>'
-          '</div>')
-        a('<div class="sb-pane" data-pane="toc">')
+        a('<div class="sb-toc-head"><span class="sb-label">目录</span>'
+          '<button type="button" id="tagLayerToggle" class="sb-layer-switch" aria-pressed="false" '
+          'title="在目录上叠加显示标签层">'
+          '<span class="sb-layer-switch-track"><span class="sb-layer-switch-thumb"></span></span>'
+          '<span class="sb-layer-switch-label">标签</span>'
+          '</button></div>')
+        a('<div class="sb-tree-wrap">')
         a('<div class="sb-tree">')
         for t in toc:
             a(f'<a class="sb-node lvl-{t["level"]}" href="#{t["id"]}" data-secid="{t["id"]}">'
               f'<span class="en">{esc(t["en"])}</span>'
               + (f'<span class="zh">{esc(t["zh"])}</span>' if t["zh"] else "")
               + "</a>")
-        a("</div></div>")
-        a('<div class="sb-pane" data-pane="tags" hidden><div id="sbTagList"></div></div>')
+        a("</div>")
+        a('<div class="sb-tag-overlay" id="sbTagOverlay" hidden><div id="sbTagList"></div></div>')
+        a("</div>")
         a("</nav>")
 
     a("<main>")

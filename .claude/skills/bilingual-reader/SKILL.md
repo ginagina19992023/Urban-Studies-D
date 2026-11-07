@@ -213,27 +213,52 @@ paragraph and attach a note to exactly that selection, Medium/Hypothesis-style:
   `<mark>`. This is a deliberate scope boundary, not a bug to chase.
 - Because the EN and ZH paragraphs are two independent translations, there's
   no reliable way to compute which substring of the *other* language
-  corresponds to an arbitrary selected phrase — there's no word/clause
-  alignment data to work from. `validSelection()` captures `startFrac`/
-  `endFrac`: where the selection falls within its OWN paragraph's text
-  length, as a 0–1 fraction (via `textOffsetInAncestor()`, walking text
-  nodes). `markLinkedRange()` applies that same fraction to the SIBLING
-  paragraph's length and wraps the estimated span — not the whole paragraph
-  — in `<span class="linked-underline">`, via `rangeFromGlobalOffsets()` plus
+  corresponds to an arbitrary selected phrase — there's no true word/clause
+  alignment data to work from, and building one would mean restructuring
+  spec.json into per-sentence segment arrays and re-segmenting every already-
+  translated block (218 across the two current readings) — rejected as too
+  costly for the payoff (see below). What ships is a **two-tier heuristic**,
+  tried after the flat whole-paragraph version was reported as "比例非常不准确"
+  (noticeably off on longer paragraphs):
+  1. **Sentence-level (preferred).** `sentenceRanges()` splits plain text on
+     EN/ZH sentence-ending punctuation (`. ! ? 。！？…` plus trailing closing
+     quotes/brackets) — a cheap regex heuristic, not real NLP; it over-splits
+     on abbreviations and under-splits some run-ons, but needs no spec.json
+     change and no manual re-segmentation, since it runs on whatever EN/ZH
+     text is already on the page. `validSelection()` locates the selection's
+     start/end as `{ssIdx/esIdx, ssFrac/esFrac, srcSentCount}` — which
+     sentence, and a 0–1 fraction *within* that sentence — via
+     `locateInSentences()`. If the sibling paragraph happens to split into
+     the **same number of sentences**, `markLinkedRange()` maps sentence-to-
+     sentence by index and applies the within-sentence fraction there — this
+     narrows the guess from "a span of the whole paragraph" to "a span of one
+     sentence," confirmed in `test_sentence_alignment.py` to not bleed into
+     neighboring sentences on a real 3-sentence/3-sentence block.
+  2. **Whole-paragraph fallback.** When the sibling's sentence count doesn't
+     match, falls back to the original flat `startFrac`/`endFrac` (where the
+     selection falls within its OWN paragraph's text length, via
+     `textOffsetInAncestor()`) applied to the sibling paragraph's length —
+     still an approximation, but keeps the feature from erroring or reverting
+     to underlining the whole paragraph when sentence counts disagree.
+  Either tier wraps the estimated span — not the whole paragraph — in
+  `<span class="linked-underline">`, via `rangeFromGlobalOffsets()` plus
   `range.surroundContents()` (best-effort, same as `wrapTextInNode()`: skips
   silently if the estimated range straddles an inline tag boundary it can't
-  wrap). This is a heuristic approximation, not a guarantee — say so if the
-  user asks how exact it is. `text-decoration` (not `border-bottom`) in `--hl`,
-  matching `mark.hl-anno`'s own color so it reads as "corresponds to a
-  highlight." Went through three rejected designs in direct testing before
-  this one: a bare 🔗 glyph (too subtle), a tinted box with a "🔗 关联批注"
-  pill (read as a separate badge, not "对应划线"), then underlining the WHOLE
-  sibling paragraph (explicitly rejected too — "应该只有对应划线的那部分也有划线，
-  而不应该是现在这样全段划上"). Deliberately **not interactive** — no click
-  handler on the span — since the only way to add one without colliding with
-  normal text selection elsewhere in that paragraph would be a separate click
-  target, which is exactly what got rejected each of the prior two times;
-  open the note from the sidebar/nav/overview instead.
+  wrap). Both tiers are still heuristic approximations, not guarantees — say
+  so if the user asks how exact it is. `text-decoration` (not `border-bottom`)
+  in `--hl`, matching `mark.hl-anno`'s own color so it reads as "corresponds
+  to a highlight." Went through three rejected VISUAL designs in direct
+  testing before settling on an underline at all: a bare 🔗 glyph (too
+  subtle), a tinted box with a "🔗 关联批注" pill (read as a separate badge,
+  not "对应划线"), then underlining the WHOLE sibling paragraph (explicitly
+  rejected — "应该只有对应划线的那部分也有划线，而不应该是现在这样全段划上") —
+  and then one rejected ACCURACY tier (the original flat whole-paragraph
+  proportional guess alone, superseded by the sentence-level tier above once
+  it was reported as too inaccurate). Deliberately **not interactive** — no
+  click handler on the span — since the only way to add one without
+  colliding with normal text selection elsewhere in that paragraph would be a
+  separate click target, which is exactly what got rejected in the visual-
+  design round; open the note from the sidebar/nav/overview instead.
 - There is deliberately **no in-page voice input.** An earlier draft wired up
   the Web Speech API, but it's pointless complexity: any OS-level dictation
   (macOS dictation, Windows voice typing, etc.) already types into the note
@@ -285,17 +310,26 @@ labels like "可引用" or "待查", not a controlled vocabulary the skill defin
   second tag after a space still has to be typed out. That's an accepted
   limit of using the plain HTML control instead of building a custom
   multi-chip tag-input widget, not a bug to fix later unless asked.
-- `#tocSidebar` doubles as a **目录/标签 switch** (`.sb-switch-btn`) rather than
-  adding a fourth persistent column — the TOC tree and the tag directory are
-  never needed on screen at the same time, so they share one column's space.
-  The 标签 pane (`buildTagDirectory()`) lists every distinct tag across both
-  annotation kinds with a count, sorted alphabetically; clicking a row calls
-  the SAME `toggleTagFilter()` the chips elsewhere call, so filtering from
-  the directory and filtering from a chip are one shared state, not two. The
-  chosen pane persists across reloads via `localStorage['brSidebarPane']`.
-  This switch is independent of the floating nav panel's own `showTab()`
-  (目录/术语/批注) — different component, same toggle idea, don't conflate them
-  if you touch either.
+- `#tocSidebar` shows the tag directory as an **overlay layer on top of the
+  TOC tree**, not a second swapped-in pane (`.sb-pane`/`.sb-switch-btn` — a
+  pair of equal-weight buttons — was the first design; rejected: "左边目录标签
+  不是这个意思 是说标签像是一层layer... 左侧只需要目录这个按钮不需要标签的大
+  按钮，最多是一个开关" — the reader wants 目录 as the one real destination,
+  with tags as an occasional small switch, not a second button implying two
+  equally-likely panes). The tree (`.sb-tree`) always stays in the DOM inside
+  `.sb-tree-wrap`; a single small toggle (`#tagLayerToggle`, styled as a
+  tiny switch, not a button the size of "目录") shows/hides an absolutely
+  positioned `#sbTagOverlay` (`position:absolute;inset:0` within
+  `.sb-tree-wrap`, elevated with a border + shadow so it visibly reads as a
+  layer sitting above the tree, not a replacement for it) containing
+  `#sbTagList` (`buildTagDirectory()`). The directory lists every distinct
+  tag across both annotation kinds with a count, sorted alphabetically;
+  clicking a row calls the SAME `toggleTagFilter()` the chips elsewhere
+  call, so filtering from the directory and filtering from a chip are one
+  shared state, not two. The switch's on/off state persists across reloads
+  via `localStorage['brTagLayer']`. This is independent of the floating nav
+  panel's own `showTab()` (目录/术语/批注) — different component, same toggle
+  idea, don't conflate them if you touch either.
 
 ### The 「AI 点评」 button — what it can and cannot be
 
@@ -324,6 +358,31 @@ than any in-page call could, since the reviewer can check the notes against
 the full text rather than the excerpt. Say this plainly when handing the page
 over — frame the button as what it is, so nobody waits for an answer that is
 not coming.
+
+### 「AI 解读」 — the same idea, scoped to ONE annotation as a question
+
+"评价我全部的批注" (批评/点评, above) and "解读我这一条批注在问什么" are different
+asks — the second shouldn't require copying every other note just to get one
+question answered. `askPrompt(r)` is the per-row counterpart to
+`reviewPrompt()`: it treats that single note/highlight's text AS A QUESTION
+and copies it, plus its source passage (EN + ZH, or every linked fragment if
+it's a multi-fragment highlight) and its tags, to the clipboard as a
+ready-to-paste request. Same runtime constraint as 「AI 点评」 — no completion
+endpoint on a published page, so this copies the request, it doesn't answer
+it.
+
+`buildAskBtn(r, compact)` renders one of two variants of the same action,
+shared by `buildList()` (nav 批注 tab + end-of-document overview) and
+`buildSidebarList()` (`#noteSidebar`):
+- `compact=false` → `.ask-ai-btn`, a labeled pill ("💬 AI 解读") — there's
+  room for a label in those wider rows.
+- `compact=true` → `.ns-ask`, an icon-only button ("💬") positioned left of
+  the existing `.ns-edit` (✎) icon in a `.ns-row` — that column is only
+  14.5rem wide, no room for a text label next to a second icon. `.ns-row`'s
+  right padding grew from `1.7rem` to `3.4rem` to fit both icons.
+`copyText()` gained an optional 4th `opts` param (`{okText, failText}`) so
+the icon-only variant can flash a bare `✓`/`✕` instead of the long "✓ 已复制"
+label, which would overflow a 1.5rem-wide button.
 
 ### Baking your own analysis into the page
 
