@@ -222,10 +222,25 @@ paragraph and attach a note to exactly that selection, Medium/Hypothesis-style:
   (noticeably off on longer paragraphs):
   1. **Sentence-level (preferred).** `sentenceRanges()` splits plain text on
      EN/ZH sentence-ending punctuation (`. ! ? 。！？…` plus trailing closing
-     quotes/brackets) — a cheap regex heuristic, not real NLP; it over-splits
-     on abbreviations and under-splits some run-ons, but needs no spec.json
-     change and no manual re-segmentation, since it runs on whatever EN/ZH
-     text is already on the page. `validSelection()` locates the selection's
+     quotes/brackets) — a cheap regex heuristic, not real NLP, but needs no
+     spec.json change and no manual re-segmentation, since it runs on
+     whatever EN/ZH text is already on the page. The FIRST version of this
+     treated every end-mark as a real sentence end, which badly over-split
+     academic EN text full of page citations like "(Wacquant, 2010, p. 218)"
+     — "p." alone reads as a sentence end to a naive regex, while the ZH
+     side cites the same page as "第218页" (no period at all) — so the EN
+     side ended up with noticeably MORE "sentences" than ZH on exactly the
+     citation-heavy paragraphs this skill annotates most, breaking the
+     index-mapping below and silently falling back to the coarser
+     whole-paragraph guess. Reported by the user via a live screenshot
+     (Yrjänä item 44, three "p. ###)" citations: naive splitting gave EN 7
+     "sentences" against ZH's real 4). Fixed by peeking at what follows each
+     candidate end-mark (skip whitespace, at most one opening bracket): real
+     sentence ends are virtually always followed by a capital letter, an
+     opening quote, or end of paragraph, while a citation abbreviation like
+     "p."/"pp."/"et al." is virtually always followed by a lowercase letter
+     or digit — so that signal decides whether to split there, rather than a
+     fixed abbreviation list. `validSelection()` locates the selection's
      start/end as `{ssIdx/esIdx, ssFrac/esFrac, srcSentCount}` — which
      sentence, and a 0–1 fraction *within* that sentence — via
      `locateInSentences()`. If the sibling paragraph happens to split into
@@ -383,6 +398,39 @@ shared by `buildList()` (nav 批注 tab + end-of-document overview) and
 `copyText()` gained an optional 4th `opts` param (`{okText, failText}`) so
 the icon-only variant can flash a bare `✓`/`✕` instead of the long "✓ 已复制"
 label, which would overflow a 1.5rem-wide button.
+
+### AI 备注 — closing the loop 「AI 解读」 opens
+
+The user tried 「AI 解读」, pasted the copied prompt into a Claude conversation,
+got a real answer back, then pasted THAT answer into the chat and said: "我
+需要的恰恰是AI输出完可以直接加入到这个批注内容里并标注AI备注" — the missing
+piece wasn't the answer, it was a place to put it back. A published page
+still can't call a model itself, so this doesn't close the loop
+automatically; it gives the reader somewhere to paste the result by hand.
+
+Both annotation kinds get an optional `aiNote` field, alongside `text`/`tags`:
+`.note-ai` (a plain `<textarea>`, shown only while a paragraph note is
+`.editing`, right after `.note-tags`) and `#hlAiNote` (always visible in
+`#selCard`, the highlight card). Deliberately a plain textarea, not a
+"📋 粘贴" button wired to `navigator.clipboard.readText()` — clipboard
+**write** already needed requesting permission for 「AI 解读」/「AI 点评」;
+**read** is more sensitive and more likely to be refused outright in a
+sandboxed context like a Claude Artifact's iframe. A textarea takes a native
+Cmd/Ctrl+V paste with no permission prompt at all, so it sidesteps the
+question entirely instead of risking a second clipboard feature that's
+quietly broken in the one environment this skill ships to most.
+
+`noteOf()`/highlight objects carry `aiNote` the same way they carry `tags` —
+`paint()` (paragraph notes) and `entries()` → `buildList()`/
+`buildSidebarList()` (both kinds) render it as a visually distinct
+`<div class="ai-note">` block, labeled "🤖 AI 备注" (`.ai-note-lbl`), styled
+with the `--hl` accent (same family as the cross-language underline and
+`mark.hl-anno`) so it reads as "AI-sourced," not mixed into the reader's own
+paragraph text. `markdown()`/`reviewPrompt()` both include it as its own
+line (`AI 备注：…` / `【此前的 AI 备注】…`) so an existing AI note survives a
+re-export instead of being silently dropped. `askPrompt()` also includes it
+when present (`【此前已有的 AI 备注，这次请在此基础上继续回答，不要重复】`) so
+asking a FOLLOW-UP question doesn't make the next answer repeat the first.
 
 ### Baking your own analysis into the page
 

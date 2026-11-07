@@ -314,6 +314,24 @@ details.pack[open] summary::before{content:"▾ "}
 .note-status{font-family:var(--font-sans);font-size:.62rem;color:var(--accent);
              margin-top:.22rem;height:.9rem;opacity:0;transition:opacity .2s}
 .note-status.show{opacity:.8}
+/* AI 备注: a published page can't call a model itself (see the AI 点评 /
+   AI 解读 sections below), so the loop closes by hand — paste the model's
+   answer (gotten by pasting the AI 解读 prompt into a Claude chat) into this
+   plain textarea. A plain <textarea> takes a native Cmd/Ctrl+V paste with no
+   clipboard-read permission needed, which clipboard-write already needed
+   requesting for the copy half; read is more sensitive and more likely to
+   be blocked in a sandboxed context, so this sidesteps it entirely. */
+.note-ai,#hlAiNote{display:none;width:100%;margin-top:.35rem;font-family:var(--font-zh);font-size:.82rem;
+           line-height:1.6;color:var(--ink);background:var(--paper);border:1px solid var(--line);
+           border-radius:3px;padding:.5rem .65rem;box-sizing:border-box;resize:vertical;min-height:3rem}
+.note-ai:focus,#hlAiNote:focus{outline:none;border-color:var(--accent)}
+.note.editing .note-ai{display:block}
+#hlAiNote{display:block}
+.ai-note{margin-top:.45rem;padding:.5rem .65rem;background:var(--hl-soft);border-left:3px solid var(--hl);
+         border-radius:3px;font-family:var(--font-zh);font-size:.86rem;line-height:1.75;
+         color:var(--ink-soft);white-space:pre-wrap;word-break:break-word}
+.ai-note-lbl{display:block;font-family:var(--font-sans);font-size:.62rem;letter-spacing:.06em;
+             color:var(--hl);margin-bottom:.25rem;opacity:.9}
 
 /* ---- self-assigned tags (free-form, not a fixed taxonomy) ---- */
 .tag-row,.note-tagrow{margin-top:.4rem;display:flex;flex-wrap:wrap;gap:.3rem}
@@ -587,9 +605,9 @@ document.addEventListener('scroll', function(){
   function tagsLabel(tags){ return (tags||[]).join(' '); }
   function noteOf(id){
     var raw=notes[id];
-    if(!raw) return {text:'', tags:[]};
-    if(typeof raw==='string') return {text:raw, tags:[]};
-    return {text:raw.text||'', tags:raw.tags||[]};
+    if(!raw) return {text:'', tags:[], aiNote:''};
+    if(typeof raw==='string') return {text:raw, tags:[], aiNote:''};
+    return {text:raw.text||'', tags:raw.tags||[], aiNote:raw.aiNote||''};
   }
   function focusSoon(el){
     el.focus();
@@ -623,6 +641,13 @@ document.addEventListener('scroll', function(){
     var tabBadge=document.getElementById('notesTabBadge');
     if(tabBadge) tabBadge.textContent=n;
   }
+  function buildAiNoteBlock(aiNote){
+    var ai=document.createElement('div'); ai.className='ai-note';
+    var lbl=document.createElement('span'); lbl.className='ai-note-lbl'; lbl.textContent='🤖 AI 备注';
+    ai.appendChild(lbl);
+    ai.appendChild(document.createTextNode(aiNote));
+    return ai;
+  }
   function paint(wrap){
     var id=wrap.dataset.nid, nd=noteOf(id), v=nd.text.trim();
     var body=wrap.querySelector('.note-body');
@@ -631,6 +656,7 @@ document.addEventListener('scroll', function(){
       body.innerHTML='<span class="lbl">我的批注</span>';
       body.appendChild(document.createTextNode(v));
       if(nd.tags.length) body.appendChild(buildTagRow(nd.tags));
+      if(nd.aiNote.trim()) body.appendChild(buildAiNoteBlock(nd.aiNote.trim()));
     }
     else { wrap.classList.remove('has'); body.textContent=''; }
   }
@@ -644,9 +670,11 @@ document.addEventListener('scroll', function(){
   function save(wrap){
     var id=wrap.dataset.nid, ta=wrap.querySelector('.note-edit');
     var tagInput=wrap.querySelector('.note-tags');
+    var aiInput=wrap.querySelector('.note-ai');
     var v=ta.value.trim();
     var tags=tagInput?parseTags(tagInput.value):[];
-    if(v) notes[id]={text:v, tags:tags}; else delete notes[id];
+    var aiNote=aiInput?aiInput.value.trim():'';
+    if(v) notes[id]={text:v, tags:tags, aiNote:aiNote}; else delete notes[id];
     if(persist()){ flash(wrap); } else {
       var s=wrap.querySelector('.note-status');
       s.textContent='保存失败(浏览器存储不可用)'; s.classList.add('show');
@@ -660,9 +688,11 @@ document.addEventListener('scroll', function(){
   function edit(wrap){
     var ta=wrap.querySelector('.note-edit');
     var tagInput=wrap.querySelector('.note-tags');
+    var aiInput=wrap.querySelector('.note-ai');
     var nd=noteOf(wrap.dataset.nid);
     ta.value=nd.text;
     if(tagInput) tagInput.value=tagsLabel(nd.tags);
+    if(aiInput){ aiInput.value=nd.aiNote; autogrow(aiInput); }
     wrap.classList.add('editing');
     focusSoon(ta);
     ta.setSelectionRange(ta.value.length, ta.value.length);
@@ -689,6 +719,7 @@ document.addEventListener('scroll', function(){
     wrap.querySelector('.note-body').addEventListener('click', function(){ edit(wrap); });
     var ta=wrap.querySelector('.note-edit');
     var tagInput=wrap.querySelector('.note-tags');
+    var aiInput=wrap.querySelector('.note-ai');
     ta.addEventListener('input', function(){
       autogrow(ta);
       clearTimeout(wrap.__st);
@@ -714,6 +745,21 @@ document.addEventListener('scroll', function(){
         if(e.key==='Enter'){ e.preventDefault(); tagInput.blur(); }
       });
     }
+    if(aiInput){
+      /* multi-line (a pasted AI answer can be several paragraphs), so unlike
+         .note-tags this does NOT blur on Enter -- Enter is just a newline. */
+      aiInput.addEventListener('input', function(){
+        autogrow(aiInput);
+        clearTimeout(wrap.__st);
+        wrap.__st=setTimeout(function(){ save(wrap); }, 500);
+      });
+      aiInput.addEventListener('blur', function(){
+        clearTimeout(wrap.__st); save(wrap); scheduleCollapseCheck(wrap);
+      });
+      aiInput.addEventListener('keydown', function(e){
+        if(e.key==='Escape'){ aiInput.blur(); }
+      });
+    }
   });
   var panel=document.getElementById('navPanel');
 
@@ -728,13 +774,14 @@ document.addEventListener('scroll', function(){
       var zh=host?host.querySelector('.zh'):null;
       out.push({el:host, src:en?en.textContent.trim():'',
                 zh:zh?zh.textContent.trim():'', txt:v,
-                isQuote: !!(host&&host.tagName==='BLOCKQUOTE'), tags:nd.tags});
+                isQuote: !!(host&&host.tagName==='BLOCKQUOTE'), tags:nd.tags, aiNote:nd.aiNote.trim()});
     });
     highlights.forEach(function(h){
       var v=(h.note||'').trim();
       if(!v || !h.frags || !h.frags.length) return;
       out.push({el:nidToBlock[h.frags[0].nid], src:h.frags.map(function(f){return f.text;}).join('" ... "'),
-                zh:'', txt:v, isQuote:false, isHighlight:true, frags:h.frags, hlId:h.id, tags:h.tags||[]});
+                zh:'', txt:v, isQuote:false, isHighlight:true, frags:h.frags, hlId:h.id, tags:h.tags||[],
+                aiNote:(h.aiNote||'').trim()});
     });
     return out;
   }
@@ -806,6 +853,7 @@ document.addEventListener('scroll', function(){
         afterJump:function(){ if(closeAfterJump) closePanel(); }});
       var t=document.createElement('div'); t.className='txt'; t.textContent=r.txt;
       d.appendChild(t);
+      if(r.aiNote) d.appendChild(buildAiNoteBlock(r.aiNote));
       if(r.tags && r.tags.length) d.appendChild(buildTagRow(r.tags));
       d.appendChild(buildAskBtn(r, false));
       list.appendChild(d);
@@ -844,6 +892,7 @@ document.addEventListener('scroll', function(){
         });
       }
       row.appendChild(t);
+      if(r.aiNote) row.appendChild(buildAiNoteBlock(r.aiNote.slice(0,160)+(r.aiNote.length>160?'…':'')));
       if(r.tags && r.tags.length) row.appendChild(buildTagRow(r.tags));
       row.appendChild(buildAskBtn(r, true));
       row.appendChild(editBtn);
@@ -918,6 +967,7 @@ document.addEventListener('scroll', function(){
       }
       out.push('');
       out.push(r.txt);
+      if(r.aiNote){ out.push(''); out.push('AI 备注：'+r.aiNote); }
       if(r.tags && r.tags.length) out.push('标签：'+r.tags.map(function(t){return '#'+t;}).join(' '));
       out.push('');
       out.push('---');
@@ -952,6 +1002,7 @@ document.addEventListener('scroll', function(){
       }
       if(r.zh) out.push('【译文】'+r.zh.replace(/\\s+/g,' '));
       out.push('【我的批注】'+r.txt);
+      if(r.aiNote) out.push('【此前的 AI 备注】'+r.aiNote);
       if(r.tags && r.tags.length) out.push('【标签】'+r.tags.map(function(t){return '#'+t;}).join(' '));
       out.push('');
     });
@@ -978,6 +1029,7 @@ document.addEventListener('scroll', function(){
     if(r.zh) out.push('【译文】'+r.zh.replace(/\\s+/g,' '));
     out.push('');
     out.push('【我的问题/批注】'+r.txt);
+    if(r.aiNote) out.push('【此前已有的 AI 备注，这次请在此基础上继续回答，不要重复】'+r.aiNote);
     if(r.tags && r.tags.length) out.push('【标签】'+r.tags.map(function(t){return '#'+t;}).join(' '));
     return out.join('\\n');
   }
@@ -1266,6 +1318,7 @@ document.addEventListener('scroll', function(){
   var pendingFrags=null;      /* set while waiting for a second selection to link */
   var pendingNoteDraft='';
   var pendingTagsDraft='';
+  var pendingAiNoteDraft='';
   var editingHlId=null;
   var draftFrags=[];
 
@@ -1289,21 +1342,51 @@ document.addEventListener('scroll', function(){
   }
   /* Splits plain text into sentence-sized chunks on EN/ZH sentence-ending
      punctuation (keeping trailing closing quotes/brackets with the sentence
-     they close). This is a cheap heuristic — it over-splits on abbreviations
-     like "e.g." and under-splits on some run-ons — but it needs no spec.json
-     changes and no manual re-segmentation of existing content: it runs on
-     whatever EN/ZH text is already in the page. Used to narrow the
+     they close). This is a cheap heuristic, not real NLP — but it needs no
+     spec.json changes and no manual re-segmentation of existing content: it
+     runs on whatever EN/ZH text is already in the page. Used to narrow the
      cross-language underline from "a fraction of the whole paragraph" down
      to "a fraction of one sentence," which is the fix for the proportional
-     guess being noticeably off on longer paragraphs. */
+     guess being noticeably off on longer paragraphs.
+
+     A first version treated every ".!?。！？…" as a sentence end, which badly
+     OVER-splits academic EN text full of page citations like "(Wacquant,
+     2010, p. 218)" — "p." alone reads as a sentence end to a naive regex.
+     The ZH translation cites the same page as "第218页" (no period at all),
+     so the EN side ended up with noticeably MORE "sentences" than its ZH
+     sibling, breaking the sentence-count match this whole scheme depends on
+     and falling back to the much coarser whole-paragraph guess on exactly
+     the citation-heavy paragraphs this skill annotates most. Confirmed on a
+     real block (Yrjänä item 44, three "p. ###)" citations): naive splitting
+     gave EN 7 "sentences" against ZH's real 4.
+
+     Fix: after finding a candidate end mark, peek at what follows it (skip
+     whitespace and at most one opening bracket/paren). Real sentence ends
+     are virtually always followed by a capital letter, an opening quote, or
+     the end of the paragraph. A citation abbreviation like "p." / "pp." /
+     "et al." is virtually always followed by a lowercase letter or a digit
+     ("p. 218", "et al. (2008)", "pp. 12–15") — so treat THAT as the signal
+     to keep accumulating instead of maintaining a fixed abbreviation list. */
   function sentenceRanges(text){
-    var out=[], re=/[^.!?。！？…]*[.!?。！？…]+[”"'’）)]*\s*/g, m;
+    var enders=[], re=/[.!?。！？…]+[”"'’）)]*/g, m;
     while((m=re.exec(text))){
-      if(!m[0].length){ re.lastIndex++; continue; }
-      out.push({start:m.index, end:m.index+m[0].length});
+      enders.push({start:m.index, end:m.index+m[0].length});
+      if(m[0].length===0) re.lastIndex++;
     }
-    var covered=out.length?out[out.length-1].end:0;
-    if(covered<text.length) out.push({start:covered, end:text.length});
+    var out=[], segStart=0;
+    for(var i=0;i<enders.length;i++){
+      var e=enders[i];
+      var wsEnd=e.end;
+      while(wsEnd<text.length && /\s/.test(text[wsEnd])) wsEnd++;
+      var peek=wsEnd;
+      if(peek<text.length && /[([]/.test(text[peek])) peek++;
+      var nextCh=peek<text.length ? text[peek] : '';
+      var isLastEnder=(i===enders.length-1);
+      if(!isLastEnder && nextCh && /[a-z0-9]/.test(nextCh)) continue;
+      out.push({start:segStart, end:wsEnd});
+      segStart=wsEnd;
+    }
+    if(segStart<text.length) out.push({start:segStart, end:text.length});
     if(!out.length) out.push({start:0, end:text.length});
     return out;
   }
@@ -1396,7 +1479,7 @@ document.addEventListener('scroll', function(){
     if(pendingFrags){
       pendingFrags.push(frag);
       hint.style.display='none';
-      openCard(pendingFrags, editingHlId, pendingNoteDraft, pendingTagsDraft);
+      openCard(pendingFrags, editingHlId, pendingNoteDraft, pendingTagsDraft, pendingAiNoteDraft);
       pendingFrags=null;
     } else {
       openCard([frag], null);
@@ -1418,16 +1501,19 @@ document.addEventListener('scroll', function(){
     hint.style.display='none';
     pendingFrags=null; editingHlId=null; draftFrags=[];
   }
-  function openCard(frags, hlId, presetNote, presetTags){
+  function openCard(frags, hlId, presetNote, presetTags, presetAiNote){
     draftFrags=frags; editingHlId=hlId||null;
     renderCardFrags();
     var ta=document.getElementById('hlNote');
     var tagsInput=document.getElementById('hlTags');
+    var aiInput=document.getElementById('hlAiNote');
     var existing = hlId ? highlights.filter(function(h){return h.id===hlId;})[0] : null;
     if(typeof presetNote==='string') ta.value=presetNote;
     else ta.value = existing ? (existing.note||'') : '';
     if(typeof presetTags==='string') tagsInput.value=presetTags;
     else tagsInput.value = existing ? tagsLabel(existing.tags) : '';
+    if(typeof presetAiNote==='string') aiInput.value=presetAiNote;
+    else aiInput.value = existing ? (existing.aiNote||'') : '';
     document.getElementById('hlDelete').style.display = hlId ? '' : 'none';
     card.style.display='block';
     focusSoon(ta);
@@ -1441,6 +1527,7 @@ document.addEventListener('scroll', function(){
     pendingFrags=draftFrags.slice();
     pendingNoteDraft=document.getElementById('hlNote').value;
     pendingTagsDraft=document.getElementById('hlTags').value;
+    pendingAiNoteDraft=document.getElementById('hlAiNote').value;
     card.style.display='none';
     hint.style.display='block';
   });
@@ -1448,13 +1535,14 @@ document.addEventListener('scroll', function(){
   document.getElementById('hlSave').addEventListener('click', function(){
     var txt=document.getElementById('hlNote').value.trim();
     var tags=parseTags(document.getElementById('hlTags').value);
+    var aiNote=document.getElementById('hlAiNote').value.trim();
     if(!txt){ closeCard(); return; }
     if(editingHlId){
       var h=highlights.filter(function(x){return x.id===editingHlId;})[0];
-      if(h){ h.note=txt; h.frags=draftFrags; h.tags=tags; }
+      if(h){ h.note=txt; h.frags=draftFrags; h.tags=tags; h.aiNote=aiNote; }
     } else {
       highlights.push({id:'hl'+Date.now()+Math.random().toString(36).slice(2,6),
-                        frags:draftFrags, note:txt, tags:tags, ts:new Date().toISOString()});
+                        frags:draftFrags, note:txt, tags:tags, aiNote:aiNote, ts:new Date().toISOString()});
     }
     persistHL();
     closeCard();
@@ -1740,6 +1828,7 @@ def render(spec):
             '<div class="note-body"></div>'
             '<textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea>'
             '<input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）">'
+            '<textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea>'
             '<button class="note-add" type="button">＋ 批注</button>'
             '<div class="note-status"></div>'
             "</div>"
@@ -1860,6 +1949,7 @@ def render(spec):
       '<div id="hlFrags"></div>'
       '<textarea id="hlNote" placeholder="写下你的批注…（可用电脑自带的语音输入直接对着这里说）"></textarea>'
       '<input type="text" id="hlTags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）">'
+      '<textarea id="hlAiNote" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示"></textarea>'
       '<div class="hl-actions">'
       '<button id="hlLink" type="button">+ 关联另一段</button>'
       '<button id="hlDelete" type="button" style="display:none">删除</button>'
