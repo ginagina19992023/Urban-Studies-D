@@ -484,16 +484,23 @@ across re-renders the same way notes do, and a block with no `summary` key
 simply gets no column entry — the feature degrades per-paragraph, not
 all-or-nothing.
 
-Gated behind its own `@media (min-width:1320px)` breakpoint rather than
+Gated behind its own `@media (min-width:1280px)` breakpoint rather than
 folded into the shared 1040px one `#tocSidebar`/`#noteSidebar` use — adding a
 FOURTH column to that breakpoint would squeeze `main` on an ordinary laptop
-window before this column has anywhere comfortable to go. Also: **when
-adding this column, `.layout`'s `max-width` had to grow from 77.5rem (three
-columns) to 92.5rem (four)** — leaving it at 77.5rem meant `main` got
-squeezed the moment `#aiSidebar` turned on at 1320px even though 92.5rem of
-budget was only needed there, which silently broke unrelated pixel-exact
-scroll-position tests (`test_sidebar.py`, `test_sidebar_notes_gref.py`) by
-changing paragraph line-wrap. If another column is ever added to this
+window before this column has anywhere comfortable to go. 1280px isn't
+arbitrary either: it's the viewport width at which `main` gets the SAME
+floor width (~536px) the 1040px breakpoint already gives it once the other
+two columns are showing — derived, not guessed, and specifically re-derived
+after shipping at 1320px first and getting it wrong the same way
+`#noteSidebar` was once overcautiously gated at 1280px (see that sidebar's
+own CSS comment): a user on an ordinary 1280px-wide 13" laptop reported the
+whole column, switch included, simply never appearing. **When adding this
+column, `.layout`'s `max-width` had to grow from 77.5rem (three columns) to
+92.5rem (four)** — leaving it at 77.5rem meant `main` got squeezed the
+moment `#aiSidebar` turned on even though 92.5rem of budget was only needed
+there, which silently broke unrelated pixel-exact scroll-position tests
+(`test_sidebar.py`, `test_sidebar_notes_gref.py`) by changing paragraph
+line-wrap. If another column is ever added to this
 layout, redo this max-width sum rather than assuming the existing one still
 covers it.
 
