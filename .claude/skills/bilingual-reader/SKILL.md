@@ -213,22 +213,27 @@ paragraph and attach a note to exactly that selection, Medium/Hypothesis-style:
   `<mark>`. This is a deliberate scope boundary, not a bug to chase.
 - Because the EN and ZH paragraphs are two independent translations, there's
   no reliable way to compute which substring of the *other* language
-  corresponds to an arbitrary selected phrase — so this doesn't try to mirror
-  the exact highlight across languages. Instead, `addLinkedNoteDot()` tints
-  the WHOLE sibling paragraph (same block, other language) via a
-  `has-linked-note` class, plus a `🔗 关联批注` pill right after it to open the
-  note. A first version used only a small bare glyph; that read as too subtle
-  in real use, so the tint is the primary signal now and the pill is the
-  click target, not the other way around. Uses `--accent`/`--accent-soft`
-  rather than `--hl` deliberately — `--hl` is already `mark.hl-anno`'s own
-  color and `blockquote.cited`'s ambient background, so reusing it here would
-  make the cross-language indicator invisible against an already-tinted quote
-  block. The pill is inserted as the paragraph's sibling, not its child,
-  because `p.en`/`p.zh` get `display:none` under the EN-only/中文-only mode
-  toggles — nesting it inside the paragraph would hide it along with
-  whichever language happens to be toggled off, defeating the point (the
-  indicator matters most precisely when the OTHER language, carrying the
-  real `<mark>`, is the one currently hidden).
+  corresponds to an arbitrary selected phrase — there's no word/clause
+  alignment data to work from. `validSelection()` captures `startFrac`/
+  `endFrac`: where the selection falls within its OWN paragraph's text
+  length, as a 0–1 fraction (via `textOffsetInAncestor()`, walking text
+  nodes). `markLinkedRange()` applies that same fraction to the SIBLING
+  paragraph's length and wraps the estimated span — not the whole paragraph
+  — in `<span class="linked-underline">`, via `rangeFromGlobalOffsets()` plus
+  `range.surroundContents()` (best-effort, same as `wrapTextInNode()`: skips
+  silently if the estimated range straddles an inline tag boundary it can't
+  wrap). This is a heuristic approximation, not a guarantee — say so if the
+  user asks how exact it is. `text-decoration` (not `border-bottom`) in `--hl`,
+  matching `mark.hl-anno`'s own color so it reads as "corresponds to a
+  highlight." Went through three rejected designs in direct testing before
+  this one: a bare 🔗 glyph (too subtle), a tinted box with a "🔗 关联批注"
+  pill (read as a separate badge, not "对应划线"), then underlining the WHOLE
+  sibling paragraph (explicitly rejected too — "应该只有对应划线的那部分也有划线，
+  而不应该是现在这样全段划上"). Deliberately **not interactive** — no click
+  handler on the span — since the only way to add one without colliding with
+  normal text selection elsewhere in that paragraph would be a separate click
+  target, which is exactly what got rejected each of the prior two times;
+  open the note from the sidebar/nav/overview instead.
 - There is deliberately **no in-page voice input.** An earlier draft wired up
   the Web Speech API, but it's pointless complexity: any OS-level dictation
   (macOS dictation, Windows voice typing, etc.) already types into the note
@@ -272,6 +277,25 @@ labels like "可引用" or "待查", not a controlled vocabulary the skill defin
   same `.note`) is already `document.activeElement` by the time it runs. Both
   the textarea's and the tag input's blur handlers go through this, not a
   bare `wrap.classList.remove('editing')`.
+- Previously-used tags are **pickable**, not just freely retyped: every
+  `.note-tags`/`#hlTags` input shares one `<datalist id="tagOptions">`
+  (`list="tagOptions"`), rebuilt from `allDistinctTags()` inside `refreshAll()`
+  so it's always current. A native datalist replaces the WHOLE input value
+  when a suggestion is picked — it helps most for a field's first tag; a
+  second tag after a space still has to be typed out. That's an accepted
+  limit of using the plain HTML control instead of building a custom
+  multi-chip tag-input widget, not a bug to fix later unless asked.
+- `#tocSidebar` doubles as a **目录/标签 switch** (`.sb-switch-btn`) rather than
+  adding a fourth persistent column — the TOC tree and the tag directory are
+  never needed on screen at the same time, so they share one column's space.
+  The 标签 pane (`buildTagDirectory()`) lists every distinct tag across both
+  annotation kinds with a count, sorted alphabetically; clicking a row calls
+  the SAME `toggleTagFilter()` the chips elsewhere call, so filtering from
+  the directory and filtering from a chip are one shared state, not two. The
+  chosen pane persists across reloads via `localStorage['brSidebarPane']`.
+  This switch is independent of the floating nav panel's own `showTab()`
+  (目录/术语/批注) — different component, same toggle idea, don't conflate them
+  if you touch either.
 
 ### The 「AI 点评」 button — what it can and cannot be
 
