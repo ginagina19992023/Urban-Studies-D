@@ -2508,6 +2508,34 @@ document.addEventListener('scroll', function(){
     }
     return null;
   }
+  /* Finds the quoted span (“…”, ‘…’, or "…") that OVERLAPS [start,end) the
+     most, returning {start,end} as offsets into `text` spanning the content
+     BETWEEN the quote marks (marks excluded). Overlap, not containment: the
+     fraction estimate is frequently off by just enough that it only clips
+     the edge of the term a translator actually quoted (e.g. landing on
+     "化”命题所设想" when the quoted term is "贫困去集中化” -- the estimate
+     shares only the final "化" with the quote, nothing in [start,end) is
+     ever INSIDE the quote, but that one-character overlap is still the best
+     signal available). Returns null if nothing overlaps at all. */
+  function findOverlappingQuoteSpan(text, start, end){
+    var pairs=[['“','”'],['‘','’'],['"','"']];
+    var best=null, bestOverlap=0;
+    pairs.forEach(function(pr){
+      var open=pr[0], close=pr[1];
+      var from=0;
+      while(true){
+        var o=text.indexOf(open, from);
+        if(o===-1) break;
+        var c=text.indexOf(close, o+1);
+        if(c===-1) break;
+        var qs=o+1, qe=c;
+        var overlap=Math.min(end,qe)-Math.max(start,qs);
+        if(overlap>bestOverlap){ bestOverlap=overlap; best={start:qs, end:qe}; }
+        from=o+1;
+      }
+    });
+    return best;
+  }
   function markLinkedRange(p, f){
     /* The exact selected phrase can only be marked in the language it was
        actually selected in — there is no real word/clause alignment between
@@ -2548,6 +2576,37 @@ document.addEventListener('scroll', function(){
     }
     startOff=Math.max(0, Math.min(fullLen, startOff));
     endOff=Math.max(startOff+1, Math.min(fullLen, endOff));
+    /* Character-fraction position within a sentence is still only a guess at
+       WHERE a phrase landed, not WHAT it is -- translators reordering clauses
+       (very common EN->ZH) can shift a short technical term far enough from
+       its fractional slot that the guess lands on neighbouring text instead
+       (reported: selecting EN "poverty deconcentration" produced a ZH span
+       straddling the quote marks around 贫困去集中化 -- "化"命题所设想" --
+       instead of the quoted term itself). When the translator has ALREADY
+       marked the corresponding term with quotation marks (common for named
+       theses/policy terms in this kind of academic text -- 145 pairs in the
+       Lees spec alone), that's a far more reliable anchor than the fraction
+       estimate: if a quoted span overlaps the estimate AT ALL, snap to that
+       span's contents instead of the raw character cut. Guarded BOTH ways by
+       a 4x size-comparability check (not just "quote isn't too much bigger
+       than the estimate" but also "estimate isn't too much bigger than the
+       quote"): without the second half, a WHOLE-SENTENCE selection (the
+       estimate legitimately spans nearly the whole ZH sentence) that merely
+       happens to graze some small unrelated quoted term inside that same
+       sentence (e.g. selecting a full sentence that quotes “upgrading” among
+       other things) would get wrongly shrunk down to just that one small
+       quote -- a real regression caught by test_sentence_alignment_citations
+       when this was first written one-directional. Comparable scale in both
+       directions is what distinguishes "this estimate IS basically the
+       quoted term" from "this estimate merely touches a quote somewhere
+       inside a much bigger selection". */
+    var qs=findOverlappingQuoteSpan(p.textContent, startOff, endOff);
+    if(qs){
+      var qLen=qs.end-qs.start, estLen=endOff-startOff;
+      if(qLen <= Math.max(estLen,6)*4 && estLen <= Math.max(qLen,6)*4){
+        startOff=qs.start; endOff=qs.end;
+      }
+    }
     var range=rangeFromGlobalOffsets(p, startOff, endOff);
     if(!range) return;
     var span=document.createElement('span');
