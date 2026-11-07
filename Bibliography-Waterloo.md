@@ -8,24 +8,24 @@
 
 | 日期 | 事件 | 来源 | 可信度 |
 |---|---|---|---|
-| 2015-12-16 | 政府确认地铁经过 Waterloo，公屋区将"逐步更新"为私人、可负担、社会住房混合；当时报道规模为 20 年 10,000 套。 | ABC（经 Wikipedia 转引，原文未读） | 中 |
-| 2019-03-04 | 悉尼市议会（City of Sydney）提出替代方案 "A Better Way for the Community"，质疑 Communities Plus 的 30:70 公式。 | City of Sydney 议会文件 | 高 |
-| 2021-11 | Shelter NSW 报告 Reimagining the economics of public housing at Waterloo（Murray & Phibbs）。 | Tenants' Union 目录 | 高 |
-| 2022-03-03 至 04-29 | Waterloo South 规划提案公示。 | NSW Planning | 高 |
-| 2022-11-11 | Waterloo South 重新分区（rezoning）完成：至少 847 套社会住房、227 套可负担，约 3,000 套。 | NSW Planning；City Hub | 高 |
-| 2023-02-28 | 新的规划管控生效。 | NSW Planning | 高 |
-| 2023-08-21 | Minns 政府把社会 + 可负担住房比例从 34% 提到 50%，最多增加 500 套。 | NSW Gov 新闻稿 | 高 |
+| 2015-12-16 | 政府确认地铁经过 Waterloo，公屋区将"逐步更新"为私人、可负担、社会住房混合；当时报道规模为 20 年 10,000 套。 | [Wikipedia：Waterloo metro station（转引 ABC 2015-12-16）](https://en.wikipedia.org/wiki/Waterloo_metro_station,_Sydney) | 中 |
+| 2019-03-04 | 悉尼市议会（City of Sydney）提出替代方案 "A Better Way for the Community"，质疑 Communities Plus 的 30:70 公式。 | [City of Sydney 议会文件 2019](https://meetings.cityofsydney.nsw.gov.au/documents/s25301/Waterloo%20Estate%20Redevelopment%20-%20A%20Better%20Way%20for%20the%20Community.pdf) | 高 |
+| 2021-11 | Shelter NSW 报告 Reimagining the economics of public housing at Waterloo（Murray & Phibbs）。 | [Tenants' Union 目录](https://catalog.tenantsunion.org.au/bib/651) | 高 |
+| 2022-03-03 至 04-29 | Waterloo South 规划提案公示。 | [NSW Planning：Waterloo South](https://www.planning.nsw.gov.au/plans-your-area/priority-growth-areas-and-precincts/waterloo-south) | 高 |
+| 2022-11-11 | Waterloo South 重新分区（rezoning）完成：至少 847 套社会住房、227 套可负担，约 3,000 套。 | [NSW Planning：Waterloo South](https://www.planning.nsw.gov.au/plans-your-area/priority-growth-areas-and-precincts/waterloo-south)；[City Hub 2022-11-11（地方媒体）](https://cityhub.com.au/waterloo-south-rezoning-approved-tenants-to-be-given-relocation-guidelines-in-2023/) | 高 |
+| 2023-02-28 | 新的规划管控生效。 | [NSW Planning：Waterloo South](https://www.planning.nsw.gov.au/plans-your-area/priority-growth-areas-and-precincts/waterloo-south) | 高 |
+| 2023-08-21 | Minns 政府把社会 + 可负担住房比例从 34% 提到 50%，最多增加 500 套。 | [NSW Gov 新闻稿 2023-08-21](https://www.nsw.gov.au/media-releases/waterloo-affordable-housing-boost) | 高 |
 | 2024-02-01 | Homes NSW 成立，合并 DCJ Housing、LAHC 和 Aboriginal Housing Office。 | NSW Gov（经搜索结果） | 中 |
-| 2024-08-09 | Stockland、Link Wentworth、City West Housing、Birribee 被选为优先合作方。 | NSW Gov 新闻稿 | 高 |
-| 2024-08-19 | Waterloo 地铁站开通（M1 线新段）。 | Sydney Metro 月报 | 高 |
+| 2024-08-09 | Stockland、Link Wentworth、City West Housing、Birribee 被选为优先合作方。 | [NSW Gov 新闻稿 2024-08-09](https://nsw.gov.au/media-releases/next-step-complete-for-australias-largest-social-housing-build) | 高 |
+| 2024-08-19 | Waterloo 地铁站开通（M1 线新段）。 | [Sydney Metro 月报 2024-10](https://sydneymetro.info/sites/default/files/2024-09/Monthly%20update%20-%20Waterloo%20Station%20-%20OCTOBER%202024%20-%20FINAL.pdf) | 高 |
 | 2025-02-27 | 第一阶段 150 户收到搬迁通知。 | City Hub、South Sydney Herald（地方媒体） | 中 |
-| 2025-04-10 | 与开发联合体签约：1,000 多套社会住房、600 套可负担。 | NSW 部长新闻稿 | 高 |
-| 2026-04 | Homes NSW 提交概念性 SSDA 与重新分区申请。 | NSW Planning | 高 |
-| 2026-05-06 至 06-02 | 概念性 SSDA 公示，约 3,300 套。 | NSW Planning；NSW Gov | 高 |
-| 2026-05-25 | 第一栋楼被围栏封起，活动人士扎营（活动方称 24 日）。 | ABC 2026-05-25 | 高 |
-| 2026-06-19 | 警方清场，一名 22 岁女子因非法侵入被捕；ABC 称南区 150 套将在未来九个月内先拆。 | ABC 2026-06-19 | 高 |
-| 2026-10-21 前 | 第一期拆除"已批准并进行中"；第二期（John St 6 号、Cope St 241 号）在环境审查。 | Homes NSW 项目页 | 高 |
-| 2026 年底 | 概念申请预计作出决定。 | NSW Planning | 高 |
+| 2025-04-10 | 与开发联合体签约：1,000 多套社会住房、600 套可负担。 | [NSW 部长新闻稿 2025-04-10](https://www.nsw.gov.au/ministerial-releases/waterloo-renewal-reaches-new-milestone-to-deliver-australias-largest-social-housing-project) | 高 |
+| 2026-04 | Homes NSW 提交概念性 SSDA 与重新分区申请。 | [NSW Planning：Waterloo South](https://www.planning.nsw.gov.au/plans-your-area/priority-growth-areas-and-precincts/waterloo-south) | 高 |
+| 2026-05-06 至 06-02 | 概念性 SSDA 公示，约 3,300 套。 | [NSW Planning：Waterloo South](https://www.planning.nsw.gov.au/plans-your-area/priority-growth-areas-and-precincts/waterloo-south)；[NSW 部长新闻稿 2026-05-07（公示）](https://www.nsw.gov.au/ministerial-releases/waterloo-south-application-public-exhibition) | 高 |
+| 2026-05-25 | 第一栋楼被围栏封起，活动人士扎营（活动方称 24 日）。 | [ABC 2026-05-25](https://www.abc.net.au/news/2026-05-25/waterloo-public-housing-estate-fenced-off-ahead-of-demolition/106718016) | 高 |
+| 2026-06-19 | 警方清场，一名 22 岁女子因非法侵入被捕；ABC 称南区 150 套将在未来九个月内先拆。 | [ABC 2026-06-19](https://www.abc.net.au/news/2026-06-19/arrest-police-clear-waterloo-public-housing-demolition-protest/106817688) | 高 |
+| 2026-10-21 前 | 第一期拆除"已批准并进行中"；第二期（John St 6 号、Cope St 241 号）在环境审查。 | [Homes NSW 项目页（2026-10-21 更新）](https://www.nsw.gov.au/homes-nsw/waterloo) | 高 |
+| 2026 年底 | 概念申请预计作出决定。 | [NSW Planning：Waterloo South](https://www.planning.nsw.gov.au/plans-your-area/priority-growth-areas-and-precincts/waterloo-south) | 高 |
 
 ## 2. 核心数字
 
@@ -61,24 +61,45 @@
 
 ### 细节与出处
 
-| 项目 | 数字 | 来源 | 可信度 |
-|---|---|---|---|
-| Waterloo South 现有公屋 | 750 套（2021–22 文件为 749） | NSW Gov 2024-08-09；ABC 2026 | 高 |
-| Waterloo South 现有私人住宅 | 120 套 | apartments.com.au（地产行业媒体） | 中 |
-| 整个公屋区社会住房 | 2,012 套 | City of Sydney 2019 | 高 |
-| 面积 | 整个公屋区约 19 ha；Waterloo South 12.3 ha，约占 65% | City of Sydney 2019；Homes NSW | 高 / 中 |
-| 居民人数 | 约 2,500 名租户（2015 年信件）；约 2,000 人需搬迁 | 只有博客和二手报道 | 低 |
-| 2022 年分区时的构成 | 至少 847 套社会、227 套可负担，约 3,000 套 | NSW Planning；City Hub | 高 |
-| 34% → 50% | 2023-08-21 宣布；标题写 Waterloo South，正文写整个公屋区；之后的新闻稿都指 Waterloo South | NSW Gov | 宣布属实为高；范围有歧义 |
-| 目前方案 | 1,050 套社会、700 套可负担、1,550 套私人，约 3,300 套（约 53% 社会 + 可负担） | Homes NSW 项目页 | 高 |
-| 公示方案（按楼面面积） | 社会至少 30%，市场最多 50%，其余约 20% 为可负担 | NSW Planning；ABC | 高 |
-| 原住民配额 | 新社会住房的 20%、新可负担住房的 15%；2023 年为"至少 15%"，2022 年为 10% | NSW Gov 2025-04-10；2023；City Hub 2022 | 高（逐年变化） |
-| City of Sydney 替代方案 | 5,000–5,300 套（LAHC 方案为 6,800 套、17 栋最高 40 层）；2021 年修订版把社会住房从 749 提到 920（+23%） | City of Sydney 2019；Inside Local Government 2021 | 高 / 中 |
-| Communities Plus 比例 | 目标为私人 : 社会 = 70 : 30 | Future Directions（2016），经二手来源；AHURI 358 称之为 30/70 经验法则 | 中 |
-| Green Square Library | 355 Botany Road, Zetland；2018 年 9 月对公众开放，10 月 27 日正式启用 | City of Sydney；Wikipedia；Concrete Playground | 高 |
-| Infinity by Crown Group | 301–303 Botany Road, Zetland（Green Square 城镇中心入口）；约 2019 年完工（另说 2020）；2015 年开盘一天售出约 3.8 亿澳元；Koichi Takada 设计 | The Urban Developer；urban.com.au | 中 |
-| 地名边界 | 图书馆和 Infinity 都在 Zetland（Green Square），不在 Waterloo 公屋区内；Green Square 更新片区也延伸进 Waterloo（如 O'Dea Avenue）。确切边界请查 NSW Geographical Names Board 或 City of Sydney 地图 | Barings 新闻稿等；未找到权威边界说明 | 中 |
-| Metro Quarter（车站上盖） | 70 套社会住房；政府从 John Holland–Mirvac 获得 1.06 亿澳元空中权 | NSW Gov 2024；Sydney Metro 2019 | 高 |
+#### 现状：拆之前有什么
+
+| 项目 | 数字 | 来源 | 可信度 | 说明 |
+|---|---|---|---|---|
+| 南区现有社会住房 | 750 套（2021–22 年规划文件写 749） | [NSW Gov 新闻稿 2024-08-09](https://nsw.gov.au/media-releases/next-step-complete-for-australias-largest-social-housing-build)；[ABC 2026-06-19](https://www.abc.net.au/news/2026-06-19/arrest-police-clear-waterloo-public-housing-demolition-protest/106817688) | 高 |  |
+| 南区现有私人住宅 | 120 套 | [apartments.com.au 2026-05-11（地产媒体）](https://apartments.com.au/news/nsw/first-look-stockland-nsw-gov-unveils-plans-for-3-300-home-waterloo-south-renewal) | 中 | 只有地产行业媒体给出，政府页面未见 |
+| 整个公屋区社会住房 | 2,012 套 | [City of Sydney 议会文件 2019](https://meetings.cityofsydney.nsw.gov.au/documents/s25301/Waterloo%20Estate%20Redevelopment%20-%20A%20Better%20Way%20for%20the%20Community.pdf) | 高 | 2019 年数字 |
+| 面积 | 整个公屋区约 19 公顷；南区 12.3 公顷，约占 65% | [City of Sydney 议会文件 2019](https://meetings.cityofsydney.nsw.gov.au/documents/s25301/Waterloo%20Estate%20Redevelopment%20-%20A%20Better%20Way%20for%20the%20Community.pdf)；[Homes NSW 项目页（2026-10-21 更新）](https://www.nsw.gov.au/homes-nsw/waterloo)；[apartments.com.au 2026-05-11（地产媒体）](https://apartments.com.au/news/nsw/first-look-stockland-nsw-gov-unveils-plans-for-3-300-home-waterloo-south-renewal) | 高 / 中 | 19 公顷出自议会文件；12.3 公顷出自地产媒体，65% 出自 Homes NSW |
+| 居民人数 | 没有官方数字 | 无可靠来源 | 低 | "约 2,000 人需搬迁""约 2,500 名租户"只见于活动方与二手报道，论文里不要用 |
+
+#### 规划：要建成什么
+
+| 项目 | 数字 | 来源 | 可信度 | 说明 |
+|---|---|---|---|---|
+| 当前方案（套数） | 1,050 社会、700 可负担、1,550 私人，共约 3,300 套 | [Homes NSW 项目页（2026-10-21 更新）](https://www.nsw.gov.au/homes-nsw/waterloo)；[NSW 部长新闻稿 2026-05-07（公示）](https://www.nsw.gov.au/ministerial-releases/waterloo-south-application-public-exhibition) | 高 | 社会 + 可负担约 53% |
+| 签约时的说法 | 超过 1,000 套社会、600 套可负担，"超过 3,000 套" | [NSW 部长新闻稿 2025-04-10](https://www.nsw.gov.au/ministerial-releases/waterloo-renewal-reaches-new-milestone-to-deliver-australias-largest-social-housing-project) | 高 | 和当前方案略有出入，说明数字仍在调整 |
+| 公示方案（按楼面面积） | 社会至少 30%、市场最多 50%、其余约 20% 为可负担 | [NSW Planning：Waterloo South](https://www.planning.nsw.gov.au/plans-your-area/priority-growth-areas-and-precincts/waterloo-south)；[NSW 部长新闻稿 2026-05-07（公示）](https://www.nsw.gov.au/ministerial-releases/waterloo-south-application-public-exhibition) | 高 | 这是面积比例，不能和套数比例混用 |
+| 2022 年分区时 | 至少 847 套社会、227 套可负担，共约 3,000 套 | [NSW Planning：Waterloo South](https://www.planning.nsw.gov.au/plans-your-area/priority-growth-areas-and-precincts/waterloo-south)；[City Hub 2022-11-11（地方媒体）](https://cityhub.com.au/waterloo-south-rezoning-approved-tenants-to-be-given-relocation-guidelines-in-2023/) | 高 | 社会 + 可负担约 34–36% |
+| 工期 | 整个公屋区约 30 年；南区 10–15 年；第一期 150 套九个月内拆完 | [Homes NSW 项目页（2026-10-21 更新）](https://www.nsw.gov.au/homes-nsw/waterloo)；[ABC 2026-06-19](https://www.abc.net.au/news/2026-06-19/arrest-police-clear-waterloo-public-housing-demolition-protest/106817688) | 高 |  |
+
+#### 政策：比例是怎么变的
+
+| 项目 | 数字 | 来源 | 可信度 | 说明 |
+|---|---|---|---|---|
+| 34% → 50% | 2023-08-21 宣布，最多增加 500 套 | [NSW Gov 新闻稿 2023-08-21](https://www.nsw.gov.au/media-releases/waterloo-affordable-housing-boost) | 高 | 新闻稿标题写南区，正文写"整个公屋区"；之后的新闻稿都指南区 |
+| 原住民配额 | 新社会住房 20%、新可负担住房 15%（2025）；2023 年为"至少 15%"；2022 年为 10% | [NSW 部长新闻稿 2025-04-10](https://www.nsw.gov.au/ministerial-releases/waterloo-renewal-reaches-new-milestone-to-deliver-australias-largest-social-housing-project)；[NSW Gov 新闻稿 2023-08-21](https://www.nsw.gov.au/media-releases/waterloo-affordable-housing-boost)；[City Hub 2022-11-11（地方媒体）](https://cityhub.com.au/waterloo-south-rezoning-approved-tenants-to-be-given-relocation-guidelines-in-2023/) | 高 | 配额逐年提高 |
+| Communities Plus 比例 | 目标私人 : 社会 = 70 : 30 | [AHURI Final Report 358 (2021)](https://www.ahuri.edu.au/research/final-reports/358)；[City of Sydney 议会文件 2019](https://meetings.cityofsydney.nsw.gov.au/documents/s25301/Waterloo%20Estate%20Redevelopment%20-%20A%20Better%20Way%20for%20the%20Community.pdf) | 中 | 官方原文未找到；AHURI 358 称之为"30/70 经验法则"，议会文件也质疑这个公式 |
+| City of Sydney 替代方案 | 2019：5,000–5,300 套（政府方案 6,800 套、17 栋最高 40 层）；2021：南区社会住房 749 → 920 | [City of Sydney 议会文件 2019](https://meetings.cityofsydney.nsw.gov.au/documents/s25301/Waterloo%20Estate%20Redevelopment%20-%20A%20Better%20Way%20for%20the%20Community.pdf)；[Inside Local Government 2021-03-03](https://insidelocalgovernment.com.au/council-approves-improvement-to-waterloo-south-plan/) | 高 / 中 | 说明当时存在另一种方案 |
+
+#### 地铁与周边新建
+
+| 项目 | 数字 | 来源 | 可信度 | 说明 |
+|---|---|---|---|---|
+| Waterloo 地铁站 | 2024-08-19 开通 | [Sydney Metro 月报 2024-10](https://sydneymetro.info/sites/default/files/2024-09/Monthly%20update%20-%20Waterloo%20Station%20-%20OCTOBER%202024%20-%20FINAL.pdf) | 高 |  |
+| 车站上盖（Metro Quarter） | 政府获空中权收入 1.06 亿澳元；含 70 套社会住房、至少 5% 可负担 | [Sydney Metro 2019-12-19](https://www.sydneymetro.info/article/waterloo-metro-station-integrated-development-award)；[NSW Gov 新闻稿 2024-05-27](https://www.nsw.gov.au/media-releases/sydney-metros-first-new-city-station-complete) | 高 | 公共投资带来增值的直接证据 |
+| Green Square Library | 355 Botany Road, Zetland；2018 年 9 月开放，10 月 27 日正式启用 | [City of Sydney News：Green Square Library](https://news.cityofsydney.nsw.gov.au/articles/10-reasons-to-visit-the-new-green-square-library) | 高 | 在 Zetland，不在 Waterloo 公屋区内 |
+| Infinity by Crown Group | 301–303 Botany Road, Zetland；约 2019 年完工（另说 2020）；2015 年开盘一天售出约 3.8 亿澳元 | [The Urban Developer](https://theurbandeveloper.com/articles/buyer-rush-get-crowns-infinity)；[urban.com.au 获奖报道](https://www.urban.com.au/news/nsw/infinity-by-crown-group-at-green-square-takes-out-the-urban-developers-development-of-the-year-award-in-its-high-density-residential-category) | 中 | 数字来自地产媒体 |
+| Green Square 与 Waterloo 的边界 | Green Square 更新片区延伸进 Waterloo 地界（如 O'Dea Avenue） | [Barings 新闻稿 2025-07-29](https://www.barings.com/guest/contact/media/news/barings-celebrates-groundbreaking-at-landmark-inner-city-precinct-in-waterloo) | 中 | 未找到权威边界说明；请查 City of Sydney 地图或 NSW Geographical Names Board |
+
 
 ## 3. 对 8 月提案的更正与提醒
 
