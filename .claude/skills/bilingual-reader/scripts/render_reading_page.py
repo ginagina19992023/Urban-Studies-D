@@ -88,18 +88,26 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
    what covers narrow/mobile viewports. */
 .layout{display:block}
 @media (min-width:1040px){
-  /* max-width is sized for THREE columns at once (TOC 13rem + gap 2rem +
-     main's own 46rem cap + gap 2rem + notes 14.5rem = 77.5rem) rather than
-     gating the notes sidebar behind a separate, higher breakpoint. Both
-     sidebars use flex-shrink:0, so main (flex:1 1 auto, no shrink override)
-     is what absorbs the squeeze below ~77.5rem*16px of actual viewport width
-     — it just renders narrower than its 46rem ideal between 1040px and
-     ~1240px, which still reads fine. Earlier this intentionally gated the
-     notes sidebar at 1280px on the theory that main needed to stay near
-     46rem; that was overcautious — the real floor is ~1040px, same as the
-     TOC sidebar it sits next to, and gating it higher just meant it silently
-     failed to appear on anyone whose window was 1040–1279px wide. */
-  .layout{display:flex;align-items:flex-start;gap:2rem;max-width:77.5rem;margin:0 auto}
+  /* max-width is sized for ALL FOUR columns at once (TOC 13rem + gap 2rem +
+     main's own 46rem cap + gap 2rem + AI summary 13rem + gap 2rem + notes
+     14.5rem = 92.5rem) rather than gating each sidebar behind its own,
+     separate max-width bump. Every sidebar uses flex-shrink:0, so main
+     (flex:1 1 auto, no shrink override) is what absorbs the squeeze below
+     ~92.5rem*16px of actual viewport width — it just renders narrower than
+     its 46rem ideal between 1040px and ~1480px, which still reads fine.
+     Earlier this intentionally gated the notes sidebar at 1280px on the
+     theory that main needed to stay near 46rem; that was overcautious — the
+     real floor is ~1040px, same as the TOC sidebar it sits next to, and
+     gating it higher just meant it silently failed to appear on anyone
+     whose window was 1040–1279px wide. Using the FOUR-column sum here
+     (rather than leaving it at the three-column 77.5rem from before
+     #aiSidebar existed) matters even though #aiSidebar itself only turns on
+     at 1320px: a max-width too small for it meant main got squeezed harder
+     than necessary the moment #aiSidebar appeared, measurably changing
+     paragraph wrap and therefore every later scroll-position calculation on
+     the page — caught by test_sidebar.py's "scrolls target to top of
+     viewport" assertion regressing only at viewports ≥1320px. */
+  .layout{display:flex;align-items:flex-start;gap:2rem;max-width:92.5rem;margin:0 auto}
   main{margin:0;flex:1 1 auto;min-width:0}
 }
 #tocSidebar{display:none;width:13rem;flex-shrink:0;font-family:var(--font-sans)}
@@ -162,6 +170,49 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
 .sb-node .zh{display:block;font-size:.9em;opacity:.8;margin-top:.05rem}
 .sb-node.active{background:var(--accent-soft);color:var(--accent)}
 .sb-node.active::before{background:var(--accent);border-color:var(--accent)}
+
+/* ---- AI paragraph-summary column (between main and the notes sidebar) ----
+   Gated at a separate, higher breakpoint (1320px) rather than folded into
+   the shared 1040px one the other two columns use — adding a FOURTH column
+   to that breakpoint would squeeze main uncomfortably on an ordinary laptop
+   window; this is an enhancement, not a feature the page depends on, so it
+   simply doesn't appear until there's room for all four columns at once
+   (13 toc + 2 + 46 main + 2 + 13 ai + 2 + 14.5 notes ≈ 92.5rem).
+
+   Two positioning modes, toggled by #aiSnapToggle (persisted in
+   localStorage['brAiSnap']), because "follows the paragraph as you scroll"
+   and "lines up with my annotations list" are different reference frames
+   and can't both be true of a column that is only sticky in one of them:
+   - flow (default): #aiSidebar is NOT sticky — it scrolls with the page
+     like main does. #aiSummaryInner is position:relative with an explicit
+     height (set in JS to match the tallest summary block's bottom) so its
+     position:absolute children can be placed at each one's paragraph's
+     offsetTop within the layout. This is "跟随左边滑动段落滑动" — it tracks
+     main's scroll because neither column is independently sticky.
+   - snap ([data-ai-snap="1"] on <body>): #aiSidebar becomes sticky +
+     independently scrollable, exactly like #noteSidebar, and JS positions
+     each summary block to span the vertical range of the #nsList rows that
+     reference the same paragraph (hiding paragraphs with no annotation —
+     there's nothing to snap them to). Scroll position is then bound between
+     the two sticky columns (see bindScrollSync in the script) so scrolling
+     one scrolls the other, keeping the alignment visible as you read down
+     a long annotations list. */
+#aiSidebar{display:none;width:13rem;flex-shrink:0;font-family:var(--font-sans)}
+@media (min-width:1320px){
+  #aiSidebar{display:block}
+  body[data-ai-snap="1"] #aiSidebar{position:sticky;top:5.5rem;
+             max-height:calc(100vh - 7.5rem);overflow-y:auto}
+}
+#aiSidebar .sb-label-row{display:flex;align-items:center;justify-content:space-between;
+             gap:.5rem;margin:0 0 .9rem}
+#aiSidebar .sb-label-row .sb-label{margin:0}
+#aiSummaryInner{position:relative}
+.ai-sum-block{position:absolute;left:0;right:0;box-sizing:border-box;font-size:.78rem;
+             line-height:1.6;color:var(--ink-soft);background:var(--zh-bg);
+             border-left:3px solid var(--muted);border-radius:3px;padding:.5rem .65rem;
+             overflow:hidden}
+.ai-sum-lbl{display:block;font-family:var(--font-sans);font-size:.6rem;letter-spacing:.07em;
+             text-transform:uppercase;color:var(--accent);margin-bottom:.25rem;opacity:.85}
 
 /* ---- persistent annotations sidebar (right column) ----
    Deliberately separate from the floating nav panel's 批注 tab: this one is
@@ -772,14 +823,15 @@ document.addEventListener('scroll', function(){
       var host=w.closest('.bipara')||w.closest('blockquote');
       var en=host?host.querySelector('.en'):null;
       var zh=host?host.querySelector('.zh'):null;
-      out.push({el:host, src:en?en.textContent.trim():'',
+      out.push({el:host, nid:w.dataset.nid, src:en?en.textContent.trim():'',
                 zh:zh?zh.textContent.trim():'', txt:v,
                 isQuote: !!(host&&host.tagName==='BLOCKQUOTE'), tags:nd.tags, aiNote:nd.aiNote.trim()});
     });
     highlights.forEach(function(h){
       var v=(h.note||'').trim();
       if(!v || !h.frags || !h.frags.length) return;
-      out.push({el:nidToBlock[h.frags[0].nid], src:h.frags.map(function(f){return f.text;}).join('" ... "'),
+      out.push({el:nidToBlock[h.frags[0].nid], nid:h.frags[0].nid,
+                src:h.frags.map(function(f){return f.text;}).join('" ... "'),
                 zh:'', txt:v, isQuote:false, isHighlight:true, frags:h.frags, hlId:h.id, tags:h.tags||[],
                 aiNote:(h.aiNote||'').trim()});
     });
@@ -873,6 +925,7 @@ document.addEventListener('scroll', function(){
     }
     rows.forEach(function(r){
       var row=document.createElement('div'); row.className='ns-row';
+      if(r.nid) row.dataset.nid=r.nid;
       renderSrcInto(row, r, {truncLen:70, singleClass:'ns-q'});
       var t=document.createElement('div'); t.className='ns-t';
       t.textContent=r.txt.slice(0,90)+(r.txt.length>90?'…':'');
@@ -1752,6 +1805,149 @@ document.addEventListener('scroll', function(){
     observer.observe(h);
   });
 })();
+
+/* ---------------- AI paragraph-summary column ---------------- */
+(function(){
+  var sidebar=document.getElementById('aiSidebar');
+  var inner=document.getElementById('aiSummaryInner');
+  var toggle=document.getElementById('aiSnapToggle');
+  var nsList=document.getElementById('nsList');
+  if(!sidebar || !inner || !toggle) return;
+  var SUMMARIES=window.__BR_SUMMARIES||{};
+  var blocks={};  /* nid -> {el, host} */
+
+  function build(){
+    inner.innerHTML=''; blocks={};
+    document.querySelectorAll('.note[data-nid]').forEach(function(wrap){
+      var nidv=wrap.dataset.nid;
+      var text=SUMMARIES[nidv];
+      if(!text) return;
+      var host=wrap.closest('.bipara')||wrap.closest('blockquote');
+      if(!host) return;
+      var el=document.createElement('div');
+      el.className='ai-sum-block'; el.dataset.nid=nidv;
+      var lbl=document.createElement('span'); lbl.className='ai-sum-lbl'; lbl.textContent='AI 总结';
+      el.appendChild(lbl);
+      el.appendChild(document.createTextNode(text));
+      inner.appendChild(el);
+      blocks[nidv]={el:el, host:host};
+    });
+  }
+
+  function isSnap(){ return document.body.dataset.aiSnap==='1'; }
+
+  /* default mode: not sticky, tracks the page's own scroll like main does.
+     Each block is placed at its paragraph's offset within #aiSummaryInner
+     (position:relative), which is given an explicit height so its
+     position:absolute children have room -- an element with only absolutely
+     positioned children is otherwise 0px tall. */
+  function syncFlow(){
+    if(sidebar.offsetParent===null) return;
+    var containerTop=inner.getBoundingClientRect().top;
+    var maxBottom=0;
+    Object.keys(blocks).forEach(function(nidv){
+      var rec=blocks[nidv];
+      rec.el.style.height='auto';
+      var top=rec.host.getBoundingClientRect().top-containerTop;
+      top=Math.max(0, top);
+      rec.el.style.top=top+'px';
+      var bottom=top+rec.el.offsetHeight;
+      if(bottom>maxBottom) maxBottom=bottom;
+    });
+    inner.style.height=maxBottom+'px';
+  }
+
+  /* snap mode: sticky, independently scrollable (like #noteSidebar). Each
+     block that has at least one matching #nsList row is positioned to span
+     that row-group's vertical range; a paragraph with no annotation has
+     nothing to snap to, so it's hidden rather than shown at some arbitrary
+     position. Multiple rows sharing one nid (several notes/highlights on
+     the same paragraph) widen the span to cover all of them, per the
+     original request ("右侧标注比如1-3条都是第一段，那么就跟第一段summary对
+     齐，第一段summary高度为右侧1-3条的范围"). */
+  function syncSnap(){
+    if(sidebar.offsetParent===null || !nsList) return;
+    /* Both columns are position:sticky at the same top:5.5rem, so their
+       OUTER <nav> boxes align on screen -- but #aiSummaryInner and #nsList
+       sit different distances below that (the switch-row header here is a
+       different height than the plain label there), so their inner tops do
+       NOT share a viewport Y. Measuring each ns-row's offset against
+       #aiSummaryInner's own top (rather than #nsList's) sidesteps that
+       entirely: the number produced is already "where this row would sit
+       if placed inside #aiSummaryInner," which is exactly the coordinate
+       space rec.el.style.top is set in below. */
+    var innerTop=inner.getBoundingClientRect().top;
+    var groups={};
+    nsList.querySelectorAll('.ns-row[data-nid]').forEach(function(row){
+      var nidv=row.dataset.nid;
+      var r=row.getBoundingClientRect();
+      var top=r.top-innerTop, bottom=r.bottom-innerTop;
+      if(!groups[nidv]) groups[nidv]={top:top, bottom:bottom};
+      else {
+        groups[nidv].top=Math.min(groups[nidv].top, top);
+        groups[nidv].bottom=Math.max(groups[nidv].bottom, bottom);
+      }
+    });
+    var maxBottom=0;
+    Object.keys(blocks).forEach(function(nidv){
+      var rec=blocks[nidv], g=groups[nidv];
+      if(!g){ rec.el.style.display='none'; return; }
+      rec.el.style.display='';
+      rec.el.style.top=g.top+'px';
+      rec.el.style.height=Math.max(g.bottom-g.top, 28)+'px';
+      if(g.bottom>maxBottom) maxBottom=g.bottom;
+    });
+    inner.style.height=maxBottom+'px';
+  }
+
+  function sync(){ if(isSnap()) syncSnap(); else syncFlow(); }
+
+  function setSnap(on){
+    document.body.dataset.aiSnap=on?'1':'0';
+    toggle.setAttribute('aria-pressed', on?'true':'false');
+    try{ localStorage.setItem('brAiSnap', on?'1':'0'); }catch(e){}
+    sync();
+  }
+  toggle.addEventListener('click', function(){
+    setSnap(toggle.getAttribute('aria-pressed')!=='true');
+  });
+
+  /* In snap mode #aiSidebar and #noteSidebar are two independently sticky,
+     independently scrollable columns -- matching heights alone doesn't keep
+     them visually aligned once the reader scrolls one of them, so their
+     scroll positions are bound together. */
+  var syncingScroll=false;
+  function bindScroll(a, b){
+    a.addEventListener('scroll', function(){
+      if(syncingScroll || !isSnap()) return;
+      syncingScroll=true; b.scrollTop=a.scrollTop; syncingScroll=false;
+    });
+  }
+  var noteSidebarEl=document.getElementById('noteSidebar');
+  if(noteSidebarEl){ bindScroll(sidebar, noteSidebarEl); bindScroll(noteSidebarEl, sidebar); }
+
+  build();
+  try{ setSnap(localStorage.getItem('brAiSnap')==='1'); }catch(e){ sync(); }
+
+  /* Resync on any layout change to main (mode toggle, a note/highlight
+     changing a paragraph's height, window resize, web font load) instead of
+     hooking every individual place that could change paragraph heights. */
+  var mainEl=document.querySelector('main');
+  if(mainEl && window.ResizeObserver){
+    var ro=new ResizeObserver(function(){ requestAnimationFrame(sync); });
+    ro.observe(mainEl);
+  } else {
+    window.addEventListener('resize', sync);
+  }
+  /* Resync when #nsList is rebuilt (note/highlight added, edited, deleted,
+     or a tag filter narrowing it) -- buildSidebarList() replaces its whole
+     innerHTML, which this observes rather than reaching into that other
+     IIFE's closure. */
+  if(nsList && window.MutationObserver){
+    var mo=new MutationObserver(function(){ requestAnimationFrame(sync); });
+    mo.observe(nsList, {childList:true, subtree:true});
+  }
+})();
 """
 
 
@@ -1821,6 +2017,7 @@ def render(spec):
         a(f'<div class="readnote">{m["note"]}</div>')
 
     doc_key = m.get("doc_id") or m.get("title_en") or "doc"
+    summaries_js = {}
 
     def note(en):
         return (
@@ -1849,12 +2046,16 @@ def render(spec):
                 a(f'<span class="attrib">{esc(it["attrib"])}</span>')
             a(note(en))
             a("</blockquote>")
+            if it.get("summary"):
+                summaries_js[nid(doc_key, en)] = it["summary"]
         else:
             a('<div class="bipara">')
             a(f'<p class="en">{esc(en)}</p>')
             a(f'<p class="zh">{zh}</p>')
             a(note(en))
             a("</div>")
+            if it.get("summary"):
+                summaries_js[nid(doc_key, en)] = it["summary"]
     a("</article>")
 
     gl = spec.get("glossary", [])
@@ -1913,6 +2114,15 @@ def render(spec):
     if m.get("footer"):
         a(f"<footer>{m['footer']}</footer>")
     a("</main>")
+    a('<nav id="aiSidebar">'
+      '<div class="sb-label-row"><span class="sb-label">AI 总结</span>'
+      '<button type="button" id="aiSnapToggle" class="sb-layer-switch" aria-pressed="false" '
+      'title="吸附：让每段摘要对齐右侧批注所占的高度范围">'
+      '<span class="sb-layer-switch-track"><span class="sb-layer-switch-thumb"></span></span>'
+      '<span class="sb-layer-switch-label">吸附</span>'
+      '</button></div>'
+      '<div id="aiSummaryInner"></div>'
+      '</nav>')
     a('<nav id="noteSidebar"><div class="sb-label">我的批注</div><div id="nsList"></div></nav>')
     a("</div>")  # .layout
 
@@ -1965,7 +2175,8 @@ def render(spec):
     ]
     a(f"<script>window.__BR_DOC={json.dumps(doc_key)};"
       f"window.__BR_TOC={json.dumps(toc, ensure_ascii=False)};"
-      f"window.__BR_GLOSSARY={json.dumps(glossary_js, ensure_ascii=False)};</script>")
+      f"window.__BR_GLOSSARY={json.dumps(glossary_js, ensure_ascii=False)};"
+      f"window.__BR_SUMMARIES={json.dumps(summaries_js, ensure_ascii=False)};</script>")
     a(f"<script>{JS}</script>")
     return "\n".join(out)
 

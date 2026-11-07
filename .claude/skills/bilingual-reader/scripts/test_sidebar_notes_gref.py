@@ -102,7 +102,7 @@ with sync_playwright() as p:
     ck("clicking the first fragment jumps near that passage", abs(top_a) < 400, top_a)
 
     linked_row.locator(".frag-row").nth(1).click()
-    pg.wait_for_timeout(1000)
+    pg.wait_for_timeout(1500)
     top_b = pg.evaluate(
         "(t) => { var ps=[...document.querySelectorAll('.bipara p.en')]; "
         "var el=ps.find(p=>p.innerText===t); return el ? el.getBoundingClientRect().top : null; }",

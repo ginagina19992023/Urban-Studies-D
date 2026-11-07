@@ -432,6 +432,78 @@ re-export instead of being silently dropped. `askPrompt()` also includes it
 when present (`【此前已有的 AI 备注，这次请在此基础上继续回答，不要重复】`) so
 asking a FOLLOW-UP question doesn't make the next answer repeat the first.
 
+### AI 总结 — a fourth column, with two different coordinate frames
+
+The ask: "帮我对每一段做AI总结功能，放在右上角，展示后显示在我的批注左侧跟随左边滑动
+段落滑动，也有一个吸附按钮自动对齐右侧标注所在的段落（右侧标注比如1-3条都是第一段，
+那么就跟第一段summary对齐，第一段summary高度为右侧1-3条的范围）". That's two distinct
+behaviors for one column, not a bug to pick between:
+
+- **Default ("跟随左边滑动段落滑动").** `#aiSidebar` is a normal (non-sticky)
+  flex sibling that scrolls with the page exactly like `main` does, sitting
+  between `main` and `#noteSidebar`. Each `.ai-sum-block` is
+  `position:absolute` inside `#aiSummaryInner` (`position:relative`, given
+  an explicit JS-computed `height` since an element with only absolutely
+  positioned children is otherwise 0px tall), placed at its own paragraph's
+  `getBoundingClientRect().top` relative to the container. This is `syncFlow()`
+  in the script.
+- **Snap (`#aiSnapToggle`, persisted via `localStorage['brAiSnap']`).**
+  `#aiSidebar` becomes sticky + independently scrollable, exactly like
+  `#noteSidebar` — because "aligned with my annotations list" and "sticky"
+  have to be the SAME claim for this to make sense: `#noteSidebar` doesn't
+  scroll with the page either. `syncSnap()` groups `#nsList .ns-row`
+  elements by `data-nid` (added to `entries()`'s output and copied onto each
+  row in `buildSidebarList()`) and sets each matching `.ai-sum-block`'s
+  `top`/`height` to span the full top-to-bottom range of that nid's rows —
+  this is the literal "第一段summary高度为右侧1-3条的范围" ask. A paragraph
+  with a summary but no annotation is hidden rather than shown at some
+  arbitrary position; there's nothing to snap it to.
+  - Both nav columns are sticky in this mode but scroll INDEPENDENTLY by
+    default (two separate `overflow-y:auto` boxes) — matching heights alone
+    doesn't keep them visually aligned once either one is scrolled, so
+    `bindScroll()` mirrors `scrollTop` between them while snap is active.
+  - The two sidebars' content doesn't start at the same viewport Y even
+    though both `<nav>`s are pinned at the same `top:5.5rem` — `#aiSidebar`'s
+    switch-row header isn't the same height as `#noteSidebar`'s plain label.
+    `syncSnap()` sidesteps this by measuring each `.ns-row`'s position
+    against `#aiSummaryInner`'s OWN top (not `#nsList`'s) — the number that
+    produces is already in the right coordinate space, rather than assuming
+    the two containers' inner tops coincide.
+  - A highlight's row is grouped under its FIRST fragment's nid
+    (`r.frags[0].nid`, matching how `nidToBlock[h.frags[0].nid]` already
+    picks a highlight's "home" paragraph elsewhere) — a multi-paragraph
+    linked highlight only snaps against one of its paragraphs, a known,
+    accepted simplification rather than something to fix unless asked.
+
+Content: `summary` is a plain string field on a `p`/`quote` spec item (same
+level as `en`/`zh`), authored by Claude when building the page — there is no
+live summarization call, so these are written once per block, the same way
+`ai_commentary` is. Keyed in the page by `nid(doc_key, en)` (`window.__BR_SUMMARIES`,
+embedded alongside `__BR_TOC`/`__BR_GLOSSARY`), so it reattaches correctly
+across re-renders the same way notes do, and a block with no `summary` key
+simply gets no column entry — the feature degrades per-paragraph, not
+all-or-nothing.
+
+Gated behind its own `@media (min-width:1320px)` breakpoint rather than
+folded into the shared 1040px one `#tocSidebar`/`#noteSidebar` use — adding a
+FOURTH column to that breakpoint would squeeze `main` on an ordinary laptop
+window before this column has anywhere comfortable to go. Also: **when
+adding this column, `.layout`'s `max-width` had to grow from 77.5rem (three
+columns) to 92.5rem (four)** — leaving it at 77.5rem meant `main` got
+squeezed the moment `#aiSidebar` turned on at 1320px even though 92.5rem of
+budget was only needed there, which silently broke unrelated pixel-exact
+scroll-position tests (`test_sidebar.py`, `test_sidebar_notes_gref.py`) by
+changing paragraph line-wrap. If another column is ever added to this
+layout, redo this max-width sum rather than assuming the existing one still
+covers it.
+
+Resyncing: one `ResizeObserver` on `main` (mode toggle, a note/highlight
+changing a paragraph's height, window resize, font load) and one
+`MutationObserver` on `#nsList` (rebuilt wholesale by `buildSidebarList()`
+whenever notes/highlights/tag-filter change) cover every case that can move
+a paragraph or change which rows exist, rather than hooking each individual
+call site that could affect either.
+
 ### Baking your own analysis into the page
 
 When the user pastes their real annotations back into the conversation and asks
