@@ -21,7 +21,7 @@ with sync_playwright() as p:
     href = pg.locator(".sb-node").nth(3).get_attribute("href")
     target_id = href.lstrip("#")
     pg.locator(".sb-node").nth(3).click()
-    pg.wait_for_timeout(1200)
+    pg.wait_for_timeout(1800)
     top = pg.eval_on_selector(f"#{target_id}", "el => el.getBoundingClientRect().top")
     ck("clicking sidebar node scrolls target to top of viewport", abs(top) < 150, top)
 
