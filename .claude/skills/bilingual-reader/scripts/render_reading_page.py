@@ -109,6 +109,28 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
 }
 #tocSidebar .sb-label,#noteSidebar .sb-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
                        color:var(--hl);font-weight:700;margin:0 0 .9rem .3rem}
+/* #tocSidebar doubles as a 目录/标签 switch rather than two separate sidebar
+   columns — a third persistent column would need even more viewport width
+   than the two already fighting for it (see the .layout comment above), and
+   the TOC and the tag directory are never needed on screen at the same
+   time, so sharing one column's space with a toggle costs nothing a reader
+   would notice. */
+.sb-switch{display:flex;gap:.4rem;margin:0 0 1rem}
+.sb-switch-btn{flex:1;font-family:var(--font-sans);font-size:.66rem;font-weight:700;
+               letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line);
+               background:none;color:var(--muted);border-radius:4px;padding:.4rem .3rem;cursor:pointer}
+.sb-switch-btn.active{background:var(--hl);color:var(--paper);border-color:var(--hl)}
+.sb-pane[hidden]{display:none}
+.sb-tag-row{display:flex;align-items:center;justify-content:space-between;gap:.4rem;
+            padding:.4rem .3rem;border-bottom:1px dashed var(--line);cursor:pointer;
+            font-family:var(--font-sans);font-size:.78rem;color:var(--ink-soft)}
+.sb-tag-row:last-child{border-bottom:none}
+.sb-tag-row:hover{color:var(--accent)}
+.sb-tag-row.active{color:var(--accent);font-weight:700}
+.sb-tag-row .count{flex-shrink:0;font-size:.66rem;color:var(--muted);background:var(--zh-bg);
+                    border-radius:999px;padding:.05rem .5rem}
+.sb-tag-empty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);
+              padding:1rem 0;text-align:center}
 .sb-tree{position:relative;padding-left:1rem}
 .sb-tree::before{content:"";position:absolute;left:.28rem;top:.4rem;bottom:.4rem;
                   width:1px;background:var(--line)}
@@ -416,15 +438,14 @@ details.pack[open] summary::before{content:"▾ "}
          padding:.35rem .75rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 mark.hl-anno{background:var(--hl-soft);color:inherit;border-bottom:2px solid var(--hl);
              padding:0 .1em;cursor:pointer}
-/* The sibling paragraph (same block, other language) gets underlined — same
+/* Only the estimated CORRESPONDING span of the sibling paragraph (same
+   block, other language) gets underlined, not the whole paragraph — same
    --hl color as mark.hl-anno's own border-bottom, so it reads as "this
-   corresponds to a highlight," not a separate badge/marker. text-decoration
-   rather than border-bottom: border-bottom on a multi-line block only draws
-   once, after the last wrapped line; text-decoration draws under every line,
-   which is what "underline this passage" actually looks like for a
-   paragraph rather than a short inline span. Purely a visual cue, not
-   interactive — open the note from the sidebar/nav/overview instead. */
-p.en.has-linked-note, p.zh.has-linked-note{
+   corresponds to a highlight," not a separate badge/marker. A <span>, not
+   <mark>: <mark> is reserved for the exact, click-to-edit match. Purely a
+   visual cue, not interactive — open the note from the sidebar/nav/overview
+   instead. */
+span.linked-underline{
   text-decoration: underline;
   text-decoration-color: var(--hl);
   text-decoration-thickness: 2px;
@@ -804,10 +825,56 @@ document.addEventListener('scroll', function(){
       list.appendChild(row);
     });
   }
+  /* Previously-used tags become pickable rather than needing to be retyped
+     each time: every .note-tags / #hlTags input shares one <datalist>,
+     refreshed from whatever tags already exist across both notes and
+     highlights. A plain HTML5 datalist only replaces the WHOLE input value
+     when a suggestion is picked, so it helps most for a field's first tag;
+     typing a second tag after a space still needs typing it out. That's an
+     accepted limit of using the native control instead of a custom
+     multi-chip widget, not a bug. */
+  function allDistinctTags(){
+    var set={};
+    Object.keys(notes).forEach(function(k){ noteOf(k).tags.forEach(function(t){ set[t]=true; }); });
+    highlights.forEach(function(h){ (h.tags||[]).forEach(function(t){ set[t]=true; }); });
+    return Object.keys(set).sort();
+  }
+  function refreshTagOptions(){
+    var dl=document.getElementById('tagOptions');
+    if(!dl) return;
+    dl.innerHTML='';
+    allDistinctTags().forEach(function(t){
+      var opt=document.createElement('option'); opt.value=t;
+      dl.appendChild(opt);
+    });
+  }
+  function buildTagDirectory(){
+    var list=document.getElementById('sbTagList');
+    if(!list) return;
+    var counts={};
+    entries().forEach(function(r){ (r.tags||[]).forEach(function(t){ counts[t]=(counts[t]||0)+1; }); });
+    var tags=Object.keys(counts).sort();
+    list.innerHTML='';
+    if(!tags.length){
+      list.innerHTML='<div class="sb-tag-empty">还没有标签。写批注时顺手加几个吧。</div>';
+      return;
+    }
+    tags.forEach(function(t){
+      var row=document.createElement('div'); row.className='sb-tag-row';
+      if(t===activeTagFilter) row.classList.add('active');
+      var label=document.createElement('span'); label.textContent='#'+t;
+      var count=document.createElement('span'); count.className='count'; count.textContent=counts[t];
+      row.appendChild(label); row.appendChild(count);
+      row.addEventListener('click', function(){ toggleTagFilter(t); });
+      list.appendChild(row);
+    });
+  }
   function refreshAll(){
     buildList(document.getElementById('notesList'), true);
     buildList(document.getElementById('ovList'), false);
     buildSidebarList();
+    buildTagDirectory();
+    refreshTagOptions();
     refreshBtn();
   }
 
@@ -986,6 +1053,27 @@ document.addEventListener('scroll', function(){
   buildGlossary('');
   try{ showTab(localStorage.getItem('brNavTab')||'toc'); }catch(e){ showTab('toc'); }
 
+  /* #tocSidebar's own 目录/标签 switch — a second, independent tab pair from
+     the floating nav panel's showTab() above, scoped to #tocSidebar only. */
+  document.querySelectorAll('#tocSidebar .sb-switch-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('#tocSidebar .sb-switch-btn').forEach(function(x){
+        x.classList.toggle('active', x===b);
+      });
+      document.querySelectorAll('#tocSidebar .sb-pane').forEach(function(pane){
+        pane.hidden = (pane.dataset.pane!==b.dataset.pane);
+      });
+      try{ localStorage.setItem('brSidebarPane', b.dataset.pane); }catch(e){}
+    });
+  });
+  try{
+    var savedPane=localStorage.getItem('brSidebarPane');
+    if(savedPane==='tags'){
+      var tagsBtn=document.querySelector('#tocSidebar .sb-switch-btn[data-pane="tags"]');
+      if(tagsBtn) tagsBtn.click();
+    }
+  }catch(e){}
+
   document.getElementById('ovCopy').addEventListener('click', function(){
     if(guardEmpty()) return; copyText(markdown(), this, '复制为 Markdown');
   });
@@ -1122,6 +1210,15 @@ document.addEventListener('scroll', function(){
   function fragLabel(t){ return t.length>90 ? t.slice(0,90)+'…' : t; }
   function hidePill(){ pill.style.display='none'; }
 
+  function textOffsetInAncestor(ancestor, node, offset){
+    var walker=document.createTreeWalker(ancestor, NodeFilter.SHOW_TEXT, null, false);
+    var total=0, n;
+    while(n=walker.nextNode()){
+      if(n===node) return total+offset;
+      total+=n.nodeValue.length;
+    }
+    return total;
+  }
   function validSelection(){
     var sel=window.getSelection();
     if(!sel||sel.isCollapsed||!sel.rangeCount) return null;
@@ -1148,7 +1245,21 @@ document.addEventListener('scroll', function(){
     }
     var text=clipped.toString().trim();
     if(!text) return null;
-    return {text:text, lang:pEl.classList.contains('zh')?'zh':'en', nid:nidv, clippedRange:clipped};
+
+    /* Where this selection falls WITHIN its own paragraph, as a 0–1 fraction
+       of that paragraph's plain-text length. There is no real word/clause
+       alignment between the EN and ZH translations of a block, so this is a
+       heuristic, not a guarantee: applying the same fraction to the sibling
+       paragraph's length only approximates "the corresponding part," it
+       doesn't compute it exactly. It's still a much closer approximation
+       than underlining the sibling paragraph's full text, which is what an
+       earlier version did and was explicitly rejected as wrong. */
+    var fullLen=pEl.textContent.length || 1;
+    var startFrac=textOffsetInAncestor(pEl, clipped.startContainer, clipped.startOffset)/fullLen;
+    var endFrac=textOffsetInAncestor(pEl, clipped.endContainer, clipped.endOffset)/fullLen;
+
+    return {text:text, lang:pEl.classList.contains('zh')?'zh':'en', nid:nidv, clippedRange:clipped,
+            startFrac:startFrac, endFrac:endFrac};
   }
   document.addEventListener('selectionchange', function(){
     clearTimeout(window.__selT);
@@ -1174,13 +1285,14 @@ document.addEventListener('scroll', function(){
     var v=pill.__sel;
     if(!v) return;
     hidePill();
+    var frag={nid:v.nid, lang:v.lang, text:v.text, startFrac:v.startFrac, endFrac:v.endFrac};
     if(pendingFrags){
-      pendingFrags.push({nid:v.nid, lang:v.lang, text:v.text});
+      pendingFrags.push(frag);
       hint.style.display='none';
       openCard(pendingFrags, editingHlId, pendingNoteDraft, pendingTagsDraft);
       pendingFrags=null;
     } else {
-      openCard([{nid:v.nid, lang:v.lang, text:v.text}], null);
+      openCard([frag], null);
     }
     window.getSelection().removeAllRanges();
   });
@@ -1257,27 +1369,57 @@ document.addEventListener('scroll', function(){
   });
 
   function unwrapMarks(){
-    document.querySelectorAll('mark.hl-anno').forEach(function(m){
-      var parent=m.parentNode;
-      while(m.firstChild) parent.insertBefore(m.firstChild, m);
-      parent.removeChild(m);
-      parent.normalize();
+    ['mark.hl-anno', 'span.linked-underline'].forEach(function(sel){
+      document.querySelectorAll(sel).forEach(function(m){
+        var parent=m.parentNode;
+        while(m.firstChild) parent.insertBefore(m.firstChild, m);
+        parent.removeChild(m);
+        parent.normalize();
+      });
     });
-    document.querySelectorAll('.has-linked-note').forEach(function(p){ p.classList.remove('has-linked-note'); });
   }
-  function markLinkedParagraph(p){
+  function rangeFromGlobalOffsets(container, startOff, endOff){
+    var walker=document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+    var total=0, node, range=document.createRange(), started=false;
+    while(node=walker.nextNode()){
+      var len=node.nodeValue.length;
+      if(!started && total+len>=startOff){
+        range.setStart(node, Math.max(0, startOff-total));
+        started=true;
+      }
+      if(started && total+len>=endOff){
+        range.setEnd(node, Math.max(0, Math.min(len, endOff-total)));
+        return range;
+      }
+      total+=len;
+    }
+    return null;
+  }
+  function markLinkedRange(p, startFrac, endFrac){
     /* The exact selected phrase can only be marked in the language it was
-       actually selected in — there's no reliable way to compute which
-       substring of the OTHER language's translation corresponds to it, so
-       this doesn't try. Instead the WHOLE sibling paragraph (same block,
-       other language) gets underlined via a has-linked-note class — a
-       visual echo of mark.hl-anno's own look, not a separate badge/marker.
-       Purely a visual cue (no click handler): open the note from the
-       sidebar/nav/overview instead. This also matters when a reading mode
-       (EN-only / 中文-only) hides the paragraph that actually carries the
-       exact <mark>: the underline lives on the sibling, which is whichever
-       language IS currently shown, so it survives the toggle untouched. */
-    p.classList.add('has-linked-note');
+       actually selected in — there is no real word/clause alignment between
+       the EN and ZH translations of a block to compute the true
+       corresponding substring. This applies the SAME fractional position
+       (of the selection within its own paragraph's text length) to the
+       sibling paragraph's length instead — an approximation, not a
+       guarantee, but a much closer one than underlining the sibling's full
+       text, which an earlier version did and was explicitly rejected as
+       wrong ("应该只有对应划线的那部分也有划线，而不应该是现在这样全段划上").
+       Wraps the estimated span in a plain <span class="linked-underline">
+       (not <mark>, which is reserved for the exact, click-to-edit match) —
+       purely a visual cue, no click handler. Best-effort like
+       wrapTextInNode(): if the estimated range happens to straddle an inline
+       tag boundary in a way surroundContents() can't wrap, this just skips
+       rather than falling back to the whole paragraph. */
+    var fullLen=p.textContent.length;
+    if(!fullLen) return;
+    var startOff=Math.max(0, Math.min(fullLen, Math.round(startFrac*fullLen)));
+    var endOff=Math.max(startOff+1, Math.min(fullLen, Math.round(endFrac*fullLen)));
+    var range=rangeFromGlobalOffsets(p, startOff, endOff);
+    if(!range) return;
+    var span=document.createElement('span');
+    span.className='linked-underline';
+    try{ range.surroundContents(span); }catch(e){ /* straddles a tag boundary; skip */ }
   }
   function wrapTextInNode(p, text, hlId){
     /* best-effort: only wraps when the selected text sits intact inside a
@@ -1312,7 +1454,9 @@ document.addEventListener('scroll', function(){
         if(!p) return;
         wrapTextInNode(p, f.text, h.id);
         var siblingP=host.querySelector(f.lang==='zh'?'p.en':'p.zh');
-        if(siblingP) markLinkedParagraph(siblingP);
+        if(siblingP && typeof f.startFrac==='number' && typeof f.endFrac==='number'){
+          markLinkedRange(siblingP, f.startFrac, f.endFrac);
+        }
       });
     });
   }
@@ -1428,13 +1572,21 @@ def render(spec):
 
     a('<div class="layout">')
     if toc:
-        a('<nav id="tocSidebar"><div class="sb-label">论文结构</div><div class="sb-tree">')
+        a('<nav id="tocSidebar">')
+        a('<div class="sb-switch">'
+          '<button type="button" class="sb-switch-btn active" data-pane="toc">目录</button>'
+          '<button type="button" class="sb-switch-btn" data-pane="tags">标签</button>'
+          '</div>')
+        a('<div class="sb-pane" data-pane="toc">')
+        a('<div class="sb-tree">')
         for t in toc:
             a(f'<a class="sb-node lvl-{t["level"]}" href="#{t["id"]}" data-secid="{t["id"]}">'
               f'<span class="en">{esc(t["en"])}</span>'
               + (f'<span class="zh">{esc(t["zh"])}</span>' if t["zh"] else "")
               + "</a>")
-        a("</div></nav>")
+        a("</div></div>")
+        a('<div class="sb-pane" data-pane="tags" hidden><div id="sbTagList"></div></div>')
+        a("</nav>")
 
     a("<main>")
     if m.get("eyebrow"):
@@ -1457,7 +1609,7 @@ def render(spec):
             f'<div class="note" data-nid="{nid(doc_key, en)}">'
             '<div class="note-body"></div>'
             '<textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea>'
-            '<input type="text" class="note-tags" placeholder="标签（可选，空格分隔，如：可引用 待查）">'
+            '<input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）">'
             '<button class="note-add" type="button">＋ 批注</button>'
             '<div class="note-status"></div>'
             "</div>"
@@ -1577,7 +1729,7 @@ def render(spec):
       '<div class="hl-head">选中内容的批注</div>'
       '<div id="hlFrags"></div>'
       '<textarea id="hlNote" placeholder="写下你的批注…（可用电脑自带的语音输入直接对着这里说）"></textarea>'
-      '<input type="text" id="hlTags" placeholder="标签（可选，空格分隔，如：可引用 待查）">'
+      '<input type="text" id="hlTags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）">'
       '<div class="hl-actions">'
       '<button id="hlLink" type="button">+ 关联另一段</button>'
       '<button id="hlDelete" type="button" style="display:none">删除</button>'
@@ -1585,6 +1737,7 @@ def render(spec):
       '<button id="hlSave" class="primary" type="button">保存</button>'
       '</div></div>')
     a('<div id="grefPop" style="display:none"></div>')
+    a('<datalist id="tagOptions"></datalist>')
 
     glossary_js = [
         {"id": g.get("id", ""), "cat": g.get("cat", ""), "term": g.get("term", ""), "def": g.get("def", "")}
