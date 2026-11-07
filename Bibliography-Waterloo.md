@@ -43,6 +43,9 @@
 | 原住民配额 | 新社会住房的 20%、新可负担住房的 15%；2023 年为"至少 15%"，2022 年为 10% | NSW Gov 2025-04-10；2023；City Hub 2022 | 高（逐年变化） |
 | City of Sydney 替代方案 | 5,000–5,300 套（LAHC 方案为 6,800 套、17 栋最高 40 层）；2021 年修订版把社会住房从 749 提到 920（+23%） | City of Sydney 2019；Inside Local Government 2021 | 高 / 中 |
 | Communities Plus 比例 | 目标为私人 : 社会 = 70 : 30 | Future Directions（2016），经二手来源；AHURI 358 称之为 30/70 经验法则 | 中 |
+| Green Square Library | 355 Botany Road, Zetland；2018 年 9 月对公众开放，10 月 27 日正式启用 | City of Sydney；Wikipedia；Concrete Playground | 高 |
+| Infinity by Crown Group | 301–303 Botany Road, Zetland（Green Square 城镇中心入口）；约 2019 年完工（另说 2020）；2015 年开盘一天售出约 3.8 亿澳元；Koichi Takada 设计 | The Urban Developer；urban.com.au | 中 |
+| 地名边界 | 图书馆和 Infinity 都在 Zetland（Green Square），不在 Waterloo 公屋区内；Green Square 更新片区也延伸进 Waterloo（如 O'Dea Avenue）。确切边界请查 NSW Geographical Names Board 或 City of Sydney 地图 | Barings 新闻稿等；未找到权威边界说明 | 中 |
 | Metro Quarter（车站上盖） | 70 套社会住房；政府从 John Holland–Mirvac 获得 1.06 亿澳元空中权 | NSW Gov 2024；Sydney Metro 2019 | 高 |
 
 ## 3. 对 8 月提案的更正与提醒
@@ -125,6 +128,24 @@
   https://doi.org/10.1080/14036090902767516  
   对"分散劣势"话语的批判话语分析。
 
+### 声誉与心理边界（合并主题新增）
+
+- ✅ Sisson, A. (2024). Public housing and territorial stigma: towards a symbolic and political economy. Housing Studies 39(5), 1199–1218.  
+  https://doi.org/10.1080/02673037.2022.2108383  
+  把"声誉"（符号）和"谁获益"（政治经济）放进同一个框架，正好是两个主题合并的理论桥。（建议先读的两篇之一）
+- 🔎 Werner (2024). Boundaries between private and public in the construction of limits on social housing in Sydney, Australia. In Physical and Symbolic Borders and Boundaries and How They Unfold in Space, 110–125. Routledge.  
+  https://doi.org/10.4324/9781003354802-10  
+  悉尼社会住房的物理与符号边界，直接对应"心理隔离"。（只在 Crossref 看到题名，内容未读）
+- ✅ Jackson, E. & Butler, T. (2015). Revisiting 'social tectonics': the middle classes and social mix in gentrifying neighbourhoods. Urban Studies 52(13), 2349–2365.  
+  https://doi.org/10.1177/0042098014547370  
+  中产与原住民住在一起，却像板块一样互不接触。
+- ✅ Musterd, S. (2008). Residents' views on social mix: social mix, social networks and stigmatisation in post-war housing estates in Europe. Urban Studies 45(4), 897–915.  
+  https://doi.org/10.1177/0042098007088473  
+  居民自己怎么看社会混合与污名，可作欧洲对照。
+- ✅ Morris, A. (2019). 'Super-gentrification' triumphs: gentrification and the displacement of public housing tenants in Sydney's inner-city. Housing Studies 34(7), 1071–1088.  
+  https://doi.org/10.1080/02673037.2018.1515894  
+  Millers Point 的超级绅士化，悉尼内城的对照案例。
+
 ### Gentrification：绅士化、污名与置换
 
 - ✅ Sisson, A. (2021). Denigrating by numbers: quantification, statistics and territorial stigma. IJURR 45(3), 407–422.  
@@ -196,7 +217,8 @@
 
 ## 5. 建议阅读顺序
 
-- **先读**：Zanardo et al. (2024)；Wynne & Rogers (2021)；Sisson (2024) Housing Studies。论文的三根柱子：污名、置换、政治经济
+- **今晚先读两篇**：Sisson (2024) Housing Studies；Zanardo et al. (2024)。一篇是合并主题的理论桥（声誉 + 政治经济），一篇是 Waterloo 的证据
+- **之后**：Wynne & Rogers (2021)。置换一节
 - **再读**：AHURI 358；AHURI 412；Sisson & Ruming (2025)。政策部分和反方证据（供给增加）
 - **背景**：Daley & Wood (2016)；Burke et al. (2020)；Sarkar et al. (2024)。Housing 与 Segregation 两章的澳洲数据
 - **对照**：Morris (2019)；Darcy & Rogers (2016)。Millers Point：悉尼另一种更彻底的做法（整体出售）
