@@ -124,6 +124,14 @@ article h3 .en{display:block;font-size:.97rem;color:var(--ink);font-weight:600;f
 article h3 .zh{display:block;font-family:var(--font-zh);font-size:.9rem;color:var(--ink-soft);margin-top:.18rem}
 
 .bipara{margin:0 0 1.35rem;padding-bottom:1rem;border-bottom:1px dashed var(--line)}
+/* ---- figure blocks (kind:"figure"): inline SVG/HTML diagram shown in every language mode,
+   with a bilingual caption; the caption's English keys the block's note like any paragraph. ---- */
+.bifig{margin:0 0 1.35rem;padding-bottom:1rem;border-bottom:1px dashed var(--line)}
+.bifig .fig-art{overflow-x:auto;background:var(--zh-bg);border-radius:6px;padding:.8rem}
+.bifig .fig-art svg{display:block;width:100%;height:auto;max-width:40rem;margin:0 auto}
+.bifig figcaption{margin-top:.55rem;font-family:var(--font-sans);font-size:.76rem;line-height:1.6;color:var(--muted)}
+.bifig figcaption .zh{display:block;font-family:var(--font-zh);margin-top:.2rem}
+body.zh-only .bifig figcaption .en{display:none} body.en-only .bifig figcaption .zh{display:none}
 .bipara:last-child{border-bottom:none}
 .bipara p.en{margin:0 0 .55rem;color:var(--ink-soft);text-align:justify;hyphens:auto}
 .bipara p.zh{margin:0;font-family:var(--font-zh);font-weight:600;color:var(--ink);font-size:.94rem;
@@ -431,7 +439,7 @@ document.addEventListener('scroll', function(){
     document.querySelectorAll('.note').forEach(function(w){
       var v=(notes[w.dataset.nid]||'').trim();
       if(!v) return;
-      var host=w.closest('.bipara')||w.closest('blockquote');
+      var host=w.closest('.bipara')||w.closest('.bifig')||w.closest('blockquote');
       var en=host?host.querySelector('.en'):null;
       var zh=host?host.querySelector('.zh'):null;
       out.push({el:host, src:en?en.textContent.trim():'',
@@ -790,6 +798,12 @@ def render(spec):
                 a(f'<span class="attrib">{esc(it["attrib"])}</span>')
             a(note(en))
             a("</blockquote>")
+        elif k == "figure":
+            a('<figure class="bifig">')
+            a(f'<div class="fig-art">{it.get("html", "")}</div>')
+            a(f'<figcaption><span class="en">{esc(en)}</span><span class="zh">{zh}</span></figcaption>')
+            a(note(en))
+            a("</figure>")
         else:
             a('<div class="bipara">')
             a(f'<p class="en">{esc(en)}</p>')

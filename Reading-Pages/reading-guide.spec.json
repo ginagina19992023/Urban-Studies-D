@@ -68,8 +68,90 @@
   },
   {
    "kind": "h3",
+   "en": "0.0b · Beyond the slides — The Los Angeles School and the Chicago model it answers",
+   "zh": "0.0b · 讲义外补充 · 洛杉矶学派，以及它回应的芝加哥模型"
+  },
+  {
+   "kind": "p",
+   "en": "[Note] The slides list only six words for the Los Angeles School. This section adds background from the literature; it is not slide content. Check the original works before citing.",
+   "zh": "<strong>【说明】</strong>讲义对洛杉矶学派只列了六个词。这一节是根据相关文献补充的背景，不是讲义原文，写进论文前请核对原著。"
+  },
+  {
+   "kind": "p",
+   "en": "[Who] In the 1980s–90s a group of scholars working in Los Angeles (UCLA, USC) argued that the Chicago School model no longer fitted, and that Los Angeles showed what the contemporary city looks like. Key works: Edward Soja, Postmodern Geographies (1989); Mike Davis, City of Quartz (1990), especially the chapter \"Fortress L.A.\"; Michael Dear & Steven Flusty, \"Postmodern urbanism\", Annals of the AAG 88(1) (1998); Michael Dear (ed.), From Chicago to L.A. (2002).",
+   "zh": "<strong>【是谁】</strong>1980–90 年代，一批在洛杉矶（UCLA、USC）工作的学者提出：芝加哥学派的城市模型已经不适用，洛杉矶才代表当代城市的样子。代表著作：Edward Soja《Postmodern Geographies》（1989）；Mike Davis《City of Quartz》（1990），尤其是\"Fortress L.A.\"一章；Michael Dear &amp; Steven Flusty《Postmodern urbanism》，<em>Annals of the AAG</em> 88(1)（1998）；Michael Dear（编）《From Chicago to L.A.》（2002）。"
+  },
+  {
+   "kind": "figure",
+   "html": "<svg viewBox=\"0 0 520 482\" role=\"img\" aria-label=\"Burgess 1925 concentric zone model\" font-family=\"-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif\"><circle cx=\"260\" cy=\"225\" r=\"200\" style=\"fill:var(--paper);stroke:var(--muted)\" stroke-width=\"1.2\"/><circle cx=\"260\" cy=\"225\" r=\"160\" style=\"fill:var(--accent-soft);stroke:var(--muted)\" stroke-width=\"1.2\"/><circle cx=\"260\" cy=\"225\" r=\"120\" style=\"fill:var(--hl-soft);stroke:var(--muted)\" stroke-width=\"1.2\"/><circle cx=\"260\" cy=\"225\" r=\"80\" style=\"fill:var(--zh-bg);stroke:var(--muted)\" stroke-width=\"1.2\"/><circle cx=\"260\" cy=\"225\" r=\"40\" style=\"fill:var(--accent);stroke:var(--muted)\" stroke-width=\"1.2\"/><text x=\"260\" y=\"43.0\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"700\" style=\"fill:var(--ink)\">V　通勤区</text><text x=\"260\" y=\"57.0\" text-anchor=\"middle\" font-size=\"10\" style=\"fill:var(--muted)\">Commuters zone</text><text x=\"260\" y=\"83.0\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"700\" style=\"fill:var(--ink)\">IV　中产住宅区</text><text x=\"260\" y=\"97.0\" text-anchor=\"middle\" font-size=\"10\" style=\"fill:var(--muted)\">Residential zone</text><text x=\"260\" y=\"123.0\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"700\" style=\"fill:var(--ink)\">III　工人住宅区</text><text x=\"260\" y=\"137.0\" text-anchor=\"middle\" font-size=\"10\" style=\"fill:var(--muted)\">Zone of workingmen's homes</text><text x=\"260\" y=\"163.0\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"700\" style=\"fill:var(--ink)\">II　过渡区</text><text x=\"260\" y=\"177.0\" text-anchor=\"middle\" font-size=\"10\" style=\"fill:var(--muted)\">Zone in transition</text><text x=\"260\" y=\"221\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"700\" style=\"fill:var(--paper)\">I</text><text x=\"260\" y=\"238\" text-anchor=\"middle\" font-size=\"11\" style=\"fill:var(--paper)\">中心商务区</text><text x=\"260\" y=\"453\" text-anchor=\"middle\" font-size=\"11\" style=\"fill:var(--muted)\">中心 → 外围：越往外越新、越富裕；新移民先落脚在 II 过渡区</text><text x=\"260\" y=\"469\" text-anchor=\"middle\" font-size=\"10\" style=\"fill:var(--muted)\">Centre → edge: newer, more affluent; newcomers first settle in Zone II</text></svg>",
+   "en": "Figure 1. Burgess's concentric zone model (Park, Burgess & McKenzie, The City, 1925), redrawn as a schematic. In Burgess's original, Chicago's lakefront cuts the circles in half.",
+   "zh": "图 1　Burgess 同心圆模型（Park, Burgess &amp; McKenzie,《The City》, 1925）示意重绘。Burgess 原图中，芝加哥的湖岸把圆切去一半。"
+  },
+  {
+   "kind": "p",
+   "en": "[Chicago model] Burgess pictured the city growing outward from one centre in rings: the Loop (CBD), a zone in transition where new immigrants and the poor first settle, workers' homes, middle-class residences, and an outer commuter zone. Groups move outward as they rise, through \"invasion and succession\", an analogy borrowed from plant ecology. This is why the slides say the Chicago School naturalized the unequal city: sorting by income looks like a natural ecological process rather than the result of institutions.",
+   "zh": "<strong>【芝加哥模型】</strong>Burgess 设想城市从一个中心向外一圈圈生长：中心商务区（Loop）、新移民和穷人最先落脚的过渡区、工人住宅区、中产住宅区、最外层的通勤区。群体地位上升后就往外搬，即\"入侵与演替\"（invasion and succession），这是从植物生态学借来的类比。讲义说芝加哥学派把不平等的城市\"自然化\"了，原因就在这里：按收入分层看起来像自然的生态过程，而不是制度造成的结果。"
+  },
+  {
+   "kind": "figure",
+   "html": "<svg viewBox=\"0 0 520 400\" role=\"img\" aria-label=\"Schematic of the Los Angeles School model\" font-family=\"-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif\"><rect x=\"30\" y=\"30\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"88\" y=\"30\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"146\" y=\"30\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"204\" y=\"30\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"262\" y=\"30\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"320\" y=\"30\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"378\" y=\"30\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"436\" y=\"30\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"30\" y=\"82\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"88\" y=\"82\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"146\" y=\"82\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"204\" y=\"82\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"262\" y=\"82\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"320\" y=\"82\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"378\" y=\"82\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"436\" y=\"82\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"30\" y=\"134\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"88\" y=\"134\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"146\" y=\"134\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"204\" y=\"134\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"262\" y=\"134\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"320\" y=\"134\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"378\" y=\"134\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"436\" y=\"134\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"30\" y=\"186\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"88\" y=\"186\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"146\" y=\"186\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"204\" y=\"186\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"262\" y=\"186\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"320\" y=\"186\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"378\" y=\"186\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"436\" y=\"186\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"30\" y=\"238\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"88\" y=\"238\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"146\" y=\"238\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"204\" y=\"238\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"262\" y=\"238\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"320\" y=\"238\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"378\" y=\"238\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"436\" y=\"238\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"30\" y=\"290\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"88\" y=\"290\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"146\" y=\"290\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"204\" y=\"290\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"262\" y=\"290\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"320\" y=\"290\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"378\" y=\"290\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><rect x=\"436\" y=\"290\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--zh-bg);stroke:var(--line)\"/><path d=\"M 20 140 L 500 140 M 20 296 L 500 296 M 146 20 L 146 350 M 378 20 L 378 350 M 30 340 L 490 40\" style=\"stroke:var(--muted);fill:none\" stroke-width=\"3\" stroke-dasharray=\"10 5\"/><circle cx=\"88\" cy=\"82\" r=\"15\" style=\"fill:var(--accent)\"/><text x=\"88\" y=\"112\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"700\" style=\"fill:var(--ink)\">商务中心</text><circle cx=\"320\" cy=\"60\" r=\"15\" style=\"fill:var(--accent)\"/><text x=\"320\" y=\"90\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"700\" style=\"fill:var(--ink)\">科技园区</text><circle cx=\"440\" cy=\"230\" r=\"15\" style=\"fill:var(--accent)\"/><text x=\"440\" y=\"260\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"700\" style=\"fill:var(--ink)\">边缘城市</text><circle cx=\"204\" cy=\"248\" r=\"15\" style=\"fill:var(--accent)\"/><text x=\"204\" y=\"278\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"700\" style=\"fill:var(--ink)\">旧市中心</text><rect x=\"262\" y=\"174\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--hl-soft);stroke:var(--hl)\" stroke-width=\"3.5\"/><text x=\"287\" y=\"201\" text-anchor=\"middle\" font-size=\"10\" style=\"fill:var(--hl)\">门禁</text><rect x=\"30\" y=\"186\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--hl-soft);stroke:var(--hl)\" stroke-width=\"3.5\"/><text x=\"55\" y=\"213\" text-anchor=\"middle\" font-size=\"10\" style=\"fill:var(--hl)\">门禁</text><rect x=\"436\" y=\"30\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--hl-soft);stroke:var(--hl)\" stroke-width=\"3.5\"/><text x=\"461\" y=\"57\" text-anchor=\"middle\" font-size=\"10\" style=\"fill:var(--hl)\">门禁</text><rect x=\"320\" y=\"238\" width=\"50\" height=\"44\" rx=\"3\" style=\"fill:var(--hl-soft);stroke:var(--hl)\" stroke-width=\"3.5\"/><text x=\"345\" y=\"265\" text-anchor=\"middle\" font-size=\"10\" style=\"fill:var(--hl)\">门禁</text><rect x=\"63\" y=\"278\" width=\"58\" height=\"22\" rx=\"11\" style=\"fill:var(--paper);stroke:var(--accent)\" stroke-dasharray=\"3 2\"/><text x=\"92\" y=\"293\" text-anchor=\"middle\" font-size=\"9.5\" style=\"fill:var(--accent)\">族裔聚居区</text><rect x=\"237\" y=\"318\" width=\"58\" height=\"22\" rx=\"11\" style=\"fill:var(--paper);stroke:var(--accent)\" stroke-dasharray=\"3 2\"/><text x=\"266\" y=\"333\" text-anchor=\"middle\" font-size=\"9.5\" style=\"fill:var(--accent)\">族裔聚居区</text><circle cx=\"40\" cy=\"372\" r=\"7\" style=\"fill:var(--accent)\"/><text x=\"52\" y=\"376\" font-size=\"10.5\" style=\"fill:var(--ink-soft)\">多个中心 polycentric</text><rect x=\"170\" y=\"364\" width=\"16\" height=\"16\" style=\"fill:var(--hl-soft);stroke:var(--hl)\" stroke-width=\"3\"/><text x=\"192\" y=\"376\" font-size=\"10.5\" style=\"fill:var(--ink-soft)\">门禁社区 fortified</text><line x1=\"310\" y1=\"372\" x2=\"340\" y2=\"372\" style=\"stroke:var(--muted)\" stroke-width=\"3\" stroke-dasharray=\"8 4\"/><text x=\"348\" y=\"376\" font-size=\"10.5\" style=\"fill:var(--ink-soft)\">高速公路 decentralized</text></svg>",
+   "en": "Figure 2. A schematic of the Los Angeles School model, drawn from Dear & Flusty's (1998) description: several centres, a patchwork of parcels, freeways, gated enclaves and ethnic enclaves. Illustrative only, not a map of Los Angeles.",
+   "zh": "图 2　洛杉矶学派模型示意图，根据 Dear &amp; Flusty（1998）的描述绘制：多个中心、拼贴式的地块、高速公路、门禁社区和族裔聚居区。仅为示意，不是洛杉矶的真实地图。"
+  },
+  {
+   "kind": "p",
+   "en": "[Core claim] Los Angeles has no dominant centre. Dear & Flusty argue that the periphery organises the centre, not the other way round; they describe development as \"keno capitalism\", where parcels on a grid are developed seemingly at random rather than spreading out in rings.",
+   "zh": "<strong>【核心主张】</strong>洛杉矶没有主导性的中心。Dear &amp; Flusty 认为是外围在组织中心，而不是中心组织外围；他们把这种开发方式称为\"基诺资本主义\"（keno capitalism）：网格上的地块像彩票开奖一样看似随机地被开发，而不是一圈圈向外扩散。"
+  },
+  {
+   "kind": "p",
+   "en": "[fragmented] The city is cut into disconnected pieces, socially and administratively. Los Angeles County is made up of many separate municipalities, each governing itself.",
+   "zh": "<strong>【fragmented 碎片化】</strong>城市被切成互不相连的小块，社会上、行政上都是。洛杉矶县由许多独立的市组成，各管各的。"
+  },
+  {
+   "kind": "p",
+   "en": "[polycentric] There is not one downtown but several functional centres; business and employment are spread across the region, the \"edge city\" pattern.",
+   "zh": "<strong>【polycentric 多中心】</strong>不止一个市中心，而是多个功能中心，商务区和就业区散布各地，即\"边缘城市\"（edge city）。"
+  },
+  {
+   "kind": "p",
+   "en": "[decentralized] Development spreads outward and the suburbs no longer depend on the centre; a sprawling city tied together by freeways.",
+   "zh": "<strong>【decentralized 去中心化】</strong>发展向外扩散，郊区不再依附市中心，是一座由高速公路连起来的蔓延式城市。"
+  },
+  {
+   "kind": "p",
+   "en": "[multi-ethnic] A city of immigrants in which ethnic enclaves sit side by side, such as Koreatown and Little Tokyo. The Koreatown case in DeVerteuil's typology is here.",
+   "zh": "<strong>【multi-ethnic 多族裔】</strong>由移民构成，族裔聚居区并存，如韩国城、小东京。课上 DeVerteuil 类型学里的韩国城案例就在这里。"
+  },
+  {
+   "kind": "p",
+   "en": "[controlled] Space is surveilled and privately governed: homeowners' associations, private security, cameras.",
+   "zh": "<strong>【controlled 受控】</strong>空间被监控、被私人化管理：业主协会、私人保安、监控摄像。"
+  },
+  {
+   "kind": "p",
+   "en": "[fortified] People are separated by physical means: gated communities, defensive architecture, privatised \"public\" space. Mike Davis argued that urban space was increasingly designed to keep unwanted people out.",
+   "zh": "<strong>【fortified 堡垒化】</strong>用物理手段把人隔开：门禁社区、防御性建筑、被私有化的\"公共\"空间。Mike Davis 认为，城市空间越来越被设计成把\"不受欢迎的人\"挡在外面。"
+  },
+  {
+   "kind": "p",
+   "en": "[vs the 1970s critique] The 1970s political-economy critique asks who causes inequality (the state, landowners, developers, capital); the Los Angeles School describes what the resulting city looks like (fragments, many centres, fortification). They do not contradict each other, and several LA School members, such as Soja and Davis, were themselves Marxist. Read in order, the three slides go: the Chicago School naturalizes inequality → the 1970s critique says institutions produce it → the LA School shows the shape of the city that results.",
+   "zh": "<strong>【和 1970 年代批评的区别】</strong>1970 年代政治经济学批评问的是\"不平等是谁造成的\"（国家、地主、开发商、资本）；洛杉矶学派描述的是\"结果城市长成什么样\"（碎片、多中心、堡垒化）。两者不矛盾，Soja、Davis 等成员本身也是马克思主义取向。讲义三页按顺序读：芝加哥学派把不平等自然化 → 1970 年代学者指出不平等由制度造成 → 洛杉矶学派描述这种城市最后的空间形态。"
+  },
+  {
+   "kind": "p",
+   "en": "[Criticism] The main criticism of the LA School mirrors its own criticism of Chicago: it treats the features of one city as a universal model of the city.",
+   "zh": "<strong>【主要批评】</strong>学界对洛杉矶学派的主要批评，和它批评芝加哥学派的理由一样：把一座城市的特征当成了所有城市的普遍模式。"
+  },
+  {
+   "kind": "p",
+   "en": "[Links to your material] Nanjing (Song et al. 2023): most highly gentrified quarters are gated communities, and the authors' \"club-isation\" of landscape is a Chinese version of fortified and controlled. Kern (2007): condos turn security into a purchasable commodity, the same logic. Hangzhou: Qianjiang New Town, Binjiang, Future Sci-Tech City and Xiaoshan existing side by side is a ready example of polycentric and decentralized.",
+   "zh": "<strong>【和你手上材料的联系】</strong>南京（宋伟轩等 2023）：高度绅士化小区多为封闭社区，作者说的\"空间俱乐部化\"就是 fortified 和 controlled 的中国版本。Kern（2007）：公寓把\"安全\"变成可以买的商品，也是同一逻辑。杭州：钱江新城、滨江、未来科技城、萧山并存，是 polycentric 和 decentralized 的现成例子。"
+  },
+  {
+   "kind": "h3",
    "en": "0.1 · Simmel (1903) — The Metropolis and Mental Life",
-   "zh": "0.1 · Simmel (1903) · <em>The Metropolis and Mental Life</em> 大都市与精神生活"
+   "zh": "0.1 · Simmel (1903) · The Metropolis and Mental Life 大都市与精神生活"
   },
   {
    "kind": "p",
@@ -89,7 +171,7 @@
   {
    "kind": "h3",
    "en": "0.2 · Wirth (1938) — Urbanism as a Way of Life",
-   "zh": "0.2 · Wirth (1938) · <em>Urbanism as a Way of Life</em> 都市主义作为一种生活方式"
+   "zh": "0.2 · Wirth (1938) · Urbanism as a Way of Life 都市主义作为一种生活方式"
   },
   {
    "kind": "p",
@@ -134,7 +216,7 @@
   {
    "kind": "h3",
    "en": "0.3 · Sennett (2018; slides 2019) — Building and Dwelling: Ethics for the City",
-   "zh": "0.3 · Sennett (2018 / 讲义 2019) · <em>Building and Dwelling: Ethics for the City</em>"
+   "zh": "0.3 · Sennett (2018 / 讲义 2019) · Building and Dwelling: Ethics for the City"
   },
   {
    "kind": "p",
@@ -294,7 +376,7 @@
   {
    "kind": "h3",
    "en": "5 · Ruonavaara (2025) — An idea that refuses to die: Rise, fall and resurgence of \"housing class\"",
-   "zh": "5 · Ruonavaara (2025) · <em>An idea that refuses to die: Rise, fall and resurgence of \"housing class\"</em>"
+   "zh": "5 · Ruonavaara (2025) · An idea that refuses to die: Rise, fall and resurgence of \"housing class\""
   },
   {
    "kind": "p",
@@ -334,7 +416,7 @@
   {
    "kind": "h3",
    "en": "6 · Hirvonen & Lilius (2019) — Do neighbour relationships still matter?",
-   "zh": "6 · Hirvonen & Lilius (2019) · <em>Do neighbour relationships still matter?</em>"
+   "zh": "6 · Hirvonen & Lilius (2019) · Do neighbour relationships still matter?"
   },
   {
    "kind": "p",
@@ -384,7 +466,7 @@
   {
    "kind": "h3",
    "en": "7 · Kern (2007) — Reshaping the Boundaries of Public and Private Life: Gender, Condominium Development, and the Neoliberalization of Urban Living",
-   "zh": "7 · Kern (2007) · <em>Reshaping the Boundaries of Public and Private Life: Gender, Condominium Development, and the Neoliberalization of Urban Living</em>"
+   "zh": "7 · Kern (2007) · Reshaping the Boundaries of Public and Private Life: Gender, Condominium Development, and the Neoliberalization of Urban Living"
   },
   {
    "kind": "p",
@@ -424,7 +506,7 @@
   {
    "kind": "h3",
    "en": "8 · Ronald & Kadi (2017) — The Revival of Private Landlords in Britain's Post-Homeownership Society",
-   "zh": "8 · Ronald & Kadi (2017) · <em>The Revival of Private Landlords in Britain's Post-Homeownership Society</em>"
+   "zh": "8 · Ronald & Kadi (2017) · The Revival of Private Landlords in Britain's Post-Homeownership Society"
   },
   {
    "kind": "p",
@@ -469,7 +551,7 @@
   {
    "kind": "h3",
    "en": "9 · Paadam et al. / Ilmonen (2016) — Ways of Residing in Transformation (edited volume)",
-   "zh": "9 · Paadam et al. / Ilmonen (2016) · <em>Ways of Residing in Transformation</em>（章节合集）"
+   "zh": "9 · Paadam et al. / Ilmonen (2016) · Ways of Residing in Transformation （章节合集）"
   },
   {
    "kind": "p",
@@ -669,7 +751,7 @@
   {
    "kind": "h3",
    "en": "1 · Shaw (2008) — Gentrification: What It Is, Why It Is, and What Can Be Done about It",
-   "zh": "1 · Shaw (2008) · <em>Gentrification: What It Is, Why It Is, and What Can Be Done about It</em>"
+   "zh": "1 · Shaw (2008) · Gentrification: What It Is, Why It Is, and What Can Be Done about It"
   },
   {
    "kind": "p",
@@ -709,7 +791,7 @@
   {
    "kind": "h3",
    "en": "2 · Davidson (2018) — New-build gentrification (Handbook of Gentrification Studies, ch. 15)",
-   "zh": "2 · Davidson (2018) · <em>New-build gentrification</em>（绅士化研究手册第 15 章）"
+   "zh": "2 · Davidson (2018) · New-build gentrification （绅士化研究手册第 15 章）"
   },
   {
    "kind": "p",
@@ -744,7 +826,7 @@
   {
    "kind": "h3",
    "en": "3 · DeVerteuil (2018) — Immigration and gentrification (same handbook, ch. 25)",
-   "zh": "3 · DeVerteuil (2018) · <em>Immigration and gentrification</em>（同一手册第 25 章）"
+   "zh": "3 · DeVerteuil (2018) · Immigration and gentrification （同一手册第 25 章）"
   },
   {
    "kind": "p",
@@ -779,7 +861,7 @@
   {
    "kind": "h3",
    "en": "4 · Lees (2008) — Gentrification and Social Mixing: Towards an Inclusive Urban Renaissance?",
-   "zh": "4 · Lees (2008) · <em>Gentrification and Social Mixing: Towards an Inclusive Urban Renaissance?</em>"
+   "zh": "4 · Lees (2008) · Gentrification and Social Mixing: Towards an Inclusive Urban Renaissance?"
   },
   {
    "kind": "p",
@@ -824,7 +906,7 @@
   {
    "kind": "h3",
    "en": "5 · Yrjänä (2026) — By any means necessary: the anti-segregation efforts and state-led gentrification in Helsinki",
-   "zh": "5 · Yrjänä (2026) · <em>By any means necessary: the anti-segregation efforts and state-led gentrification in Helsinki</em>"
+   "zh": "5 · Yrjänä (2026) · By any means necessary: the anti-segregation efforts and state-led gentrification in Helsinki"
   },
   {
    "kind": "p",
