@@ -1,0 +1,240 @@
+<title>课程概念关系图</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;800&family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one working canvas. Five columns left→right follow the course (Introduction lens → Housing → Segregation → Gentrification mechanisms → Gentrification outcomes); edges are typed relations. Below it, a detail panel for the selected concept. Same unit colours as the Reading Guide. */
+:root{
+  --paper:#f6f7f4;--surface:#ffffff;--ink:#1d2622;--soft:#4d5a54;--line:#d5dcd7;--dim:.18;
+  --intro:#2f6f8f;--housing:#9a6a1c;--seg:#6a4fa0;--gent:#2f7a68;
+  --intro-w:#e2eef4;--housing-w:#f5ecd9;--seg-w:#eeeaf6;--gent-w:#e3efea;
+  --e-drive:#2f6f8f;--e-legit:#c0611d;--e-extend:#2f7a68;--e-crit:#b23a3a;--e-limit:#6a4fa0;
+  --sydney:#c0611d;
+  --f-display:"Noto Serif SC","Songti SC",serif;--f-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#131816;--surface:#1b211e;--ink:#e4ebe7;--soft:#a3b1aa;--line:#33403a;
+  --intro:#7fbcd9;--housing:#d9a650;--seg:#b49ce6;--gent:#6cc4ad;
+  --intro-w:#1a2b33;--housing-w:#33291a;--seg-w:#2a2438;--gent-w:#1d322c;
+  --e-drive:#7fbcd9;--e-legit:#e89a5a;--e-extend:#6cc4ad;--e-crit:#ec8a8a;--e-limit:#b49ce6;--sydney:#e89a5a;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#131816;--surface:#1b211e;--ink:#e4ebe7;--soft:#a3b1aa;--line:#33403a;
+  --intro:#7fbcd9;--housing:#d9a650;--seg:#b49ce6;--gent:#6cc4ad;
+  --intro-w:#1a2b33;--housing-w:#33291a;--seg-w:#2a2438;--gent-w:#1d322c;
+  --e-drive:#7fbcd9;--e-legit:#e89a5a;--e-extend:#6cc4ad;--e-crit:#ec8a8a;--e-limit:#b49ce6;--sydney:#e89a5a;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin:0 auto;padding-block:28px 64px;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.35;text-wrap:balance}
+h1{font-size:clamp(26px,4.5vw,36px);font-weight:800}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gent)}
+header{display:flex;flex-direction:column;gap:8px}
+header p{color:var(--soft);max-width:72ch}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.controls .grp{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.controls .lab{font-size:12px;color:var(--soft);font-family:var(--f-mono);margin-right:2px}
+button.t{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:3px 11px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+button.t .sw{width:14px;height:3px;border-radius:2px;background:var(--c)}
+button.t[aria-pressed="false"]{opacity:.45}
+button.t.mode[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+button.t:focus-visible,g.node:focus-visible{outline:2px solid var(--gent);outline-offset:2px}
+.canvas{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+svg#map{display:block;min-width:900px;width:100%;height:auto}
+.colhead{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em}
+g.node{cursor:pointer}
+g.node rect{stroke-width:1.5;transition:opacity .15s}
+g.node text{pointer-events:none}
+g.node .zh{font-size:13px;font-weight:700;fill:var(--ink)}
+g.node .en{font-size:10px;fill:var(--soft)}
+g.node.sel rect{stroke-width:3}
+g.node .ring{fill:none;stroke:var(--sydney);stroke-width:2.5;stroke-dasharray:5 3;opacity:0}
+body.sydney g.node.has-syd .ring{opacity:1}
+path.edge{fill:none;stroke-width:1.8;transition:opacity .15s}
+path.edge.spine{stroke-width:3.4}
+.dimmed{opacity:var(--dim)}
+.hidden{display:none}
+.panel{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px 20px}
+@media (max-width:760px){.panel{grid-template-columns:1fr}}
+.panel h2{font-size:22px}
+.unitchip{display:inline-block;font-size:12px;padding:1px 9px;border-radius:999px;font-weight:500}
+.src{font-size:13px;color:var(--soft)}
+.def{font-size:15px}
+.syd{background:var(--housing-w);border-left:3px solid var(--sydney);border-radius:4px;padding:9px 12px;font-size:14px}
+.syd b{color:var(--sydney)}
+ul.links{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+ul.links li{border-bottom:1px dashed var(--line);padding-bottom:8px;font-size:14px}
+ul.links li:last-child{border-bottom:none}
+ul.links .rel{font-size:12px;font-weight:700;padding:0 7px;border-radius:999px;color:var(--surface);margin-right:6px}
+ul.links a{color:var(--ink);font-weight:700;text-decoration:none;border-bottom:1px dotted var(--soft);cursor:pointer}
+ul.links .basis{font-family:var(--f-mono);font-size:11px;color:var(--soft);margin-left:6px}
+ul.links .why{display:block;color:var(--soft);font-size:13.5px;margin-top:2px}
+.col{display:flex;flex-direction:column;gap:10px;min-width:0}
+.note{font-size:13px;color:var(--soft)}
+.howto{font-size:13.5px;color:var(--soft);display:flex;flex-wrap:wrap;gap:4px 18px}
+footer{font-size:12.5px;color:var(--soft);border-top:1px solid var(--line);padding-top:12px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Urban Studies · Concept map</div>
+  <h1>课程概念关系图</h1>
+  <p>四个单元的核心概念和它们之间的关系。每条连线标了关系类型和依据：来自讲义、来自读物，或者是按课程主线做的推断。点一个概念，下方会显示定义、出处，以及它连着谁、为什么连。</p>
+</header>
+
+<div class="controls">
+  <div class="grp"><span class="lab">关系</span>
+    <button class="t" data-type="drive" aria-pressed="true" style="--c:var(--e-drive)"><span class="sw"></span>驱动</button>
+    <button class="t" data-type="legit" aria-pressed="true" style="--c:var(--e-legit)"><span class="sw"></span>正当化</button>
+    <button class="t" data-type="extend" aria-pressed="true" style="--c:var(--e-extend)"><span class="sw"></span>延伸</button>
+    <button class="t" data-type="crit" aria-pressed="true" style="--c:var(--e-crit)"><span class="sw"></span>批判</button>
+    <button class="t" data-type="limit" aria-pressed="true" style="--c:var(--e-limit)"><span class="sw"></span>制约</button>
+  </div>
+  <div class="grp"><span class="lab">视角</span>
+    <button class="t mode" id="spineBtn" aria-pressed="false">课程主线</button>
+    <button class="t mode" id="sydBtn" aria-pressed="false">悉尼 Waterloo</button>
+  </div>
+</div>
+
+<div class="canvas"><svg id="map" viewBox="0 0 1000 585" role="img" aria-label="课程概念关系图"></svg></div>
+<div class="howto"><span>点概念：看定义和连线</span><span>点空白处：取消选择</span><span>"课程主线"：住房商品化 → 空间不平等 → 国家介入 → 绅士化</span><span>"悉尼 Waterloo"：虚线圈出案例里用得上的概念</span></div>
+
+<section class="panel" id="panel" aria-live="polite"></section>
+
+<footer>依据标记：<b>讲义</b> = Lectures-20260706 课件原文；<b>读物</b> = 指定读物或其整理（Readings-Summary）；<b>推断</b> = 课件没有直接写、按课程主线做的连接，写进论文前要自己论证。洛杉矶学派一节是讲义外补充。悉尼注释的出处见资料包（sydney-waterloo-sources）。</footer>
+</div>
+
+<script>
+(function(){
+var UNITS={intro:{zh:"Introduction",c:"var(--intro)",w:"var(--intro-w)"},housing:{zh:"Housing",c:"var(--housing)",w:"var(--housing-w)"},seg:{zh:"Segregation",c:"var(--seg)",w:"var(--seg-w)"},gent:{zh:"Gentrification",c:"var(--gent)",w:"var(--gent-w)"}};
+var TYPES={drive:{zh:"驱动",c:"var(--e-drive)"},legit:{zh:"正当化",c:"var(--e-legit)"},extend:{zh:"延伸",c:"var(--e-extend)"},crit:{zh:"批判",c:"var(--e-crit)"},limit:{zh:"制约",c:"var(--e-limit)"}};
+var COLS=[{x:100,u:"intro",h:"INTRODUCTION · 视角"},{x:300,u:"housing",h:"HOUSING · 住房"},{x:500,u:"seg",h:"SEGREGATION · 隔离"},{x:700,u:"gent",h:"GENTRIFICATION · 机制"},{x:900,u:"gent",h:"GENTRIFICATION · 后果与正当化"}];
+var N=[
+ {id:"chicago",col:0,row:0,zh:"芝加哥学派",en:"Chicago School",def:"城市发展由空间竞争与个人选择驱动；Burgess 的同心圆模型把城市描述为从一个中心向外分层，群体通过\"入侵与演替\"向外迁移。",src:"讲义 introduction.pdf；同心圆模型为讲义外补充（Park, Burgess & McKenzie 1925）"},
+ {id:"pe70",col:0,row:1,zh:"1970s 政治经济学批评",en:"Political-economy critique",def:"竞争和个人选择不是\"城市\"的特征，而是资本主义城市的特征；空间不平等来自国家与城市的政治、地主的权力、开发商的逐利。整门课的分析视角。",src:"讲义 introduction.pdf（\"1970s\" 两页）",syd:"Waterloo 三个角色俱全：国家（Homes NSW、规划权）、地主（土地本身是公有的）、开发商（Stockland 牵头的联合体）。"},
+ {id:"la",col:0,row:2,zh:"洛杉矶学派",en:"Los Angeles School",def:"碎片化、多中心、去中心化、多族裔、受控、堡垒化。描述的是结果城市的空间形态。",src:"讲义 introduction.pdf 只列六个词；背景为讲义外补充（Soja、Davis、Dear & Flusty）"},
+ {id:"planetary",col:0,row:3,zh:"星球城市化",en:"Planetary urbanism",def:"城市化是全球过程，是围绕土地、住房、环境正义、基本服务的\"terrain of struggle\"；要看地方的政治经济条件。",src:"讲义 introduction.pdf（Brenner & Schmid 2021）",syd:"支撑赫尔辛基—悉尼对比：同一套概念在两种地方条件下如何运作。"},
+ {id:"sennett",col:0,row:4,zh:"公共空间与相遇",en:"Sennett: strangers meet",def:"城市是陌生人有可能相遇的聚落；公共空间让人习得都市能力。",src:"讲义 introduction.pdf（Sennett）",syd:"Arthurson et al. (2015)：更新后私有化的\"公共\"空间成了租户使用的障碍。"},
+
+ {id:"homere",col:1,row:0,zh:"家 vs 房地产",en:"Home vs real estate",def:"住房作为生活的社会空间，与住房作为牟利工具之间的冲突。讲义：\"Housing is not just about homes, it's an asset class.\"",src:"讲义 housing.pdf（Madden & Marcuse 2016）",syd:"Waterloo 对租户是家，对规划是一块紧邻地铁站的高价值地块。"},
+ {id:"financial",col:1,row:1,zh:"住房金融化",en:"Financialization",def:"金融动机、市场和行为者在塑造住房中的作用日益增强；没有国家行动，任何住房金融体系都建立不起来。",src:"讲义 housing.pdf（Aalbers 2016）",syd:"澳洲负扣税与资本利得税折扣（Grattan 2016）；投资者贷款约占新贷款三分之一（ABS 2022）。"},
+ {id:"consumption",col:1,row:2,zh:"住房作为消费",en:"Housing as consumption",def:"后工业城市里住房从\"需要\"变成\"消费\"，承载身份与生活方式；质的需求、中产阶级。",src:"讲义 housing.pdf；读物 Ilmonen (2016)"},
+ {id:"assetclass",col:1,row:3,zh:"资产型阶级",en:"Asset-based class",def:"阶级取决于是否拥有能跑赢工资的资产；资产型福利（property-based welfare）。",src:"读物 Ruonavaara (2025)；Ronald & Kadi (2017)",syd:"Burke et al. (2020, AHURI 328)：自有率下降，澳洲正走向\"双重权属社会\"。"},
+ {id:"subsidyshift",col:1,row:4,zh:"补贴转向需求侧",en:"Supply → demand subsidies",def:"国家从补贴住房生产转向补贴家户；社会住房存量下降、私人租赁增长。",src:"讲义 housing.pdf 与 Segregation_270126.pdf 都有",syd:"社会住房家庭占比从 4.7%（2013）降到 4.0%（2025，AIHW，引用前核对）：残余化。"},
+ {id:"condo",col:1,row:5,zh:"公寓与可购买的安全",en:"Condos (Kern)",def:"多伦多公寓把\"安全\"变成私人可购买的商品；公寓开发是中产\"夺回\"市中心的隐蔽方式。",src:"读物 Kern (2007)"},
+
+ {id:"segdef",col:2,row:0,zh:"隔离 vs 空间分异",en:"Segregation vs differentiation",def:"中性定义（Massey & Denton：群体分开居住的程度）与有害定义（Marcuse：非自愿聚集）；讲义特别列出 segregation 与 spatial differentiation 这组用词。",src:"讲义 Segregation_270126.pdf",syd:"AHURI 414（Sarkar et al. 2024）：五大城市收入隔离上升，低收入者被推向外围。"},
+ {id:"vicious",col:2,row:1,zh:"恶性循环与邻里效应",en:"Vicious circles",def:"分选 + 情境效应；劣势聚集 → 邻里效应 → 选择性迁移 → 扩展到学校、工作 → 跨代延续。",src:"讲义 Segregation_270126.pdf（Tammaru et al. 2021；van Ham & Tammaru 2016）",syd:"Randolph & Tice (2014)：澳洲城市的劣势在郊区化。"},
+ {id:"socialmix",col:2,row:2,zh:"社会混合",en:"Social mixing",def:"讲义列出的管理隔离工具之一：让不同收入、权属的人住在同一街区。赫尔辛基自 1970 年代起实行小尺度混合。",src:"讲义 Segregation_270126.pdf",syd:"NSW Communities Plus 的 70:30（私人：社会）目标；AHURI 412 指出这个比例几乎没有证据支撑。"},
+ {id:"retrench",col:2,row:3,zh:"住房体制收缩",en:"Retrenching regime",def:"从主动的住房政策转向被动的社会政策；\"post-welfare state\"，隔离问题被下放到地方，住房市场责任与私人部门分担。",src:"讲义 Segregation_270126.pdf（Kynsilehto & Alastalo 2024）",syd:"公屋更新的可行性取决于开发商能否赚钱（AHURI 358 的 \"asset-based viability\"）。"},
+
+ {id:"rentgap",col:3,row:0,zh:"租差",en:"Rent gap",def:"现行用途下资本化地租与潜在地租之间的差距；差距足够大时再开发有利可图。",src:"讲义 gentrification.pdf（Smith 1979）",syd:"地铁站和重新分区由公共投资推高潜在地租；车站上盖空中权卖了 1.06 亿澳元（Sydney Metro 2019）。"},
+ {id:"subsidygap",col:3,row:1,zh:"补贴差距",en:"Subsidy gap",def:"国家先承担土地整备、征收等成本，为私人资本去风险；\"社会化风险、私有化利润\"。",src:"读物 Yrjänä (2026)（Gray & Kallin 2023；Risager 2022）",syd:"Homes NSW 负责腾空与重新分区，再与 Stockland 联合体签约（2025-04-10）。"},
+ {id:"waves",col:3,row:2,zh:"国家主导绅士化",en:"State-led / third wave",def:"第三波绅士化：大资本主导、国家系统性介入（Hackworth & Smith）；国家规划、开发商生产、中产消费（Stein）。",src:"讲义 gentrification.pdf（Stein 2019）；读物 Shaw (2008)",syd:"悉尼最大的公屋更新：政府主导、私人开发商合作、约一半楼面为市场住房。"},
+ {id:"newbuild",col:3,row:3,zh:"新建绅士化",en:"New-build gentrification",def:"在新建住宅上发生的绅士化，已成第三波的主导形式；核心争议是没有直接置换算不算绅士化。",src:"读物 Davidson (2018)",syd:"拆除公屋、混合权属重建，正是 Davidson 说的形态。"},
+ {id:"definition",col:3,row:4,zh:"绅士化（定义）",en:"Gentrification",def:"资本再投资，较穷的居民及其文化被较富的人及其审美和设施置换（Stein 2019, 41）；Davidson & Lees 四要素：再投资、阶层升级、景观变化、置换。",src:"讲义 gentrification.pdf；读物 Davidson (2018)"},
+
+ {id:"displacement",col:4,row:0,zh:"置换",en:"Displacement",def:"直接、间接、排斥性置换；Davidson & Lees 用间接置换反驳\"没有直接置换就不算绅士化\"。",src:"读物 Davidson (2018)；Shaw (2008)（Slater 的批评）",syd:"Wynne & Rogers (2021)\"在地失所\"：2010–17 年人还没搬，失所已经发生；2026 年第一期 150 套开始拆除。"},
+ {id:"stigma",col:4,row:1,zh:"地域污名 / 声誉差距",en:"Territorial stigma",def:"把地方\"被想象的潜力\"与\"被污名化的现状\"对立起来，为干预提供正当性。",src:"读物 Yrjänä (2026)（Kallin 2017；Sisson 2021）",syd:"Zanardo et al. (2024)：政府贬低 Waterloo 的住房质量以证明拆除合理；Sisson 本人同时被 Yrjänä 引用。"},
+ {id:"smcritique",col:4,row:2,zh:"社会混合批判",en:"Lees (2008) critique",def:"社会混合是绅士化的正面包装：单向策略、新老居民不交往、摧毁互助网络、从不说清多少混合才够。",src:"读物 Lees (2008)",syd:"Arthurson (2002; 2015)；AHURI 412、358。"},
+ {id:"green",col:4,row:3,zh:"绿色绅士化",en:"Green gentrification",def:"翻新公园与公共空间以吸引投资；中国语境下有\"景观绅士化\"（宋伟轩等 2023）。",src:"读物 Yrjänä (2026)（Wallin 2021）；宋伟轩等 (2023)"},
+];
+var E=[
+ ["pe70","chicago","crit","讲义","讲义原话：the Chicago school naturalized the unequal city。"],
+ ["la","chicago","crit","讲义外补充","洛杉矶学派认为单中心同心圆模型不再适用，城市由边缘组织中心。"],
+ ["pe70","rentgap","extend","推断","Smith 的租差是政治经济学视角在绅士化上的应用：不平等由资本流动和制度造成，而非个人偏好。"],
+ ["pe70","waves","extend","推断","\"国家、地主、开发商\"在绅士化单元里变成 Stein 的三角：国家规划、开发商生产、中产消费。"],
+ ["planetary","definition","extend","读物","星球绅士化（Shin, Lees & López-Morales 2016）要求按地方条件重新界定绅士化；宋伟轩等 (2023) 据此提出景观绅士化。"],
+ ["la","condo","extend","推断","洛杉矶学派的 controlled、fortified，与 Kern 讲的门禁、保安、可购买的安全是同一种空间逻辑。"],
+ ["sennett","smcritique","extend","推断","Lees 第二条批判（新老居民不交往）和 Sennett 的\"陌生人相遇\"可以对读：住在一起不等于相遇。"],
+ ["homere","financial","extend","讲义","住房从\"家\"变成\"资产类别\"，金融化是这一转变的机制。"],
+ ["financial","rentgap","drive","讲义","讲义结尾引文：financialised real-estate hunts for ever more lucrative submarkets；资本追逐潜在地租。"],
+ ["financial","vicious","drive","讲义","Segregation 讲义：During the age of financialization, segregation has risen in European countries。"],
+ ["consumption","definition","drive","读物","需求端解释（Ley）：新中产的生活方式与审美推动绅士化；Ilmonen 的 housing as consumption 是它的住房版本。"],
+ ["assetclass","definition","extend","读物","Readings-Summary 串联：资产型阶级理论解释谁能从绅士化中获利、谁被排除。"],
+ ["subsidyshift","financial","drive","讲义","Segregation 讲义：补贴转向需求侧、社会住房减少，被批评为加速了金融化。"],
+ ["subsidyshift","retrench","extend","讲义","两份讲义都把补贴转向放在住房体制收缩的长期趋势里（1980 年代起）。"],
+ ["condo","newbuild","extend","读物","Kern 的多伦多公寓就是新建绅士化；Readings-Summary 把两篇对读。"],
+ ["segdef","vicious","extend","讲义","从中性的\"分开居住\"到有害的\"优势生优势、劣势生劣势\"。"],
+ ["vicious","socialmix","drive","讲义","社会混合是讲义列出的、针对劣势聚集和邻里效应的管理工具。"],
+ ["retrench","socialmix","limit","讲义","私人租赁扩大后，市政府无法影响租客选择，混合越来越难。"],
+ ["socialmix","waves","legit","读物","Lees (2008) 与 Yrjänä (2026)：以\"反隔离\"为名的社会混合，被用来为国家主导绅士化提供正当性。"],
+ ["smcritique","socialmix","crit","读物","Lees (2008) 的六条批判。"],
+ ["stigma","waves","legit","读物","Yrjänä：声誉差距越大，干预越显得正当；污名为拆除和更新铺路。"],
+ ["stigma","socialmix","legit","读物","Yrjänä：用去语境化的统计把社区塑造成\"问题\"，社会混合成为\"矫正措施\"。"],
+ ["subsidygap","rentgap","extend","读物","国家先承担成本，把租差变成私人资本可以兑现的利润。"],
+ ["subsidygap","waves","drive","读物","Yrjänä：国家利用规划垄断和土地所有权为私人资本去风险。"],
+ ["rentgap","definition","drive","讲义","供给端解释：租差足够大时资本回流（Smith 1979）。"],
+ ["waves","newbuild","extend","读物","Davidson：新建绅士化已成为第三波的主导形式，常由国家支持。"],
+ ["newbuild","displacement","extend","读物","residentialization 之争：没有直接置换算不算绅士化；Davidson & Lees 以间接置换回应。"],
+ ["definition","displacement","extend","讲义","置换是绅士化定义的组成部分（Stein；Davidson & Lees 四要素）。"],
+ ["green","definition","extend","读物","绿色 / 景观绅士化把定义扩展到由环境与景观驱动的情形。"],
+ ["green","waves","drive","读物","Yrjänä：规划官员承认建公园部分是为了提升地区形象、吸引投资。"],
+];
+var SPINE=["homere","financial","vicious","socialmix","waves","newbuild","displacement"];
+var spineEdges={};for(var i=0;i<SPINE.length-1;i++)spineEdges[SPINE[i]+">"+SPINE[i+1]]=1;
+
+var W=168,H=50,TOP=70,STEP=92;
+var byId={};N.forEach(function(n){n.x=COLS[n.col].x;n.y=TOP+n.row*STEP;n.u=COLS[n.col].u;byId[n.id]=n;});
+var svg=document.getElementById("map"),NS="http://www.w3.org/2000/svg";
+function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e;}
+var defs=el("defs",{});
+Object.keys(TYPES).forEach(function(t){var m=el("marker",{id:"ar-"+t,viewBox:"0 0 10 10",refX:"9",refY:"5",markerWidth:"7",markerHeight:"7",orient:"auto-start-reverse"},defs);el("path",{d:"M0,0 L10,5 L0,10 z",style:"fill:"+TYPES[t].c},m);});
+COLS.forEach(function(c){var t=el("text",{x:c.x,y:30,"text-anchor":"middle","class":"colhead",style:"fill:"+UNITS[c.u].c});t.textContent=c.h;});
+var gE=el("g",{}),gN=el("g",{});
+function anchor(a,b){
+  if(a.col===b.col){var x=a.x+W/2,y1=a.y,y2=b.y;return "M"+x+","+y1+" C"+(x+48)+","+y1+" "+(x+48)+","+y2+" "+(x+2)+","+y2;}
+  var dir=b.col>a.col?1:-1,x1=a.x+dir*W/2,x2=b.x-dir*W/2,dx=(x2-x1)/2;
+  return "M"+x1+","+a.y+" C"+(x1+dx)+","+a.y+" "+(x2-dx)+","+b.y+" "+x2+","+b.y;
+}
+var edgeEls=[];
+E.forEach(function(e,i){var a=byId[e[0]],b=byId[e[1]];var p=el("path",{d:anchor(a,b),"class":"edge","marker-end":"url(#ar-"+e[2]+")",style:"stroke:"+TYPES[e[2]].c+(e[3]==="推断"||e[3]==="讲义外补充"?";stroke-dasharray:6 4":"")},gE);p.dataset.i=i;edgeEls.push(p);});
+var nodeEls={};
+N.forEach(function(n){
+  var g=el("g",{"class":"node"+(n.syd?" has-syd":""),tabindex:"0",role:"button","aria-label":n.zh},gN);
+  el("rect",{x:n.x-W/2-5,y:n.y-H/2-5,width:W+10,height:H+10,rx:12,"class":"ring"},g);
+  el("rect",{x:n.x-W/2,y:n.y-H/2,width:W,height:H,rx:9,style:"fill:"+UNITS[n.u].w+";stroke:"+UNITS[n.u].c},g);
+  var t1=el("text",{x:n.x,y:n.y-3,"text-anchor":"middle","class":"zh"},g);t1.textContent=n.zh;
+  var t2=el("text",{x:n.x,y:n.y+13,"text-anchor":"middle","class":"en"},g);t2.textContent=n.en;
+  g.addEventListener("click",function(ev){ev.stopPropagation();select(n.id);});
+  g.addEventListener("keydown",function(ev){if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();select(n.id);}});
+  nodeEls[n.id]=g;
+});
+svg.addEventListener("click",function(){select(null);});
+
+var on={drive:1,legit:1,extend:1,crit:1,limit:1},spine=false,syd=false,cur=null;
+function render(){
+  var lit=null;
+  if(cur){lit={};lit[cur]=1;E.forEach(function(e){if(!on[e[2]])return;if(e[0]===cur)lit[e[1]]=1;if(e[1]===cur)lit[e[0]]=1;});}
+  if(spine){lit={};SPINE.forEach(function(s){lit[s]=1;});}
+  edgeEls.forEach(function(p){var e=E[+p.dataset.i];var show=on[e[2]];p.classList.toggle("hidden",!show);
+    var isSp=spine&&spineEdges[e[0]+">"+e[1]];p.classList.toggle("spine",!!isSp);
+    var dim=spine?!isSp:(cur?!(e[0]===cur||e[1]===cur):false);p.classList.toggle("dimmed",dim);});
+  N.forEach(function(n){var g=nodeEls[n.id];g.classList.toggle("dimmed",!!lit&&!lit[n.id]);g.classList.toggle("sel",n.id===cur);});
+  panel();
+}
+function select(id){cur=id;if(id&&spine){spine=false;spineBtn.setAttribute("aria-pressed","false");}render();}
+document.querySelectorAll("button[data-type]").forEach(function(b){b.addEventListener("click",function(){var t=b.dataset.type;on[t]=on[t]?0:1;b.setAttribute("aria-pressed",on[t]?"true":"false");render();});});
+var spineBtn=document.getElementById("spineBtn"),sydBtn=document.getElementById("sydBtn");
+spineBtn.addEventListener("click",function(){spine=!spine;spineBtn.setAttribute("aria-pressed",spine?"true":"false");if(spine)cur=null;render();});
+sydBtn.addEventListener("click",function(){syd=!syd;sydBtn.setAttribute("aria-pressed",syd?"true":"false");document.body.classList.toggle("sydney",syd);render();});
+
+var P=document.getElementById("panel");
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function panel(){
+  if(spine){
+    P.innerHTML='<div class="col"><span class="unitchip" style="background:var(--gent-w);color:var(--gent)">课程主线</span><h2>住房商品化 → 空间不平等 → 国家介入 → 绅士化</h2><p class="def">'+SPINE.map(function(s){return "<b>"+esc(byId[s].zh)+"</b>";}).join(" → ")+'</p><p class="note">这条线由课件里能找到依据的连线组成：家变成资产（Housing），金融化时代隔离上升（Segregation 讲义原话），社会混合作为管理隔离的工具，被用来为国家主导绅士化提供正当性（Lees、Yrjänä），最后落到新建绅士化与置换（Davidson）。</p></div><div class="col"><p class="note">写论文第 2 节时可以按这条线安排概念的出场顺序。点任一概念会退出主线视图。</p>'+(syd?'<div class="syd"><b>悉尼：</b>Waterloo 在这条线上的每一环都有材料：公屋是家也是高价值地块，悉尼收入隔离上升，70:30 社会混合，Homes NSW + Stockland，拆除重建，在地失所。</div>':'')+'</div>';
+    return;}
+  if(!cur){P.innerHTML='<div class="col"><h2>点一个概念开始</h2><p class="def">图从左到右沿着课程走：Introduction 提供视角，Housing 讲住房如何变成资产，Segregation 讲空间不平等及其管理，Gentrification 分成机制和后果两列。</p><p class="note">实线来自讲义或读物；虚线是推断或讲义外补充，写进论文前需要自己论证。</p></div><div class="col"><p class="note">建议从\"社会混合\"或\"租差\"点起，它们连着的概念最多。</p></div>';return;}
+  var n=byId[cur],u=UNITS[n.u];
+  var rels=E.map(function(e,i){return {e:e,i:i};}).filter(function(o){return on[o.e[2]]&&(o.e[0]===cur||o.e[1]===cur);});
+  var li=rels.map(function(o){var e=o.e,other=e[0]===cur?e[1]:e[0],out=e[0]===cur,t=TYPES[e[2]];
+    var phrase=out?("→ "+t.zh+" → "):("← "+t.zh+" ← ");
+    return '<li><span class="rel" style="background:'+t.c+'">'+t.zh+'</span>'+(out?'本概念 '+t.zh+' ':'')+'<a data-go="'+other+'">'+esc(byId[other].zh)+'</a>'+(out?'':' '+t.zh+' 本概念')+'<span class="basis">'+esc(e[3])+'</span><span class="why">'+esc(e[4])+'</span></li>';}).join("");
+  P.innerHTML='<div class="col"><span class="unitchip" style="background:'+u.w+';color:'+u.c+'">'+u.zh+'</span><h2>'+esc(n.zh)+'<span style="font-size:15px;color:var(--soft);font-weight:500"> · '+esc(n.en)+'</span></h2><p class="def">'+esc(n.def)+'</p><p class="src">出处：'+esc(n.src)+'</p>'+(syd&&n.syd?'<div class="syd"><b>悉尼 Waterloo：</b>'+esc(n.syd)+'</div>':'')+(syd&&!n.syd?'<p class="note">这个概念在悉尼案例里暂时没有直接对应的材料。</p>':'')+'</div><div class="col"><h3 style="font-size:16px">连着 '+rels.length+' 个概念</h3><ul class="links">'+(li||'<li class="note">当前筛选下没有连线。</li>')+'</ul></div>';
+  P.querySelectorAll("a[data-go]").forEach(function(a){a.addEventListener("click",function(){select(a.dataset.go);});});
+}
+cur="socialmix";render();
+})();
+</script>
