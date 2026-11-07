@@ -31,74 +31,75 @@ with sync_playwright() as p:
     select_text_in(pg, en)
     pg.wait_for_timeout(250)
     pg.locator("#selPill").click(); pg.wait_for_timeout(150)
-    pg.locator("#hlNote").fill("英文侧批注，测试中文侧回显点")
+    pg.locator("#hlNote").fill("英文侧批注，测试中文侧对应划线")
     pg.locator("#hlSave").click(); pg.wait_for_timeout(300)
 
     ck("exact mark lands in the EN paragraph (the language actually selected)",
        en.locator("mark.hl-anno").count() == 1)
-    ck("EN paragraph itself gets no echo dot (it already has the real mark)",
-       en.locator(".linked-note-dot").count() == 0)
-    ck("ZH sibling paragraph's block gets an echo dot",
-       block.locator(".linked-note-dot").count() == 1)
-    ck("ZH sibling paragraph itself gets the visible tint class (not just the small dot)",
+    ck("EN paragraph itself does not get the cross-language underline (it already has the real mark)",
+       "has-linked-note" not in (en.get_attribute("class") or ""))
+    ck("ZH sibling paragraph gets the has-linked-note class",
        "has-linked-note" in (zh.get_attribute("class") or ""))
-    ck("tint is actually rendered (non-'none' box-shadow applied)",
-       pg.eval_on_selector(".has-linked-note", "el => getComputedStyle(el).boxShadow") != "none")
+    ck("underline is actually rendered on the ZH paragraph",
+       pg.eval_on_selector(".has-linked-note", "el => getComputedStyle(el).textDecorationLine") == "underline")
+    ck("no separate marker element is added (visual cue only, via CSS class)",
+       pg.locator(".linked-note-dot").count() == 0)
 
-    # the dot must survive switching to 中文-only mode, where the EN
+    # the underline must survive switching to 中文-only mode, where the EN
     # paragraph (and its real <mark>) gets display:none
     pg.locator(".modes button").nth(2).click()  # 中文 button
     pg.wait_for_timeout(150)
     ck("EN paragraph (and its mark) hidden in zh-only mode", not en.is_visible())
-    ck("echo dot still visible in zh-only mode", block.locator(".linked-note-dot").first.is_visible())
+    ck("ZH underline still applied in zh-only mode",
+       "has-linked-note" in (zh.get_attribute("class") or ""))
+    ck("ZH underline still visible in zh-only mode", zh.is_visible())
 
-    # clicking the dot opens the same note, without requiring a mode switch back
-    block.locator(".linked-note-dot").first.click()
-    pg.wait_for_timeout(200)
-    ck("clicking the dot opens the note card", pg.locator("#selCard").is_visible())
-    ck("card shows the right note text", "英文侧批注" in pg.locator("#hlNote").input_value())
-    pg.locator("#hlCancel").click(); pg.wait_for_timeout(150)
-
-    # back to bilingual, dot still correct, no duplicates after a repaint cycle
+    # back to bilingual, class still correct, no duplicate marks after a repaint cycle
     pg.locator(".modes button").nth(0).click()
     pg.wait_for_timeout(150)
-    ck("back in bilingual mode: still exactly one dot", block.locator(".linked-note-dot").count() == 1)
+    ck("back in bilingual mode: ZH still has the class, exactly once",
+       zh.evaluate("el => el.classList.contains('has-linked-note')"))
+    ck("still exactly one real mark in EN", en.locator("mark.hl-anno").count() == 1)
 
-    # editing the SAME note (not creating a new one) shouldn't accumulate dots
-    block.locator(".linked-note-dot").first.click()
+    # editing the SAME highlight (via the sidebar, since there's no longer a
+    # click target on the paragraph itself) shouldn't duplicate anything
+    pg.locator(".ns-row .ns-edit").first.click()
     pg.wait_for_timeout(200)
-    pg.locator("#hlNote").fill("英文侧批注，测试中文侧回显点（已编辑）")
+    ck("sidebar edit button still opens the card", pg.locator("#selCard").is_visible())
+    pg.locator("#hlNote").fill("英文侧批注，测试中文侧对应划线（已编辑）")
     pg.locator("#hlSave").click(); pg.wait_for_timeout(300)
-    ck("editing the same highlight doesn't duplicate the dot",
-       block.locator(".linked-note-dot").count() == 1)
-    ck("still exactly one real mark after edit", en.locator("mark.hl-anno").count() == 1)
+    ck("editing the same highlight keeps exactly one ZH underline",
+       zh.evaluate("el => el.classList.contains('has-linked-note')")
+       and en.locator("mark.hl-anno").count() == 1)
 
-    # now highlight a phrase on the ZH side of a DIFFERENT block -> EN side gets the dot
+    # now highlight a phrase on the ZH side of a DIFFERENT block -> EN side gets underlined
     block2 = pg.locator(".bipara").nth(4)
     zh2 = block2.locator("p.zh")
     en2 = block2.locator("p.en")
     select_text_in(pg, zh2)
     pg.wait_for_timeout(250)
     pg.locator("#selPill").click(); pg.wait_for_timeout(150)
-    pg.locator("#hlNote").fill("中文侧批注，测试英文侧回显点")
+    pg.locator("#hlNote").fill("中文侧批注，测试英文侧对应划线")
     pg.locator("#hlSave").click(); pg.wait_for_timeout(300)
     ck("exact mark lands in the ZH paragraph this time", zh2.locator("mark.hl-anno").count() == 1)
-    ck("EN sibling (not ZH) gets the echo dot this time", en2.locator(".linked-note-dot").count() == 0)
-    ck("dot is a sibling of the EN paragraph, inside block2",
-       block2.locator(".linked-note-dot").count() == 1)
+    ck("EN sibling (not ZH) gets the underline this time",
+       "has-linked-note" in (en2.get_attribute("class") or "")
+       and "has-linked-note" not in (zh2.get_attribute("class") or ""))
 
     pg.locator(".modes button").nth(1).click()  # EN-only button
     pg.wait_for_timeout(150)
     ck("ZH paragraph (with the real mark) hidden in en-only mode", not zh2.is_visible())
-    ck("echo dot still visible in en-only mode",
-       block2.locator(".linked-note-dot").first.is_visible())
+    ck("EN underline still visible in en-only mode",
+       en2.is_visible() and "has-linked-note" in (en2.get_attribute("class") or ""))
 
-    # persistence across reload: both marks and both dots should come back
+    # persistence across reload: both marks and both underlines should come back
     pg.locator(".modes button").nth(0).click(); pg.wait_for_timeout(150)
     pg.reload(); pg.wait_for_timeout(500)
     ck("no JS errors after reload", not errs, errs)
-    ck("first block's dot survives reload", block.locator(".linked-note-dot").count() == 1)
-    ck("second block's dot survives reload", block2.locator(".linked-note-dot").count() == 1)
+    ck("first block's ZH underline survives reload",
+       "has-linked-note" in (zh.get_attribute("class") or ""))
+    ck("second block's EN underline survives reload",
+       "has-linked-note" in (en2.get_attribute("class") or ""))
     ck("both exact marks survive reload",
        en.locator("mark.hl-anno").count() == 1 and zh2.locator("mark.hl-anno").count() == 1)
 

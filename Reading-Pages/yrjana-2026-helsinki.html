@@ -381,22 +381,20 @@ details.pack[open] summary::before{content:"▾ "}
          padding:.35rem .75rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 mark.hl-anno{background:var(--hl-soft);color:inherit;border-bottom:2px solid var(--hl);
              padding:0 .1em;cursor:pointer}
-/* The whole sibling paragraph gets tinted, not just a small icon — a tiny
-   glyph alone wasn't noticeable enough in practice. Uses --accent (not --hl,
-   which mark.hl-anno and blockquote.cited already use) so it reads as "a
-   cross-reference to a note elsewhere" and stays visually distinct even
-   inside an already hl-tinted quote block. box-shadow (not background) so it
-   layers over whatever background the paragraph already has (plain for
-   p.en, --zh-bg for p.zh, --hl-soft inside a blockquote) instead of fighting
-   with it, and costs no layout shift since it doesn't affect padding. */
+/* The sibling paragraph (same block, other language) gets underlined — same
+   --hl color as mark.hl-anno's own border-bottom, so it reads as "this
+   corresponds to a highlight," not a separate badge/marker. text-decoration
+   rather than border-bottom: border-bottom on a multi-line block only draws
+   once, after the last wrapped line; text-decoration draws under every line,
+   which is what "underline this passage" actually looks like for a
+   paragraph rather than a short inline span. Purely a visual cue, not
+   interactive — open the note from the sidebar/nav/overview instead. */
 p.en.has-linked-note, p.zh.has-linked-note{
-  box-shadow: inset 3px 0 0 0 var(--accent), inset 0 0 0 999px var(--accent-soft);
-  border-radius: 3px;
+  text-decoration: underline;
+  text-decoration-color: var(--hl);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
-.linked-note-dot{display:inline-block;margin:.4rem 0 0;font-family:var(--font-sans);
-                  font-size:.68rem;cursor:pointer;color:var(--accent);background:var(--accent-soft);
-                  border:1px solid var(--accent);border-radius:999px;padding:.15rem .6rem}
-.linked-note-dot:hover{background:var(--accent);color:var(--paper)}
 #hlHint{position:fixed;top:.8rem;left:50%;transform:translateX(-50%);z-index:85;
         font-family:var(--font-sans);font-size:.72rem;color:var(--paper);background:var(--hl);
         padding:.5rem .9rem;border-radius:999px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
@@ -2080,34 +2078,21 @@ document.addEventListener('scroll', function(){
       parent.removeChild(m);
       parent.normalize();
     });
-    document.querySelectorAll('.linked-note-dot').forEach(function(d){ d.remove(); });
     document.querySelectorAll('.has-linked-note').forEach(function(p){ p.classList.remove('has-linked-note'); });
   }
-  function addLinkedNoteDot(p, hlId){
+  function markLinkedParagraph(p){
     /* The exact selected phrase can only be marked in the language it was
        actually selected in — there's no reliable way to compute which
        substring of the OTHER language's translation corresponds to it, so
        this doesn't try. Instead the WHOLE sibling paragraph (same block,
-       other language) gets tinted via a has-linked-note class, plus a small
-       pill below it to open the note — a small icon alone wasn't noticeable
-       enough. Not a duplicate quote, just "a note touches this passage too."
-       This also matters when a reading mode (EN-only / 中文-only) hides the
-       paragraph that actually carries the exact <mark>: the tint/pill live
-       on the sibling, which is whichever language IS currently shown. */
+       other language) gets underlined via a has-linked-note class — a
+       visual echo of mark.hl-anno's own look, not a separate badge/marker.
+       Purely a visual cue (no click handler): open the note from the
+       sidebar/nav/overview instead. This also matters when a reading mode
+       (EN-only / 中文-only) hides the paragraph that actually carries the
+       exact <mark>: the underline lives on the sibling, which is whichever
+       language IS currently shown, so it survives the toggle untouched. */
     p.classList.add('has-linked-note');
-    /* The pill is p's NEXT SIBLING, not a child of it: p.en/p.zh get
-       display:none under the EN-only/中文-only mode toggles, and a child
-       would disappear right along with it — which is exactly the situation
-       this exists to fix. As a sibling it survives untouched regardless of
-       which language is currently shown (same reasoning applies to the
-       has-linked-note class on p itself — it only ever matters while p is
-       actually visible, so it doesn't need separate mode-survival handling). */
-    var dot=document.createElement('span');
-    dot.className='linked-note-dot';
-    dot.textContent='🔗 关联批注';
-    dot.title='另一语言版本的对应段落有批注 · 点击查看';
-    dot.addEventListener('click', function(e){ e.stopPropagation(); openCardById(hlId); });
-    p.insertAdjacentElement('afterend', dot);
   }
   function wrapTextInNode(p, text, hlId){
     /* best-effort: only wraps when the selected text sits intact inside a
@@ -2142,7 +2127,7 @@ document.addEventListener('scroll', function(){
         if(!p) return;
         wrapTextInNode(p, f.text, h.id);
         var siblingP=host.querySelector(f.lang==='zh'?'p.en':'p.zh');
-        if(siblingP) addLinkedNoteDot(siblingP, h.id);
+        if(siblingP) markLinkedParagraph(siblingP);
       });
     });
   }

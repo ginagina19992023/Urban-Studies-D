@@ -214,21 +214,26 @@ paragraph and attach a note to exactly that selection, Medium/Hypothesis-style:
 - Because the EN and ZH paragraphs are two independent translations, there's
   no reliable way to compute which substring of the *other* language
   corresponds to an arbitrary selected phrase — so this doesn't try to mirror
-  the exact highlight across languages. Instead, `addLinkedNoteDot()` tints
-  the WHOLE sibling paragraph (same block, other language) via a
-  `has-linked-note` class, plus a `🔗 关联批注` pill right after it to open the
-  note. A first version used only a small bare glyph; that read as too subtle
-  in real use, so the tint is the primary signal now and the pill is the
-  click target, not the other way around. Uses `--accent`/`--accent-soft`
-  rather than `--hl` deliberately — `--hl` is already `mark.hl-anno`'s own
-  color and `blockquote.cited`'s ambient background, so reusing it here would
-  make the cross-language indicator invisible against an already-tinted quote
-  block. The pill is inserted as the paragraph's sibling, not its child,
-  because `p.en`/`p.zh` get `display:none` under the EN-only/中文-only mode
-  toggles — nesting it inside the paragraph would hide it along with
-  whichever language happens to be toggled off, defeating the point (the
-  indicator matters most precisely when the OTHER language, carrying the
-  real `<mark>`, is the one currently hidden).
+  the exact highlight across languages. Instead, `markLinkedParagraph()` adds
+  a `has-linked-note` class to the WHOLE sibling paragraph (same block, other
+  language), which underlines it — `text-decoration`, not `border-bottom`,
+  because `border-bottom` on a multi-line block only draws once after the
+  last wrapped line, while `text-decoration` draws under every line, which is
+  what "underline this passage" actually looks like for a paragraph rather
+  than a short inline span. Reuses `--hl`, the same color as `mark.hl-anno`'s
+  own underline, so it reads as "this corresponds to a highlight" rather than
+  a separate kind of marker. This went through two earlier, rejected designs
+  in direct testing: a bare 🔗 glyph (too subtle to notice), then a tinted
+  box with a "🔗 关联批注" pill click-target (read as a separate badge/marker,
+  not what was asked for — "对应划线", a corresponding underline). The current
+  version is deliberately **not interactive** — no click handler on the
+  paragraph or the underline — since the only way the paragraph could open
+  the note without colliding with normal text selection inside it would be a
+  separate click target, which is exactly the "marker" that was rejected;
+  open the note from the sidebar/nav/overview instead. The class is added to
+  the sibling paragraph itself (not a wrapper or an inserted sibling element)
+  — that's still what makes it survive EN-only/中文-only mode toggles: the
+  class only ever matters while that specific paragraph is the one visible.
 - There is deliberately **no in-page voice input.** An earlier draft wired up
   the Web Speech API, but it's pointless complexity: any OS-level dictation
   (macOS dictation, Windows voice typing, etc.) already types into the note

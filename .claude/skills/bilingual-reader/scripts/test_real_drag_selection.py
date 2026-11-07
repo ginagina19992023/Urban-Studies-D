@@ -73,8 +73,8 @@ with sync_playwright() as p:
     ck("mark lands only in the EN paragraph", en.locator("mark.hl-anno").count() == 1)
     ck("ZH sibling paragraph got no stray mark from the overshoot",
        block.locator("p.zh mark.hl-anno").count() == 0)
-    ck("ZH sibling got the echo dot instead (correct cross-language indicator)",
-       block.locator(".linked-note-dot").count() == 1)
+    ck("ZH sibling got the cross-language underline instead (correct indicator)",
+       "has-linked-note" in (block.locator("p.zh").get_attribute("class") or ""))
 
     # genuine mouse-drag smoke test (not a synthetic Range) over a fresh
     # paragraph, scrolled into view first so the drag coordinates are real
