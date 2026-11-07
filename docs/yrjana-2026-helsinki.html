@@ -53,18 +53,26 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
    what covers narrow/mobile viewports. */
 .layout{display:block}
 @media (min-width:1040px){
-  /* max-width is sized for THREE columns at once (TOC 13rem + gap 2rem +
-     main's own 46rem cap + gap 2rem + notes 14.5rem = 77.5rem) rather than
-     gating the notes sidebar behind a separate, higher breakpoint. Both
-     sidebars use flex-shrink:0, so main (flex:1 1 auto, no shrink override)
-     is what absorbs the squeeze below ~77.5rem*16px of actual viewport width
-     — it just renders narrower than its 46rem ideal between 1040px and
-     ~1240px, which still reads fine. Earlier this intentionally gated the
-     notes sidebar at 1280px on the theory that main needed to stay near
-     46rem; that was overcautious — the real floor is ~1040px, same as the
-     TOC sidebar it sits next to, and gating it higher just meant it silently
-     failed to appear on anyone whose window was 1040–1279px wide. */
-  .layout{display:flex;align-items:flex-start;gap:2rem;max-width:77.5rem;margin:0 auto}
+  /* max-width is sized for ALL FOUR columns at once (TOC 13rem + gap 2rem +
+     main's own 46rem cap + gap 2rem + AI summary 13rem + gap 2rem + notes
+     14.5rem = 92.5rem) rather than gating each sidebar behind its own,
+     separate max-width bump. Every sidebar uses flex-shrink:0, so main
+     (flex:1 1 auto, no shrink override) is what absorbs the squeeze below
+     ~92.5rem*16px of actual viewport width — it just renders narrower than
+     its 46rem ideal between 1040px and ~1480px, which still reads fine.
+     Earlier this intentionally gated the notes sidebar at 1280px on the
+     theory that main needed to stay near 46rem; that was overcautious — the
+     real floor is ~1040px, same as the TOC sidebar it sits next to, and
+     gating it higher just meant it silently failed to appear on anyone
+     whose window was 1040–1279px wide. Using the FOUR-column sum here
+     (rather than leaving it at the three-column 77.5rem from before
+     #aiSidebar existed) matters even though #aiSidebar itself only turns on
+     at 1320px: a max-width too small for it meant main got squeezed harder
+     than necessary the moment #aiSidebar appeared, measurably changing
+     paragraph wrap and therefore every later scroll-position calculation on
+     the page — caught by test_sidebar.py's "scrolls target to top of
+     viewport" assertion regressing only at viewports ≥1320px. */
+  .layout{display:flex;align-items:flex-start;gap:2rem;max-width:92.5rem;margin:0 auto}
   main{margin:0;flex:1 1 auto;min-width:0}
 }
 #tocSidebar{display:none;width:13rem;flex-shrink:0;font-family:var(--font-sans)}
@@ -127,6 +135,49 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
 .sb-node .zh{display:block;font-size:.9em;opacity:.8;margin-top:.05rem}
 .sb-node.active{background:var(--accent-soft);color:var(--accent)}
 .sb-node.active::before{background:var(--accent);border-color:var(--accent)}
+
+/* ---- AI paragraph-summary column (between main and the notes sidebar) ----
+   Gated at a separate, higher breakpoint (1320px) rather than folded into
+   the shared 1040px one the other two columns use — adding a FOURTH column
+   to that breakpoint would squeeze main uncomfortably on an ordinary laptop
+   window; this is an enhancement, not a feature the page depends on, so it
+   simply doesn't appear until there's room for all four columns at once
+   (13 toc + 2 + 46 main + 2 + 13 ai + 2 + 14.5 notes ≈ 92.5rem).
+
+   Two positioning modes, toggled by #aiSnapToggle (persisted in
+   localStorage['brAiSnap']), because "follows the paragraph as you scroll"
+   and "lines up with my annotations list" are different reference frames
+   and can't both be true of a column that is only sticky in one of them:
+   - flow (default): #aiSidebar is NOT sticky — it scrolls with the page
+     like main does. #aiSummaryInner is position:relative with an explicit
+     height (set in JS to match the tallest summary block's bottom) so its
+     position:absolute children can be placed at each one's paragraph's
+     offsetTop within the layout. This is "跟随左边滑动段落滑动" — it tracks
+     main's scroll because neither column is independently sticky.
+   - snap ([data-ai-snap="1"] on <body>): #aiSidebar becomes sticky +
+     independently scrollable, exactly like #noteSidebar, and JS positions
+     each summary block to span the vertical range of the #nsList rows that
+     reference the same paragraph (hiding paragraphs with no annotation —
+     there's nothing to snap them to). Scroll position is then bound between
+     the two sticky columns (see bindScrollSync in the script) so scrolling
+     one scrolls the other, keeping the alignment visible as you read down
+     a long annotations list. */
+#aiSidebar{display:none;width:13rem;flex-shrink:0;font-family:var(--font-sans)}
+@media (min-width:1320px){
+  #aiSidebar{display:block}
+  body[data-ai-snap="1"] #aiSidebar{position:sticky;top:5.5rem;
+             max-height:calc(100vh - 7.5rem);overflow-y:auto}
+}
+#aiSidebar .sb-label-row{display:flex;align-items:center;justify-content:space-between;
+             gap:.5rem;margin:0 0 .9rem}
+#aiSidebar .sb-label-row .sb-label{margin:0}
+#aiSummaryInner{position:relative}
+.ai-sum-block{position:absolute;left:0;right:0;box-sizing:border-box;font-size:.78rem;
+             line-height:1.6;color:var(--ink-soft);background:var(--zh-bg);
+             border-left:3px solid var(--muted);border-radius:3px;padding:.5rem .65rem;
+             overflow:hidden}
+.ai-sum-lbl{display:block;font-family:var(--font-sans);font-size:.6rem;letter-spacing:.07em;
+             text-transform:uppercase;color:var(--accent);margin-bottom:.25rem;opacity:.85}
 
 /* ---- persistent annotations sidebar (right column) ----
    Deliberately separate from the floating nav panel's 批注 tab: this one is
@@ -1361,6 +1412,7 @@ Watt, P. (2023). Taking a long view perspective on estate regeneration: Before, 
 </section>
 <footer>译文供精读辅助之用,正式引用请依据原文（Cities, 170, 2026, 106718）与原页码。生成工具:bilingual-reader skill。</footer>
 </main>
+<nav id="aiSidebar"><div class="sb-label-row"><span class="sb-label">AI 总结</span><button type="button" id="aiSnapToggle" class="sb-layer-switch" aria-pressed="false" title="吸附：让每段摘要对齐右侧批注所占的高度范围"><span class="sb-layer-switch-track"><span class="sb-layer-switch-thumb"></span></span><span class="sb-layer-switch-label">吸附</span></button></div><div id="aiSummaryInner"></div></nav>
 <nav id="noteSidebar"><div class="sb-label">我的批注</div><div id="nsList"></div></nav>
 </div>
 <button id="navBtn" type="button">☰ 导航 <span class="n" data-zero="1">0</span></button>
@@ -1377,7 +1429,7 @@ Watt, P. (2023). Taking a long view perspective on estate regeneration: Before, 
 <div id="selCard" style="display:none"><div class="hl-head">选中内容的批注</div><div id="hlFrags"></div><textarea id="hlNote" placeholder="写下你的批注…（可用电脑自带的语音输入直接对着这里说）"></textarea><input type="text" id="hlTags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea id="hlAiNote" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示"></textarea><div class="hl-actions"><button id="hlLink" type="button">+ 关联另一段</button><button id="hlDelete" type="button" style="display:none">删除</button><button id="hlCancel" type="button">取消</button><button id="hlSave" class="primary" type="button">保存</button></div></div>
 <div id="grefPop" style="display:none"></div>
 <datalist id="tagOptions"></datalist>
-<script>window.__BR_DOC="yrjana-2026-helsinki-state-led-gentrification";window.__BR_TOC=[{"id": "sec-0", "level": "h2", "en": "1. Introduction", "zh": "1. 引言"}, {"id": "sec-13", "level": "h2", "en": "2. Theoretical perspective: State-led gentrification", "zh": "2. 理论视角:国家主导型绅士化"}, {"id": "sec-21", "level": "h2", "en": "3. Case: Helsinki’s new urban regeneration model", "zh": "3. 案例:赫尔辛基的城市更新新模式"}, {"id": "sec-35", "level": "h2", "en": "4. Helsinki: “a textbook example in how to prevent segregation”", "zh": "4. 赫尔辛基:“防止隔离的教科书式典范”"}, {"id": "sec-52", "level": "h3", "en": "4.1. Mobilizing the potential", "zh": "4.1 动员“潜力”"}, {"id": "sec-70", "level": "h3", "en": "4.2. Socializing risks", "zh": "4.2 将风险社会化"}, {"id": "sec-85", "level": "h2", "en": "5. Discussion", "zh": "5. 讨论"}, {"id": "sec-99", "level": "h3", "en": "CRediT authorship contribution statement", "zh": "CRediT 作者贡献声明"}, {"id": "sec-101", "level": "h3", "en": "Declaration of competing interest", "zh": "利益冲突声明"}, {"id": "sec-103", "level": "h3", "en": "Data availability", "zh": "数据可得性声明"}];window.__BR_GLOSSARY=[{"id": "g-stateled", "cat": "理论/思潮", "term": "国家主导型绅士化(state-led gentrification)", "def": "指国家/地方政府并非仅仅为资本流动扫清障碍,而是主动运用规划权、土地所有权和公共资金,把某个片区变得‘可绅士化’(gentrifiable)的过程。本文的核心论点正是:赫尔辛基城市更新新模式,是国家(市政府)以反隔离之名主动促成绅士化的一个案例——它不是市场自发驱动的绅士化,而是政府用公共资源为私人投资‘去风险’、主动制造条件的绅士化。"}, {"id": "g-falsechoice", "cat": "理论/思潮", "term": "虚假选择的城市主义(false choice urbanism)", "def": "Tom Slater(2014)提出的概念,指政策话语把绅士化包装成应对社区衰败‘唯一别无选择’的出路,从而掩盖其他可能的政策选项(例如加大公共住房投资)。本文用它来分析赫尔辛基的土地利用方案:方案把绅士化式的密集化建设呈现为对抗衰败的唯一出路,让居民和政治人物都难以设想别的替代方案。"}, {"id": "g-storyline", "cat": "理论/思潮", "term": "故事线 / 话语结构化与制度化(storyline / discourse structuration & institutionalization)", "def": "<a class=\"gref\" href=\"#g-hajer\">Maarten Hajer</a>(1995)的核心概念。‘故事线’是一种能把某个问题的复杂性加以简化、并让不同行动者在其中获得共同理解的叙事装置——它的说服力主要来自‘听起来大致没错’,而非严谨论证。当行动者为了显得可信而必须援引该话语(话语结构化),且该话语被写进政策和制度安排(话语制度化)时,故事线就获得了霸权地位。本文用这一框架分析‘社会混合能纠正隔离’这一故事线,如何在赫尔辛基的城市政策文件中逐步获得了不容置疑的‘常识’地位。"}, {"id": "g-territorialstigma", "cat": "概念", "term": "地域污名(territorial stigma / stigmatisation)", "def": "Loïc <a class=\"gref\" href=\"#g-wacquant\">Wacquant</a> 等学者发展的概念,指某个地方(而非仅仅是居住其中的人)本身被贴上负面标签,被塑造成‘恶地’(badland)、‘无可救药’之地。本文指出,地域污名的‘激活’是<a class=\"gref\" href=\"#g-rentgap\">租隙</a>形成不可或缺的一环:正是把 Kontula、Meri-Rastila 描绘成问题丛生的地方,才使得激进的干预(如拆除)显得必要且‘善意’。"}, {"id": "g-managed-decline", "cat": "概念", "term": "管理式衰败(managed decline)", "def": "Paul Watt(2023)提出的概念,指在更新中期阶段,产权方或住房公司有意放松对既有建筑的维护——因为反正计划要拆除——从而任由建筑状况恶化,间接为拆除提供了正当理由。本文中 Kontula 购物中心与 Vesala 社会住房楼栋的状况,都是‘管理式衰败’的具体例证。"}, {"id": "g-positive-gent", "cat": "概念", "term": "‘积极的绅士化’ / 无置换的绅士化(positive gentrification / gentrification without displacement)", "def": "Shaw & Hagemans(2015)提出的说法,指绅士化过程中即便没有发生居民的物理迁移(即无<a class=\"gref\" href=\"#g-displacement\">置换</a>),也仍可能通过改变一个地区的人口构成比例(例如让低收入居民占比下降而非绝对数量下降)来实现地区的‘提升’。本文对这一说法持批判态度:作者指出,‘没有物理置换’不等于‘没有伤害’,现有低收入居民依然可能承受租金上涨、维护缺失、社会文化疏离等代价。"}, {"id": "g-smith", "cat": "人物", "term": "Neil Smith", "def": "美国地理学家,绅士化研究的奠基人物之一,以其1979年提出的<a class=\"gref\" href=\"#g-rentgap\">租隙理论(rent gap theory)</a>著称——该理论认为,绅士化的动力来自地产现有价值与潜在价值之间的差距,而非单纯的消费者品味变化。他后来的《新城市边疆》(The New Urban Frontier, 1996)进一步把绅士化理论化为资本对城市空间的‘再征服’。本文开篇即援引 Smith(1979)的租隙理论作为全文分析框架的理论基石。"}, {"id": "g-lees", "cat": "人物", "term": "Loretta Lees", "def": "英国城市地理学家,绅士化与社会混合政策的重要批判者,代表作包括《绅士化》(Gentrification, 与 Slater、Wyly 合著)及本文多次引用的《绅士化与社会混合:迈向一场包容的城市复兴?》(Lees, 2008)。本文借用她‘伪装的绅士化’(gentrification in disguise)一说,来概括赫尔辛基把绅士化包裹在反隔离话语之中的做法。"}, {"id": "g-hajer", "cat": "人物", "term": "Maarten Hajer", "def": "荷兰政治学家/规划学者,代表作《环境话语的政治学》(The Politics of Environmental Discourse, 1995),提出了<a class=\"gref\" href=\"#g-storyline\">故事线(storyline)</a>及话语结构化/制度化的分析框架。本文的方法论直接受 Hajer 启发,用以分析赫尔辛基城市规划文件如何‘制造’出隔离这一问题,并使城市更新顺理成章地成为其解决方案。作者对 Hajer 的理论是采纳而非反驳的态度。"}, {"id": "g-krijnen", "cat": "人物", "term": "Martijn Krijnen", "def": "以研究租隙的形成与全球绅士化理论化著称的学者,代表作《绅士化与租隙的创造和形成》(Krijnen, 2018)。本文采用他在‘租隙形成’(rent gap formation)与‘租隙弥合’(rent gap closure)之间所做的分析性区分:租隙的形成并不保证它会被弥合为现实的绅士化,这正是本文用以解释赫尔辛基更新片区长期陷入‘停滞’状态的关键理论工具。"}, {"id": "g-kallin", "cat": "人物", "term": "Hannah Kallin", "def": "研究地域污名与绅士化关系的学者,提出了<a class=\"gref\" href=\"#g-reputationgap\">声誉缺口(reputational gap)</a>概念(Kallin, 2017),并与 Neil Gray 合著《资本的福利依赖》(Gray & Kallin, 2023),分析国家在停滞更新进程中的角色。本文大量借用她的声誉缺口概念,来分析 Kontula 购物中心与 Meri-Rastila 的‘愿景构建’工作。"}, {"id": "g-gray", "cat": "人物", "term": "Neil Gray", "def": "研究苏格兰(格拉斯哥、爱丁堡)停滞更新与国家补贴的学者,提出了<a class=\"gref\" href=\"#g-subsidygap\">国家补贴缺口(state subsidy gap)</a>概念(Gray, 2022),并与 Kallin 合著呼吁批判性研究国家在停滞更新过程中所起的促成作用(Gray & Kallin, 2023)。本文的核心分析框架(声誉缺口+补贴缺口)直接建立在 Gray 与 Kallin 的研究基础上。"}, {"id": "g-wacquant", "cat": "人物", "term": "Loïc Wacquant", "def": "法国社会学家,以‘超级贫民窟’(hyperghetto)与污名化研究著称,代表作探讨‘城市荒芜与象征性贬低’(Wacquant, 2010)以及地域污名的‘行动中’表现(Wacquant, Slater & Pereira, 2014)。本文借用他关于‘无可挽救’(beyond salvage)地方表征的说法,分析赫尔辛基的更新片区如何被建构为‘必须有所作为’的问题地区。"}, {"id": "g-slater", "cat": "人物", "term": "Tom Slater", "def": "苏格兰爱丁堡大学地理学家,绅士化批判研究的重要学者,提出<a class=\"gref\" href=\"#g-falsechoice\">虚假选择的城市主义(false choice urbanism)</a>(Slater, 2014),并批评城市研究中‘学术议程从属于政策议程’的倾向(Slater, 2021)。本文的批判立场在方法论和措辞上都明显承袭自 Slater。"}, {"id": "g-arthurson", "cat": "人物", "term": "Kathy Arthurson", "def": "澳大利亚学者,长期研究公共住房与社会混合政策,代表作分析澳大利亚公共住房中社会混合的历史(Arthurson, 2008)。本文引用她的观点——社会混合政策‘是无害还是有害,部分取决于其所处的社会政治情境’——作为作者自己论点(赫尔辛基语境下社会混合正在legitimize不平等)的理论跳板。"}, {"id": "g-marcuse", "cat": "人物", "term": "Peter Marcuse", "def": "美国城市规划学者,较早系统区分不同类型置换的学者之一,提出‘排斥性置换’(exclusionary displacement)概念(Marcuse, 1985)——即当可负担住房存量减少,使得低收入家庭无法迁入某地区时所发生的置换,即便没有人被直接赶走。本文用这一概念分析赫尔辛基更新片区拆除老旧租赁住房后可能产生的间接后果。"}, {"id": "g-davidson-scholar", "cat": "人物", "term": "Mark Davidson", "def": "研究置换概念化问题的学者,提出应将置换理解为不仅是空间上的物理迁移,还包括‘社会文化置换’(socio-cultural displacement)——居民虽仍住在原处,但周遭环境已变得陌生(Davidson, 2009)。本文借此概念,批评把‘无物理迁移’直接等同于‘无置换’的简化理解(这正是赫尔辛基官方话语默认的立场)。"}, {"id": "g-watt", "cat": "人物", "term": "Paul Watt", "def": "英国住房与更新研究学者,代表作研究伦敦住区更新中的‘置换焦虑’(displacement anxiety, Watt, 2021)以及更新前后的长期视角与<a class=\"gref\" href=\"#g-managed-decline\">‘管理式衰败’</a>(managed decline, Watt, 2023)。本文大量借用 Watt 的概念分析田野中观察到的居民不安全感。"}, {"id": "g-rentgap", "cat": "概念", "term": "租隙(rent gap)", "def": "由 Neil Smith(1979)提出的经典绅士化理论概念,指一块土地/地产的现有资本化价值与其在‘最高最佳利用’下的潜在价值之间的差距。当这一差距足够大时,重新开发就变得有利可图,从而驱动绅士化。本文进一步采用 Krijnen(2018)的区分——‘租隙的形成’不等于‘租隙的弥合’——来解释为什么赫尔辛基的更新片区虽已形成租隙,却长期未能真正被‘弥合’为完成的绅士化。"}, {"id": "g-subsidygap", "cat": "概念", "term": "国家补贴缺口(state subsidy gap)", "def": "Neil Gray(2022)提出的概念,指国家/地方政府为了给开发‘去风险’、为私人投资创造有利条件,而必须在经济上加以弥合的那部分缺口——例如通过土地整治、以优惠条件出售或出租土地、直接投资公共空间等方式。本文用它来分析赫尔辛基如何通过增加公共资金投入(如 Haruspuisto 公园翻新、Mellunkylä 公共空间改造)来为私人开发商‘承担风险’。"}, {"id": "g-reputationgap", "cat": "概念", "term": "声誉缺口(reputational gap)", "def": "Hannah Kallin(2017)提出的概念,指把一个地方‘想象中的潜力’与它当下被污名化的版本相对照,从而为城市干预创造正当性和紧迫感的话语操作。Kallin 强调,重要的不是租隙是否真实存在,而是行动者对它‘应该存在’的渴望与确信。本文用这一概念分析 Kontula 购物中心改造方案和 Meri-Rastila 的‘地方营造’(placemaking)工作。"}, {"id": "g-socialmix", "cat": "概念", "term": "社会混合(social mix)", "def": "一种城市/住房政策理念,主张通过在同一片区混合不同产权形式(自有产权、中间产权、租赁)、不同收入群体的住房,来防止贫困和弱势群体的空间集中,进而防止隔离。在赫尔辛基,社会混合政策历史悠久,被视为该市防止隔离最重要、最成功的手段;但本文的核心论点正是:当社会混合被当作对抗隔离的‘矫正措施’、并被用来正当化对社会住房集中片区的密集化开发和拆除时,它实际上成为了国家主导型绅士化获得道德正当性的话语工具,而不是真正挑战城市不平等的手段。"}, {"id": "g-displacement", "cat": "概念", "term": "置换(displacement)", "def": "绅士化研究中的核心概念,指原有居民因绅士化过程而被迫离开(物理性置换),或即便未离开却因环境剧变而与地方产生疏离(社会文化置换,见 <a class=\"gref\" href=\"#g-davidson-scholar\">Davidson</a>),抑或因可负担住房减少而被排除在迁入某地区的可能性之外(排斥性置换,见 <a class=\"gref\" href=\"#g-marcuse\">Marcuse</a>)。本文强调:赫尔辛基更新过程中不存在大规模的物理性置换,常被官方和部分学者引为‘无害绅士化’的证据,但这忽视了社会文化置换和排斥性置换正在发生的事实。"}, {"id": "g-planningmonopoly", "cat": "政策/机构", "term": "规划垄断(planning monopoly)", "def": "指芬兰市镇在法律上对本辖区土地利用规划拥有的独占性权力——即只有市政府才能编制和批准具有法律效力的详细规划。本文强调,正是这种规划垄断权,加上赫尔辛基市对辖区内大量土地的直接所有权,使该市在理论上完全有能力选择不同的路径(例如优先发展国家补贴租赁住房),而不是选择为私人资本‘去风险’这条路。"}, {"id": "g-mal", "cat": "政策/机构", "term": "MAL 协议(MAL-agreement)", "def": "芬兰跨市镇规划合作机制,由都市区各市镇与中央政府就土地利用(Maankäyttö, M)、住房(Asuminen, A)和交通(Liikenne, L)三方面达成的协议。本文分析了2020年和2024年两版 MAL 协议,指出2024年协议(在右翼政府任内达成)不再为落实住房政策提供国家层面的配套支持,是国家福利紧缩在住房领域的具体体现之一。"}, {"id": "g-landuseprogram", "cat": "政策/机构", "term": "《住房及相关土地利用实施方案》(Implementation Program on Housing and Related Land Use / “Land Use” 方案)", "def": "赫尔辛基市每届市议会任期编制一次的住房与土地政策长期规划文件,是本文政策分析的主要文本来源之一(2020年版与2024年版)。文中大量直接引用的城市官方表述(如‘应避免单一化住区’‘该市不愿提高ARA租赁住房占比’)均出自该方案。"}, {"id": "g-heka", "cat": "政策/机构", "term": "Heka", "def": "赫尔辛基市属租赁住房公司(Helsingin kaupungin asunnot),负责管理该市绝大部分的社会租赁住房存量。本文田野笔记中记录的居民与 Heka 代表的多次互动(如关于拆除后回迁权的问答),呈现了普通租户在更新过程中面对的不确定性。"}, {"id": "g-ara", "cat": "政策/机构", "term": "ARA", "def": "芬兰住房金融与发展中心(Asumisen rahoitus- ja kehittämiskeskus / Housing Finance and Development Centre of Finland),负责国家层面的社会住房补贴与监管,也是‘ARA 住房’(即国家补贴租赁住房)这一说法的来源。本文引用赫尔辛基土地利用方案中‘该市不愿提高 ARA 租赁住房占比’的表述,来说明社会混合话语如何被用来为限制社会住房建设辩护。"}, {"id": "g-hitas", "cat": "政策/机构", "term": "HITAS / 居住权住房(right-of-occupancy housing)", "def": "HITAS 是赫尔辛基市自行运营的一套受价格管制的自有产权住房生产模式(现已被该市废止);‘居住权住房’(right-of-occupancy housing,注脚说明:居住者先支付一笔居住权费,再按月支付使用费,以此获得在特定住宅中长期居住的权利)则是介于租赁与完全产权之间的一种中间产权模式,由芬兰政府提供资助,但该资助已于2024年被政府宣布将于2025年底终止。这两套受管制/半管制模式的先后废止或削减,正是本文所说‘国家福利紧缩’在住房生产领域最直接的体现,也是‘非管制自有产权住房’成为更新片区几乎唯一建设选项的制度背景。"}, {"id": "g-mellunkyla", "cat": "地名", "term": "Mellunkylä", "def": "赫尔辛基面积最大的行政区之一,人口约4万,本文的两个案例片区之一。辖内包括 Mellunmäki、Kontula、Vesala、Kivikko、Kurkimäki 等社区,主要由20世纪60至80年代建成的战后大规模住宅组成,社会住房比例较高。"}, {"id": "g-kontula", "cat": "地名", "term": "Kontula", "def": "Mellunkylä 区最大的社区之一,自建成以来长期被视为芬兰‘城市失败’的全国性象征(从城市化时期乡村人口的‘无根性’,到90年代经济衰退后的族裔隔离)。本文详细分析了 Kontula 购物中心自2004年以来陷入更新僵局、并最终以‘完全拆除’方案胜出建筑竞赛,却因开发商(NCC)撤资而再度陷入不确定的过程,是本文‘声誉缺口’概念最主要的案例。"}, {"id": "g-merirastila", "cat": "地名", "term": "Meri-Rastila", "def": "隶属 Vuosaari 区的一个滨海社区,本文的另一个核心案例片区。20世纪90年代初经济衰退期间以大量国家补贴建成低层社会住房,如今因毗邻海滩与绿地而拥有较高的‘声誉缺口’潜力。本文详细分析了该片区的 Haruspuisto 公园翻新、超过半数新建筑权通过拆除既有社会住房落实等情况。"}, {"id": "g-vesala", "cat": "地名", "term": "Vesala", "def": "Mellunkylä 区内的一个社区,主要由20世纪50年代独户住宅和80年代公寓楼组成。本文提及该社区七栋80年代社会住房楼栋曾被规划拆除、以‘碳中和密集化生活实验室’的名义改建为木结构建筑,后因HITAS和居住权住房模式相继被废止而计划搁浅。"}, {"id": "g-vuosaari", "cat": "地名", "term": "Vuosaari", "def": "赫尔辛基东南部的一个大区,Meri-Rastila 是其下辖的一个社区。"}, {"id": "g-mellunmaki", "cat": "地名", "term": "Mellunmäki", "def": "Mellunkylä 区内最大的社区之一,拥有大规模战后住宅。本文的田野笔记之一记录了在当地一所小学举行的、居民就 Heka 大幅上调社会住房租金一事与市政官员和 Heka 董事会展开的问答会。"}, {"id": "g-myllypuro", "cat": "地名", "term": "Myllypuro", "def": "赫尔辛基东部的一个社区,被市政府视为‘成功的城市更新’范例。本文引用 Lilius & Hirvonen(2021)的研究指出,Myllypuro 更新完成后,当地社会住房租金的涨幅超过其他社区,暗示低收入住户可能正在为该地区的再投资‘埋单’——这一细节被用来对官方的‘成功范例’叙事提出质疑。"}, {"id": "g-kaupunkiuudistus", "cat": "政策/机构", "term": "城市更新新模式(new urban regeneration model / kaupunkiuudistus)", "def": "赫尔辛基市2020年推出、作为<a class=\"gref\" href=\"#g-landuseprogram\">《住房及相关土地利用实施方案》</a>一部分的跨部门城市更新运作模式，聚焦四个边缘片区——Malminkartano-Kannelmäki、Malmi、<a class=\"gref\" href=\"#g-mellunkyla\">Mellunkylä</a>与<a class=\"gref\" href=\"#g-merirastila\">Meri-Rastila</a>——旨在提升服务、吸引力与舒适度，并为高质量填充式开发（infill development）创造条件。<br><strong>官方来源：</strong><a href=\"https://www.hel.fi/en/decision-making/information-on-helsinki/suburban-regeneration\" target=\"_blank\" rel=\"noopener\">City of Helsinki · Suburban regeneration（英文主页）</a> · <a href=\"https://www.hel.fi/en/decision-making/information-on-helsinki/pinnalla-juuri-nyt/suburban-regeneration/purpose-of-the-suburban-regeneration\" target=\"_blank\" rel=\"noopener\">Purpose of the suburban regeneration</a> · <a href=\"https://kaupunkitieto.hel.fi/en/node/628\" target=\"_blank\" rel=\"noopener\">Elinvoimaa esikaupunkialueille – kaupunkiuudistuksen tavoitteet ja eteneminen Helsingissä</a>"}, {"id": "g-urbanii", "cat": "政策/机构", "term": "URBAN II 共同体倡议(URBAN II Community Initiative)", "def": "欧盟2000–2006年度、由欧洲区域发展基金（ERDF）出资的城市更新专项计划，面向“危机社区”，欧盟层面共资助约7.3亿欧元、覆盖70个城市片区。赫尔辛基的实施片区位于 Mellunkylä 区内的<a class=\"gref\" href=\"#g-myllypuro\">Myllypuro</a>、<a class=\"gref\" href=\"#g-kontula\">Kontula</a>、Kurkimäki、<a class=\"gref\" href=\"#g-vesala\">Vesala</a>与Kivikko，2001–2007年间资助了近50个经济、社会与教育项目（含 Vesala Information Forum、Kontula 教育平等计划 KOTA 等学校项目）。<br><strong>官方来源：</strong><a href=\"https://tem.fi/documents/1410877/3346190/Suomen+Urban+II+-yhteis%C3%B6aloite+Helsingin+ja+Vantaan+toimenpideohjelma+2001-2007+21102011.pdf\" target=\"_blank\" rel=\"noopener\">芬兰劳动经济部（TEM）《芬兰 URBAN II 共同体倡议——赫尔辛基与万塔行动方案 2001–2007》（PDF）</a> · <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=legissum:g24209\" target=\"_blank\" rel=\"noopener\">欧盟官方摘要（EUR-Lex）</a>"}];</script>
+<script>window.__BR_DOC="yrjana-2026-helsinki-state-led-gentrification";window.__BR_TOC=[{"id": "sec-0", "level": "h2", "en": "1. Introduction", "zh": "1. 引言"}, {"id": "sec-13", "level": "h2", "en": "2. Theoretical perspective: State-led gentrification", "zh": "2. 理论视角:国家主导型绅士化"}, {"id": "sec-21", "level": "h2", "en": "3. Case: Helsinki’s new urban regeneration model", "zh": "3. 案例:赫尔辛基的城市更新新模式"}, {"id": "sec-35", "level": "h2", "en": "4. Helsinki: “a textbook example in how to prevent segregation”", "zh": "4. 赫尔辛基:“防止隔离的教科书式典范”"}, {"id": "sec-52", "level": "h3", "en": "4.1. Mobilizing the potential", "zh": "4.1 动员“潜力”"}, {"id": "sec-70", "level": "h3", "en": "4.2. Socializing risks", "zh": "4.2 将风险社会化"}, {"id": "sec-85", "level": "h2", "en": "5. Discussion", "zh": "5. 讨论"}, {"id": "sec-99", "level": "h3", "en": "CRediT authorship contribution statement", "zh": "CRediT 作者贡献声明"}, {"id": "sec-101", "level": "h3", "en": "Declaration of competing interest", "zh": "利益冲突声明"}, {"id": "sec-103", "level": "h3", "en": "Data availability", "zh": "数据可得性声明"}];window.__BR_GLOSSARY=[{"id": "g-stateled", "cat": "理论/思潮", "term": "国家主导型绅士化(state-led gentrification)", "def": "指国家/地方政府并非仅仅为资本流动扫清障碍,而是主动运用规划权、土地所有权和公共资金,把某个片区变得‘可绅士化’(gentrifiable)的过程。本文的核心论点正是:赫尔辛基城市更新新模式,是国家(市政府)以反隔离之名主动促成绅士化的一个案例——它不是市场自发驱动的绅士化,而是政府用公共资源为私人投资‘去风险’、主动制造条件的绅士化。"}, {"id": "g-falsechoice", "cat": "理论/思潮", "term": "虚假选择的城市主义(false choice urbanism)", "def": "Tom Slater(2014)提出的概念,指政策话语把绅士化包装成应对社区衰败‘唯一别无选择’的出路,从而掩盖其他可能的政策选项(例如加大公共住房投资)。本文用它来分析赫尔辛基的土地利用方案:方案把绅士化式的密集化建设呈现为对抗衰败的唯一出路,让居民和政治人物都难以设想别的替代方案。"}, {"id": "g-storyline", "cat": "理论/思潮", "term": "故事线 / 话语结构化与制度化(storyline / discourse structuration & institutionalization)", "def": "<a class=\"gref\" href=\"#g-hajer\">Maarten Hajer</a>(1995)的核心概念。‘故事线’是一种能把某个问题的复杂性加以简化、并让不同行动者在其中获得共同理解的叙事装置——它的说服力主要来自‘听起来大致没错’,而非严谨论证。当行动者为了显得可信而必须援引该话语(话语结构化),且该话语被写进政策和制度安排(话语制度化)时,故事线就获得了霸权地位。本文用这一框架分析‘社会混合能纠正隔离’这一故事线,如何在赫尔辛基的城市政策文件中逐步获得了不容置疑的‘常识’地位。"}, {"id": "g-territorialstigma", "cat": "概念", "term": "地域污名(territorial stigma / stigmatisation)", "def": "Loïc <a class=\"gref\" href=\"#g-wacquant\">Wacquant</a> 等学者发展的概念,指某个地方(而非仅仅是居住其中的人)本身被贴上负面标签,被塑造成‘恶地’(badland)、‘无可救药’之地。本文指出,地域污名的‘激活’是<a class=\"gref\" href=\"#g-rentgap\">租隙</a>形成不可或缺的一环:正是把 Kontula、Meri-Rastila 描绘成问题丛生的地方,才使得激进的干预(如拆除)显得必要且‘善意’。"}, {"id": "g-managed-decline", "cat": "概念", "term": "管理式衰败(managed decline)", "def": "Paul Watt(2023)提出的概念,指在更新中期阶段,产权方或住房公司有意放松对既有建筑的维护——因为反正计划要拆除——从而任由建筑状况恶化,间接为拆除提供了正当理由。本文中 Kontula 购物中心与 Vesala 社会住房楼栋的状况,都是‘管理式衰败’的具体例证。"}, {"id": "g-positive-gent", "cat": "概念", "term": "‘积极的绅士化’ / 无置换的绅士化(positive gentrification / gentrification without displacement)", "def": "Shaw & Hagemans(2015)提出的说法,指绅士化过程中即便没有发生居民的物理迁移(即无<a class=\"gref\" href=\"#g-displacement\">置换</a>),也仍可能通过改变一个地区的人口构成比例(例如让低收入居民占比下降而非绝对数量下降)来实现地区的‘提升’。本文对这一说法持批判态度:作者指出,‘没有物理置换’不等于‘没有伤害’,现有低收入居民依然可能承受租金上涨、维护缺失、社会文化疏离等代价。"}, {"id": "g-smith", "cat": "人物", "term": "Neil Smith", "def": "美国地理学家,绅士化研究的奠基人物之一,以其1979年提出的<a class=\"gref\" href=\"#g-rentgap\">租隙理论(rent gap theory)</a>著称——该理论认为,绅士化的动力来自地产现有价值与潜在价值之间的差距,而非单纯的消费者品味变化。他后来的《新城市边疆》(The New Urban Frontier, 1996)进一步把绅士化理论化为资本对城市空间的‘再征服’。本文开篇即援引 Smith(1979)的租隙理论作为全文分析框架的理论基石。"}, {"id": "g-lees", "cat": "人物", "term": "Loretta Lees", "def": "英国城市地理学家,绅士化与社会混合政策的重要批判者,代表作包括《绅士化》(Gentrification, 与 Slater、Wyly 合著)及本文多次引用的《绅士化与社会混合:迈向一场包容的城市复兴?》(Lees, 2008)。本文借用她‘伪装的绅士化’(gentrification in disguise)一说,来概括赫尔辛基把绅士化包裹在反隔离话语之中的做法。"}, {"id": "g-hajer", "cat": "人物", "term": "Maarten Hajer", "def": "荷兰政治学家/规划学者,代表作《环境话语的政治学》(The Politics of Environmental Discourse, 1995),提出了<a class=\"gref\" href=\"#g-storyline\">故事线(storyline)</a>及话语结构化/制度化的分析框架。本文的方法论直接受 Hajer 启发,用以分析赫尔辛基城市规划文件如何‘制造’出隔离这一问题,并使城市更新顺理成章地成为其解决方案。作者对 Hajer 的理论是采纳而非反驳的态度。"}, {"id": "g-krijnen", "cat": "人物", "term": "Martijn Krijnen", "def": "以研究租隙的形成与全球绅士化理论化著称的学者,代表作《绅士化与租隙的创造和形成》(Krijnen, 2018)。本文采用他在‘租隙形成’(rent gap formation)与‘租隙弥合’(rent gap closure)之间所做的分析性区分:租隙的形成并不保证它会被弥合为现实的绅士化,这正是本文用以解释赫尔辛基更新片区长期陷入‘停滞’状态的关键理论工具。"}, {"id": "g-kallin", "cat": "人物", "term": "Hannah Kallin", "def": "研究地域污名与绅士化关系的学者,提出了<a class=\"gref\" href=\"#g-reputationgap\">声誉缺口(reputational gap)</a>概念(Kallin, 2017),并与 Neil Gray 合著《资本的福利依赖》(Gray & Kallin, 2023),分析国家在停滞更新进程中的角色。本文大量借用她的声誉缺口概念,来分析 Kontula 购物中心与 Meri-Rastila 的‘愿景构建’工作。"}, {"id": "g-gray", "cat": "人物", "term": "Neil Gray", "def": "研究苏格兰(格拉斯哥、爱丁堡)停滞更新与国家补贴的学者,提出了<a class=\"gref\" href=\"#g-subsidygap\">国家补贴缺口(state subsidy gap)</a>概念(Gray, 2022),并与 Kallin 合著呼吁批判性研究国家在停滞更新过程中所起的促成作用(Gray & Kallin, 2023)。本文的核心分析框架(声誉缺口+补贴缺口)直接建立在 Gray 与 Kallin 的研究基础上。"}, {"id": "g-wacquant", "cat": "人物", "term": "Loïc Wacquant", "def": "法国社会学家,以‘超级贫民窟’(hyperghetto)与污名化研究著称,代表作探讨‘城市荒芜与象征性贬低’(Wacquant, 2010)以及地域污名的‘行动中’表现(Wacquant, Slater & Pereira, 2014)。本文借用他关于‘无可挽救’(beyond salvage)地方表征的说法,分析赫尔辛基的更新片区如何被建构为‘必须有所作为’的问题地区。"}, {"id": "g-slater", "cat": "人物", "term": "Tom Slater", "def": "苏格兰爱丁堡大学地理学家,绅士化批判研究的重要学者,提出<a class=\"gref\" href=\"#g-falsechoice\">虚假选择的城市主义(false choice urbanism)</a>(Slater, 2014),并批评城市研究中‘学术议程从属于政策议程’的倾向(Slater, 2021)。本文的批判立场在方法论和措辞上都明显承袭自 Slater。"}, {"id": "g-arthurson", "cat": "人物", "term": "Kathy Arthurson", "def": "澳大利亚学者,长期研究公共住房与社会混合政策,代表作分析澳大利亚公共住房中社会混合的历史(Arthurson, 2008)。本文引用她的观点——社会混合政策‘是无害还是有害,部分取决于其所处的社会政治情境’——作为作者自己论点(赫尔辛基语境下社会混合正在legitimize不平等)的理论跳板。"}, {"id": "g-marcuse", "cat": "人物", "term": "Peter Marcuse", "def": "美国城市规划学者,较早系统区分不同类型置换的学者之一,提出‘排斥性置换’(exclusionary displacement)概念(Marcuse, 1985)——即当可负担住房存量减少,使得低收入家庭无法迁入某地区时所发生的置换,即便没有人被直接赶走。本文用这一概念分析赫尔辛基更新片区拆除老旧租赁住房后可能产生的间接后果。"}, {"id": "g-davidson-scholar", "cat": "人物", "term": "Mark Davidson", "def": "研究置换概念化问题的学者,提出应将置换理解为不仅是空间上的物理迁移,还包括‘社会文化置换’(socio-cultural displacement)——居民虽仍住在原处,但周遭环境已变得陌生(Davidson, 2009)。本文借此概念,批评把‘无物理迁移’直接等同于‘无置换’的简化理解(这正是赫尔辛基官方话语默认的立场)。"}, {"id": "g-watt", "cat": "人物", "term": "Paul Watt", "def": "英国住房与更新研究学者,代表作研究伦敦住区更新中的‘置换焦虑’(displacement anxiety, Watt, 2021)以及更新前后的长期视角与<a class=\"gref\" href=\"#g-managed-decline\">‘管理式衰败’</a>(managed decline, Watt, 2023)。本文大量借用 Watt 的概念分析田野中观察到的居民不安全感。"}, {"id": "g-rentgap", "cat": "概念", "term": "租隙(rent gap)", "def": "由 Neil Smith(1979)提出的经典绅士化理论概念,指一块土地/地产的现有资本化价值与其在‘最高最佳利用’下的潜在价值之间的差距。当这一差距足够大时,重新开发就变得有利可图,从而驱动绅士化。本文进一步采用 Krijnen(2018)的区分——‘租隙的形成’不等于‘租隙的弥合’——来解释为什么赫尔辛基的更新片区虽已形成租隙,却长期未能真正被‘弥合’为完成的绅士化。"}, {"id": "g-subsidygap", "cat": "概念", "term": "国家补贴缺口(state subsidy gap)", "def": "Neil Gray(2022)提出的概念,指国家/地方政府为了给开发‘去风险’、为私人投资创造有利条件,而必须在经济上加以弥合的那部分缺口——例如通过土地整治、以优惠条件出售或出租土地、直接投资公共空间等方式。本文用它来分析赫尔辛基如何通过增加公共资金投入(如 Haruspuisto 公园翻新、Mellunkylä 公共空间改造)来为私人开发商‘承担风险’。"}, {"id": "g-reputationgap", "cat": "概念", "term": "声誉缺口(reputational gap)", "def": "Hannah Kallin(2017)提出的概念,指把一个地方‘想象中的潜力’与它当下被污名化的版本相对照,从而为城市干预创造正当性和紧迫感的话语操作。Kallin 强调,重要的不是租隙是否真实存在,而是行动者对它‘应该存在’的渴望与确信。本文用这一概念分析 Kontula 购物中心改造方案和 Meri-Rastila 的‘地方营造’(placemaking)工作。"}, {"id": "g-socialmix", "cat": "概念", "term": "社会混合(social mix)", "def": "一种城市/住房政策理念,主张通过在同一片区混合不同产权形式(自有产权、中间产权、租赁)、不同收入群体的住房,来防止贫困和弱势群体的空间集中,进而防止隔离。在赫尔辛基,社会混合政策历史悠久,被视为该市防止隔离最重要、最成功的手段;但本文的核心论点正是:当社会混合被当作对抗隔离的‘矫正措施’、并被用来正当化对社会住房集中片区的密集化开发和拆除时,它实际上成为了国家主导型绅士化获得道德正当性的话语工具,而不是真正挑战城市不平等的手段。"}, {"id": "g-displacement", "cat": "概念", "term": "置换(displacement)", "def": "绅士化研究中的核心概念,指原有居民因绅士化过程而被迫离开(物理性置换),或即便未离开却因环境剧变而与地方产生疏离(社会文化置换,见 <a class=\"gref\" href=\"#g-davidson-scholar\">Davidson</a>),抑或因可负担住房减少而被排除在迁入某地区的可能性之外(排斥性置换,见 <a class=\"gref\" href=\"#g-marcuse\">Marcuse</a>)。本文强调:赫尔辛基更新过程中不存在大规模的物理性置换,常被官方和部分学者引为‘无害绅士化’的证据,但这忽视了社会文化置换和排斥性置换正在发生的事实。"}, {"id": "g-planningmonopoly", "cat": "政策/机构", "term": "规划垄断(planning monopoly)", "def": "指芬兰市镇在法律上对本辖区土地利用规划拥有的独占性权力——即只有市政府才能编制和批准具有法律效力的详细规划。本文强调,正是这种规划垄断权,加上赫尔辛基市对辖区内大量土地的直接所有权,使该市在理论上完全有能力选择不同的路径(例如优先发展国家补贴租赁住房),而不是选择为私人资本‘去风险’这条路。"}, {"id": "g-mal", "cat": "政策/机构", "term": "MAL 协议(MAL-agreement)", "def": "芬兰跨市镇规划合作机制,由都市区各市镇与中央政府就土地利用(Maankäyttö, M)、住房(Asuminen, A)和交通(Liikenne, L)三方面达成的协议。本文分析了2020年和2024年两版 MAL 协议,指出2024年协议(在右翼政府任内达成)不再为落实住房政策提供国家层面的配套支持,是国家福利紧缩在住房领域的具体体现之一。"}, {"id": "g-landuseprogram", "cat": "政策/机构", "term": "《住房及相关土地利用实施方案》(Implementation Program on Housing and Related Land Use / “Land Use” 方案)", "def": "赫尔辛基市每届市议会任期编制一次的住房与土地政策长期规划文件,是本文政策分析的主要文本来源之一(2020年版与2024年版)。文中大量直接引用的城市官方表述(如‘应避免单一化住区’‘该市不愿提高ARA租赁住房占比’)均出自该方案。"}, {"id": "g-heka", "cat": "政策/机构", "term": "Heka", "def": "赫尔辛基市属租赁住房公司(Helsingin kaupungin asunnot),负责管理该市绝大部分的社会租赁住房存量。本文田野笔记中记录的居民与 Heka 代表的多次互动(如关于拆除后回迁权的问答),呈现了普通租户在更新过程中面对的不确定性。"}, {"id": "g-ara", "cat": "政策/机构", "term": "ARA", "def": "芬兰住房金融与发展中心(Asumisen rahoitus- ja kehittämiskeskus / Housing Finance and Development Centre of Finland),负责国家层面的社会住房补贴与监管,也是‘ARA 住房’(即国家补贴租赁住房)这一说法的来源。本文引用赫尔辛基土地利用方案中‘该市不愿提高 ARA 租赁住房占比’的表述,来说明社会混合话语如何被用来为限制社会住房建设辩护。"}, {"id": "g-hitas", "cat": "政策/机构", "term": "HITAS / 居住权住房(right-of-occupancy housing)", "def": "HITAS 是赫尔辛基市自行运营的一套受价格管制的自有产权住房生产模式(现已被该市废止);‘居住权住房’(right-of-occupancy housing,注脚说明:居住者先支付一笔居住权费,再按月支付使用费,以此获得在特定住宅中长期居住的权利)则是介于租赁与完全产权之间的一种中间产权模式,由芬兰政府提供资助,但该资助已于2024年被政府宣布将于2025年底终止。这两套受管制/半管制模式的先后废止或削减,正是本文所说‘国家福利紧缩’在住房生产领域最直接的体现,也是‘非管制自有产权住房’成为更新片区几乎唯一建设选项的制度背景。"}, {"id": "g-mellunkyla", "cat": "地名", "term": "Mellunkylä", "def": "赫尔辛基面积最大的行政区之一,人口约4万,本文的两个案例片区之一。辖内包括 Mellunmäki、Kontula、Vesala、Kivikko、Kurkimäki 等社区,主要由20世纪60至80年代建成的战后大规模住宅组成,社会住房比例较高。"}, {"id": "g-kontula", "cat": "地名", "term": "Kontula", "def": "Mellunkylä 区最大的社区之一,自建成以来长期被视为芬兰‘城市失败’的全国性象征(从城市化时期乡村人口的‘无根性’,到90年代经济衰退后的族裔隔离)。本文详细分析了 Kontula 购物中心自2004年以来陷入更新僵局、并最终以‘完全拆除’方案胜出建筑竞赛,却因开发商(NCC)撤资而再度陷入不确定的过程,是本文‘声誉缺口’概念最主要的案例。"}, {"id": "g-merirastila", "cat": "地名", "term": "Meri-Rastila", "def": "隶属 Vuosaari 区的一个滨海社区,本文的另一个核心案例片区。20世纪90年代初经济衰退期间以大量国家补贴建成低层社会住房,如今因毗邻海滩与绿地而拥有较高的‘声誉缺口’潜力。本文详细分析了该片区的 Haruspuisto 公园翻新、超过半数新建筑权通过拆除既有社会住房落实等情况。"}, {"id": "g-vesala", "cat": "地名", "term": "Vesala", "def": "Mellunkylä 区内的一个社区,主要由20世纪50年代独户住宅和80年代公寓楼组成。本文提及该社区七栋80年代社会住房楼栋曾被规划拆除、以‘碳中和密集化生活实验室’的名义改建为木结构建筑,后因HITAS和居住权住房模式相继被废止而计划搁浅。"}, {"id": "g-vuosaari", "cat": "地名", "term": "Vuosaari", "def": "赫尔辛基东南部的一个大区,Meri-Rastila 是其下辖的一个社区。"}, {"id": "g-mellunmaki", "cat": "地名", "term": "Mellunmäki", "def": "Mellunkylä 区内最大的社区之一,拥有大规模战后住宅。本文的田野笔记之一记录了在当地一所小学举行的、居民就 Heka 大幅上调社会住房租金一事与市政官员和 Heka 董事会展开的问答会。"}, {"id": "g-myllypuro", "cat": "地名", "term": "Myllypuro", "def": "赫尔辛基东部的一个社区,被市政府视为‘成功的城市更新’范例。本文引用 Lilius & Hirvonen(2021)的研究指出,Myllypuro 更新完成后,当地社会住房租金的涨幅超过其他社区,暗示低收入住户可能正在为该地区的再投资‘埋单’——这一细节被用来对官方的‘成功范例’叙事提出质疑。"}, {"id": "g-kaupunkiuudistus", "cat": "政策/机构", "term": "城市更新新模式(new urban regeneration model / kaupunkiuudistus)", "def": "赫尔辛基市2020年推出、作为<a class=\"gref\" href=\"#g-landuseprogram\">《住房及相关土地利用实施方案》</a>一部分的跨部门城市更新运作模式，聚焦四个边缘片区——Malminkartano-Kannelmäki、Malmi、<a class=\"gref\" href=\"#g-mellunkyla\">Mellunkylä</a>与<a class=\"gref\" href=\"#g-merirastila\">Meri-Rastila</a>——旨在提升服务、吸引力与舒适度，并为高质量填充式开发（infill development）创造条件。<br><strong>官方来源：</strong><a href=\"https://www.hel.fi/en/decision-making/information-on-helsinki/suburban-regeneration\" target=\"_blank\" rel=\"noopener\">City of Helsinki · Suburban regeneration（英文主页）</a> · <a href=\"https://www.hel.fi/en/decision-making/information-on-helsinki/pinnalla-juuri-nyt/suburban-regeneration/purpose-of-the-suburban-regeneration\" target=\"_blank\" rel=\"noopener\">Purpose of the suburban regeneration</a> · <a href=\"https://kaupunkitieto.hel.fi/en/node/628\" target=\"_blank\" rel=\"noopener\">Elinvoimaa esikaupunkialueille – kaupunkiuudistuksen tavoitteet ja eteneminen Helsingissä</a>"}, {"id": "g-urbanii", "cat": "政策/机构", "term": "URBAN II 共同体倡议(URBAN II Community Initiative)", "def": "欧盟2000–2006年度、由欧洲区域发展基金（ERDF）出资的城市更新专项计划，面向“危机社区”，欧盟层面共资助约7.3亿欧元、覆盖70个城市片区。赫尔辛基的实施片区位于 Mellunkylä 区内的<a class=\"gref\" href=\"#g-myllypuro\">Myllypuro</a>、<a class=\"gref\" href=\"#g-kontula\">Kontula</a>、Kurkimäki、<a class=\"gref\" href=\"#g-vesala\">Vesala</a>与Kivikko，2001–2007年间资助了近50个经济、社会与教育项目（含 Vesala Information Forum、Kontula 教育平等计划 KOTA 等学校项目）。<br><strong>官方来源：</strong><a href=\"https://tem.fi/documents/1410877/3346190/Suomen+Urban+II+-yhteis%C3%B6aloite+Helsingin+ja+Vantaan+toimenpideohjelma+2001-2007+21102011.pdf\" target=\"_blank\" rel=\"noopener\">芬兰劳动经济部（TEM）《芬兰 URBAN II 共同体倡议——赫尔辛基与万塔行动方案 2001–2007》（PDF）</a> · <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=legissum:g24209\" target=\"_blank\" rel=\"noopener\">欧盟官方摘要（EUR-Lex）</a>"}];window.__BR_SUMMARIES={"326278898a": "官员担忧“瑞典化”：若不加干预，社区会变得不平等、孩子无法共同参与社会。", "b25d095bec": "芬兰隔离程度本就较低，赫尔辛基推行社会混合政策历史最久。", "74fb12ab16": "社会混合政策历来源于对工人阶层聚居引发阶层冲突的恐惧；赫尔辛基60年代起即如此。", "c7cc8e12db": "2020年推出“新城市更新模型”，意在使四片社会住房集中区去集中化、提高自有住房比例与地价。", "956210ecac": "本文分析赫尔辛基东部两个更新片区（Mellunkylä、Meri-Rastila）的反隔离话语；介绍芬兰住房体制背景。", "051496b371": "90年代初紧缩期起，社会住房日益与边缘人群挂钩，污名化了这些边缘街区。", "716022fdb1": "芬兰对“隔离”有例外论，对“绅士化”更甚——市政府在绅士化中的主动角色几乎未被研究。", "28b4f8085a": "赫尔辛基其实明确把绅士化当作对抗隔离的手段。", "8938d37436": "官方语言：规划填充建设时可“有意对抗隔离”，强调地区绅士化的可能性。", "1044467ab9": "政策语言虽已换成“城市更新/复兴”等中性词，但目标手段未变；北欧住房金融化已引发置换担忧。", "765a29b29f": "本文受 Hajer 启发，追问：政策如何制造赫尔辛基的“可绅士化”地区并使其正当化？", "95446beb9d": "经济不确定性与土地困境使国家干预成为必要；全文结构预告：理论框架→案例→论证机制→结论。", "cd69e906de": "北欧福利国家曾能调节绅士化的最坏后果，但地方政府正日益把土地当金融资产对待。", "145b60e90f": "绅士化可用 Neil Smith 的“租差”理论解释：密集化、拆除、绿色绅士化等策略都在弥合现值与潜在价值之差。", "e9da49b5e5": "赫尔辛基的绅士化由来已久，但社会住房集中区仍被当作“待干预对象”；Krijnen 区分“租差形成”与“租差弥合”。", "27a14353f0": "“国家补贴缺口”：国家需通过土地出让等方式为私人投资去风险；社会混合话语借统计/制图将住房区塑造成孤立的“问题领地”。", "a0c67306ef": "租差的形成离不开“地域污名”的激活；Kallin 提出“声誉缺口”概念，解释想象中的“潜力”如何为干预铺路。", "925021cc99": "置换常被狭义理解为物理迁移（拆除重建），但这忽视了非物理性置换，反而为亲绅士化政策背书。", "23bf4494f1": "社会-文化置换：人未搬家但周遭已成“异乡”；间接/排斥性置换则是可负担住房减少导致穷人无法迁入。", "73ba4e3249": "赫尔辛基都市区人口约128万，移民带动增长；隔离主要体现在社会经济层面，但族裔与阶层隔离正日益重叠。", "59096229b6": "2020年新城市更新模型聚焦四个边缘片区，目标是提升社会可持续性与形象，用多项社会经济指标监测。", "e0eb4bb691": "官方表述：这些地区因社会经济指标落后，需要城市特别关注以保持舒适和吸引力。", "6936fb8ed8": "更新选址标准：临近轨道交通 + 租赁房占比过高（超50%）即以新建自有住房为主要手段。", "1dab1dfc36": "该模型缺乏正式战略文件，分析主要依据城市战略、总体规划、住房用地实施计划及跨市MAL协议。", "29d220da47": "城市战略、总体规划、住房用地实施计划是三类主要政策文本；2024版设想“社会可持续增长”的赫尔辛基。", "b6c64960bb": "作者借鉴 Hajer：“故事线”把复杂问题简化为可处理的单一叙事，使某种方案显得“理所当然”。", "85e44a2c59": "故事线的力量，本质上建立在“听起来大致没错”这种直觉之上。", "100d3e78e6": "故事线不仅制造问题，还建构社会道德秩序；通过“话语结构化”与“制度化”两步，最终达成话语霸权与问题封闭。", "d68ff44d2e": "民族志案例聚焦 Meri-Rastila 与 Mellunkylä（人口4万，芬兰最大城区）两个长期受地域污名困扰的片区。", "ea8e089465": "Kontula 长期象征“失败的都市性”（从乡下人无根到90年代以来的族裔隔离）；现外语使用者占比远高于全市均值。", "0b751126d9": "Meri-Rastila 是90年代经济衰退期以国家补贴建成的低层社会住房区，污名同样深重。", "7c52e93262": "田野调查原为政策分析提供背景，却意外揭示更新过程的不稳定性，促使作者转向“声誉缺口/补贴缺口”理论。", "6fdc306f5f": "密集化主要集中于更新片区，意在通过调整产权结构实现“防隔离”目标；市长承诺对抗隔离“不良趋势”。", "d8f48b61bb": "官方表述：赫尔辛基对街区间收入/福祉差异的管控优于同类城市，未来仍将保持“防隔离典范”地位。", "8d3a5c2763": "尽管自诩典范，城市仍担忧“弱势人群聚集”，采取跨部门“积极歧视”，资源向指标落后片区倾斜。", "eab7969a0f": "政策制定者陷入进口的“隔离狂热”，把问题单方面归咎于“弱势”街区；实际上 Mellunkylä 住房类型相当混合多元。", "f8741b67ef": "为掩盖提升地价等真实动机，城市借助社会经济指数把更新片区描绘成“单一化”的弱势领地。", "516f7dd0df": "官方规则：应避免“单一化”街区，出租公寓占比原则上不应超过50%。", "bb9b03ddca": "城市借由污名化社会住房及其居民来为“多元化”政策正当化。", "cb07fd75b4": "90年代衰退期几乎只建社会住房导致过度集中；此后多年致力于通过密集化实现地区多元化。", "d69b6f423e": "土地利用方案以“虚假选择的城市主义”叙事，把绅士化包装成对抗衰败的唯一出路，并借“文明化”话语（提档升级等）赋予其道德正当性。", "5a712c8d00": "密集化被宣称能维持更新片区活力、提升吸引力与形象。", "66d3d80d2a": "官方表述：住房生产旨在平衡住房结构、增加人口、借新建提升形象，须注重品质而非单纯追求数量，并以非租赁住房为主。", "155b04b4ee": "社会混合是赫尔辛基不成文的规则；政策默认“社会住房过多=缺乏混合”，因而聚焦引入自有住房。", "030c360706": "城市默认“问题出在社会住房集中区”，因为这比处理其他地段的财富集聚和地价上涨更易用住房政策解决。", "44c22ddb6f": "地域污名及其正当化的亲绅士化政策并非没有争议；Meri-Rastila 部分居民担忧密集化会让街区失去特色。", "8414692fb8": "副市长回应居民批评：更新目的不是替换建筑和人，而是让“新旧相遇”，也让现有居民受益。", "e074813172": "接下来将说明：以社会混合作为“纠正”隔离的手段，实际上会替换建筑、也可能置换居民。", "934b6f91c0": "负责更新的规划官员在市属杂志采访中解释：除反隔离视角外，投资这些街区还有其“潜力”理由。", "74674c4da5": "官员：这些地区有强烈的地方认同、多元服务、良好交通和居民喜爱的自然环境。", "aba2060cc3": "看见“潜力”正是租差形成的关键一步；Kontula 商场更新案例即是“声誉缺口”的典型，长期陷入停滞与“管理性衰败”。", "1ef672445a": "总体规划已为商场新建住房开绿灯；“中立技术”外观的建筑竞赛为拆除商场的方案提供了政治正当性，但开发商已退出。", "aefb5a52fe": "Meri-Rastila 因临近海滩绿地而声誉缺口尤其显著；大量愿景营造与品牌化工作（社区中心竞赛、Haruspuisto 公园改造）随之展开。", "cd1420596d": "居民评论：更新似乎唯一目标就是让住房结构多元化；愤世嫉俗地看，公园建设不过是为了提升地区形象。", "c1c262184c": "提升形象常聚焦美化公共空间（如改造游乐场）或拆除旧商场；拆除住宅虽非主要手段，但也在工具箱之内。", "971afecfa4": "官方说明：因住房状况差、建设效率低，三分之一的新建以拆除实现，Meri-Rastila 超半数新建权通过拆除现有住宅取得。", "a082e58e06": "Meri-Rastila 大量低层社会住房将被拆除、以混合产权高层建筑取代；居民曾阻止密集化蔓延至森林，但半数新建仍靠拆除旧社会住房实现。", "2a7108a3c1": "拆除地块产权已定，意在扩大总人口以降低社会住房“占比”（“积极绅士化”）；但新建更贵、社会住房房租也已与市场价挂钩，可负担性堪忧。", "5c0d3d1960": "拆除旧租赁房 + 增加自有住房比例，可能导致低收入者的“排斥性置换”；密集化的改善服务预期多半让中高收入者受益。", "9d15b25852": "Vesala 的拆除重建计划因国家取消“使用权住房”模式等政策变动而搁浅，新详规尚无开发商。", "1a53e063a4": "田野笔记：某次居民大会（关于8.4%/5.3%的房租暴涨）吸引了全区乃至更远居民前来。", "2e030e9114": "居民诉求：因预期拆除而维修停滞、供暖不足、除雪不到位导致救护车难以进入，家庭也难以规划子女上学。", "6dd3fb4976": "“管理性衰败”（更新中期故意忽视维护）造成居民的“置换焦虑”；拆除时间表长期悬而不决加剧了这种不安。", "2dc69a07f8": "沟通不善案例：居民从报纸而非住房公司得知拆除消息；回迁权利并无保证。", "d4db7d9f22": "市属租赁住房公司 Heka 须为被拆迁户安排临时住房，但新建公寓未必适配原户型，故 Meri-Rastila 的回迁并无保证。", "1840a63509": "国家已决定2025年底停止资助“使用权住房”新建，更新时间表的不确定性因而进一步加剧。", "c81e435b1b": "在新的自有住房监管模型推出前，更新区大部分新建将以“非监管自有住房”的名义实现反隔离目标。", "6aede2211c": "官方说明：出于防隔离考虑，这类地区的中间性住房不能被出租房取代，目前非监管自有住房几乎是唯一选择。", "d7441f42dd": "用非监管自有住房取代城市原有监管模式，被宣称为“唯一选择”；住房补贴曾缓解置换，却正遭国家福利紧缩削减。", "024237786f": "官方立场：不愿提高国家补贴租赁住房占比，因为那会在已有大量租赁房的地区进一步增加其比例，不利于防隔离。", "1dbea9d489": "市议会确认了同一原则。", "704a2a9d32": "官方重申：将在任何情况下坚持防隔离目标，租赁房占多数的地区未来原则上不可能把自有住房改为租赁住房。", "a92be4ebe2": "凭借规划垄断权，城市本可调控社会住房供给，却选择不这样做——“社会混合”已成赫尔辛基城市政策中的常识性立场。", "1002ed27bd": "多元化住房结构比预期更难实现：国家住房政策变化、利率上升、俄乌战争冲击建筑业，投资者兴趣大减。", "34bcd5a7b5": "当城市无法为非监管住房“去风险”时，只能转而借助绿色绅士化策略（翻新公共空间、改善交通）吸引私人投资。", "4b46a48ad8": "Haruspuisto 公园翻新是为吸引非监管住房投资而启动，但也确有为现有居民做实事的意愿。", "6aa610651e": "翻新公共空间的主要动机其实是吸引私人投资而非单纯惠及居民；相应的，城市自身投资在这些地区大幅增加。", "546d20b8a7": "Kontula 商场停滞不前，城市推出“激励实验”：若地主将建设权出售给城市，愿支付更高对价，并允许“灵活定价”出让地块。", "62ca34696d": "2024年市议会的卖地新政并非仅限于更新片区；左翼联盟曾提议限定范围未果，显示社会混合话语已让新自由主义土地政策获跨党派认可。", "74d22b6e6e": "本文表明：赫尔辛基借反隔离叙事为国家干预资本积累正当化；隔离的统计表征为强化市场主导提供了去政治化的道德理由。", "5623276c11": "社会混合话语把复杂的城市不平等简化为“单一化住房结构”问题，借由混合产权的“成功史”而广受欢迎、“听起来就对”。", "52bbf26126": "更新背后动机终究是利润，但参与者的意图多属善意；污名化叙事也在制度内部构成了某种道德正当性。", "bdebaceb2b": "社会混合政策是无害还是有害，部分取决于它所处的社会政治情境。", "eaa9557e91": "在福利紧缩的背景下，城市对社会混合政策的执着恐将正当化而非挑战城市不平等；驱逐与无家可归已双双上升。", "d3fa1759dd": "研究显示赫尔辛基低收入与中等收入家庭的自有住房比例均在下降，但城市仍坚持在更新区扩大非监管自有住房。", "0b3ae191b1": "只盯着隔离指标可能掩盖可负担住房不足等其他不平等维度；没有切实的可负担性保障，密集化可能加剧而非缓解绅士化。", "3d767d165e": "结论段：两案例表明，城市借“虚假选择城市主义”把社会混合塑造成应对“持续性问题”的唯一方案，并借愿景营造为激进干预（如拆除）正名。", "20cff88ac9": "“声誉缺口”的形成只是第一步，城市还需实质性地弥合“补贴缺口”（大幅增加公共资金），本质是“利润私有化、损失社会化”。", "ee916a3252": "赫尔辛基案例表明国家调解对资本再生产不可或缺；更新能否真正推进、租差能否弥合，仍是未知数。", "5ab1aa01f7": "更新过程中的不稳定性本身即对居民造成影响（本体论不安），即便无直接置换，城市也在为更富裕人群重新生产。", "41614550f8": "赫尔辛基陷入矛盾：国家力推市场主导加剧不平等，同时又要“防隔离”；边缘地区实为“伪装成反隔离话语的绅士化”。", "41c2208199": "更好的出路：把可负担住房当作“正常需求”而非福利政策；赫尔辛基本有能力（规划垄断+土地所有权）优先发展社会住房。", "01638eb152": "作者贡献声明（写作、方法、数据等）。", "1bdbb565b5": "利益声明：无已知利益冲突。", "c2d0c6849a": "数据声明：本研究未使用数据集。"};</script>
 <script>
 function setMode(m, btn){
   document.body.className = m;
@@ -1594,14 +1646,15 @@ document.addEventListener('scroll', function(){
       var host=w.closest('.bipara')||w.closest('blockquote');
       var en=host?host.querySelector('.en'):null;
       var zh=host?host.querySelector('.zh'):null;
-      out.push({el:host, src:en?en.textContent.trim():'',
+      out.push({el:host, nid:w.dataset.nid, src:en?en.textContent.trim():'',
                 zh:zh?zh.textContent.trim():'', txt:v,
                 isQuote: !!(host&&host.tagName==='BLOCKQUOTE'), tags:nd.tags, aiNote:nd.aiNote.trim()});
     });
     highlights.forEach(function(h){
       var v=(h.note||'').trim();
       if(!v || !h.frags || !h.frags.length) return;
-      out.push({el:nidToBlock[h.frags[0].nid], src:h.frags.map(function(f){return f.text;}).join('" ... "'),
+      out.push({el:nidToBlock[h.frags[0].nid], nid:h.frags[0].nid,
+                src:h.frags.map(function(f){return f.text;}).join('" ... "'),
                 zh:'', txt:v, isQuote:false, isHighlight:true, frags:h.frags, hlId:h.id, tags:h.tags||[],
                 aiNote:(h.aiNote||'').trim()});
     });
@@ -1695,6 +1748,7 @@ document.addEventListener('scroll', function(){
     }
     rows.forEach(function(r){
       var row=document.createElement('div'); row.className='ns-row';
+      if(r.nid) row.dataset.nid=r.nid;
       renderSrcInto(row, r, {truncLen:70, singleClass:'ns-q'});
       var t=document.createElement('div'); t.className='ns-t';
       t.textContent=r.txt.slice(0,90)+(r.txt.length>90?'…':'');
@@ -2573,5 +2627,148 @@ document.addEventListener('scroll', function(){
   document.querySelectorAll('article h2[id], article h3[id]').forEach(function(h){
     observer.observe(h);
   });
+})();
+
+/* ---------------- AI paragraph-summary column ---------------- */
+(function(){
+  var sidebar=document.getElementById('aiSidebar');
+  var inner=document.getElementById('aiSummaryInner');
+  var toggle=document.getElementById('aiSnapToggle');
+  var nsList=document.getElementById('nsList');
+  if(!sidebar || !inner || !toggle) return;
+  var SUMMARIES=window.__BR_SUMMARIES||{};
+  var blocks={};  /* nid -> {el, host} */
+
+  function build(){
+    inner.innerHTML=''; blocks={};
+    document.querySelectorAll('.note[data-nid]').forEach(function(wrap){
+      var nidv=wrap.dataset.nid;
+      var text=SUMMARIES[nidv];
+      if(!text) return;
+      var host=wrap.closest('.bipara')||wrap.closest('blockquote');
+      if(!host) return;
+      var el=document.createElement('div');
+      el.className='ai-sum-block'; el.dataset.nid=nidv;
+      var lbl=document.createElement('span'); lbl.className='ai-sum-lbl'; lbl.textContent='AI 总结';
+      el.appendChild(lbl);
+      el.appendChild(document.createTextNode(text));
+      inner.appendChild(el);
+      blocks[nidv]={el:el, host:host};
+    });
+  }
+
+  function isSnap(){ return document.body.dataset.aiSnap==='1'; }
+
+  /* default mode: not sticky, tracks the page's own scroll like main does.
+     Each block is placed at its paragraph's offset within #aiSummaryInner
+     (position:relative), which is given an explicit height so its
+     position:absolute children have room -- an element with only absolutely
+     positioned children is otherwise 0px tall. */
+  function syncFlow(){
+    if(sidebar.offsetParent===null) return;
+    var containerTop=inner.getBoundingClientRect().top;
+    var maxBottom=0;
+    Object.keys(blocks).forEach(function(nidv){
+      var rec=blocks[nidv];
+      rec.el.style.height='auto';
+      var top=rec.host.getBoundingClientRect().top-containerTop;
+      top=Math.max(0, top);
+      rec.el.style.top=top+'px';
+      var bottom=top+rec.el.offsetHeight;
+      if(bottom>maxBottom) maxBottom=bottom;
+    });
+    inner.style.height=maxBottom+'px';
+  }
+
+  /* snap mode: sticky, independently scrollable (like #noteSidebar). Each
+     block that has at least one matching #nsList row is positioned to span
+     that row-group's vertical range; a paragraph with no annotation has
+     nothing to snap to, so it's hidden rather than shown at some arbitrary
+     position. Multiple rows sharing one nid (several notes/highlights on
+     the same paragraph) widen the span to cover all of them, per the
+     original request ("右侧标注比如1-3条都是第一段，那么就跟第一段summary对
+     齐，第一段summary高度为右侧1-3条的范围"). */
+  function syncSnap(){
+    if(sidebar.offsetParent===null || !nsList) return;
+    /* Both columns are position:sticky at the same top:5.5rem, so their
+       OUTER <nav> boxes align on screen -- but #aiSummaryInner and #nsList
+       sit different distances below that (the switch-row header here is a
+       different height than the plain label there), so their inner tops do
+       NOT share a viewport Y. Measuring each ns-row's offset against
+       #aiSummaryInner's own top (rather than #nsList's) sidesteps that
+       entirely: the number produced is already "where this row would sit
+       if placed inside #aiSummaryInner," which is exactly the coordinate
+       space rec.el.style.top is set in below. */
+    var innerTop=inner.getBoundingClientRect().top;
+    var groups={};
+    nsList.querySelectorAll('.ns-row[data-nid]').forEach(function(row){
+      var nidv=row.dataset.nid;
+      var r=row.getBoundingClientRect();
+      var top=r.top-innerTop, bottom=r.bottom-innerTop;
+      if(!groups[nidv]) groups[nidv]={top:top, bottom:bottom};
+      else {
+        groups[nidv].top=Math.min(groups[nidv].top, top);
+        groups[nidv].bottom=Math.max(groups[nidv].bottom, bottom);
+      }
+    });
+    var maxBottom=0;
+    Object.keys(blocks).forEach(function(nidv){
+      var rec=blocks[nidv], g=groups[nidv];
+      if(!g){ rec.el.style.display='none'; return; }
+      rec.el.style.display='';
+      rec.el.style.top=g.top+'px';
+      rec.el.style.height=Math.max(g.bottom-g.top, 28)+'px';
+      if(g.bottom>maxBottom) maxBottom=g.bottom;
+    });
+    inner.style.height=maxBottom+'px';
+  }
+
+  function sync(){ if(isSnap()) syncSnap(); else syncFlow(); }
+
+  function setSnap(on){
+    document.body.dataset.aiSnap=on?'1':'0';
+    toggle.setAttribute('aria-pressed', on?'true':'false');
+    try{ localStorage.setItem('brAiSnap', on?'1':'0'); }catch(e){}
+    sync();
+  }
+  toggle.addEventListener('click', function(){
+    setSnap(toggle.getAttribute('aria-pressed')!=='true');
+  });
+
+  /* In snap mode #aiSidebar and #noteSidebar are two independently sticky,
+     independently scrollable columns -- matching heights alone doesn't keep
+     them visually aligned once the reader scrolls one of them, so their
+     scroll positions are bound together. */
+  var syncingScroll=false;
+  function bindScroll(a, b){
+    a.addEventListener('scroll', function(){
+      if(syncingScroll || !isSnap()) return;
+      syncingScroll=true; b.scrollTop=a.scrollTop; syncingScroll=false;
+    });
+  }
+  var noteSidebarEl=document.getElementById('noteSidebar');
+  if(noteSidebarEl){ bindScroll(sidebar, noteSidebarEl); bindScroll(noteSidebarEl, sidebar); }
+
+  build();
+  try{ setSnap(localStorage.getItem('brAiSnap')==='1'); }catch(e){ sync(); }
+
+  /* Resync on any layout change to main (mode toggle, a note/highlight
+     changing a paragraph's height, window resize, web font load) instead of
+     hooking every individual place that could change paragraph heights. */
+  var mainEl=document.querySelector('main');
+  if(mainEl && window.ResizeObserver){
+    var ro=new ResizeObserver(function(){ requestAnimationFrame(sync); });
+    ro.observe(mainEl);
+  } else {
+    window.addEventListener('resize', sync);
+  }
+  /* Resync when #nsList is rebuilt (note/highlight added, edited, deleted,
+     or a tag filter narrowing it) -- buildSidebarList() replaces its whole
+     innerHTML, which this observes rather than reaching into that other
+     IIFE's closure. */
+  if(nsList && window.MutationObserver){
+    var mo=new MutationObserver(function(){ requestAnimationFrame(sync); });
+    mo.observe(nsList, {childList:true, subtree:true});
+  }
 })();
 </script>
