@@ -185,8 +185,21 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
   body[data-ai-snap="1"] #aiSidebar{position:sticky;top:5.5rem;
              max-height:calc(100vh - 7.5rem);overflow-y:auto}
 }
+/* The switch lives in this header row, and the header must stay reachable
+   regardless of which positioning mode #aiSidebar itself is in — reported
+   by a user who scrolled a short way down the article in flow (default,
+   non-sticky) mode and could no longer find the 吸附 switch at all, because
+   it had scrolled off the top of the viewport along with the rest of that
+   non-sticky column. Making the header sticky INDEPENDENTLY of the column
+   fixes this in both modes: in flow mode #aiSidebar itself has no special
+   positioning, so this child's nearest scrolling ancestor is the page
+   itself and it pins at the same top:5.5rem every other sidebar header
+   uses; in snap mode #aiSidebar is already sticky+overflow:auto, so this
+   child instead pins to the top of THAT internal scroll area — in neither
+   case does it depend on JS, and in neither case can it scroll away. */
 #aiSidebar .sb-label-row{display:flex;align-items:center;justify-content:space-between;
-             gap:.5rem;margin:0 0 .9rem}
+             gap:.5rem;margin:0 0 .9rem;position:sticky;top:5.5rem;z-index:3;
+             background:var(--paper);padding-bottom:.3rem}
 #aiSidebar .sb-label-row .sb-label{margin:0}
 #aiSummaryInner{position:relative}
 .ai-sum-block{position:absolute;left:0;right:0;box-sizing:border-box;font-size:.78rem;
