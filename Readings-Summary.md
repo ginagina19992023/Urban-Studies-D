@@ -147,9 +147,11 @@
 - 数据来源:City of Helsinki (2023) *Facts and Figures*;Statistics Finland (2023) 住房权属统计。
 
 **⑤ 芬兰租赁市场**
-- **二元租赁市场(Dualist rental market)**:私人租赁 + 社会住房(ARA)。
-- 私人租赁市场既包括持有出租物业的公司,也包括私人房东——**租金和租客筛选均不受管制**。
-- **Ruonavaara (2017, 9)** 原句引用,描述 ARA 社会住房:"not priced by the market and primarily targeted at low and middle-income households"(不受市场定价,主要面向中低收入家庭)——means-tested(经济状况审查)、cost-based(成本定价)、subsidized(受补贴)。
+芬兰的租房分成两套互不相通的系统,讲义叫它**二元租赁市场(dualist rental market)**:
+- **私人租赁**:房东可以是公司或个人。租金由房东按市场定,租给谁也由房东决定,政府两样都不管。
+- **社会住房(ARA 住房)**:由国家住房金融机构 ARA 提供低息贷款或补贴建造。三个特点:**受补贴**(国家出钱帮忙建)、**按成本定租金**(只覆盖建造和维护成本,不按市场行情)、**要审查收入**(means-tested)。**Ruonavaara (2017, 9)** 原话:"not priced by the market and primarily targeted at low and middle-income households"(不按市场定价,主要给中低收入家庭)。
+- **为什么重要**:Segregation 讲义说,私人租赁越多,市政府越管不了谁住在哪里,社会混合越难做。
+- **背景(讲义外补充)**:"二元"一词来自 Jim Kemeny (1995);相对的是"一体化"租赁市场,社会住房与私人租赁同场竞争、互相压低租金。澳大利亚社会住房约占 4%,属于二元且社会住房被边缘化的体系,可与 Waterloo 对照。
 
 **⑥ 住房政策是什么?**
 - **芬兰宪法第19条**:公共权力机构的职责是促进每个人的住房权,并支持住房的自我组织。

@@ -350,8 +350,28 @@
   },
   {
    "kind": "p",
-   "en": "[⑤ Rental market] A dualist rental market: private rental plus social (ARA) housing. In private rental, neither rents nor tenant selection are regulated. Ruonavaara (2017, 9) describes ARA housing as \"not priced by the market and primarily targeted at low and middle-income households\": means-tested, cost-based, subsidized.",
-   "zh": "<strong>【⑤ 租赁市场】</strong>二元租赁市场：私人租赁 + 社会住房（ARA）。私人租赁的租金和租客筛选都不受管制。Ruonavaara (2017, 9) 形容 ARA 住房 \"not priced by the market and primarily targeted at low and middle-income households\"：经济状况审查、成本定价、受补贴。"
+   "en": "[⑤ Rental market] Finnish renting is split into two separate systems, which the lecture calls a dualist rental market.",
+   "zh": "<strong>【⑤ 租赁市场】</strong>芬兰的租房分成两套互不相通的系统，讲义叫它\"<b>二元租赁市场</b>\"（dualist rental market）。"
+  },
+  {
+   "kind": "p",
+   "en": "[⑤ Rental market] System 1: private rental. Landlords are companies or individuals. The landlord sets the rent at market level and chooses the tenant; the state regulates neither.",
+   "zh": "<strong>【⑤ 租赁市场】</strong><b>第一套：私人租赁。</b>房东可以是公司，也可以是个人。租金多少由房东按市场定，租给谁也由房东决定，政府两样都不管。"
+  },
+  {
+   "kind": "p",
+   "en": "[⑤ Rental market] System 2: social (ARA) housing. Built with low-interest loans or subsidies from ARA, the state housing finance agency. Three features: subsidized (the state helps pay for construction); cost-based rent (rent covers building and upkeep costs, not market rates); means-tested (applicants' income and assets must qualify). Ruonavaara (2017, 9) sums up the difference from private rental: \"not priced by the market and primarily targeted at low and middle-income households\".",
+   "zh": "<strong>【⑤ 租赁市场】</strong><b>第二套：社会住房（ARA 住房）。</b>由国家住房金融机构 ARA 提供低息贷款或补贴建造，有三个特点：<b>受补贴</b>（国家出钱帮忙建）；<b>按成本定租金</b>（租金只要覆盖建造和维护成本，不按市场行情收）；<b>要审查收入</b>（申请人的收入和资产要符合条件，即 means-tested）。Ruonavaara (2017, 9) 一句话概括了它和私人租赁的区别：\"not priced by the market and primarily targeted at low and middle-income households\"，意思是不按市场定价，主要给中低收入家庭。"
+  },
+  {
+   "kind": "p",
+   "en": "[⑤ Rental market] Why it matters: the Segregation lecture notes that the larger the private rental sector, the less a municipality can influence who lives where, so social mixing gets harder.",
+   "zh": "<strong>【⑤ 租赁市场】</strong><b>为什么重要：</b>Segregation 讲义说，私人租赁越多，市政府越管不了谁住在哪里，社会混合就越难做。"
+  },
+  {
+   "kind": "p",
+   "en": "[⑤ Rental market] Background (beyond the slides): the term \"dualist\" comes from Jim Kemeny (1995). Its opposite is an \"integrated\" (unitary) rental market, where social and private rental compete in one market and hold rents down. Australia, with social housing at about 4% of households, is a dualist system with a residualised social sector, a useful contrast for Waterloo.",
+   "zh": "<strong>【⑤ 租赁市场】</strong><b>背景（讲义外补充）：</b>\"二元\"一词来自 Jim Kemeny (1995)。与它相对的是\"一体化\"租赁市场，那里社会住房和私人租赁在同一个市场里竞争、互相压低租金。澳大利亚社会住房只占约 4%，属于二元而且社会住房被边缘化的体系，可以和 Waterloo 对照。"
   },
   {
    "kind": "p",
