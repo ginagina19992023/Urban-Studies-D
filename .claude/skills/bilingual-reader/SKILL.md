@@ -255,6 +255,32 @@ paragraph and attach a note to exactly that selection, Medium/Hypothesis-style:
      `textOffsetInAncestor()`) applied to the sibling paragraph's length —
      still an approximation, but keeps the feature from erroring or reverting
      to underlining the whole paragraph when sentence counts disagree.
+  3. **Quote-snap refinement, applied on top of either tier.** Character-
+     fraction position is a guess at WHERE a phrase landed, not WHAT it is —
+     a translator reordering clauses (very common EN→ZH) can shift a short
+     technical term far enough from its fractional slot that the guess lands
+     on neighboring text instead. Reported live: selecting EN "poverty
+     deconcentration" (Lees item 72) produced a ZH span straddling the
+     CLOSING quote mark around 贫困去集中化 — `化”命题所设想` — instead of the
+     quoted term itself, because the sentence-fraction estimate just missed
+     the reordered term by a few characters. When the translator has ALREADY
+     marked the corresponding term with quotation marks — common for named
+     theses/policy terms in this kind of text, 145 "" pairs in the Lees spec
+     alone — that's a far more reliable anchor than the fraction guess.
+     `findOverlappingQuoteSpan()` checks whether a “…”/‘…’/"…" span OVERLAPS
+     the estimated range AT ALL (not containment — the straddling case above
+     only shares its very last character with the quote, nothing in the
+     estimate is ever fully *inside* it) and, if the quote and the estimate
+     are within a **4x size ratio of each other in both directions**,
+     `markLinkedRange()` snaps to the quote's contents instead. Both
+     directions of that guard matter: capping only "quote isn't too much
+     bigger than the estimate" let a WHOLE-SENTENCE selection that merely
+     grazed some small unrelated quoted term elsewhere in that same sentence
+     (e.g. a sentence quoting "upgrading" among other things) get wrongly
+     shrunk down to just that one small quote — a real regression caught by
+     `test_sentence_alignment_citations.py` the first time this was written
+     one-directional, before the symmetric check was added. Covered by
+     `test_quote_snap_alignment.py` against the exact reported paragraph.
   Either tier wraps the estimated span — not the whole paragraph — in
   `<span class="linked-underline">`, via `rangeFromGlobalOffsets()` plus
   `range.surroundContents()` (best-effort, same as `wrapTextInNode()`: skips
@@ -804,6 +830,84 @@ notice is losing their annotations.
 
 Then publish with the Artifact tool if the user wants a link, or send the file.
 Pass `capabilities: {downloads: true}` to switch on the file-export buttons.
+
+## Cross-document (comparative) reading page
+
+`scripts/render_comparative_page.py` renders a SEPARATE page from TWO specs
+at once — two independently-scrollable panes, side by side — for cross-paper
+annotation ("跨文献批注"): select a passage on one side, select its
+counterpart on the other, write one note attached to both. This is a
+distinct script and page, not a mode of `render_reading_page.py`, because the
+two renderers solve genuinely different layout problems (one document in two
+languages vs. two documents in one language each) and forcing one script to
+do both would mean threading a "which mode" flag through nearly every
+function in it.
+
+- **Why this didn't need to wait on GitHub Pages.** Linking annotations
+  between the two EXISTING single-document pages would need shared
+  storage, which Claude Artifacts can't give two separately-published pages
+  (separate origins, no shared `localStorage`) — same-origin hosting was the
+  whole reason GitHub Pages got set up. But the comparative page is its own
+  single page: its cross-links are ITS OWN state (`br-crossrefs:{docA}__
+  {docB}` in `localStorage`), so it works as a standalone Claude Artifact
+  with no hosting dependency at all. Only ONE related feature — see below —
+  actually needs same-origin hosting.
+- **Selection flow.** `document.addEventListener('selectionchange', …)`
+  (debounced ~120ms), matching `render_reading_page.py`'s own pattern — NOT
+  `mouseup`, which a Playwright test using `Range.selectNodeContents()` +
+  manual dispatch won't trigger at all (no real mouse event fires), unlike
+  `selectionchange`, which fires for any selection change regardless of
+  input method. Clicking the `+ 关联` pill on the FIRST selection commits
+  `draftSide` and shows a hint banner; clicking it on a selection from the
+  SAME side re-prompts instead of silently accepting; only a selection from
+  the OTHER side opens the note card. Only `p.en` selections are linkable —
+  `p.zh` can carry inline markup (e.g. the `<strong>` in Lees item 72's
+  translation), and matching plain English text back to a DOM range via
+  `wrapText()`'s `TreeWalker` is far simpler than also handling nested tags
+  on the Chinese side for a feature where EN-side selection is the common
+  case anyway.
+- **Opening ANY card must clear pending-link state.** `openNoteCard()` resets
+  `draftSide`/hides the hint/hides the pill before doing anything else, even
+  when opening an EXISTING link to edit it (not a new one). Without this: a
+  half-started link (hint banner showing "select the other side") left
+  dangling while the reader clicks an unrelated existing mark instead leaves
+  the stale hint and pending selection sitting there once that edit card
+  closes — confusing about what state the UI is actually in. This also
+  turned up a real Playwright testing gotcha worth knowing if you touch this
+  flow: a leftover **non-collapsed** text selection from an abandoned
+  same-side attempt, still present when a *different* element is clicked,
+  can make the browser's `mousedown` and `mouseup` targets diverge (observed:
+  `mousedown` on the mark, `mouseup` on a completely unrelated element after
+  an unexplained scroll-to-0 in between) — so the resulting `click` event
+  never reaches the mark at all. Real readers won't hit this (the hint
+  banner tells them exactly what to do next), but a test that leaves a
+  selection dangling across steps can silently rot; recover with Escape
+  (`clearDraft()`) and `window.getSelection().removeAllRanges()` between
+  independent test scenarios, same as a real reader would.
+- **Quote-snap reuse.** `markLinkedRange()`'s quote-overlap refinement (see
+  the sentence-alignment section above) isn't duplicated here — this page
+  doesn't underline a computed corresponding span at all, since a cross-link
+  is created from two INDEPENDENTLY selected passages, not one selection
+  mapped onto its sibling translation. Nothing to estimate.
+- **Reading (read-only) each paper's OWN per-paragraph notes/highlights.**
+  Each `.para` gets a `data-nid` computed with the SAME `nid(doc_key, en)`
+  hash `render_reading_page.py` uses for its own notes — this is deliberate
+  and must stay in sync: it's the only way this page can look up
+  `localStorage['br-notes:'+docId]` / `['br-highlights:'+docId]` and find
+  the SAME annotations the full single-document page would show for that
+  same paragraph. `loadOwnAnnotations()` reads both (handling the legacy
+  plain-string note format same as `noteOf()` does) and `paintOwnAnnotations
+  ()` appends them read-only under the matching paragraph. **This one
+  feature genuinely needs same-origin hosting** — `localStorage` is
+  per-origin, so opened as a standalone Artifact (a different origin from
+  both the full pages AND from each other) this always finds nothing, which
+  is the correct, expected result, not a bug: the page says so directly
+  (a banner naming GitHub Pages as the fix) rather than silently showing
+  nothing and leaving the reader to wonder whether the feature is broken.
+- Export/backup mirrors `render_reading_page.py`'s pattern exactly (Markdown
+  export, JSON backup+import, same `window.claude.downloads`-with-
+  `nativeDownload()`-fallback) — reuse that pattern rather than re-deriving
+  it if this page grows more export formats.
 
 ## Scope
 
