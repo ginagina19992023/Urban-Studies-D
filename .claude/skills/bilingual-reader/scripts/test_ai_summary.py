@@ -38,6 +38,23 @@ with sync_playwright() as p:
     ck("no JS errors on load (wide)", not errs, errs)
     ck("AI summary column visible at >=1280px", pg.locator("#aiSidebar").is_visible())
 
+    # ---- the 吸附 switch must stay reachable after scrolling, in the
+    # DEFAULT (flow/non-sticky) mode -- reported by a user who scrolled a
+    # short way into the article and could no longer find it anywhere,
+    # because the whole column (switch included) scrolled off with the
+    # page. The switch's header row is sticky independently of whichever
+    # positioning mode the column itself is in. ----
+    ck("snap toggle visible before scrolling", pg.locator("#aiSnapToggle").is_visible())
+    pg.mouse.wheel(0, 3000)
+    pg.wait_for_timeout(250)
+    ck("snap toggle STILL visible after scrolling deep into the article (flow mode)",
+       pg.locator("#aiSnapToggle").is_visible())
+    toggle_box = pg.locator("#aiSnapToggle").bounding_box()
+    ck("snap toggle sits near the top of the viewport, not just technically on-screen",
+       toggle_box["y"] < 150, toggle_box["y"])
+    pg.mouse.wheel(0, -3000)
+    pg.wait_for_timeout(200)
+
     blocks = pg.locator(".ai-sum-block")
     ck("at least one AI-summary block is rendered", blocks.count() > 0, blocks.count())
     first_block = blocks.first
@@ -90,6 +107,16 @@ with sync_playwright() as p:
            block_box["height"] >= row_box["height"] - 1, (block_box["height"], row_box["height"]))
     else:
         print("  (skip: the first paragraph's own block has no AI summary in this fixture)")
+
+    # the switch must also survive SCROLLING WITHIN the snap-mode column
+    # itself (it's sticky + overflow:auto in this mode, its own internal
+    # scrollbar) -- same header-independence fix, the other mode it applies to
+    pg.locator("#aiSidebar").evaluate("el => el.scrollTo(0, 400)")
+    pg.wait_for_timeout(200)
+    ck("snap toggle still visible after scrolling WITHIN the snap-mode column",
+       pg.locator("#aiSnapToggle").is_visible())
+    pg.locator("#aiSidebar").evaluate("el => el.scrollTo(0, 0)")
+    pg.wait_for_timeout(200)
 
     # ---- snap mode with a HIGHLIGHT (selection-based annotation), not just
     # a paragraph note -- this is the more common real annotation style for
