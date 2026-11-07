@@ -511,6 +511,75 @@ whenever notes/highlights/tag-filter change) cover every case that can move
 a paragraph or change which rows exist, rather than hooking each individual
 call site that could affect either.
 
+#### The sticky header's nested-offset bug (and why it needs `reserveHeaderSpace()`)
+
+`#aiSidebar .sb-label-row` (holding the "AI 总结" label and `#aiSnapToggle`)
+is `position:sticky` so the switch stays reachable regardless of scroll —
+see its own CSS comment for that story. Making it sticky INDEPENDENTLY of
+`#aiSidebar` (which is only sticky in snap mode) turned out to need two
+separate fixes, both found by a user screenshot showing the header visually
+overlapping/garbling the first summary block:
+
+1. **Flow mode**: `#aiSidebar` itself is `position:static`, so its natural
+   top sits above the header's `top:5.5rem` offset — the header immediately
+   "sticks" and visually floats down by the gap, but `#aiSummaryInner` (the
+   next sibling in flow) still reserves space based on the header's
+   UNSTUCK static position, not where it's actually rendering. Fixed by
+   `reserveHeaderSpace()`: measure the header's actual rendered `bottom`
+   each sync and set that as `#aiSummaryInner`'s `margin-top`, rather than
+   hand-tuning a magic pixel value for one specific topbar/font
+   configuration. This only matters in flow mode, because flow-mode block
+   positions are computed relative to `#aiSummaryInner`'s own rendered top
+   (`containerTop` in `syncFlow()`) — snap-mode block positions are NOT
+   (see next point), so this fix is a no-op there.
+2. **Snap mode**: `#aiSidebar` itself is ALSO sticky at `top:5.5rem` here,
+   with `overflow-y:auto` making it the header's sticky containing block —
+   so the header's OWN `top:5.5rem`, now measured relative to a box that is
+   itself already sitting at viewport-y≈5.5rem, compounds into ~11rem
+   instead of lining up at 5.5rem. `reserveHeaderSpace()`'s margin-top trick
+   does NOT fix this, because in snap mode each block's absolute viewport
+   position is deliberately set to exactly its `#nsList` row's own absolute
+   position (`g.top`/`g.bottom` from `measureGroups()`), independent of
+   wherever `#aiSummaryInner` itself starts — margin-top on the container
+   changes nothing about where its position:absolute children end up on
+   screen. The actual fix is `body[data-ai-snap="1"] #aiSidebar
+   .sb-label-row{top:0}`: once the column itself provides the 5.5rem
+   offset, the header only needs to stick to the top of ITS OWN
+   already-positioned scroll frame, not ask for another 5.5rem on top of it.
+
+Moral for touching this again: a sticky element nested inside another
+sticky-or-not element doesn't just "add harmlessly" — whether the offsets
+compound depends on which element the inner one's sticky `top` resolves
+against, which flips between the page and the outer box depending on
+whether the outer box is a scroll container. Measure actual rendered
+positions (as both fixes above do, one via JS, one via a mode-specific CSS
+override) rather than assuming two `top:5.5rem` values will visually agree.
+
+#### The snap-inflation padding bug: replacing vs. adding to existing padding
+
+`syncSnap()` never clips a summary's own text to fit a shorter annotation
+span — a user rightly called the original behavior (which DID clip, via a
+fixed `height` + `overflow:hidden`) backwards: "应该是反过来...批注也要适应于
+ai总结的这个长度". So when a block's natural content height exceeds its
+`#nsList` row-group's natural span, the ANNOTATION side grows instead,
+by adding padding-bottom to the group's last row (normal flow then pushes
+every row below it down automatically) — never the other way around. The
+first version of that fix set `g.lastRow.style.paddingBottom = shortfall +
+'px'` directly.
+`.ns-row` already carries its own CSS `padding-bottom` (`.55rem`, part of
+its `padding:.55rem 3.4rem .55rem .1rem` shorthand) for normal breathing
+room — setting the inline style to just the shortfall REPLACES that base
+padding instead of adding to it, so the row only grows by
+`shortfall - basePadding` instead of the full `shortfall`, leaving the
+summary still clipped by however much base padding it ate. Confirmed with a
+real measurement: asking for 20.92px of extra padding only grew the row by
+12.13px (20.92 − 8.8, the row's own `.55rem`). Fixed by reading
+`getComputedStyle(row).paddingBottom` first and adding the shortfall to
+THAT, not overwriting it. General lesson: never set `style.paddingBottom`
+(or any box-model property) to an "amount to add" without first checking
+whether the element already has a non-zero value for that property from its
+own stylesheet rules.
+
 ### Baking your own analysis into the page
 
 When the user pastes their real annotations back into the conversation and asks
