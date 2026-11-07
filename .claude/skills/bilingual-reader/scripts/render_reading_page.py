@@ -102,11 +102,17 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
      whose window was 1040–1279px wide. Using the FOUR-column sum here
      (rather than leaving it at the three-column 77.5rem from before
      #aiSidebar existed) matters even though #aiSidebar itself only turns on
-     at 1320px: a max-width too small for it meant main got squeezed harder
+     at 1280px: a max-width too small for it meant main got squeezed harder
      than necessary the moment #aiSidebar appeared, measurably changing
      paragraph wrap and therefore every later scroll-position calculation on
      the page — caught by test_sidebar.py's "scrolls target to top of
-     viewport" assertion regressing only at viewports ≥1320px. */
+     viewport" assertion regressing at the wide viewports that test checks.
+     (#aiSidebar's own breakpoint first shipped at 1320px and repeated
+     exactly the overcautious mistake described above for the notes
+     sidebar — a user on an ordinary 1280px-wide laptop screen reported the
+     entire column, 吸附 switch included, simply never appearing. Lowered to
+     1280px; see the comment at #aiSidebar's own rule for how that number
+     is derived.) */
   .layout{display:flex;align-items:flex-start;gap:2rem;max-width:92.5rem;margin:0 auto}
   main{margin:0;flex:1 1 auto;min-width:0}
 }
@@ -172,12 +178,23 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
 .sb-node.active::before{background:var(--accent);border-color:var(--accent)}
 
 /* ---- AI paragraph-summary column (between main and the notes sidebar) ----
-   Gated at a separate, higher breakpoint (1320px) rather than folded into
-   the shared 1040px one the other two columns use — adding a FOURTH column
-   to that breakpoint would squeeze main uncomfortably on an ordinary laptop
-   window; this is an enhancement, not a feature the page depends on, so it
-   simply doesn't appear until there's room for all four columns at once
-   (13 toc + 2 + 46 main + 2 + 13 ai + 2 + 14.5 notes ≈ 92.5rem).
+   Gated at its own breakpoint (1280px) rather than folded into the shared
+   1040px one the other two columns use — adding a FOURTH column there would
+   squeeze main harder than #tocSidebar/#noteSidebar alone do. 1280px is not
+   an arbitrary "give it more room" number: it's chosen to give main the
+   SAME floor width the 1040px breakpoint already gives it once 3 columns
+   are showing (toc 13rem + notes 14.5rem + 2 gaps = 31.5rem fixed, leaving
+   main ~33.5rem/536px at the 1040px floor). With #aiSidebar added, the
+   fixed width grows to toc 13rem + ai 13rem + notes 14.5rem + 3 gaps =
+   46.5rem, so main only matches that same ~536px floor once the viewport
+   reaches ~46.5rem + 33.5rem = 80rem = 1280px — not 1320px, and DEFINITELY
+   not higher: a 1320px+ gate was reported as invisible on an ordinary 13"
+   laptop (1280px-wide screens are extremely common and were being
+   silently excluded entirely, column AND its 吸附 switch both). Don't
+   regate this higher without re-deriving this floor; this project's own
+   earlier history already shows that erring toward "more room" on these
+   breakpoints just means the column fails to appear for a lot of real
+   windows.
 
    Two positioning modes, toggled by #aiSnapToggle (persisted in
    localStorage['brAiSnap']), because "follows the paragraph as you scroll"
@@ -198,7 +215,7 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
      one scrolls the other, keeping the alignment visible as you read down
      a long annotations list. */
 #aiSidebar{display:none;width:13rem;flex-shrink:0;font-family:var(--font-sans)}
-@media (min-width:1320px){
+@media (min-width:1280px){
   #aiSidebar{display:block}
   body[data-ai-snap="1"] #aiSidebar{position:sticky;top:5.5rem;
              max-height:calc(100vh - 7.5rem);overflow-y:auto}

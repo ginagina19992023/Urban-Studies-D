@@ -9,21 +9,34 @@ def ck(n,c,x=""):
 with sync_playwright() as p:
     b = p.chromium.launch(executable_path="/opt/pw-browsers/chromium")
 
-    # ---- below the 1320px breakpoint: the column is an enhancement, not a
+    # ---- below the 1280px breakpoint: the column is an enhancement, not a
     # dependency -- it should simply not appear, with no JS errors. ----
     pg_narrow = b.new_page(viewport={"width":1200, "height":900})
     errs_narrow=[]; pg_narrow.on("pageerror", lambda e: errs_narrow.append(str(e)))
     pg_narrow.goto(url)
     ck("no JS errors on load (narrow)", not errs_narrow, errs_narrow)
-    ck("AI summary column hidden below 1320px", not pg_narrow.locator("#aiSidebar").is_visible())
+    ck("AI summary column hidden below 1280px", not pg_narrow.locator("#aiSidebar").is_visible())
     pg_narrow.close()
+
+    # ---- an ordinary 13" laptop screen (1280px) -- the breakpoint this
+    # column first shipped at (1320px) excluded exactly this width, which is
+    # extremely common; this is a regression guard for that specific report,
+    # not just "some wide viewport works". ----
+    pg_laptop = b.new_page(viewport={"width":1280, "height":900})
+    errs_laptop=[]; pg_laptop.on("pageerror", lambda e: errs_laptop.append(str(e)))
+    pg_laptop.goto(url)
+    ck("no JS errors on load (1280px laptop)", not errs_laptop, errs_laptop)
+    ck("AI summary column visible at exactly 1280px (a common 13\" laptop width)",
+       pg_laptop.locator("#aiSidebar").is_visible())
+    ck("snap toggle visible at 1280px too", pg_laptop.locator("#aiSnapToggle").is_visible())
+    pg_laptop.close()
 
     # ---- wide viewport: the real behavior ----
     pg = b.new_page(viewport={"width":1500, "height":900})
     errs=[]; pg.on("pageerror", lambda e: errs.append(str(e)))
     pg.goto(url)
     ck("no JS errors on load (wide)", not errs, errs)
-    ck("AI summary column visible at >=1320px", pg.locator("#aiSidebar").is_visible())
+    ck("AI summary column visible at >=1280px", pg.locator("#aiSidebar").is_visible())
 
     blocks = pg.locator(".ai-sum-block")
     ck("at least one AI-summary block is rendered", blocks.count() > 0, blocks.count())
