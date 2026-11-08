@@ -19,7 +19,7 @@
 
 ### A. Introduction（Sassen 全球城市；Simmel / Wirth）
 - 主观点句（草稿）：Green Square 与 Waterloo 同在 Botany Road 一带，却被写成两种不同的悉尼；全球城市的极化不只是收入差距，也是「谁被认为属于这座城市」。
-- 状态：Green Square 对照 = ✍️ 你提出的；「同一条路」的地理说法 ❓（Green Square 图书馆 355 Botany Rd、Infinity 301–303 Botany Rd 已核实，Waterloo 一侧的路段待对照资料包）；「被认为属于」= ✍️
+- 状态：Green Square 对照 = ✍️ 你提出的；「同一条路」：Green Square 图书馆 355 Botany Rd、Infinity 301–303 Botany Rd（Zetland）✅；Waterloo Metro Quarter（地铁站所在地块）被 Botany Rd、Cope St、Raglan St、Wellington St 围合（搜索结果转述 Sydney Metro 资料，❓ 未读原页）；但公屋区主体 Waterloo South 的边界街道是 Cope、Raglan、George、Wellington、Gibson、Kellick、Pitt、McEvoy（资料包）——**不含 Botany Rd**。所以只能说『同在 Botany Road 一带』，不能说公屋区在 Botany Rd 上；「被认为属于」= ✍️
 
 ### B. Housing（家 vs 房地产；金融化；残余化）
 - 主观点句（草稿）：Waterloo 公屋再开发的方案里，土地和地铁站带来的价值，影响了社会住房的比例和配置。
