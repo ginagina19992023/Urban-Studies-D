@@ -109,11 +109,25 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
 .sb-layer-switch[aria-pressed="true"] .sb-layer-switch-thumb{left:.85rem}
 .sb-layer-switch[aria-pressed="true"] .sb-layer-switch-label{color:var(--hl);font-weight:700}
 .sb-tree-wrap{position:relative}
-.sb-tag-overlay{position:absolute;inset:0;z-index:5;background:var(--paper);
-                 border:1px solid var(--line);border-radius:8px;
-                 box-shadow:0 8px 22px rgba(0,0,0,.14);padding:.7rem .65rem;
-                 max-height:calc(100vh - 7.5rem);overflow-y:auto}
+.sb-tag-overlay{background:var(--paper);border:1px solid var(--line);border-radius:8px;
+                 padding:.5rem .65rem}
 .sb-tag-overlay[hidden]{display:none}
+/* Tag display has THREE modes (关 / 叠加 / 仅标签), stored in brTagMode:
+   off = tree only; layer = tree with each section's tags shown under it;
+   only = tags alone, in order of first appearance in the document. */
+.sb-seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;flex-shrink:0}
+.sb-seg button{border:none;background:none;cursor:pointer;font-family:var(--font-sans);
+               font-size:.65rem;color:var(--muted);padding:.2rem .45rem;border-right:1px solid var(--line)}
+.sb-seg button:last-child{border-right:none}
+.sb-seg button[aria-pressed="true"]{background:var(--hl);color:var(--paper);font-weight:700}
+.sb-seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+#tocSidebar.mode-only .sb-tree{display:none}
+.sb-node-tags{display:flex;flex-wrap:wrap;gap:.25rem;margin:.05rem 0 .35rem .6rem}
+.sb-node-tags .sb-tag-chip{font-family:var(--font-sans);font-size:.65rem;color:var(--hl);
+    background:var(--zh-bg);border-radius:999px;padding:.02rem .45rem;cursor:pointer}
+.sb-node-tags .sb-tag-chip.active{background:var(--hl);color:var(--paper)}
+.sb-node-tags .sb-tag-chip:hover{color:var(--accent)}
+.sb-tag-row .sec{display:block;font-size:.62rem;color:var(--muted);font-weight:400}
 .sb-tag-row{display:flex;align-items:center;justify-content:space-between;gap:.4rem;
             padding:.4rem .3rem;border-bottom:1px dashed var(--line);cursor:pointer;
             font-family:var(--font-sans);font-size:.78rem;color:var(--ink-soft)}
@@ -639,7 +653,7 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 </div><div class="progress"><span></span></div></div>
 <div class="layout">
 <nav id="tocSidebar">
-<div class="sb-toc-head"><span class="sb-label">目录</span><button type="button" id="tagLayerToggle" class="sb-layer-switch" aria-pressed="false" title="在目录上叠加显示标签层"><span class="sb-layer-switch-track"><span class="sb-layer-switch-thumb"></span></span><span class="sb-layer-switch-label">标签</span></button></div>
+<div class="sb-toc-head"><span class="sb-label">目录</span><div class="sb-seg" id="tagModeSeg" role="group" aria-label="标签显示方式"><button type="button" data-mode="off" aria-pressed="true" title="关闭标签，只看目录">无标签</button><button type="button" data-mode="layer" aria-pressed="false" title="标签显示在目录各章节下面">叠加</button><button type="button" data-mode="only" aria-pressed="false" title="只显示标签，按在文中出现的顺序">仅标签</button></div></div>
 <div class="sb-tree-wrap">
 <div class="sb-tree">
 <a class="sb-node lvl-h2" href="#sec-0" data-secid="sec-0"><span class="en">Abstract</span><span class="zh">摘要</span></a>
@@ -1463,26 +1477,66 @@ document.addEventListener('scroll', function(){
       dl.appendChild(opt);
     });
   }
+  /* Which section (nearest preceding h2/h3 with an id) does a block sit in? */
+  function sectionIdOf(el){
+    if(!el) return null;
+    var heads=document.querySelectorAll('article h2[id], article h3[id]'), id=null;
+    for(var i=0;i<heads.length;i++){
+      if(heads[i].compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING) id=heads[i].id; else break;
+    }
+    return id;
+  }
+  function docOrder(a,b){
+    if(!a.el||!b.el) return 0;
+    var c=a.el.compareDocumentPosition(b.el);
+    return (c & Node.DOCUMENT_POSITION_FOLLOWING)?-1:((c & Node.DOCUMENT_POSITION_PRECEDING)?1:0);
+  }
+  var tagMode='off';
   function buildTagDirectory(){
     var list=document.getElementById('sbTagList');
-    if(!list) return;
-    var counts={};
-    entries().forEach(function(r){ (r.tags||[]).forEach(function(t){ counts[t]=(counts[t]||0)+1; }); });
-    var tags=Object.keys(counts).sort();
-    list.innerHTML='';
-    if(!tags.length){
-      list.innerHTML='<div class="sb-tag-empty">还没有标签。写批注时顺手加几个吧。</div>';
-      return;
-    }
-    tags.forEach(function(t){
-      var row=document.createElement('div'); row.className='sb-tag-row';
-      if(t===activeTagFilter) row.classList.add('active');
-      var label=document.createElement('span'); label.textContent='#'+t;
-      var count=document.createElement('span'); count.className='count'; count.textContent=counts[t];
-      row.appendChild(label); row.appendChild(count);
-      row.addEventListener('click', function(){ toggleTagFilter(t); });
-      list.appendChild(row);
+    var rows=entries().slice().sort(docOrder);
+    var counts={}, order=[], bySec={}, secOfTag={};
+    rows.forEach(function(r){
+      var sid=sectionIdOf(r.el);
+      (r.tags||[]).forEach(function(t){
+        if(!counts[t]){ counts[t]=0; order.push(t); secOfTag[t]=sid; }
+        counts[t]++;
+        if(sid){ (bySec[sid]=bySec[sid]||[]); if(bySec[sid].indexOf(t)===-1) bySec[sid].push(t); }
+      });
     });
+    /* mode "only": tags alone, in order of first appearance in the document */
+    if(list){
+      list.innerHTML='';
+      if(!order.length){
+        list.innerHTML='<div class="sb-tag-empty">还没有标签。写批注时顺手加几个吧。</div>';
+      }
+      order.forEach(function(t){
+        var row=document.createElement('div'); row.className='sb-tag-row';
+        if(t===activeTagFilter) row.classList.add('active');
+        var label=document.createElement('span'); label.textContent='#'+t;
+        var count=document.createElement('span'); count.className='count'; count.textContent=counts[t];
+        row.appendChild(label); row.appendChild(count);
+        row.addEventListener('click', function(){ toggleTagFilter(t); });
+        list.appendChild(row);
+      });
+    }
+    /* mode "layer": each TOC node gets its section's tags underneath */
+    document.querySelectorAll('#tocSidebar .sb-node-tags').forEach(function(n){ n.remove(); });
+    if(tagMode==='layer'){
+      document.querySelectorAll('#tocSidebar .sb-node').forEach(function(node){
+        var tags=bySec[node.dataset.secid];
+        if(!tags||!tags.length) return;
+        var box=document.createElement('div'); box.className='sb-node-tags';
+        tags.forEach(function(t){
+          var chip=document.createElement('span'); chip.className='sb-tag-chip';
+          if(t===activeTagFilter) chip.classList.add('active');
+          chip.textContent='#'+t;
+          chip.addEventListener('click', function(e){ e.stopPropagation(); toggleTagFilter(t); });
+          box.appendChild(chip);
+        });
+        node.parentNode.insertBefore(box, node.nextSibling);
+      });
+    }
   }
   function refreshAll(){
     buildList(document.getElementById('notesList'), true);
@@ -1718,21 +1772,31 @@ document.addEventListener('scroll', function(){
   buildGlossary('');
   try{ showTab(localStorage.getItem('brNavTab')||'toc'); }catch(e){ showTab('toc'); }
 
-  /* Tags overlay the TOC tree as a layer, toggled by one small switch —
-     see the .sb-toc-head CSS comment for why this isn't a second pane. */
+  /* Tag display: three modes (无标签 / 叠加 / 仅标签), see the .sb-seg CSS. */
   (function(){
-    var toggle=document.getElementById('tagLayerToggle');
+    var seg=document.getElementById('tagModeSeg');
     var overlay=document.getElementById('sbTagOverlay');
-    if(!toggle || !overlay) return;
-    function setLayer(on){
-      toggle.setAttribute('aria-pressed', on?'true':'false');
-      overlay.hidden=!on;
-      try{ localStorage.setItem('brTagLayer', on?'1':'0'); }catch(e){}
+    var side=document.getElementById('tocSidebar');
+    if(!seg || !overlay || !side) return;
+    function setMode(m){
+      if(m!=='layer' && m!=='only') m='off';
+      tagMode=m;
+      seg.querySelectorAll('button').forEach(function(b){
+        b.setAttribute('aria-pressed', b.dataset.mode===m?'true':'false');
+      });
+      overlay.hidden=(m!=='only');
+      side.classList.toggle('mode-only', m==='only');
+      buildTagDirectory();
+      try{ localStorage.setItem('brTagMode', m); }catch(e){}
     }
-    toggle.addEventListener('click', function(){
-      setLayer(toggle.getAttribute('aria-pressed')!=='true');
+    seg.addEventListener('click', function(e){
+      var b=e.target.closest('button[data-mode]'); if(b) setMode(b.dataset.mode);
     });
-    try{ setLayer(localStorage.getItem('brTagLayer')==='1'); }catch(e){}
+    var saved='off';
+    try{
+      saved=localStorage.getItem('brTagMode')||(localStorage.getItem('brTagLayer')==='1'?'only':'off');
+    }catch(e){}
+    setMode(saved);
   })();
 
   document.getElementById('ovCopy').addEventListener('click', function(){
