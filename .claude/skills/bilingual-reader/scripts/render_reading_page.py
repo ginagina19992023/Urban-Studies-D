@@ -129,6 +129,7 @@ article h3 .zh{display:block;font-family:var(--font-zh);font-size:.9rem;color:va
 .bifig{margin:0 0 1.35rem;padding-bottom:1rem;border-bottom:1px dashed var(--line)}
 .bifig .fig-art{overflow-x:auto;background:var(--zh-bg);border-radius:6px;padding:.8rem}
 .bifig .fig-art svg{display:block;width:100%;height:auto;max-width:40rem;margin:0 auto}
+.bifig .fig-art img{display:block;max-width:100%;max-height:78vh;width:auto;height:auto;margin:0 auto 6px}
 .bifig figcaption{margin-top:.55rem;font-family:var(--font-sans);font-size:.76rem;line-height:1.6;color:var(--muted)}
 .bifig figcaption .zh{display:block;font-family:var(--font-zh);margin-top:.2rem}
 body.zh-only .bifig figcaption .en{display:none} body.en-only .bifig figcaption .zh{display:none}
