@@ -1,0 +1,426 @@
+<title>Urban Studies 读物总览</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a course reader. Sticky unit tabs on top, each unit is a chapter of reading entries; each entry splits into 核心论点 / 关键概念 / 可引用. Same ink-and-celadon family as the Nanjing review page, with one hue per unit. */
+:root{
+  --paper:#f6f7f4;--surface:#ffffff;--ink:#1d2622;--ink-soft:#4d5a54;--line:#d5dcd7;
+  --intro:#2f6f8f;--intro-wash:#e2eef4;
+  --housing:#9a6a1c;--housing-wash:#f5ecd9;
+  --seg:#6a4fa0;--seg-wash:#eeeaf6;
+  --gent:#2f7a68;--gent-wash:#e3efea;
+  --warn:#a8452f;--warn-wash:#f7e6e1;
+  --f-display:"Noto Serif SC","Songti SC","STSong",serif;
+  --f-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#131816;--surface:#1b211e;--ink:#e4ebe7;--ink-soft:#a3b1aa;--line:#2f3934;
+  --intro:#7fbcd9;--intro-wash:#1a2b33;--housing:#d9a650;--housing-wash:#33291a;
+  --seg:#b49ce6;--seg-wash:#2a2438;--gent:#6cc4ad;--gent-wash:#1d322c;
+  --warn:#e8907a;--warn-wash:#3a221c;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#131816;--surface:#1b211e;--ink:#e4ebe7;--ink-soft:#a3b1aa;--line:#2f3934;
+  --intro:#7fbcd9;--intro-wash:#1a2b33;--housing:#d9a650;--housing-wash:#33291a;
+  --seg:#b49ce6;--seg-wash:#2a2438;--gent:#6cc4ad;--gent-wash:#1d322c;
+  --warn:#e8907a;--warn-wash:#3a221c;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.8;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.wrap{max-width:820px;margin:0 auto;padding-block:36px 80px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.35;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:900}
+h2{font-size:clamp(22px,3.6vw,28px);font-weight:700}
+h3{font-size:18px;font-weight:700}
+p,ul,ol{margin:0}
+ul,ol{padding-left:1.3em;display:flex;flex-direction:column;gap:6px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+code,.file{font-family:var(--f-mono);font-size:.82em;background:var(--line);padding:1px 6px;border-radius:3px;word-break:break-all}
+em.en{font-family:Georgia,"Times New Roman",serif;font-style:italic}
+a{color:var(--gent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gent);outline-offset:2px}
+
+header.hero{display:flex;flex-direction:column;gap:12px;padding-bottom:20px}
+header.hero p{color:var(--ink-soft);max-width:62ch}
+
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);display:flex;gap:6px;flex-wrap:wrap;padding-block:12px;border-bottom:1px solid var(--line)}
+nav.tabs a{font-size:14px;text-decoration:none;color:var(--ink);padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);display:flex;align-items:center;gap:6px}
+nav.tabs a::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+nav.tabs a:hover{border-color:var(--c)}
+
+section.unit{display:flex;flex-direction:column;gap:22px;padding-block:40px 8px;scroll-margin-top:64px}
+.unit-head{display:flex;flex-direction:column;gap:8px;padding-left:16px;border-left:4px solid var(--c)}
+.unit-head .eyebrow{color:var(--c)}
+.unit-head p{color:var(--ink-soft);font-size:15px}
+#intro{--c:var(--intro);--w:var(--intro-wash)}
+#housing{--c:var(--housing);--w:var(--housing-wash)}
+#segregation{--c:var(--seg);--w:var(--seg-wash)}
+#gentrification{--c:var(--gent);--w:var(--gent-wash)}
+#cross{--c:var(--ink-soft);--w:var(--line)}
+nav.tabs a[href="#intro"]{--c:var(--intro)} nav.tabs a[href="#housing"]{--c:var(--housing)}
+nav.tabs a[href="#segregation"]{--c:var(--seg)} nav.tabs a[href="#gentrification"]{--c:var(--gent)}
+nav.tabs a[href="#cross"]{--c:var(--ink-soft)}
+
+article.entry{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.entry-head{display:flex;flex-direction:column;gap:4px}
+.entry-head .who{font-family:var(--f-mono);font-size:13px;color:var(--c);font-weight:500}
+.entry-head .src{font-size:13px;color:var(--ink-soft)}
+.badge{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;background:var(--w);color:var(--c);font-weight:500;margin-left:6px;vertical-align:2px}
+.part{display:grid;grid-template-columns:5.5em 1fr;gap:12px}
+.part > .lab{font-size:13px;font-weight:700;color:var(--c);padding-top:3px}
+.part > div{min-width:0;font-size:15px;display:flex;flex-direction:column;gap:8px}
+@media (max-width:540px){.part{grid-template-columns:1fr;gap:4px}}
+.cite-line{background:var(--w);padding:10px 14px;border-radius:4px;font-size:15px}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:12px;color:var(--ink-soft);font-weight:500;letter-spacing:.04em}
+tr:last-child td{border-bottom:none}
+
+.callout{border-radius:4px;padding:12px 16px;font-size:14px;display:flex;flex-direction:column;gap:6px}
+.callout.warn{background:var(--warn-wash);color:var(--ink)}
+.callout.warn b{color:var(--warn)}
+.callout.new{background:var(--w)}
+.callout.new b{color:var(--c)}
+
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.link-card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:6px;font-size:15px;min-width:0}
+.link-card .pair{font-family:var(--f-mono);font-size:12px;color:var(--ink-soft)}
+footer{margin-top:48px;font-size:13px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:16px}
+</style>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Urban Studies · Aalto · Readings-20260706</div>
+  <h1>Urban Studies 读物总览</h1>
+  <p>课程四个单元的讲义要点与指定读物摘要，供论文和课堂讨论使用。每篇给出核心论点、关键概念和可引用要点。内容来自仓库里的 <span class="file">Readings-Summary.md</span>，Segregation 单元另补了讲义要点。</p>
+</header>
+
+<nav class="tabs" aria-label="单元">
+  <a href="#intro">Introduction</a>
+  <a href="#housing">Housing</a>
+  <a href="#segregation">Segregation</a>
+  <a href="#gentrification">Gentrification</a>
+  <a href="#cross">跨主题串联</a>
+</nav>
+
+<!-- =================== INTRO =================== -->
+<section class="unit" id="intro">
+  <div class="unit-head">
+    <div class="eyebrow">第一单元 · Introduction · 13.1</div>
+    <h2>学科起源与"什么是城市"</h2>
+    <p>这个单元没有布置期刊阅读，讲义里穿插引用了几位城市理论奠基人物，勾勒城市研究这门学科怎么来、"the urban"怎么被不同学派定义。讲义：<span class="file">Lectures-20260706/introduction.pdf</span>。Simmel、Wirth、Sennett、Ilmonen 另有双语课程笔记，在 <span class="file">Research-Strategy/Draft-*.md</span>。</p>
+  </div>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">0.0 · 讲义原文梳理</div><h3>学科起源与几大流派</h3></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>流派 / 人物</th><th>核心主张</th></tr></thead>
+        <tbody>
+          <tr><td>Engels (1844)</td><td>《英国工人阶级状况》：工业城市的悲惨条件（平均寿命 26 岁）促成最早的城市研究冲动，通过制图和行动回应城市问题，也伴随一种"反城市偏见"（anti-urban bias）。</td></tr>
+          <tr><td>芝加哥学派（1920s 起）</td><td>城市发展由<b>空间竞争与个体选择</b>驱动，把美国城市定义为不平等、隔离的。</td></tr>
+          <tr><td>1970 年代政治经济学批评</td><td>竞争和个人选择不是"城市"的特征，而是"资本主义城市"的特征；芝加哥学派把不平等的城市<b>"自然化"</b>了，客观上服务于政治精英。空间不平等来自<b>国家与城市的政治、地主的权力、开发商的逐利</b>。</td></tr>
+          <tr><td>洛杉矶学派</td><td>讲义单独一页，只列城市形态特征：碎片化（fragmented）、多中心（polycentric）、去中心化（decentralized）、多族裔（multi-ethnic）、受控（controlled）、堡垒化（fortified）。</td></tr>
+          <tr><td>Weber (1921)</td><td>欧洲城市是独特的社会政治实体：市场、自身的法律、自治、市民的某种联合体，用以与亚洲城市对照。</td></tr>
+          <tr><td>Sassen (1991)</td><td>纽约、伦敦、东京等<b>全球城市</b>成为管理、协调、驱动全球化的枢纽，同时也是深刻不平等与社会转型的场所。</td></tr>
+          <tr><td>Brenner &amp; Schmid (2021)</td><td><b>星球城市化</b>：城市化是由资本主义、新自由主义、全球化驱动的全球过程，发生在城乡各种尺度上；城市化是围绕土地、住房、环境正义、基本服务准入的"terrain of struggle"，要理解各社会群体的能动性。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn"><b>更正</b>早先版本把"国家、地主、开发商"那段 1970 年代批评归给了洛杉矶学派。讲义里两者是分开的两页，现已拆开。</div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">0.1 · Simmel (1903)</div><h3><em class="en">The Metropolis and Mental Life</em>　大都市与精神生活</h3><div class="src">笔记：Research-Strategy/Draft-Simmel-1903.md</div></div>
+    <div class="part"><div class="lab">核心论点</div><div><p>城市生活从心理层面深刻改变人：大都市的快节奏、高密度、复杂性塑造出一种独特的心理状态。</p></div></div>
+    <div class="part"><div class="lab">关键概念</div><div><p>乡村关系少而深、靠时间积累；大都市关系多而浅、大量匿名，城市居民转而与<b>货币和交换</b>建立信任。<b>Blasé attitude（冷漠态度）</b>：面对过度刺激，以情感疏离作为自我保护。</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">0.2 · Wirth (1938)</div><h3><em class="en">Urbanism as a Way of Life</em>　都市主义作为一种生活方式</h3><div class="src">笔记：Research-Strategy/Draft-Wirth-1938.md</div></div>
+    <div class="part"><div class="lab">核心论点</div><div><p>用<b>规模、密度、异质性</b>三个结构变量，解释都市主义作为一种独特生活方式的五个特征。</p></div></div>
+    <div class="part"><div class="lab">五大特征</div><div><ol><li>匿名性与非个人化关系</li><li>专业化与劳动分工（经济互赖）</li><li>文化多样性（促进宽容，也可能导致碎片化和冲突）</li><li>行为理性化、目标导向（以社群纽带换取个人主义）</li><li>社会纽带弱化</li></ol></div></div>
+    <div class="part"><div class="lab">与 Simmel</div><div><p>Simmel 偏心理机制（刺激 → blasé），Wirth 偏社会结构（规模 + 密度 + 异质性 → 匿名、分工、纽带弱化）。芝加哥学派的城市研究很大程度建立在这类论述之上。</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">0.3 · Sennett (2018 / 讲义 2019)</div><h3><em class="en">Building and Dwelling: Ethics for the City</em></h3><div class="src">笔记：Research-Strategy/Draft-Sennett-2019.md</div></div>
+    <div class="part"><div class="lab">核心论点</div><div><p>城市的物质建设（building）与人们如何体验和生活其中（dwelling）之间存在张力；更好的城市要平衡规划设计的技术面与居民的真实生活经验。</p></div></div>
+    <div class="part"><div class="lab">关键定义</div><div><p class="cite-line">城市是 <em class="en">"a human settlement in which strangers are likely to meet"</em>。城市应提供公共空间，让居民通过与陌生人交往习得 <b>urban competence（都市能力）</b>。</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">0.4 · Ilmonen (2016)</div><h3>"The Changing Urban Question"　标题页</h3></div>
+    <div class="part"><div class="lab">已核实</div><div><p>Introduction 讲义里只有一张标题页写着 "Ilmonen 2016: The Changing Urban Question"，没有展开内容。作者全名 <b>Mervi Ilmonen</b>（Aalto 大学），是 <em class="en">Ways of Residing in Transformation</em>（2016）的共同编者之一。</p></div></div>
+    <div class="part"><div class="lab">推断</div><div><p>它和 Housing 讲义里完整的 "The Changing Housing Question (Mervi Ilmonen)" 对照表很可能是同一个框架。这是交叉比对两份讲义的推断，不是确证，可以问老师确认。</p></div></div>
+    <div class="callout warn"><b>更正记录</b>早先这里放过一张"工业城市 vs 后工业城市"的扩展表，措辞在讲义原文里找不到，已删除；作者名"Mauri"是笔误，已改为 Mervi。</div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">0.5 · 讲义留下的开放问题</div><h3>What is the urban?</h3></div>
+    <div class="part"><div class="lab">讲义</div><div><p>"如果你裸体站在门廊上，邻居看不见，那是乡村；邻居报警，那是郊区；邻居毫不在意，那才是城市。"呼应 Berndt (2015)：城市未必是纯粹的物理实体，而是一种用来论证社会整体转型的<b>理论范畴</b>。</p></div></div>
+    <div class="part"><div class="lab">作业措辞</div><div><p>导论讲义已给出选题示例，包括 "gendered spaces"、"demographic changes"、"a specific building" 等，完整收录在 <span class="file">Assignments.md</span>。</p></div></div>
+  </article>
+</section>
+
+<!-- =================== HOUSING =================== -->
+<section class="unit" id="housing">
+  <div class="unit-head">
+    <div class="eyebrow">第二单元 · Housing · 20.1</div>
+    <h2>住房：家、商品还是资产</h2>
+    <p>讲义 <span class="file">Lectures-20260706/housing.pdf</span> 分三部分：住房是什么、住房偏好、住房政策。课堂任务：找至少一份与读物相关的政策文件，在课上介绍。</p>
+  </div>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">2.0 · 讲义框架</div><h3>八个要点</h3></div>
+    <div class="part"><div class="lab">① 住房是什么</div><div><p>基本需求（谁该提供？）、榨取财富的商品，还是一种生活方式？</p><p class="cite-line"><em class="en">"Today there is a conflict between housing as lived, social space and housing as an instrument for profitmaking – a conflict between home and real estate."</em>（Madden &amp; Marcuse 2016, 4）</p></div></div>
+    <div class="part"><div class="lab">② 金融化</div><div><p><b>Aalbers (2016)</b>：金融动机、市场与行为者在塑造住房中的作用日益增强。Christophers (2015) 指出概念有争议；Aalbers (2019) 强调结果因语境而异。行为者包括机构投资者、国际投资者、上市与非上市房地产投资公司（REITs）、基金会。</p><p class="cite-line"><em class="en">"Housing is at the heart of the growing economic divide in Europe and the US."</em>（Clark 2021, 151）</p></div></div>
+    <div class="part"><div class="lab">③ Ilmonen</div><div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>维度</th><th>工业城市</th><th>后工业城市</th></tr></thead>
+        <tbody>
+          <tr><td>住房状况</td><td>住房短缺</td><td>"可负担住房"</td></tr>
+          <tr><td>家庭规模</td><td>大家庭</td><td>小家户</td></tr>
+          <tr><td>住房定位</td><td>住房作为需求（need）</td><td>住房作为消费（consumption）</td></tr>
+          <tr><td>需求性质</td><td>量的需求</td><td>质的需求</td></tr>
+          <tr><td>主要人群</td><td>工人阶级</td><td>中产阶级，人群日益分化</td></tr>
+        </tbody>
+      </table></div>
+      <p>已逐字核对讲义原文。与 Ilmonen (2016) 章节里"第一住房问题 / 第二住房问题"的框架吻合。</p>
+    </div></div>
+    <div class="part"><div class="lab">④ 芬兰权属</div><div><ul><li><b>自住产权</b>：独栋住宅，或 asunto-osakeyhtiö（有限责任住房公司，购买股份获得特定公寓的使用权）</li><li><b>居住权住房</b>（asumisoikeusasunto）：预付房价 15% 换取居住权，另付月费，介于租与买之间</li><li><b>合作社住房</b></li></ul></div></div>
+    <div class="part"><div class="lab">⑤ 租赁市场</div><div><p>芬兰的租房分成两套互不相通的系统，讲义叫它"<b>二元租赁市场</b>"（dualist rental market）。</p><p><b>第一套：私人租赁。</b>房东可以是公司，也可以是个人。租金多少由房东按市场定，租给谁也由房东决定，政府两样都不管。</p><p><b>第二套：社会住房（ARA 住房）。</b>由国家住房金融机构 ARA 提供低息贷款或补贴建造，有三个特点：<b>受补贴</b>（国家出钱帮忙建）；<b>按成本定租金</b>（租金只要覆盖建造和维护成本，不按市场行情收）；<b>要审查收入</b>（申请人的收入和资产要符合条件，即 means-tested）。Ruonavaara (2017, 9) 一句话概括了它和私人租赁的区别："not priced by the market and primarily targeted at low and middle-income households"，意思是不按市场定价，主要给中低收入家庭。</p><p><b>为什么重要：</b>Segregation 讲义说，私人租赁越多，市政府越管不了谁住在哪里，社会混合就越难做。</p><p><b>背景（讲义外补充）：</b>"二元"一词来自 Jim Kemeny (1995)。与它相对的是"一体化"租赁市场，那里社会住房和私人租赁在同一个市场里竞争、互相压低租金。澳大利亚社会住房只占约 4%，属于二元而且社会住房被边缘化的体系，可以和 Waterloo 对照。</p></div></div>
+    <div class="part"><div class="lab">⑥ 住房政策</div><div><p>芬兰宪法第 19 条：公共权力机构要促进每个人的住房权。环境部（2019）：住房政策要促进人人享有体面住房、可持续发展、社会与劳动力市场运转和赋权。工具分需求侧补贴（给家户）和供给侧补贴（补贴生产）；1995–2023 年芬兰<b>从供给侧转向需求侧</b>。</p></div></div>
+    <div class="part"><div class="lab">⑦ 为什么贵</div><div><p class="cite-line"><em class="en">"We must go beyond just looking at the supply of housing and examine demand, in particular the demand for housing as a financial asset."</em>（Ryan-Collins 2019）</p><p>Harvey (1978)：财富被投入房地产而非生产性投资。讲义自己的表述：<b>"Housing is not just about homes, it's an asset class."</b></p></div></div>
+    <div class="part"><div class="lab">⑧ 可以做什么</div><div><p>管制信贷；平等对待不同权属；发展更多社会住房；停止发展 buy-to-let。</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">5 · Ruonavaara (2025)</div><h3><em class="en">An idea that refuses to die: Rise, fall and resurgence of "housing class"</em></h3><div class="src">Housing Studies 40(11), 2507–2527</div></div>
+    <div class="part"><div class="lab">核心论点</div><div><p>梳理 housing class 理论从 Rex &amp; Moore (1967)，到 Saunders 的 property class，再到 2020 年代 Adkins 等人 asset class 理论复兴的学术史。</p></div></div>
+    <div class="part"><div class="lab">关键概念</div><div><ul>
+      <li><b>Rex &amp; Moore (1967)</b>：伯明翰 Sparkbrook 移民社区；人与住房资源的关系（自住、公租、私租）构成独立于生产关系的"阶级"。</li>
+      <li><b>Saunders</b>：住房资本供给者（开发商、房东、金融机构）、非产权者（租户、无家可归者）、自住业主；后者通过通胀、负实际利率、税收补贴积累资本利得。</li>
+      <li><b>Piketty</b>：住宅地产约占总资本一半，资产回报率持续超过工资增长率。</li>
+      <li><b>Adkins, Cooper &amp; Konings</b>：阶级的关键是是否拥有能跑赢通胀和工资的资产。五类：投资者、无贷款自住者、有贷款自住者、租客、无家可归者。</li>
+    </ul></div></div>
+    <div class="part"><div class="lab">结论</div><div><p>作者认为 housing class 作为"阶级"在理论上站不住，更适合理解为韦伯意义上的<b>地位群体</b>（status group）；但住房资产不平等对生活机会的影响是真实且日益加剧的。</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">6 · Hirvonen &amp; Lilius (2019)</div><h3><em class="en">Do neighbour relationships still matter?</em></h3><div class="src">阅读清单另列 Lilius &amp; Hirvonen (2023), Journal of Housing and the Built Environment 38</div></div>
+    <div class="part"><div class="lab">核心论点</div><div><p>对比 1986 年与 2012 年两次芬兰全国问卷，分析邻里弱关系和强关系的变化。</p></div></div>
+    <div class="part"><div class="lab">主要发现</div><div><ul>
+      <li>45 岁以下世代的弱关系和强关系都显著减少，是<b>世代性下降</b>，不只是生命阶段效应</li>
+      <li>问题性邻里关系略有上升，年轻群体更明显</li>
+      <li>城市化程度影响很弱，赫尔辛基市中心与农村趋势相似</li>
+      <li>控制年龄和居住时长后，住房类型影响不显著</li>
+      <li>租户的邻里弱联系更少，却更想认识邻居（46% vs 业主 31%），存在"主观邻里接触缺口"</li>
+      <li>联排住宅居民聊天最多，问题性关系也最多</li>
+    </ul></div></div>
+    <div class="part"><div class="lab">政策启示</div><div><p>公寓楼应提供公共社交空间；应抑制出租住宅的高流动率；"城市生活必然削弱邻里关系"这一假设不成立。</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">7 · Kern (2007)</div><h3><em class="en">Reshaping the Boundaries of Public and Private Life: Gender, Condominium Development, and the Neoliberalization of Urban Living</em></h3><div class="src">Urban Geography 28(7), 657–681</div></div>
+    <div class="part"><div class="lab">核心论点</div><div><p>以多伦多公寓开发热潮为例，分析新建绅士化如何通过公寓所有权重塑女性对公共与私人边界的认知，以及新自由主义治理如何把"赋权"话语挪用为消费和私有化叙事。</p></div></div>
+    <div class="part"><div class="lab">关键概念</div><div><ul>
+      <li>公寓开发被包装成解决蔓延、去工业化、住房需求的"自然"方案，是新自由主义的<b>去政治化</b>策略</li>
+      <li>单身女性约占多伦多公寓购买者 40%，媒体包装为"女性解放"</li>
+      <li>21 位女性业主访谈的四个主题：<b>产权</b>（个人化的负债自由）、<b>安全</b>（被重新定义为可购买的私人商品）、<b>社群</b>（阶层同质的排他性）、<b>邻近性</b>（消费导向的公民身份）</li>
+      <li>引 Neil Smith 的 revanchist city：公寓开发是中产"夺回"市中心的隐蔽方式</li>
+    </ul></div></div>
+    <div class="part"><div class="lab">可引用</div><div><p>女性业主体验到的"自由"必须放在阶级特权语境下理解，它不代表性别关系的广泛改变，而是让少数特权群体获益。</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">8 · Ronald &amp; Kadi (2017)</div><h3><em class="en">The Revival of Private Landlords in Britain's Post-Homeownership Society</em></h3><div class="src">New Political Economy 2017(6), 786–803</div></div>
+    <div class="part"><div class="lab">核心论点</div><div><p>英国自住率从 71% 峰值降到 63%（2014），私人租赁翻倍。与 generation rent 并行的是 <b>generation landlord</b>：大量中年中产的"业余"小房东。</p></div></div>
+    <div class="part"><div class="lab">关键概念</div><div><ul>
+      <li><b>后自住社会</b>：英、澳、爱、美、日韩等国自住率见顶回落</li>
+      <li><b>Buy-to-Let 按揭</b>（1996 年推出）是关键金融工具，2008 年后 BTL 投资不降反升</li>
+      <li>房东从 1991 年约 56 万增至 2012 年逾 210 万；约 89% 是个人或夫妻，约 78% 只出租一套</li>
+      <li>40–60 岁世代把自住房积累的权益转为购买第二套房出租，作为替代养老金：<b>property-based welfare</b></li>
+      <li>住房继承也推动多套持有</li>
+    </ul></div></div>
+    <div class="part"><div class="lab">意义</div><div><p>资产型福利体制的演化：国家养老金收缩后，人们依赖私有房产作退休保障，加剧代际不平等。</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">9 · Paadam et al. / Ilmonen (2016)</div><h3><em class="en">Ways of Residing in Transformation</em>（章节合集）</h3><div class="src">Ilmonen 章：On Housing Preferences and Housing Choices, pp. 35–56, Ashgate</div></div>
+    <div class="part"><div class="lab">第 1 章</div><div><p>用 <b>ways of residing</b> 取代传统 housing 概念，强调居住是主观建构、动态的社会空间实践。借 Kemeny 的居住社会学三层（住户、住宅、居所）和 Bourdieu 的 habitus。案例包括塔林工业遗产改造、伦敦老年合作居住、保加利亚门禁社区、芬兰和英国住房生产标准化、雷克雅未克泡沫后的"幽灵郊区"。</p></div></div>
+    <div class="part"><div class="lab">第 3 章 Ilmonen</div><div><ul>
+      <li>"第一住房问题"（短缺、贫困）与"<b>第二住房问题</b>"（住房从需求变为消费，承载身份与生活方式）</li>
+      <li><b>stated preferences</b> vs <b>revealed preferences</b>：说想要的和实际买的经常不同</li>
+      <li>借 Bourdieu 与 Giddens：住房选择是一种"自我认同的叙事"，受经济资源与文化资本共同塑造</li>
+      <li>研究空白：多数研究关注人们想要什么，很少关注为什么</li>
+      <li>单人户社会：欧盟单人户比例预计从 2015 年 30% 升至 36%</li>
+    </ul></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">对照</div><h3>讲义概念与读物的对应</h3></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>讲义概念</th><th>对应读物</th></tr></thead>
+      <tbody>
+        <tr><td>第一 / 第二住房问题、住房偏好</td><td>Ilmonen (2016)</td></tr>
+        <tr><td>住房金融化、资产阶级</td><td>Ronald &amp; Kadi (2017)；Ruonavaara (2025)</td></tr>
+        <tr><td>住房作为消费与生活方式、性别化空间</td><td>Kern (2007)</td></tr>
+        <tr><td>公寓社区、邻里关系</td><td>Hirvonen &amp; Lilius (2019 / 2023)</td></tr>
+      </tbody>
+    </table></div>
+  </article>
+</section>
+
+<!-- =================== SEGREGATION =================== -->
+<section class="unit" id="segregation">
+  <div class="unit-head">
+    <div class="eyebrow">第三单元 · Segregation · 27.1 · Katriina Rosengren</div>
+    <h2>隔离：住房体制收缩下的空间不平等</h2>
+    <p>读物原文未上传，<span class="file">SEGREGATION.docx</span> 只有文献清单。下面先列讲义要点（本版新增），再列阅读清单。</p>
+  </div>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">3.0 · 讲义要点 <span class="badge">本版新增</span></div><h3>Segregation in a retrenching housing regime</h3><div class="src">讲义：Lectures-20260706/Segregation_270126.pdf</div></div>
+    <div class="part"><div class="lab">定义</div><div>
+      <p><b>中性</b>：Massey &amp; Denton (1988) <em class="en">"the degree to which two or more groups live separately from one another"</em>；Andersson &amp; Turner (2014) 各类群体在空间上的不均等分布。</p>
+      <p><b>有害</b>：Marcuse (2005, 16) 被视为低等的群体<b>非自愿地</b>聚集在某一空间；Tammaru et al. (2021) <em class="en">"Advantage breeds advantage and disadvantage breeds disadvantage."</em></p>
+      <p>讲义特别列出一组术语：<b>'Segregation' vs 'spatial differentiation'</b>。</p>
+    </div></div>
+    <div class="part"><div class="lab">测量</div><div><p>Dissimilarity index（芬兰各地区 2022、芬兰城市 2000–2018）；基尼系数与低收入率（本地人 vs 外国背景居民，1995–2024）。</p></div></div>
+    <div class="part"><div class="lab">棘手问题</div><div><p>Rittel &amp; Webber (1973) 的 <b>wicked problem</b>：复杂、相互交织、涉及多方、长期存在且不断变形，无法化约为"问题—方案"。</p></div></div>
+    <div class="part"><div class="lab">恶性循环</div><div>
+      <p>Tammaru et al. (2021)：人们通过买房、租房、入学、就业被<b>分选</b>进具体场所，再在那里承受<b>情境效应</b>。五个环节：</p>
+      <ol>
+        <li>劣势在空间上聚集（社会住房集中、缺乏可负担的市场住房）</li>
+        <li>邻里效应：客观（服务、教育）与主观（对维护状况的感知）</li>
+        <li>选择性迁移：对负面邻里效应的担忧影响迁居偏好</li>
+        <li>扩展到其他生活领域（van Ham &amp; Tammaru 2016）：学校、工作场所、通勤</li>
+        <li>跨生命历程、跨代际延续，管理越来越难</li>
+      </ol>
+    </div></div>
+    <div class="part"><div class="lab">管理路径</div><div><p>neighborhood effects、area-based interventions、social mixing、providing spatial justice、equalizing structural inequalities。</p></div></div>
+    <div class="part"><div class="lab">芬兰</div><div>
+      <p><b>远看</b>：隔离水平在欧洲和北欧都偏低，缺乏负面邻里效应；赫尔辛基自 1970 年代起实行小尺度社会混合，依托庞大的社会住房部门。</p>
+      <p><b>近看</b>：市场导向的住房生产时代，包括芬兰在内的欧洲国家隔离上升；芬兰最大城市的隔离近几十年持续增长，挑战福利国家理念。</p>
+      <p><b>从主动住房政策转向被动社会政策</b>：1990 年代区域干预全国推广；供给侧补贴被需求侧取代；2010 年代社会住房存量下降、私人租赁增长，被批评加速了金融化；市政府无法影响市场化住房的租客选择。</p>
+      <p><b>收缩中的住房体制</b>：2024 年起住房补贴随其他社保一起削减；收缩始于 1980 年代；Kynsilehto &amp; Alastalo (2024) 称之为"<b>post-welfare state</b>"，隔离等社会问题被下放到地方，住房市场的责任越来越多地与私人部门分担。</p>
+    </div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">阅读清单</div><h3>四篇指定读物（原文未上传）</h3></div>
+    <ol>
+      <li>Tammaru et al. (2025). <em class="en">A comparative study of socio-economic segregation in European capital city-regions: From segregation to desegregation?</em> Urban Studies.</li>
+      <li>van Ham &amp; Tammaru (2016). <em class="en">New perspectives on ethnic segregation over time and space: A domains approach.</em> Urban Geography 37(7).</li>
+      <li>Ruonavaara, Rasinkangas &amp; Rosengren (2025). <em class="en">Preventing, curing, mitigating: Anti-segregation policies in urban Finland.</em> Cities 160.</li>
+      <li>Stjernberg et al. (2025). <em class="en">Beyond segregation: Nordic approaches to socially inclusive cities.</em> Nordregio.</li>
+    </ol>
+  </article>
+</section>
+
+<!-- =================== GENTRIFICATION =================== -->
+<section class="unit" id="gentrification">
+  <div class="unit-head">
+    <div class="eyebrow">第四单元 · Gentrification · 3.2</div>
+    <h2>绅士化：课程的汇合点</h2>
+    <p>精读页：<span class="file">Reading-Pages/davidson-newbuild-gentrification.html</span>、<span class="file">lees-2008-social-mixing.html</span>、<span class="file">yrjana-2026-helsinki.html</span>。阅读清单另列 Lees et al. (2017)、Hochstenbach (2017)、Kadi &amp; Matznetter (2022)、Lees (2022)，见 <span class="file">Readings.md</span>。</p>
+  </div>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">1 · Shaw (2008)</div><h3><em class="en">Gentrification: What It Is, Why It Is, and What Can Be Done about It</em></h3></div>
+    <div class="part"><div class="lab">核心论点</div><div><p>绅士化是一个社会与经济地理变化的<b>连续谱</b>，从彻底撤资到 super-gentrification，不必预设所有社区都走完阶段模型。</p></div></div>
+    <div class="part"><div class="lab">关键概念</div><div><ul>
+      <li>Ruth Glass (1964) 首创这个词，指"绅士"涌入伦敦工人阶级社区、买下并翻新老房子</li>
+      <li>Neil Smith 强调阶级性质：工人阶级社区被中产购房者、房东和开发商"修复"</li>
+      <li><b>Rent gap</b>：当前资本化地租与潜在地租的差距足够大时，开发有利可图，社区"成熟"到可以被绅士化</li>
+      <li><b>三波绅士化</b>（Hackworth &amp; Smith 2001）：零星、政府资助 → 市场驱动、伴随抵抗 → 大资本主导、国家系统性介入；Lees et al. 提出第四波（金融化 + 亲绅士化政策）</li>
+      <li><b>置换争议</b>：Tom Slater 批评"绅士化研究本身已经被绅士化"，研究者不再关注置换</li>
+    </ul></div></div>
+    <div class="part"><div class="lab">政策启示</div><div><p>绅士化在最不需要新投资的地方推进最快；介入的最佳时机是租差尚未完全打开之前，此时保护低收入社区、投资公共设施在经济和政治上都最可行。</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">2 · Davidson (2018)</div><h3><em class="en">New-build gentrification</em>（绅士化研究手册第 15 章）</h3></div>
+    <div class="part"><div class="lab">核心论点</div><div><p>新建绅士化（新建公寓塔楼、滨水开发）已成为第三波绅士化的主导形式，常有国家积极支持，即 state-led gentrification。</p></div></div>
+    <div class="part"><div class="lab">关键概念</div><div><ul>
+      <li>Davidson &amp; Lees (2005) 四要素：<b>资本再投资、社会阶层升级、景观变化、直接或间接置换</b></li>
+      <li><b>Residentialization 之争</b>：Lambert &amp; Boddy 认为没有直接置换就不算绅士化；Davidson &amp; Lees 以<b>间接置换</b>反驳（社区变得难以负担、原有商店服务消失）</li>
+      <li><b>Reurbanization</b>：欧洲学者用来描述人口回流市中心、回避阶级置换的说法，作者认为它掩盖了阶级维度</li>
+      <li>全球新建绅士化：中国（国家主导、大规模拆迁）、英国、瑞典、菲律宾等地的国家与资本关系各不相同</li>
+    </ul></div></div>
+    <div class="part"><div class="lab">可引用</div><div><p class="cite-line"><em class="en">"gentrification without displacement is not gentrification"</em>。但间接置换、social mix 政策造成的驱逐压力常被忽视。</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">3 · DeVerteuil (2018)</div><h3><em class="en">Immigration and gentrification</em>（同一手册第 25 章）</h3></div>
+    <div class="part"><div class="lab">核心论点</div><div><p>移民与绅士化的关系长期被忽视，远比"移民被驱逐"复杂。提出五类关系：</p></div></div>
+    <div class="part"><div class="lab">五种类型</div><div><ol>
+      <li>移民作为绅士化的<b>屏障</b>（巴黎 Goutte d'Or）</li>
+      <li>移民与绅士化者<b>并存</b>（bubble model，伦敦 Stoke Newington）</li>
+      <li>移民<b>被驱逐</b>（经典案例，唐人街）</li>
+      <li>移民<b>主动回避</b>已绅士化地区（温哥华华人迁往郊区）</li>
+      <li>移民<b>本身成为绅士化者</b>（洛杉矶韩国城，移民企业家再投资族裔飞地）</li>
+    </ol></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">4 · Lees (2008)</div><h3><em class="en">Gentrification and Social Mixing: Towards an Inclusive Urban Renaissance?</em></h3></div>
+    <div class="part"><div class="lab">核心论点</div><div><p>英、美、荷政府把 social mix 政策当作绅士化的正面包装：把中产搬进贫困社区以减少隔离、提升"社区资本"。证据显示这套逻辑站不住。</p></div></div>
+    <div class="part"><div class="lab">六大批判</div><div><ol>
+      <li>绅士化造成置换、隔离、两极化，而不是融合</li>
+      <li>绅士化者并不真正与低收入居民交往，生活轨迹几乎不交叉</li>
+      <li>social mix 是<b>单向</b>策略，从不要求富裕社区接纳穷人</li>
+      <li>它摧毁了贫困聚居本身带来的互助网络</li>
+      <li>政策从未说清多少混合才算够</li>
+      <li>政策从未说明混合如何实现，把人放在一起不会自动产生混合</li>
+    </ol></div></div>
+    <div class="part"><div class="lab">可引用</div><div><p class="cite-line"><em class="en">"gentrification is part of an aggressive, revanchist ideology designed to retake the inner city for the middle classes"</em>（引 Neil Smith）</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">5 · Yrjänä (2026)</div><h3><em class="en">By any means necessary: the anti-segregation efforts and state-led gentrification in Helsinki</em></h3><div class="src">Cities 170, 106718 · 开放获取 · 全文：External-Sources/Yrjana-2026-Helsinki-State-led-Gentrification.pdf</div></div>
+    <div class="part"><div class="lab">核心论点</div><div><p>赫尔辛基以"反隔离"为名推行的 social mix 政策，实质是<b>国家主导绅士化</b>：用一套去政治化、道德正当的统计话语，为国家在住房和土地市场里加强市场支配提供合法性。</p></div></div>
+    <div class="part"><div class="lab">案例</div><div><p>赫尔辛基东部被污名化的外围社区 Mellunkylä 和 Meri-Rastila。2020 年启动"新城市更新模式"，聚焦 4 个外围更新区，目标是分散弱势群体与族裔少数群体、提高自住率与社会租赁份额。</p></div></div>
+    <div class="part"><div class="lab">理论工具</div><div><ul>
+      <li><b>声誉差距</b>（reputational gap，Kallin 2017）：地方被想象的潜力与被污名化的现状之间的差距，差距越大，干预越显得正当</li>
+      <li><b>补贴差距</b>（subsidy gap，Gray &amp; Kallin 2023）：国家先垫付土地整备、征收等成本，为私人资本去风险</li>
+      <li><b>social mix 作为矫正措施</b>：用去语境化的统计描述把社区塑造成"问题"，为拆除和加密提供正当性</li>
+      <li><b>虚假选择城市主义</b>（false choice urbanism，Slater 2014）：除了绅士化只剩持续衰败</li>
+      <li><b>绿色绅士化</b>（Wallin 2021）：翻新公园和公共空间吸引投资。规划官员原话："如果你从犬儒角度想，建这个公园某种程度上就是为了提升这片区域的形象"</li>
+      <li><b>管理式衰败</b>（managed decline，Watt 2023）：拆除预期下故意不维护</li>
+      <li><b>社会化风险、私有化利润</b>（Risager 2022）</li>
+    </ul></div></div>
+    <div class="part"><div class="lab">田野证据</div><div><p>2024–2025 年调研：维修停滞但租金照涨（2024 年 +8.4%，2025 年 +5.3%）；老人担心暖气和清雪；家庭因拆迁时间线不确定无法规划孩子上学；居民从本地报纸得知自家楼要拆；"重返权"不保证原公寓；Kontula 购物中心更新僵局 20 年，开发商 NCC 2025 年 3 月退出。</p></div></div>
+    <div class="part"><div class="lab">结论</div><div><p>赫尔辛基既想深化住房市场的私人主导，又想预防隔离，于是采用了"<b>伪装成反隔离话语的绅士化</b>"（Lees 2008）。作者建议把获得可负担住房当作正常需求而非社会政策问题；赫尔辛基有规划垄断权和大量土地所有权，完全有能力优先发展国家补贴租赁住房。</p></div></div>
+  </article>
+</section>
+
+<!-- =================== CROSS =================== -->
+<section class="unit" id="cross">
+  <div class="unit-head">
+    <div class="eyebrow">跨主题</div>
+    <h2>串联思路</h2>
+    <p>供论文或思维导图参考。</p>
+  </div>
+  <div class="grid2">
+    <div class="link-card"><div class="pair">Gentrification × Housing</div><p>Kern 的公寓私有化与 Davidson 的新建绅士化直接呼应：公寓开发既是绅士化的空间载体，也是资产型福利的物质基础（Ronald &amp; Kadi）。</p></div>
+    <div class="link-card"><div class="pair">Housing class × Gentrification</div><p>Ruonavaara 的资产阶级理论可以解释谁能从绅士化中获利（有产者）、谁被排除，即 Lees 批判的 social mix 政策的实际受益者。</p></div>
+    <div class="link-card"><div class="pair">邻里关系 × 绅士化</div><p>Hirvonen &amp; Lilius 发现租户邻里联系更弱、更想认识邻居，与 DeVerteuil、Lees 讨论的"新老居民生活轨迹不交叉"呼应，可用于分析新建公寓社区的社会融合缺失。</p></div>
+    <div class="link-card"><div class="pair">芬兰切入点</div><p>Hirvonen &amp; Lilius、Ruonavaara 都是芬兰语境研究，适合作为"本地化"证据，与 DeVerteuil、Lees、Kern 等国际框架对话，回应课堂问题：芬兰是否存在绅士化？</p></div>
+    <div class="link-card"><div class="pair">Segregation × Gentrification <span class="badge">本版新增</span></div><p>讲义的管理路径里有 social mixing，而 Lees (2008) 和 Yrjänä (2026) 正是在批判 social mixing 被用来包装绅士化。这两篇是两个单元之间的桥。</p></div>
+    <div class="link-card"><div class="pair">Housing × Segregation <span class="badge">本版新增</span></div><p>两份讲义都记录了芬兰补贴从供给侧转向需求侧。Housing 讲义把它当作政策工具变化，Segregation 讲义把它和社会住房减少、混合变难、金融化加速连在一起。</p></div>
+  </div>
+</section>
+
+<footer>
+  来源：<span class="file">Readings-Summary.md</span>、<span class="file">Lectures-20260706/</span>、<span class="file">Readings-20260706/</span>。Segregation 讲义要点与两张"本版新增"串联卡片是转成网页时补充的，其余内容与 Markdown 版一致。
+</footer>
+</div>

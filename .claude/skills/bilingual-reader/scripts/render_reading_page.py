@@ -312,6 +312,15 @@ article h3 .en{display:block;font-size:.97rem;color:var(--ink);font-weight:600;f
 article h3 .zh{display:block;font-family:var(--font-zh);font-size:.9rem;color:var(--ink-soft);margin-top:.18rem}
 
 .bipara{margin:0 0 1.35rem;padding-bottom:1rem;border-bottom:1px dashed var(--line)}
+/* ---- figure blocks (kind:"figure"): inline image/SVG diagram shown in every language mode,
+   with a bilingual caption; the caption's English keys the block's note like any paragraph. ---- */
+.bifig{margin:0 0 1.35rem;padding-bottom:1rem;border-bottom:1px dashed var(--line)}
+.bifig .fig-art{overflow-x:auto;background:var(--zh-bg);border-radius:6px;padding:.8rem}
+.bifig .fig-art svg{display:block;width:100%;height:auto;max-width:40rem;margin:0 auto}
+.bifig .fig-art img{display:block;max-width:100%;max-height:78vh;width:auto;height:auto;margin:0 auto 6px}
+.bifig figcaption{margin-top:.55rem;font-family:var(--font-sans);font-size:.76rem;line-height:1.6;color:var(--muted)}
+.bifig figcaption .zh{display:block;font-family:var(--font-zh);margin-top:.2rem}
+body.zh-only .bifig figcaption .en{display:none} body.en-only .bifig figcaption .zh{display:none}
 .bipara:last-child{border-bottom:none}
 .bipara p.en{margin:0 0 .55rem;color:var(--ink-soft);text-align:justify;hyphens:auto}
 .bipara p.zh{margin:0;font-family:var(--font-zh);font-weight:600;color:var(--ink);font-size:.94rem;
@@ -806,7 +815,7 @@ document.addEventListener('scroll', function(){
   var nidToBlock={};
   document.querySelectorAll('.note').forEach(function(wrap){
     paint(wrap);
-    var host0=wrap.closest('.bipara')||wrap.closest('blockquote');
+    var host0=wrap.closest('.bipara')||wrap.closest('.bifig')||wrap.closest('blockquote');
     if(host0) nidToBlock[wrap.dataset.nid]=host0;
     wrap.querySelector('.note-add').addEventListener('click', function(){ edit(wrap); });
     wrap.querySelector('.note-body').addEventListener('click', function(){ edit(wrap); });
@@ -862,7 +871,7 @@ document.addEventListener('scroll', function(){
       var nd=noteOf(w.dataset.nid);
       var v=nd.text.trim();
       if(!v) return;
-      var host=w.closest('.bipara')||w.closest('blockquote');
+      var host=w.closest('.bipara')||w.closest('.bifig')||w.closest('blockquote');
       var en=host?host.querySelector('.en'):null;
       var zh=host?host.querySelector('.zh'):null;
       out.push({el:host, nid:w.dataset.nid, src:en?en.textContent.trim():'',
@@ -1418,7 +1427,7 @@ document.addEventListener('scroll', function(){
   var draftFrags=[];
 
   function findBlockNid(el){
-    var host=el.closest('.bipara')||el.closest('blockquote.cited');
+    var host=el.closest('.bipara')||el.closest('.bifig')||el.closest('blockquote.cited');
     if(!host) return null;
     var w=host.querySelector('.note');
     return w?w.dataset.nid:null;
@@ -1889,7 +1898,7 @@ document.addEventListener('scroll', function(){
       var nidv=wrap.dataset.nid;
       var text=SUMMARIES[nidv];
       if(!text) return;
-      var host=wrap.closest('.bipara')||wrap.closest('blockquote');
+      var host=wrap.closest('.bipara')||wrap.closest('.bifig')||wrap.closest('blockquote');
       if(!host) return;
       var el=document.createElement('div');
       el.className='ai-sum-block'; el.dataset.nid=nidv;
@@ -2176,6 +2185,12 @@ def render(spec):
             a("</blockquote>")
             if it.get("summary"):
                 summaries_js[nid(doc_key, en)] = it["summary"]
+        elif k == "figure":
+            a('<figure class="bifig">')
+            a(f'<div class="fig-art">{it.get("html", "")}</div>')
+            a(f'<figcaption><span class="en">{esc(en)}</span><span class="zh">{zh}</span></figcaption>')
+            a(note(en))
+            a("</figure>")
         else:
             a('<div class="bipara">')
             a(f'<p class="en">{esc(en)}</p>')

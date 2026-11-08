@@ -1,0 +1,468 @@
+<title>景观绅士化课程复习</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single reading column like a study handout; each course unit is a chapter with three bands (课堂 / 论文 / 我的读法). Ink-and-celadon palette from Chinese 山水 painting. */
+:root{
+  --paper:#f6f7f4;
+  --surface:#ffffff;
+  --ink:#1d2622;
+  --ink-soft:#4d5a54;
+  --line:#d5dcd7;
+  --celadon:#2f7a68;
+  --celadon-wash:#e3efea;
+  --mineral:#6a4fa0;
+  --mineral-wash:#eeeaf6;
+  --ochre:#9a6a1c;
+  --ochre-wash:#f5ecd9;
+  --f-display:"Noto Serif SC","Songti SC","STSong",serif;
+  --f-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#131816;--surface:#1b211e;--ink:#e4ebe7;--ink-soft:#a3b1aa;--line:#2f3934;
+  --celadon:#6cc4ad;--celadon-wash:#1d322c;--mineral:#b49ce6;--mineral-wash:#2a2438;
+  --ochre:#d9a650;--ochre-wash:#33291a;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#131816;--surface:#1b211e;--ink:#e4ebe7;--ink-soft:#a3b1aa;--line:#2f3934;
+  --celadon:#6cc4ad;--celadon-wash:#1d322c;--mineral:#b49ce6;--mineral-wash:#2a2438;
+  --ochre:#d9a650;--ochre-wash:#33291a;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.8;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:760px;margin:0 auto;padding-block:40px 80px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.35;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:900;letter-spacing:.02em}
+h2{font-size:clamp(22px,3.6vw,28px);font-weight:700}
+h3{font-size:18px;font-weight:700;margin-top:4px}
+p{margin:0}
+.stack{display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--celadon)}
+.cite{font-size:14px;color:var(--ink-soft)}
+.cite i{font-style:italic}
+em.term{font-style:normal;font-family:var(--f-mono);font-size:.86em;color:var(--celadon)}
+.loc{font-family:var(--f-mono);font-size:.8em;color:var(--ochre);white-space:nowrap}
+a{color:var(--celadon)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--celadon);outline-offset:2px}
+
+header.hero{display:flex;flex-direction:column;gap:14px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.thesis{margin-top:8px;padding:18px 20px;background:var(--celadon-wash);border-radius:4px;font-family:var(--f-display);font-size:17px;line-height:1.85}
+.thesis b{color:var(--celadon)}
+
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;padding-block:20px}
+nav.toc a{font-size:14px;text-decoration:none;color:var(--ink);border:1px solid var(--line);padding:4px 12px;border-radius:999px;background:var(--surface)}
+nav.toc a:hover{border-color:var(--celadon);color:var(--celadon)}
+
+section.unit{display:flex;flex-direction:column;gap:22px;padding-block:44px 8px;border-top:1px solid var(--line)}
+section.unit:first-of-type{border-top:none}
+.unit-head{display:flex;flex-direction:column;gap:6px}
+.unit-head .lect{font-size:13px;color:var(--ink-soft);font-family:var(--f-mono)}
+
+.band{display:flex;flex-direction:column;gap:12px}
+.band-label{font-size:13px;font-weight:700;letter-spacing:.08em;display:flex;align-items:center;gap:8px}
+.band-label::before{content:"";width:18px;height:2px;background:currentColor}
+.band.course .band-label{color:var(--celadon)}
+.band.paper .band-label{color:var(--ochre)}
+.band.mine .band-label{color:var(--mineral)}
+
+.concept{display:flex;flex-direction:column;gap:6px;padding-left:14px;border-left:2px solid var(--line)}
+.concept h4{margin:0;font-size:15px;font-weight:700}
+.concept p{font-size:15px}
+blockquote{margin:0;font-size:15px;color:var(--ink-soft)}
+blockquote.en{font-family:Georgia,"Times New Roman",serif;font-style:italic}
+
+.quotes{display:flex;flex-direction:column;gap:10px}
+.q{background:var(--ochre-wash);padding:10px 14px;border-radius:4px;font-size:15px}
+.q .loc{margin-right:6px}
+
+.view{background:var(--mineral-wash);border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.view .claim{font-family:var(--f-display);font-size:18px;font-weight:700;line-height:1.6}
+.view dl{margin:0;display:grid;grid-template-columns:5.5em 1fr;gap:10px 14px}
+.view dt{font-size:13px;font-weight:700;color:var(--mineral);padding-top:3px}
+.view dd{margin:0;font-size:15px;min-width:0}
+@media (max-width:520px){.view dl{grid-template-columns:1fr;gap:4px}.view dd{margin-bottom:8px}}
+
+.tree{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--surface);padding:16px}
+.tree table{border-collapse:collapse;min-width:560px;width:100%;font-size:14px}
+.tree th,.tree td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.tree th{font-size:12px;font-family:var(--f-mono);letter-spacing:.06em;color:var(--ink-soft);font-weight:500}
+.tree td:first-child{font-family:var(--f-mono);font-size:12px;color:var(--ink-soft);white-space:nowrap;font-variant-numeric:tabular-nums}
+.tree tr.here td{background:var(--celadon-wash)}
+.tree tr.here td:nth-child(2){font-weight:700;color:var(--celadon)}
+
+ol.points{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:12px}
+ol.points li{padding-left:4px}
+
+.plan{overflow-x:auto}
+.plan table{border-collapse:collapse;width:100%;min-width:480px;font-size:14px}
+.plan td,.plan th{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.plan th{font-family:var(--f-mono);font-size:12px;color:var(--ink-soft);font-weight:500}
+.plan td:first-child{font-family:var(--f-mono);white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--celadon)}
+
+.note{font-size:13px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+footer{margin-top:48px;font-size:13px;color:var(--ink-soft)}
+</style>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Urban Studies · 课程复习 · 文献标注</div>
+  <h1>景观绅士化课程复习</h1>
+  <p class="cite">以宋伟轩、王捷凯、金荷仙、曹辉（2023）《城市景观绅士化社会空间特征、机制与效应：以南京为例》为线索，按课程四个单元逐一对照，并给出我的读法。<br>《经济地理》43(11)：104–114。DOI 10.15957/j.cnki.jjdl.2023.11.011</p>
+  <div class="thesis">
+    <b>总观点</b>　这篇论文把课程主线里"国家规划、开发商生产、中产消费"的三角搬到了一个没有大规模撤资社区的中国城市，因此必须把"置换"从<b>"把人赶走"</b>扩展为<b>"让人进不来"</b>。这是它最有价值的地方。但在扩展概念的同时，它把评价标准从"谁受损"换成了"资源用得是否高效"，所以它对绅士化的批判力反而比课堂文献弱。
+  </div>
+</header>
+
+<nav class="toc" aria-label="章节">
+  <a href="#intro">一 · Introduction</a>
+  <a href="#housing">二 · Housing</a>
+  <a href="#segregation">三 · Segregation</a>
+  <a href="#gentrification">四 · Gentrification</a>
+  <a href="#branch">五 · 学术分支</a>
+  <a href="#tonight">今晚安排</a>
+</nav>
+
+<!-- ============ 一 ============ -->
+<section class="unit" id="intro">
+  <div class="unit-head">
+    <div class="eyebrow">第一单元 · 13.1</div>
+    <h2>Introduction：不平等是"自然的"还是"被制造的"</h2>
+    <div class="lect">讲义 introduction.pdf · 芝加哥学派 / 1970s 政治经济学批评 / 洛杉矶学派 / Brenner &amp; Schmid / Sennett</div>
+  </div>
+
+  <div class="band course">
+    <div class="band-label">课堂内容</div>
+    <div class="concept">
+      <h4>芝加哥学派与 1970 年代的批评</h4>
+      <p>芝加哥学派认为城市发展由<em class="term">competition for space</em>和个人选择驱动。讲义的批评是：这不是"城市"的特征，而是"资本主义城市"的特征；把不平等说成竞争的自然结果，对政治精英有用。</p>
+      <blockquote class="en">"The Chicago school naturalized the unequal city." … spatial inequality is "the politics of the state and city, the power of landowners and the profit-seeking of developers."</blockquote>
+      <p>这是整门课的方法论起点：看到空间不平等，先问是谁、通过什么制度制造的。</p>
+    </div>
+    <div class="concept">
+      <h4>洛杉矶学派（讲义另起一页）</h4>
+      <p>讲义只列城市形态特征：<em class="term">fragmented, polycentric, decentralized, multi-ethnic, controlled, fortified</em>。它讲的是城市长成什么样（碎片化、多中心、堡垒化），和上面那段"谁制造了不平等"的批评是两回事。</p>
+    </div>
+    <div class="concept">
+      <h4>星球城市化（Brenner &amp; Schmid 2021）</h4>
+      <p>城市化是全球过程，是围绕<em class="term">land, housing, environmental justice, access to basic services</em>的"terrain of struggle"。讲义同时引 Weber 对欧洲城市与亚洲城市的对照，提出西方理论能否直接套用的问题。</p>
+    </div>
+    <div class="concept">
+      <h4>Sennett：城市是陌生人相遇的地方</h4>
+      <p>城市是"a human settlement in which strangers are likely to meet"；公共空间让居民学会与陌生人相处，获得<em class="term">urban competence</em>。</p>
+    </div>
+  </div>
+
+  <div class="band paper">
+    <div class="band-label">论文对应段落</div>
+    <div class="quotes">
+      <div class="q"><span class="loc">【3.1 ¶2】p.110</span>城市政府对土地财政的高依赖度已经是不争的事实……成为地方政府热衷经营的巨大"可活化资本"，以及政府、开发商和金融机构"增长联盟"追逐资本增值的有效工具。</div>
+      <div class="q"><span class="loc">【3.1 ¶3】p.110</span>小标题用语：从需求端的富裕群体景观消费与<b>市场竞租</b>层面理解。</div>
+      <div class="q"><span class="loc">【5】p.113</span>景观绅士化过程由供需两端的增长联盟和富裕阶层共同推动，在<b>肯定其必然性与合理性</b>的同时，亦要警惕山水资源"私有化"和"过度"景观绅士化带来的负面效应。</div>
+      <div class="q"><span class="loc">【引言¶1】p.105</span>"星球绅士化"时代，Lees 等提出要扭转绅士化……由英美城市向外等级式扩散的刻板认知，而要重点关注各国特殊政治经济背景下差异化的绅士化现象。</div>
+      <div class="q"><span class="loc">【3.2 ¶3】p.112</span>将本属于公共空间的山水资源转变为"私人领地"，造成景观资源的"空间俱乐部化"与社会功能退化。</div>
+    </div>
+  </div>
+
+  <div class="band mine">
+    <div class="band-label">我的读法</div>
+    <div class="view">
+      <p class="claim">论文解释机制时用的是 1970 年代政治经济学批评的视角，下结论时却说这个格局"必然"。而它自己的数据恰好说明，结果并不必然。</p>
+      <dl>
+        <dt>理由</dt>
+        <dd>第 3.1 节把驱动力归给"政府、开发商和金融机构"的增长联盟，这和讲义里 1970 年代批评的说法一致：空间不平等来自制度与行动者，而不是自然竞争。结论却说要"肯定其必然性与合理性"，需求端也用"市场竞租"来解释，这更接近讲义批评的芝加哥学派式"自然化"。可论文第 2.2 节的对比说明，在同一座城市、同一套制度下，玄武湖周边几乎没有高度绅士化社区，百家湖和将军山周边却高度集聚，差别来自开发模式的选择。既然可以选，结果就不是必然的。</dd>
+        <dt>相反读法</dt>
+        <dd>"必然性"可能只是指城市化和居住升级的大趋势不可逆，并不是说每个地块的结果都注定如此。</dd>
+        <dt>我为何不选</dt>
+        <dd>如果是这个意思，论文需要把"趋势必然"和"模式可选"分开说。论文的政策建议本身就建立在"模式可选"上，所以把两者分开，反而能让它自己的建议更有说服力。</dd>
+        <dt>限制</dt>
+        <dd>玄武湖开放有历史原因（它很早就是城市公园），和新开发的湖区并不完全可比。</dd>
+      </dl>
+    </div>
+    <div class="view">
+      <p class="claim">"开放共享"值得辩护的理由，不只是让人看得到山水，而是让陌生人在那里相遇。</p>
+      <dl>
+        <dt>理由</dt>
+        <dd>论文用公共物品和公共信托（宪法第九条）论证山水应全民共享，这是产权语言。Sennett 补上了共享为什么重要：公共空间让不同的人能在那里相处，这也正是论文结尾所说"人民城市""公园城市"的应有之义。按这个标准，三种模式可以重新排序："通道分隔"（10–50 m）保证了"能进去"，论文自己也说它"公共空间供给不足"；"开放共享"（100 m 以上）才有条件成为"能停留、能相遇"的空间。</dd>
+        <dt>限制</dt>
+        <dd>论文没有使用者数据，相遇是否发生无法从文中判断。可以用实地观察来补：谁在用、什么时间用、做什么。</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 二 ============ -->
+<section class="unit" id="housing">
+  <div class="unit-head">
+    <div class="eyebrow">第二单元 · 20.1</div>
+    <h2>Housing：住房是"家"还是"资产"</h2>
+    <div class="lect">讲义 housing.pdf · Madden &amp; Marcuse / Aalbers / Ilmonen / Kern / Ruonavaara</div>
+  </div>
+
+  <div class="band course">
+    <div class="band-label">课堂内容</div>
+    <div class="concept">
+      <h4>Home vs real estate</h4>
+      <blockquote class="en">"Today there is a conflict between housing as lived, social space and housing as an instrument for profitmaking – a conflict between home and real estate." (Madden &amp; Marcuse 2016, 4)</blockquote>
+      <p>讲义自己的表述："Housing is not just about homes, it's an asset class."</p>
+    </div>
+    <div class="concept">
+      <h4>金融化与国家</h4>
+      <p>Aalbers (2016)：金融动机、市场和行为者在塑造住房中作用日增。讲义强调：没有国家行动，任何住房金融体系都建立不起来；国家还要建立"住房是商品和金融资产"这一观念的政治霸权。</p>
+    </div>
+    <div class="concept">
+      <h4>Ilmonen：变化中的住房问题</h4>
+      <p>工业城市的住房是<em class="term">need</em>（短缺、量的需求、工人阶级）；后工业城市的住房是<em class="term">consumption</em>（质的需求、中产阶级、身份表达）。还要区分说出来的偏好（stated）和实际选择（revealed）。</p>
+    </div>
+    <div class="concept">
+      <h4>Kern 与 Ruonavaara</h4>
+      <p>Kern (2007)：多伦多公寓把"安全"变成可以私人购买的商品。Ruonavaara (2025)：住房阶级从 Rex &amp; Moore 到 asset-based class，关键在于是否拥有能跑赢工资的资产。</p>
+    </div>
+    <div class="concept">
+      <h4>政策工具</h4>
+      <p>需求侧与供给侧补贴；讲义结尾四条建议：管制信贷、平等对待各类权属、发展更多社会住房、停止发展 buy-to-let。</p>
+    </div>
+  </div>
+
+  <div class="band paper">
+    <div class="band-label">论文对应段落</div>
+    <div class="quotes">
+      <div class="q"><span class="loc">【3.1 ¶3】p.110</span>在住房市场化配置原则下，风景宜人、数量稀缺的"景观房"价格不断攀高，变为炙手可热、竞相追逐的"<b>奢侈品</b>"。</div>
+      <div class="q"><span class="loc">【3.1 ¶3】p.111</span>开发商通过宣传营销不断诱导与植入景观型社区住宅的身份象征与阶层意涵。</div>
+      <div class="q"><span class="loc">【2.3】p.110</span>住房市场化改革后，采用通道分隔与封闭独占模式建设的居住区，更容易成为高度绅士化社区；2001—2010 年封闭独占式社区占比高达 44.8%。</div>
+      <div class="q"><span class="loc">【1.2 表 1】p.107</span>群体属性三项指标：白领职业群体占比、高消费群体占比、有房有车群体占比。</div>
+      <div class="q"><span class="loc">【4】p.112–113</span>政策手段：强制围墙退让、开辟景观步道、鼓励小区开放、适度提高房产税；中国"真正亟待解决的是自然山水资源被私有化侵占的问题"。</div>
+    </div>
+  </div>
+
+  <div class="band mine">
+    <div class="band-label">我的读法</div>
+    <div class="view">
+      <p class="claim">论文最大的盲点，是把"景观"和"住房"拆开处理：把景观当公共物品来捍卫，却把住房当私人商品来接受。</p>
+      <dl>
+        <dt>理由</dt>
+        <dd>按 Madden &amp; Marcuse，景观房里的冲突恰恰是同一件事：山水的价值正是通过住房的商品性被兑现的，"奢侈品"一词说明景观已经成了 real estate 的一部分。论文的定义里写着"置换或排斥较低经济社会地位群体"，第 3.2 节也提出"排斥性失所"（买不起），这本质上是可负担性问题。但第 4 节的所有建议都只针对可达性（步道、退让、开放），没有一条针对谁住得起。论文提到了西方的"可支付住房"策略，紧接着又说中国真正的问题不在这里。定义和政策之间不对称。</dd>
+        <dt>相反读法</dt>
+        <dd>中国的住房可负担性由保障房体系负责，不能要求一篇讨论景观的论文去解决。</dd>
+        <dt>我为何不选</dt>
+        <dd>论文自己把"排斥"写进了定义，这个问题就在它的论证范围之内。2.3 节的数据还显示，封闭独占模式在住房市场化改革后的 2001—2010 年最集中（44.8%），说明景观被圈占和住房商品化是同一个制度过程，不是两件事。</dd>
+        <dt>限制</dt>
+        <dd>论文没有给出保障房的空间分布数据，我无法检验低收入群体实际住在离山水多远的地方。</dd>
+      </dl>
+    </div>
+    <div class="view">
+      <p class="claim">论文测到的是"谁住在那里"，不是"谁想住在那里"，需求端论证因此偏弱。</p>
+      <dl>
+        <dt>理由</dt>
+        <dd>按 Ilmonen 的区分，手机画像测出的是 revealed preferences，偏好本身没有被测量。论文从"高资产群体住在山水边"推出"高资产群体偏好山水"，再推出"需求端驱动"，中间缺了一环。何况论文自己承认开发商在"诱导与植入"身份意涵，那么需求有多少是被供给端制造出来的，就更需要问卷和访谈来区分。作者在结论里也承认需要"问卷访谈等小数据"。</dd>
+        <dt>补充</dt>
+        <dd>"有房有车"这一指标测的是资产，"白领"测的是职业，"高消费"测的是生活方式。Ruonavaara 的讨论说明这三种分层逻辑在理论上不是一回事，论文把它们并列成一个"群体属性"，概念上不够清楚。</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 三 ============ -->
+<section class="unit" id="segregation">
+  <div class="unit-head">
+    <div class="eyebrow">第三单元 · 27.1</div>
+    <h2>Segregation：分异，还是隔离</h2>
+    <div class="lect">讲义 Segregation_270126.pdf（Katriina Rosengren）· 本单元读物原文未上传，以下只依据讲义</div>
+  </div>
+
+  <div class="band course">
+    <div class="band-label">课堂内容</div>
+    <div class="concept">
+      <h4>从中性到有害的定义</h4>
+      <p>中性：Massey &amp; Denton (1988) 两个或多个群体在城市不同区域分开居住的程度。有害：Marcuse (2005) 被视为低等的群体<b>非自愿地</b>聚集；Tammaru et al. (2021) "Advantage breeds advantage and disadvantage breeds disadvantage."</p>
+      <p>讲义专门列出一组术语：<em class="term">'Segregation' vs 'spatial differentiation'</em>。用哪个词，本身就带着立场。</p>
+    </div>
+    <div class="concept">
+      <h4>恶性循环与生活领域</h4>
+      <p>人们被分选进住房、学校、工作场所，再在那里承受情境效应。居住隔离会扩展到其他领域（van Ham &amp; Tammaru 2016），学校是第一个："learning outcomes are usually better in more affluent neighborhoods"。</p>
+    </div>
+    <div class="concept">
+      <h4>管理隔离的路径</h4>
+      <p>neighborhood effects、area-based interventions、social mixing、providing spatial justice、equalizing structural inequalities。芬兰长期依靠社会住房做小尺度混合；住房体制收缩后，私人租赁扩张使混合越来越难。</p>
+    </div>
+  </div>
+
+  <div class="band paper">
+    <div class="band-label">论文对应段落</div>
+    <div class="quotes">
+      <div class="q"><span class="loc">【引言¶2】p.105</span>中国城市内部不存在严重的族裔或阶层间矛盾，社会分化与<b>居住隔离</b>程度亦远不及西方。</div>
+      <div class="q"><span class="loc">【2.2】p.109</span>封闭独占……可能带来城市稀缺资源低效利用、景观生态功能弱化、<b>居住分异</b>加剧和环境正义等问题。</div>
+      <div class="q"><span class="loc">【3.2 ¶3】p.112</span>……由此造成<b>城市尺度的空间隔离</b>和广义范畴的群体失所。</div>
+      <div class="q"><span class="loc">【2.1 脚注】p.107</span>为降低教育、交通等因素的干扰，统计中剔除了"学区房"（排名前 10 公办小学、初中学区内）和"地铁房"。</div>
+      <div class="q"><span class="loc">【5】p.113</span>越来越多的年轻中产阶层家庭主动放弃优质景观地段……迁居至城市老城区破旧的"学区房"，由此带来的"<b>学区绅士化</b>"现象亦具有鲜明的中国特色。</div>
+    </div>
+  </div>
+
+  <div class="band mine">
+    <div class="band-label">我的读法</div>
+    <div class="view">
+      <p class="claim">这篇论文其实测出了一种隔离，却不愿意用"隔离"来命名它。我把它读作<b>优势群体的自我隔离</b>。</p>
+      <dl>
+        <dt>理由</dt>
+        <dd>引言断言中国居住隔离"远不及西方"，但全文没有任何隔离指数（如讲义介绍的 dissimilarity index）支撑这一点。到第 2.2 节作者改用"居住分异"，第 3.2 节又说出"城市尺度的空间隔离"。按 Massey &amp; Denton 的中性定义，第 2.1 节的结果（132 个高度绅士化小区，均价 4.4 万元/m²，是低度的 1.5 倍，平均距山水仅 66 m）本身就是一种隔离格局。区别只在于它是富裕群体的聚集，而不是贫困群体的聚集，也就是 Tammaru 说的 "advantage breeds advantage" 那一半。</dd>
+        <dt>相反读法</dt>
+        <dd>按 Marcuse 的有害定义，隔离的要件是"被迫"。富裕家庭自愿选择住在山水边，不构成有害的隔离。</dd>
+        <dt>我为何不选</dt>
+        <dd>有害性不在富人的选择，而在这个选择把公共山水圈成了"飞地"，让其他人被排除在外。论文自己列出的第三种"失所"（全体市民亲近山水的权利被剥夺）说明，被迫的一方是住不进、也走不进的人。课外文献里 Marcuse (1997) 区分过 ghetto、enclave 和 citadel（优势群体的堡垒），可以作为后续延伸，但课上没讲，引用前需要核对原文。</dd>
+        <dt>限制</dt>
+        <dd>论文数据是截面的，无法说明分异程度在变高还是变低。</dd>
+      </dl>
+    </div>
+    <div class="view">
+      <p class="claim">剔除学区房让景观效应变"干净"了，也让最重要的叠加效应消失了。</p>
+      <dl>
+        <dt>理由</dt>
+        <dd>按 van Ham &amp; Tammaru 的 domains approach，居住领域和学校领域本来就是连在一起的。作者为了单独识别景观的作用剔除了学区房，方法上合理，但这意味着论文看不到"景观好、学校也好"的小区，而那恰恰可能是优势叠加最强的地方。作者在结论里提到"学区绅士化"，等于自己指出了这块空白。</dd>
+        <dt>补充</dt>
+        <dd>论文的"开放共享"方案，在讲义的分类里属于 providing spatial justice，而不是 social mixing。它要求不同群体共用同一片公共空间，但不改变谁住在哪里。</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 四 ============ -->
+<section class="unit" id="gentrification">
+  <div class="unit-head">
+    <div class="eyebrow">第四单元 · 3.2</div>
+    <h2>Gentrification：概念能延伸到多远</h2>
+    <div class="lect">讲义 gentrification.pdf · Smith / Stein / Hackworth / Shaw / Davidson / Lees / Yrjänä</div>
+  </div>
+
+  <div class="band course">
+    <div class="band-label">课堂内容</div>
+    <div class="concept">
+      <h4>定义</h4>
+      <blockquote class="en">"The process by which capital is reinvested in neighbourhoods, and poorer residents and their cultural products are displaced and replaced by richer people and their preferred aesthetics and amenities." (Stein 2019, 41)</blockquote>
+      <p>Stein 的三角："planned by the state, produced by the developers and consumed by the condo crowd"。Hackworth (2002)："the production of space for progressively more affluent users"。</p>
+    </div>
+    <div class="concept">
+      <h4>Rent gap 与 Smith / Ley 之争</h4>
+      <p>Smith (1979)：潜在地租与现行土地用途下资本化地租之间的差距。供给端（Smith，资本流动）与需求端（Ley，新中产的文化偏好）长期争论。讲义结尾引文："the insatiable appetite of capital to constantly reinvent urban space as a frontier for profit"。</p>
+    </div>
+    <div class="concept">
+      <h4>New-build gentrification（Davidson 2018）</h4>
+      <p>Davidson &amp; Lees (2005) 四要素：资本再投资、社会阶层升级、景观变化、直接或间接置换。Lambert &amp; Boddy 认为没有直接置换的新建开发只是 residentialization；Davidson &amp; Lees 以间接置换反驳。</p>
+    </div>
+    <div class="concept">
+      <h4>阶段模型与 pros and cons</h4>
+      <p>讲义四阶段：居民自发修缮 → 中产迁入、置换开始 → 公私资本进入"formerly disinvested neighborhood" → "It's not about homes anymore"。讲义首尾都在问："What are the pros and cons of gentrification?" Shaw (2008) 提醒不必预设每个社区走完全部阶段。</p>
+    </div>
+    <div class="concept">
+      <h4>国家主导与绿色绅士化（Yrjänä 2026，Lees 2008）</h4>
+      <p>补贴差距：国家先垫付土地整备成本，为私人资本去风险；绿色绅士化：翻新公园和公共空间以吸引投资。Lees (2008)：social mix 是单向策略，从不要求富裕社区接纳穷人。</p>
+    </div>
+  </div>
+
+  <div class="band paper">
+    <div class="band-label">论文对应段落</div>
+    <div class="quotes">
+      <div class="q"><span class="loc">【引言¶3】p.105</span>景观绅士化：城市中具有较高经济社会地位群体，为追求高品质自然景观居住环境而占据依山傍水地区，<b>置换或排斥</b>较低经济社会地位群体的现象。</div>
+      <div class="q"><span class="loc">【3.1 ¶2】p.110</span>基于"租差理论"理解，山水资源可以产生"<b>绿色租差</b>"……被低端功能占据或未被利用的空间，其"租差"较大。</div>
+      <div class="q"><span class="loc">【3.2 ¶2】p.111</span>积极效应①提升土地价值：通过<b>弥合"租差"</b>充分挖潜土地价值……多渠道增加地方财税收入。</div>
+      <div class="q"><span class="loc">【2.3】p.109–110</span>132 个高度绅士化社区中，棚改 33 个、城市更新重建 36 个（合占 52.27%），<b>未利用土地新建 63 个</b>，其中 44 个在主城外围。</div>
+      <div class="q"><span class="loc">【3.2 ¶3】p.112</span>三种"失所"：①原住居民被迫迁离，或邻里关系改变造成"文化失所"；②潜在购房者面临"排斥性失所"；③全体市民亲近山水的权利被剥夺，造成"广义范畴的群体失所"。</div>
+      <div class="q"><span class="loc">【3.2 ¶1】p.111</span>中国城市景观绅士化并未出现类似西方较为严重的社会矛盾与冲突，更多呈现出的是积极的经济与社会效应。</div>
+    </div>
+  </div>
+
+  <div class="band mine">
+    <div class="band-label">我的读法</div>
+    <div class="view">
+      <p class="claim">论文真正的理论贡献不在"景观"，而在"置换"的重新定义。可是这个扩展推得太远，置换概念开始失去区分力。</p>
+      <dl>
+        <dt>理由</dt>
+        <dd>63/132 的高度绅士化社区建在未利用土地上，按 Lambert &amp; Boddy，这些只是 residentialization。论文用"排斥性失所"和"群体失所"回应，站在 Davidson &amp; Lees 一边，并且走得更远：把被置换的人从"这个社区原来的居民"扩展到"全体市民"。这一步很有启发，它说明在没有撤资社区可以被"收复"的地方，绅士化的伤害表现为排除，而不是驱逐。</dd>
+        <dt>代价</dt>
+        <dd>如果所有市民都算被置换者，置换就不再能区分谁受损更多。论文自己在引言里引用 Lees 的要求"增加概念上的清晰度"，第三种失所却让概念变得更宽。我认为更好的做法是把三种失所分开：前两种（被迫迁离、买不起）是绅士化意义上的置换，第三种（公共空间被圈占）更适合放到环境正义或公共空间私有化的框架下讨论。</dd>
+        <dt>相反读法</dt>
+        <dd>在星球绅士化的视角下，概念本来就应该随地方条件扩展，宽一点才能容纳中国经验。</dd>
+        <dt>我为何不选</dt>
+        <dd>扩展可以，但每次扩展都要说清楚新的边界在哪里；论文给出了新类型，没有给出新边界。</dd>
+      </dl>
+    </div>
+    <div class="view">
+      <p class="claim">论文用"租差"解释了价值从哪里来，却没有用它追问价值分给了谁。</p>
+      <dl>
+        <dt>理由</dt>
+        <dd>讲义结尾强调，租差概念的分析力在于揭示城市空间如何被重组以实现增值。论文在 3.1 节用它解释驱动力，在 3.2 节把"弥合租差"列为第一条积极效应：提升土地价值、增加财税收入。但租差理论真正要问的是下一步：增值实现之后，收益和成本分别落在谁身上。论文列出了受益的一方（地方财政、开发商、景观房业主），承担成本的一方（买不起的潜在购房者、走不进的市民）则放在下一段的"消极影响"里，两段没有对照起来。把它们放进同一张收益与成本的表里，论文"积极效应为主"的判断才能被检验。</dd>
+        <dt>补充</dt>
+        <dd>讲义的四阶段模型从撤资社区出发。南京的大量案例是空地新建，Stage 1、2 不存在，直接从 Stage 3 的国家与资本投入开始。这也说明 Stein 三角在中国是收拢的：国家既是规划者、又是土地所有者、又是财政受益者。和 Yrjänä 的赫尔辛基相比，那里的国家用绿化作手段去"修复"被污名化的社区；南京的山水本来就在，问题是它被圈占。前者是制造景观，后者是分配景观。</dd>
+        <dt>限制</dt>
+        <dd>论文的指标对应了 Davidson &amp; Lees 四要素中的前三项（房价 → 资本再投资，群体属性 → 阶层升级，景观距离与绿化率 → 景观变化），第四项"置换"没有被直接测量。所以"更多呈现积极效应"这个判断，用论文自己的数据无法检验。Shaw 引用过 Slater 的批评："绅士化研究本身已经被绅士化"，即不再追问置换。这篇论文在这一点上可以对照来读。</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 五 ============ -->
+<section class="unit" id="branch">
+  <div class="unit-head">
+    <div class="eyebrow">综合</div>
+    <h2>我对这个学术分支的理解</h2>
+  </div>
+
+  <div class="band course">
+    <div class="band-label">绅士化研究的谱系（课程读物 + 本文引用）</div>
+    <div class="tree">
+      <table>
+        <thead><tr><th>年代</th><th>概念</th><th>"置换"指什么</th><th>出处</th></tr></thead>
+        <tbody>
+          <tr><td>1964</td><td>Gentrification</td><td>工人阶级社区被中产购房者取代</td><td>Glass（经 Shaw 2008）</td></tr>
+          <tr><td>1979 / 1980s</td><td>Rent gap / 消费论</td><td>资本回流或新中产偏好带来的驱逐</td><td>Smith；Ley</td></tr>
+          <tr><td>2001</td><td>三波绅士化</td><td>第三波：国家系统介入、大资本主导</td><td>Hackworth &amp; Smith（经 Shaw）</td></tr>
+          <tr><td>2005–2018</td><td>New-build gentrification</td><td>直接或<b>间接</b>置换，无人被赶走也可能发生</td><td>Davidson &amp; Lees；Davidson 2018</td></tr>
+          <tr><td>2008</td><td>Social mix 作为伪装</td><td>以混合之名推动的置换</td><td>Lees 2008</td></tr>
+          <tr><td>2009–2023</td><td>生态 / 环境 / 绿色绅士化</td><td>绿化改善抬高房价，原住居民迁离（绿色空间悖论）</td><td>Dooling；Checker；Anguelovski；Yrjänä 2026</td></tr>
+          <tr><td>2016</td><td>Planetary gentrification</td><td>去欧美中心，按地方政治经济重新界定</td><td>Shin, Lees &amp; López-Morales</td></tr>
+          <tr class="here"><td>2023</td><td>景观绅士化（南京）</td><td><b>排斥</b>：买不起、走不进，被置换者扩展到全体市民</td><td>宋伟轩等 2023</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="band mine">
+    <div class="band-label">三点结论</div>
+    <ol class="points">
+      <li><b>绅士化研究的核心问题始终是"谁获益、谁受损"。</b>每一个新概念（新建、绿色、星球、景观）都没有改变这个问题，只是在重新回答"受损的是谁、以什么方式受损"。判断一个新概念是否站得住，就看它对这个问题回答得是否清楚。</li>
+      <li><b>这个谱系的主线是"置换"含义的不断扩展</b>：从被赶走，到被间接挤出，再到南京案例里的被挡在外面。南京这篇的价值在于把这条线推到了没有撤资社区的城市；它的风险在于，没有为扩展后的概念划出新边界。</li>
+      <li><b>在中国研究绅士化，问题应该从"谁被赶走"转向"谁被挡在外面，以及谁决定挡"。</b>因为国家同时是规划者、土地所有者和财政受益者，Stein 的三角在这里收拢成一个点，所以"国家主导"在中国比在赫尔辛基更彻底。课程从 Introduction 讲到 Gentrification 的那条主线（住房商品化 → 空间不平等 → 国家介入 → 绅士化），在南京案例里每一环都在，最弱的一环是"谁受损"的证据。</li>
+    </ol>
+    <p class="note">这一页里"我的读法"和"三点结论"是对这篇论文的一种论证性解读，用作复习和写作的起点。交给老师之前，请按你自己的判断增删、改写，并把引用回到原文核对。Marcuse (1997) 的 citadel 概念是课外延伸，引用前需要查原文。</p>
+  </div>
+</section>
+
+<!-- ============ 今晚 ============ -->
+<section class="unit" id="tonight">
+  <div class="unit-head">
+    <div class="eyebrow">时间安排</div>
+    <h2>今晚怎么用这页完成作业</h2>
+  </div>
+  <div class="plan">
+    <table>
+      <thead><tr><th>时段</th><th>做什么</th><th>产出</th></tr></thead>
+      <tbody>
+        <tr><td>0:00–0:30</td><td>自己读论文的引言、第 3、4、5 节，对照这页的"论文对应段落"</td><td>确认引文和你读到的一致</td></tr>
+        <tr><td>0:30–0:45</td><td>通读五个"我的读法"，标出你同意的、不同意的、想改的</td><td>每单元保留一个观点</td></tr>
+        <tr><td>0:45–2:45</td><td>四个单元各写一节，约 30 分钟一节，按"观点 → 课堂概念 → 论文证据 → 相反读法 → 限制"五步</td><td>四节，每节 300–500 词</td></tr>
+        <tr><td>2:45–3:15</td><td>写综合一节：你对绅士化这个学术分支的理解</td><td>一节，约 400 词</td></tr>
+        <tr><td>3:15–3:40</td><td>核对引用（期刊页码、作者年份），通读一遍</td><td>可提交的稿子</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<p class="note">更正（第 3 版）：初版把"国家、地主、开发商"那段 1970 年代批评误记为洛杉矶学派。讲义里两者分属不同页面，现已分开。</p>
+
+<footer>
+  课程材料来自仓库 Urban-Studies-D：Lectures-20260706、Readings-20260706、Readings-Summary.md、Reading-Pages。论文页码为《经济地理》期刊页码。
+</footer>
+
+</div>

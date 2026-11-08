@@ -1,0 +1,426 @@
+<title>Urban Studies Reading Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,700;8..60,900&family=IBM+Plex+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a course reader. Sticky unit tabs on top, each unit is a chapter of reading entries; each entry splits into 核心论点 / 关键概念 / 可引用. Same ink-and-celadon family as the Nanjing review page, with one hue per unit. */
+:root{
+  --paper:#f6f7f4;--surface:#ffffff;--ink:#1d2622;--ink-soft:#4d5a54;--line:#d5dcd7;
+  --intro:#2f6f8f;--intro-wash:#e2eef4;
+  --housing:#9a6a1c;--housing-wash:#f5ecd9;
+  --seg:#6a4fa0;--seg-wash:#eeeaf6;
+  --gent:#2f7a68;--gent-wash:#e3efea;
+  --warn:#a8452f;--warn-wash:#f7e6e1;
+  --f-display:"Source Serif 4",Georgia,serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#131816;--surface:#1b211e;--ink:#e4ebe7;--ink-soft:#a3b1aa;--line:#2f3934;
+  --intro:#7fbcd9;--intro-wash:#1a2b33;--housing:#d9a650;--housing-wash:#33291a;
+  --seg:#b49ce6;--seg-wash:#2a2438;--gent:#6cc4ad;--gent-wash:#1d322c;
+  --warn:#e8907a;--warn-wash:#3a221c;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#131816;--surface:#1b211e;--ink:#e4ebe7;--ink-soft:#a3b1aa;--line:#2f3934;
+  --intro:#7fbcd9;--intro-wash:#1a2b33;--housing:#d9a650;--housing-wash:#33291a;
+  --seg:#b49ce6;--seg-wash:#2a2438;--gent:#6cc4ad;--gent-wash:#1d322c;
+  --warn:#e8907a;--warn-wash:#3a221c;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.65;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.wrap{max-width:820px;margin:0 auto;padding-block:36px 80px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.35;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:900}
+h2{font-size:clamp(22px,3.6vw,28px);font-weight:700}
+h3{font-size:18px;font-weight:700}
+p,ul,ol{margin:0}
+ul,ol{padding-left:1.3em;display:flex;flex-direction:column;gap:6px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+code,.file{font-family:var(--f-mono);font-size:.82em;background:var(--line);padding:1px 6px;border-radius:3px;word-break:break-all}
+em.en{font-family:Georgia,"Times New Roman",serif;font-style:italic}
+a{color:var(--gent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gent);outline-offset:2px}
+
+header.hero{display:flex;flex-direction:column;gap:12px;padding-bottom:20px}
+header.hero p{color:var(--ink-soft);max-width:62ch}
+
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);display:flex;gap:6px;flex-wrap:wrap;padding-block:12px;border-bottom:1px solid var(--line)}
+nav.tabs a{font-size:14px;text-decoration:none;color:var(--ink);padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);display:flex;align-items:center;gap:6px}
+nav.tabs a::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+nav.tabs a:hover{border-color:var(--c)}
+
+section.unit{display:flex;flex-direction:column;gap:22px;padding-block:40px 8px;scroll-margin-top:64px}
+.unit-head{display:flex;flex-direction:column;gap:8px;padding-left:16px;border-left:4px solid var(--c)}
+.unit-head .eyebrow{color:var(--c)}
+.unit-head p{color:var(--ink-soft);font-size:15px}
+#intro{--c:var(--intro);--w:var(--intro-wash)}
+#housing{--c:var(--housing);--w:var(--housing-wash)}
+#segregation{--c:var(--seg);--w:var(--seg-wash)}
+#gentrification{--c:var(--gent);--w:var(--gent-wash)}
+#cross{--c:var(--ink-soft);--w:var(--line)}
+nav.tabs a[href="#intro"]{--c:var(--intro)} nav.tabs a[href="#housing"]{--c:var(--housing)}
+nav.tabs a[href="#segregation"]{--c:var(--seg)} nav.tabs a[href="#gentrification"]{--c:var(--gent)}
+nav.tabs a[href="#cross"]{--c:var(--ink-soft)}
+
+article.entry{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.entry-head{display:flex;flex-direction:column;gap:4px}
+.entry-head .who{font-family:var(--f-mono);font-size:13px;color:var(--c);font-weight:500}
+.entry-head .src{font-size:13px;color:var(--ink-soft)}
+.badge{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;background:var(--w);color:var(--c);font-weight:500;margin-left:6px;vertical-align:2px}
+.part{display:grid;grid-template-columns:8.5em 1fr;gap:12px}
+.part > .lab{font-size:13px;font-weight:700;color:var(--c);padding-top:3px}
+.part > div{min-width:0;font-size:15px;display:flex;flex-direction:column;gap:8px}
+@media (max-width:540px){.part{grid-template-columns:1fr;gap:4px}}
+.cite-line{background:var(--w);padding:10px 14px;border-radius:4px;font-size:15px}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:12px;color:var(--ink-soft);font-weight:500;letter-spacing:.04em}
+tr:last-child td{border-bottom:none}
+
+.callout{border-radius:4px;padding:12px 16px;font-size:14px;display:flex;flex-direction:column;gap:6px}
+.callout.warn{background:var(--warn-wash);color:var(--ink)}
+.callout.warn b{color:var(--warn)}
+.callout.new{background:var(--w)}
+.callout.new b{color:var(--c)}
+
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.link-card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:6px;font-size:15px;min-width:0}
+.link-card .pair{font-family:var(--f-mono);font-size:12px;color:var(--ink-soft)}
+footer{margin-top:48px;font-size:13px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:16px}
+</style>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Urban Studies · Aalto · Readings-20260706</div>
+  <h1>Urban Studies Reading Guide</h1>
+  <p>Lecture highlights and assigned-reading summaries for the course's four units, for use in the essay and in class discussion. Each entry gives the core argument, key concepts and quotable points. Based on <span class="file">Readings-Summary.md</span> in the repository, with lecture notes added for the Segregation unit.</p>
+</header>
+
+<nav class="tabs" aria-label="Units">
+  <a href="#intro">Introduction</a>
+  <a href="#housing">Housing</a>
+  <a href="#segregation">Segregation</a>
+  <a href="#gentrification">Gentrification</a>
+  <a href="#cross">Cross-links</a>
+</nav>
+
+<!-- =================== INTRO =================== -->
+<section class="unit" id="intro">
+  <div class="unit-head">
+    <div class="eyebrow">Unit 1 · Introduction · 13.1</div>
+    <h2>Where urban studies came from, and what "the urban" is</h2>
+    <p>This unit had no assigned journal readings. The lecture slides draw on founding urban theorists to sketch how the discipline emerged and how different schools defined "the urban". Slides: <span class="file">Lectures-20260706/introduction.pdf</span>. Bilingual notes on Simmel, Wirth, Sennett and Ilmonen are in <span class="file">Research-Strategy/Draft-*.md</span>.</p>
+  </div>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">0.0 · From the slides</div><h3>Origins and schools of thought</h3></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>School / thinker</th><th>Core claim</th></tr></thead>
+        <tbody>
+          <tr><td>Engels (1844)</td><td><em class="en">The Condition of the Working-Class in England</em>: the miserable conditions of the industrial city (life expectancy 26 years) prompted the first impulse to study cities, responding through mapping and action, together with an anti-urban bias.</td></tr>
+          <tr><td>Chicago School (from the 1920s)</td><td>Urban development is driven by <b>competition for space and the choices of individuals</b>; defined the American city as unequal and segregated.</td></tr>
+          <tr><td>1970s political-economy critique</td><td>Competition and individual choice are not characteristics of "the city" but of a specific city, the capitalist city. The Chicago School <b>naturalized</b> the unequal city, which suited the political elite. Spatial inequality comes from <b>the politics of the state and city, the power of landowners and the profit-seeking of developers</b>.</td></tr>
+          <tr><td>Los Angeles School</td><td>A separate slide listing urban form: fragmented, polycentric, decentralized, multi-ethnic, controlled, fortified.</td></tr>
+          <tr><td>Weber (1921)</td><td>The European city as a unique social and political entity: the market, its own laws, autonomy, an association of urban residents. Contrasted with Asian cities.</td></tr>
+          <tr><td>Sassen (1991)</td><td><b>Global cities</b> such as New York, London and Tokyo become hubs that manage, coordinate and drive globalization, and are also sites of deep inequality and social transformation.</td></tr>
+          <tr><td>Brenner &amp; Schmid (2021)</td><td><b>Planetary urbanism</b>: urbanization is a global process driven by capitalism, neoliberalism and globalization, occurring at urban and rural scales. It is a "terrain of struggle" over land, housing, environmental justice and access to basic services, so the agency of social groups matters.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn"><b>Correction</b>An earlier version attributed the "state, landowners, developers" passage to the Los Angeles School. In the slides these are two separate pages and are now listed separately.</div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">0.1 · Simmel (1903)</div><h3><em class="en">The Metropolis and Mental Life</em></h3><div class="src">Notes: Research-Strategy/Draft-Simmel-1903.md</div></div>
+    <div class="part"><div class="lab">Core argument</div><div><p>City life changes people at the psychological level. The pace, density and complexity of the metropolis produce a distinct mental attitude.</p></div></div>
+    <div class="part"><div class="lab">Key concepts</div><div><p>Rural relationships are few, deep and built over time; metropolitan ones are many, shallow and anonymous, so city dwellers come to place their trust in <b>money and exchange</b>. The <b>blasé attitude</b>: emotional detachment as self-protection against overstimulation.</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">0.2 · Wirth (1938)</div><h3><em class="en">Urbanism as a Way of Life</em></h3><div class="src">Notes: Research-Strategy/Draft-Wirth-1938.md</div></div>
+    <div class="part"><div class="lab">Core argument</div><div><p>Three structural variables, <b>size, density and heterogeneity</b>, explain five features of urbanism as a distinct way of life.</p></div></div>
+    <div class="part"><div class="lab">Five features</div><div><ol><li>Anonymity and impersonal relationships</li><li>Specialization and division of labour (economic interdependence)</li><li>Cultural diversity (promotes tolerance, may also cause fragmentation and conflict)</li><li>Rational, calculated, goal-oriented behaviour (individualism over community ties)</li><li>Weakened social ties</li></ol></div></div>
+    <div class="part"><div class="lab">vs Simmel</div><div><p>Simmel focuses on psychological mechanism (stimulation → blasé); Wirth on social structure (size + density + heterogeneity → anonymity, division of labour, weak ties). Much Chicago School research builds on accounts like Wirth's.</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">0.3 · Sennett (2018; slides 2019)</div><h3><em class="en">Building and Dwelling: Ethics for the City</em></h3><div class="src">Notes: Research-Strategy/Draft-Sennett-2019.md</div></div>
+    <div class="part"><div class="lab">Core argument</div><div><p>There is a tension between building (the physical construction of cities) and dwelling (how people experience and live in them). Better cities balance the technical side of planning with residents' lived experience.</p></div></div>
+    <div class="part"><div class="lab">Key definition</div><div><p class="cite-line">A city is <em class="en">"a human settlement in which strangers are likely to meet"</em>. Cities should have public spaces where residents acquire <b>urban competence</b> by learning to socialize with strangers.</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">0.4 · Ilmonen (2016)</div><h3>"The Changing Urban Question" — title slide</h3></div>
+    <div class="part"><div class="lab">Verified</div><div><p>The Introduction slides contain only a title page reading "Ilmonen 2016: The Changing Urban Question", with no further content. The author is <b>Mervi Ilmonen</b> (Aalto University), co-editor of <em class="en">Ways of Residing in Transformation</em> (2016).</p></div></div>
+    <div class="part"><div class="lab">Inference</div><div><p>It is probably the same framework as the full "The Changing Housing Question (Mervi Ilmonen)" table in the Housing slides. This is an inference from comparing the two slide decks, not confirmed; worth checking with the teacher.</p></div></div>
+    <div class="callout warn"><b>Correction log</b>An earlier version included an extended "industrial vs post-industrial city" table whose wording does not appear in the slides; it has been removed. The author's first name was mistyped as "Mauri" and is corrected to Mervi.</div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">0.5 · An open question from the slides</div><h3>What is the urban?</h3></div>
+    <div class="part"><div class="lab">Slides</div><div><p>"If you stand naked on the front porch and the neighbours can't see you, it's rural; if they call the cops, it's suburban; if they ignore you, it's urban." This echoes Berndt (2015): cities are less physical entities than a <b>theoretical category</b> for arguing about wider social transformation.</p></div></div>
+    <div class="part"><div class="lab">Assignment</div><div><p>The slides already list example essay topics such as "gendered spaces", "demographic changes" and "a specific building". The full text is in <span class="file">Assignments.md</span>.</p></div></div>
+  </article>
+</section>
+
+<!-- =================== HOUSING =================== -->
+<section class="unit" id="housing">
+  <div class="unit-head">
+    <div class="eyebrow">Unit 2 · Housing · 20.1</div>
+    <h2>Housing: home, commodity or asset</h2>
+    <p>Slides <span class="file">Lectures-20260706/housing.pdf</span> in three parts: what housing is, housing preferences, housing policy. Class task: find at least one policy document related to the readings and introduce it in class.</p>
+  </div>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">2.0 · Lecture framework</div><h3>Eight points</h3></div>
+    <div class="part"><div class="lab">① What is housing</div><div><p>A basic need (who should provide it?), a commodity from which to extract wealth, or a way of life?</p><p class="cite-line"><em class="en">"Today there is a conflict between housing as lived, social space and housing as an instrument for profitmaking – a conflict between home and real estate."</em> (Madden &amp; Marcuse 2016, 4)</p></div></div>
+    <div class="part"><div class="lab">② Financialization</div><div><p><b>Aalbers (2016)</b>: the increasing role of financial motives, markets and actors in shaping housing. Christophers (2015) contests the concept; Aalbers (2019) stresses context-specific outcomes. Actors include institutional and international investors, listed and non-listed real-estate investment companies (REITs) and foundations.</p><p class="cite-line"><em class="en">"Housing is at the heart of the growing economic divide in Europe and the US."</em> (Clark 2021, 151)</p></div></div>
+    <div class="part"><div class="lab">③ Ilmonen</div><div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Dimension</th><th>Industrial city</th><th>Post-industrial city</th></tr></thead>
+        <tbody>
+          <tr><td>Housing situation</td><td>Housing shortage</td><td>"Affordable housing"</td></tr>
+          <tr><td>Household size</td><td>Large families</td><td>Small households</td></tr>
+          <tr><td>Role of housing</td><td>Housing as need</td><td>Housing as consumption</td></tr>
+          <tr><td>Type of need</td><td>Quantitative needs</td><td>Qualitative needs</td></tr>
+          <tr><td>Main group</td><td>Working class</td><td>Middle class; diversifying residents</td></tr>
+        </tbody>
+      </table></div>
+      <p>Checked word for word against the slides. Matches the "first / second housing question" framework in Ilmonen's (2016) chapter.</p>
+    </div></div>
+    <div class="part"><div class="lab">④ Finnish tenures</div><div><ul><li><b>Owner occupation</b>: single-family houses, or the asunto-osakeyhtiö (limited liability housing company: you buy shares that entitle you to use a given flat)</li><li><b>Right of occupancy</b> (asumisoikeusasunto): pay 15% of the property's value upfront for the right to live there, plus a monthly fee; a hybrid of renting and owning</li><li><b>Cooperative housing</b></li></ul></div></div>
+    <div class="part"><div class="lab">⑤ Rental market</div><div><p>Finnish renting is split into two separate systems, which the lecture calls a <b>dualist rental market</b>.</p><p><b>System 1: private rental.</b> Landlords are companies or individuals. The landlord sets the rent at market level and chooses the tenant; the state regulates neither.</p><p><b>System 2: social (ARA) housing.</b> Built with low-interest loans or subsidies from ARA, the state housing finance agency. Three features: <b>subsidized</b> (the state helps pay for construction); <b>cost-based rent</b> (rent covers building and upkeep costs, not market rates); <b>means-tested</b> (applicants' income and assets must qualify). Ruonavaara (2017, 9) sums up the difference from private rental: "not priced by the market and primarily targeted at low and middle-income households".</p><p><b>Why it matters:</b> the Segregation lecture notes that the larger the private rental sector, the less a municipality can influence who lives where, so social mixing gets harder.</p><p><b>Background (beyond the slides):</b> the term "dualist" comes from Jim Kemeny (1995). Its opposite is an "integrated" (unitary) rental market, where social and private rental compete in one market and hold rents down. Australia, with social housing at about 4% of households, is a dualist system with a residualised social sector, a useful contrast for Waterloo.</p></div></div>
+    <div class="part"><div class="lab">⑥ Housing policy</div><div><p>Finnish Constitution §19: public authorities shall promote everyone's right to housing. Ministry of the Environment (2019): housing policy promotes decent housing for all, sustainable development, the functioning of society and the labour market, and empowerment. Instruments are demand-side subsidies (to households) and supply-side subsidies (to production). 1995–2023 saw a <b>shift from the supply side to the demand side</b>.</p></div></div>
+    <div class="part"><div class="lab">⑦ Why so expensive</div><div><p class="cite-line"><em class="en">"We must go beyond just looking at the supply of housing and examine demand, in particular the demand for housing as a financial asset."</em> (Ryan-Collins 2019)</p><p>Harvey (1978): wealth flows into real estate rather than productive investment. The lecture's own line: <b>"Housing is not just about homes, it's an asset class."</b></p></div></div>
+    <div class="part"><div class="lab">⑧ What can be done</div><div><p>Regulate lending; treat different tenures equally; develop more social housing; stop developing buy-to-lets.</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">5 · Ruonavaara (2025)</div><h3><em class="en">An idea that refuses to die: Rise, fall and resurgence of "housing class"</em></h3><div class="src">Housing Studies 40(11), 2507–2527</div></div>
+    <div class="part"><div class="lab">Core argument</div><div><p>Traces the intellectual history of "housing class" from Rex &amp; Moore (1967), through Saunders' property class, to the 2020s revival as asset-based class (Adkins et al.).</p></div></div>
+    <div class="part"><div class="lab">Key concepts</div><div><ul>
+      <li><b>Rex &amp; Moore (1967)</b>: in Birmingham's Sparkbrook, people's relation to housing (owning, council renting, private renting) forms a "class" independent of relations of production.</li>
+      <li><b>Saunders</b>: suppliers of housing capital (developers, landlords, financial institutions), non-owners (tenants, the homeless), and owner-occupiers who accumulate capital gains through inflation, negative real interest rates and tax subsidies.</li>
+      <li><b>Piketty</b>: residential property is about half of total capital, and returns on assets persistently outpace wage growth.</li>
+      <li><b>Adkins, Cooper &amp; Konings</b>: class turns on whether you own assets that outpace inflation and wages. Five groups: investors, outright owners, mortgaged owners, renters, the homeless.</li>
+    </ul></div></div>
+    <div class="part"><div class="lab">Conclusion</div><div><p>Housing class does not hold up as a "class" in theory and is better understood as a Weberian <b>status group</b>. But the effect of housing-wealth inequality on life chances is real and growing.</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">6 · Hirvonen &amp; Lilius (2019)</div><h3><em class="en">Do neighbour relationships still matter?</em></h3><div class="src">The reading list also includes Lilius &amp; Hirvonen (2023), Journal of Housing and the Built Environment 38</div></div>
+    <div class="part"><div class="lab">Core argument</div><div><p>Compares Finnish national surveys from 1986 and 2012 to trace changes in weak and strong neighbour ties.</p></div></div>
+    <div class="part"><div class="lab">Findings</div><div><ul>
+      <li>Under-45s have significantly fewer weak and strong ties: a <b>generational decline</b>, not just a life-stage effect</li>
+      <li>Problematic neighbour relations rose slightly, more so among the young</li>
+      <li>Degree of urbanization matters little; central Helsinki and rural areas show similar trends</li>
+      <li>Housing type is not significant once age and length of residence are controlled</li>
+      <li>Tenants have fewer weak ties yet want to know neighbours more (46% vs 31% of owners): a "subjective contact gap"</li>
+      <li>Semi-detached residents chat most, and also report the most problems</li>
+    </ul></div></div>
+    <div class="part"><div class="lab">Policy</div><div><p>Apartment blocks should provide shared social space; high turnover in rental housing should be curbed; the assumption that urban life necessarily weakens neighbour ties does not hold.</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">7 · Kern (2007)</div><h3><em class="en">Reshaping the Boundaries of Public and Private Life: Gender, Condominium Development, and the Neoliberalization of Urban Living</em></h3><div class="src">Urban Geography 28(7), 657–681</div></div>
+    <div class="part"><div class="lab">Core argument</div><div><p>Uses Toronto's condo boom to show how new-build gentrification, through condo ownership, reshapes women's sense of the public/private boundary, and how neoliberal governance appropriates "empowerment" talk for a story of consumption and privatization.</p></div></div>
+    <div class="part"><div class="lab">Key concepts</div><div><ul>
+      <li>Condos are framed as the "natural" answer to sprawl, deindustrialization and housing demand: a <b>depoliticizing</b> neoliberal strategy</li>
+      <li>Single women are about 40% of Toronto condo buyers, presented by the media as women's liberation</li>
+      <li>Four themes from interviews with 21 women owners: <b>tenure</b> (individualized, debt-based freedom), <b>security</b> (redefined as a privately purchasable commodity), <b>community</b> (class-homogeneous and exclusive), <b>proximity</b> (consumer citizenship)</li>
+      <li>Draws on Neil Smith's revanchist city: condos as a quieter way for the middle class to "retake" the core</li>
+    </ul></div></div>
+    <div class="part"><div class="lab">Quotable</div><div><p>The "freedom" women owners experience must be read in the context of class privilege; it signals no broad change in gender relations but benefits a socio-economically privileged few.</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">8 · Ronald &amp; Kadi (2017)</div><h3><em class="en">The Revival of Private Landlords in Britain's Post-Homeownership Society</em></h3><div class="src">New Political Economy 2017(6), 786–803</div></div>
+    <div class="part"><div class="lab">Core argument</div><div><p>UK homeownership fell from a 71% peak to 63% (2014) while private renting doubled. Alongside "generation rent" came a less visible <b>"generation landlord"</b> of middle-aged, middle-class amateur landlords.</p></div></div>
+    <div class="part"><div class="lab">Key concepts</div><div><ul>
+      <li><b>Post-homeownership society</b>: ownership has peaked and fallen in the UK, Australia, Ireland, the US, Japan and Korea</li>
+      <li><b>Buy-to-let mortgages</b> (introduced 1996) were the key financial tool; BTL investment rose after 2008</li>
+      <li>Landlords grew from about 560,000 (1991) to over 2.1 million (2012); about 89% are individuals or couples and about 78% let one property</li>
+      <li>The 40–60 cohort converts equity built up in their own homes into second homes to let, as a pension substitute: <b>property-based welfare</b></li>
+      <li>Housing inheritance also drives multiple ownership</li>
+    </ul></div></div>
+    <div class="part"><div class="lab">Significance</div><div><p>An evolving asset-based welfare regime: as state pensions shrink, people rely on property for retirement, deepening intergenerational inequality.</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">9 · Paadam et al. / Ilmonen (2016)</div><h3><em class="en">Ways of Residing in Transformation</em> (edited volume)</h3><div class="src">Ilmonen chapter: On Housing Preferences and Housing Choices, pp. 35–56, Ashgate</div></div>
+    <div class="part"><div class="lab">Chapter 1</div><div><p>Replaces "housing" with <b>ways of residing</b>: residing as a subjectively constructed, dynamic socio-spatial practice. Uses Kemeny's three levels (household, dwelling, residence) and Bourdieu's habitus. Cases include industrial-heritage conversion in Tallinn, senior co-housing in London, gated communities in Bulgaria, standardized housing production in Finland and the UK, and Reykjavík's post-bubble "ghost suburbs".</p></div></div>
+    <div class="part"><div class="lab">Chapter 3 Ilmonen</div><div><ul>
+      <li>The "first housing question" (shortage, poverty) vs the <b>"second housing question"</b> (housing shifts from need to consumption, carrying identity and lifestyle)</li>
+      <li><b>Stated</b> vs <b>revealed preferences</b>: what people say they want often differs from what they buy</li>
+      <li>Via Bourdieu and Giddens: housing choice is a "narrative of self-identity", shaped by economic resources and cultural capital</li>
+      <li>Research gap: most work asks what people want, little asks why</li>
+      <li>Singleton society: the EU share of one-person households is projected to rise from 30% (2015) to 36%</li>
+    </ul></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">Map</div><h3>Lecture concepts and readings</h3></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Lecture concept</th><th>Reading</th></tr></thead>
+      <tbody>
+        <tr><td>First / second housing question, housing preferences</td><td>Ilmonen (2016)</td></tr>
+        <tr><td>Financialization, asset class</td><td>Ronald &amp; Kadi (2017); Ruonavaara (2025)</td></tr>
+        <tr><td>Housing as consumption and lifestyle, gendered space</td><td>Kern (2007)</td></tr>
+        <tr><td>Apartment communities, neighbour relations</td><td>Hirvonen &amp; Lilius (2019 / 2023)</td></tr>
+      </tbody>
+    </table></div>
+  </article>
+</section>
+
+<!-- =================== SEGREGATION =================== -->
+<section class="unit" id="segregation">
+  <div class="unit-head">
+    <div class="eyebrow">Unit 3 · Segregation · 27.1 · Katriina Rosengren</div>
+    <h2>Segregation in a retrenching housing regime</h2>
+    <p>The readings were not uploaded; <span class="file">SEGREGATION.docx</span> contains only the list. Lecture highlights come first (added in this version), then the reading list.</p>
+  </div>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">3.0 · Lecture highlights <span class="badge">New</span></div><h3>Segregation in a retrenching housing regime</h3><div class="src">Slides: Lectures-20260706/Segregation_270126.pdf</div></div>
+    <div class="part"><div class="lab">Definitions</div><div>
+      <p><b>Neutral</b>: Massey &amp; Denton (1988) <em class="en">"the degree to which two or more groups live separately from one another"</em>; Andersson &amp; Turner (2014) the unequal representation of groups across space.</p>
+      <p><b>Detrimental</b>: Marcuse (2005, 16) a group treated as inferior is forced, involuntarily, to cluster in a defined area; Tammaru et al. (2021) <em class="en">"Advantage breeds advantage and disadvantage breeds disadvantage."</em></p>
+      <p>The slides flag one pair of terms: <b>'segregation' vs 'spatial differentiation'</b>.</p>
+    </div></div>
+    <div class="part"><div class="lab">Measurement</div><div><p>Dissimilarity index (Finnish regions 2022; Finnish cities 2000–2018); Gini coefficient and low-income rate (natives vs residents with foreign background, 1995–2024).</p></div></div>
+    <div class="part"><div class="lab">Wicked problem</div><div><p>Rittel &amp; Webber (1973): complex, interconnected, affecting many stakeholders, persistent and ever-morphing; it cannot be reduced to a problem–solution frame.</p></div></div>
+    <div class="part"><div class="lab">Vicious circle</div><div>
+      <p>Tammaru et al. (2021): people are <b>sorted</b> into activity sites by buying or renting a home, starting school or taking a job, then experience <b>contextual effects</b> there. Five steps:</p>
+      <ol>
+        <li>Disadvantage clusters spatially (concentrated social housing, lack of affordable market housing)</li>
+        <li>Neighbourhood effects: objective (services, education) and subjective (perceived upkeep)</li>
+        <li>Selective mobility: fear of negative effects shapes moving preferences</li>
+        <li>Spread to other life domains (van Ham &amp; Tammaru 2016): schools, workplaces, travel</li>
+        <li>Persistence across the life course and generations; management grows harder</li>
+      </ol>
+    </div></div>
+    <div class="part"><div class="lab">Managing it</div><div><p>Neighbourhood effects, area-based interventions, social mixing, providing spatial justice, equalizing structural inequalities.</p></div></div>
+    <div class="part"><div class="lab">Finland</div><div>
+      <p><b>From afar</b>: low segregation by European and Nordic standards, no negative neighbourhood effects; small-scale social mixing in Helsinki since the 1970s, resting on a large social housing sector.</p>
+      <p><b>Up close</b>: in the era of market-oriented housing production, segregation has risen across Europe, Finland included; in Finland's largest cities it has grown steadily, challenging the welfare-state ethos.</p>
+      <p><b>From proactive housing policy to reactive social policy</b>: area-based initiatives spread nationwide in the 1990s; supply-side subsidies gave way to demand-side ones; in the 2010s the social housing stock declined and private renting grew, criticized as accelerating financialization; municipalities cannot influence tenant selection in market housing.</p>
+      <p><b>A retrenching regime</b>: since 2024 housing benefits have been cut along with other social security; retrenchment began in the 1980s; Kynsilehto &amp; Alastalo (2024) call it a "<b>post-welfare state</b>", with segregation delegated to local levels and responsibility for housing markets increasingly shared with the private sector.</p>
+    </div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">Reading list</div><h3>Four assigned readings (not uploaded)</h3></div>
+    <ol>
+      <li>Tammaru et al. (2025). <em class="en">A comparative study of socio-economic segregation in European capital city-regions: From segregation to desegregation?</em> Urban Studies.</li>
+      <li>van Ham &amp; Tammaru (2016). <em class="en">New perspectives on ethnic segregation over time and space: A domains approach.</em> Urban Geography 37(7).</li>
+      <li>Ruonavaara, Rasinkangas &amp; Rosengren (2025). <em class="en">Preventing, curing, mitigating: Anti-segregation policies in urban Finland.</em> Cities 160.</li>
+      <li>Stjernberg et al. (2025). <em class="en">Beyond segregation: Nordic approaches to socially inclusive cities.</em> Nordregio.</li>
+    </ol>
+  </article>
+</section>
+
+<!-- =================== GENTRIFICATION =================== -->
+<section class="unit" id="gentrification">
+  <div class="unit-head">
+    <div class="eyebrow">Unit 4 · Gentrification · 3.2</div>
+    <h2>Gentrification: where the course converges</h2>
+    <p>Close-reading pages: <span class="file">Reading-Pages/davidson-newbuild-gentrification.html</span>, <span class="file">lees-2008-social-mixing.html</span>, <span class="file">yrjana-2026-helsinki.html</span>. The reading list also includes Lees et al. (2017), Hochstenbach (2017), Kadi &amp; Matznetter (2022) and Lees (2022); see <span class="file">Readings.md</span>.</p>
+  </div>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">1 · Shaw (2008)</div><h3><em class="en">Gentrification: What It Is, Why It Is, and What Can Be Done about It</em></h3></div>
+    <div class="part"><div class="lab">Core argument</div><div><p>Gentrification is a <b>continuum</b> of social and economic geographic change, from outright disinvestment to super-gentrification. There is no need to assume every neighbourhood passes through every stage.</p></div></div>
+    <div class="part"><div class="lab">Key concepts</div><div><ul>
+      <li>Ruth Glass (1964) coined the term for the "gentry" moving into working-class London and renovating old houses</li>
+      <li>Neil Smith stresses its class character: working-class neighbourhoods "rehabilitated" by middle-class buyers, landlords and developers</li>
+      <li><b>Rent gap</b>: when the gap between capitalized and potential ground rent is wide enough, redevelopment pays and the area is "ripe"</li>
+      <li><b>Three waves</b> (Hackworth &amp; Smith 2001): sporadic and state-funded → market-driven and resisted → corporate capital with systemic state involvement; Lees et al. propose a fourth wave (financialization + pro-gentrification policy)</li>
+      <li><b>The displacement debate</b>: Tom Slater argues that gentrification research has itself been gentrified, no longer attending to displacement</li>
+    </ul></div></div>
+    <div class="part"><div class="lab">Policy</div><div><p>Gentrification advances fastest where new investment is least needed. The best time to intervene is before the rent gap fully opens, when protecting low-income areas and investing in public facilities is most feasible economically and politically.</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">2 · Davidson (2018)</div><h3><em class="en">New-build gentrification</em> (Handbook of Gentrification Studies, ch. 15)</h3></div>
+    <div class="part"><div class="lab">Core argument</div><div><p>New-build gentrification (new condo towers, waterfront developments) has become the dominant form of third-wave gentrification, often actively backed by the state: state-led gentrification.</p></div></div>
+    <div class="part"><div class="lab">Key concepts</div><div><ul>
+      <li>Davidson &amp; Lees (2005), four elements: <b>reinvestment of capital, social upgrading, landscape change, direct or indirect displacement</b></li>
+      <li><b>The residentialization debate</b>: Lambert &amp; Boddy argue new-build without direct displacement is not gentrification; Davidson &amp; Lees reply with <b>indirect displacement</b> (the area becomes unaffordable, existing shops and services disappear)</li>
+      <li><b>Reurbanization</b>: a European term for population returning to the core that sidesteps class displacement; the author argues it hides the class dimension</li>
+      <li>Global new-build gentrification takes different state–capital forms in China (state-led, large-scale demolition), the UK, Sweden, the Philippines and elsewhere</li>
+    </ul></div></div>
+    <div class="part"><div class="lab">Quotable</div><div><p class="cite-line"><em class="en">"gentrification without displacement is not gentrification"</em>. Indirect displacement and the pressure created by social-mix policy are often overlooked.</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">3 · DeVerteuil (2018)</div><h3><em class="en">Immigration and gentrification</em> (same handbook, ch. 25)</h3></div>
+    <div class="part"><div class="lab">Core argument</div><div><p>The relationship between immigration and gentrification has long been neglected and is more complex than "immigrants get displaced". Five types:</p></div></div>
+    <div class="part"><div class="lab">Five types</div><div><ol>
+      <li>Immigrants as a <b>barrier</b> to gentrification (Goutte d'Or, Paris)</li>
+      <li>Immigrants and gentrifiers <b>coexisting</b> (bubble model, Stoke Newington, London)</li>
+      <li>Immigrants <b>displaced</b> (the classic case, Chinatowns)</li>
+      <li>Immigrants <b>avoiding</b> gentrified areas (Chinese households moving to Vancouver's suburbs)</li>
+      <li>Immigrants <b>as gentrifiers</b> (Koreatown, Los Angeles: immigrant entrepreneurs reinvesting in their own enclave)</li>
+    </ol></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">4 · Lees (2008)</div><h3><em class="en">Gentrification and Social Mixing: Towards an Inclusive Urban Renaissance?</em></h3></div>
+    <div class="part"><div class="lab">Core argument</div><div><p>Governments in the UK, US and Netherlands present social-mix policy as the positive face of gentrification: moving middle-class residents into poor areas to reduce segregation and build "community capital". The evidence does not support this logic.</p></div></div>
+    <div class="part"><div class="lab">Six critiques</div><div><ol>
+      <li>Gentrification produces displacement, segregation and polarization, not integration</li>
+      <li>Gentrifiers do not really interact with low-income residents; their daily paths rarely cross</li>
+      <li>Social mix is <b>one-way</b>: affluent areas are never asked to take in the poor</li>
+      <li>It destroys the mutual-support networks that clustering itself provides</li>
+      <li>Policy never says how much mix is enough</li>
+      <li>Policy never explains how mixing happens; putting people side by side does not produce it</li>
+    </ol></div></div>
+    <div class="part"><div class="lab">Quotable</div><div><p class="cite-line"><em class="en">"gentrification is part of an aggressive, revanchist ideology designed to retake the inner city for the middle classes"</em> (citing Neil Smith)</p></div></div>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head"><div class="who">5 · Yrjänä (2026)</div><h3><em class="en">By any means necessary: the anti-segregation efforts and state-led gentrification in Helsinki</em></h3><div class="src">Cities 170, 106718 · open access · full text: External-Sources/Yrjana-2026-Helsinki-State-led-Gentrification.pdf</div></div>
+    <div class="part"><div class="lab">Core argument</div><div><p>Helsinki's social-mix policy, pursued in the name of anti-segregation, amounts to <b>state-led gentrification</b>: a depoliticized, morally justified statistical discourse legitimizes the state's push for market dominance in housing and land.</p></div></div>
+    <div class="part"><div class="lab">Case</div><div><p>Stigmatized eastern suburbs Mellunkylä and Meri-Rastila. The 2020 "new urban renewal model" targets four suburban renewal areas, aiming to deconcentrate disadvantaged and ethnic-minority groups and raise owner-occupation and the social-rental share.</p></div></div>
+    <div class="part"><div class="lab">Theoretical tools</div><div><ul>
+      <li><b>Reputational gap</b> (Kallin 2017): the distance between a place's imagined potential and its stigmatized present; the wider the gap, the more justified intervention appears</li>
+      <li><b>Subsidy gap</b> (Gray &amp; Kallin 2023): the state first absorbs the costs of land assembly and acquisition to de-risk private capital</li>
+      <li><b>Social mix as corrective</b>: decontextualized statistics frame the area as a "problem", justifying demolition and densification</li>
+      <li><b>False choice urbanism</b> (Slater 2014): the only alternative to gentrification is continued decline</li>
+      <li><b>Green gentrification</b> (Wallin 2021): upgrading parks and public space to attract investment. A planner: "If you think about it cynically, building this park is partly about raising the image of the area"</li>
+      <li><b>Managed decline</b> (Watt 2023): deliberate under-maintenance in anticipation of demolition</li>
+      <li><b>Socializing risk, privatizing profit</b> (Risager 2022)</li>
+    </ul></div></div>
+    <div class="part"><div class="lab">Fieldwork</div><div><p>2024–2025: repairs stalled while rents rose (+8.4% in 2024, +5.3% in 2025); older residents worried about heating and snow clearing; families unable to plan schooling around uncertain demolition timelines; residents learned of demolition from the local paper; the "right to return" does not guarantee the original flat; the Kontula shopping-centre renewal deadlocked for 20 years, with developer NCC withdrawing in March 2025.</p></div></div>
+    <div class="part"><div class="lab">Conclusion</div><div><p>Helsinki wants both deeper private dominance of the housing market and the prevention of segregation, and manages the contradiction through <b>gentrification disguised as anti-segregation discourse</b> (Lees 2008). The author suggests treating access to affordable housing as a normal need rather than a social-policy problem; with its planning monopoly and extensive land ownership, Helsinki could prioritize state-subsidized rental housing.</p></div></div>
+  </article>
+</section>
+
+<!-- =================== CROSS =================== -->
+<section class="unit" id="cross">
+  <div class="unit-head">
+    <div class="eyebrow">Cross-links</div>
+    <h2>Connecting the units</h2>
+    <p>For the essay or a mind map.</p>
+  </div>
+  <div class="grid2">
+    <div class="link-card"><div class="pair">Gentrification × Housing</div><p>Kern's condo privatization and Davidson's new-build gentrification speak to each other: condo development is both the spatial vehicle of gentrification and the material base of asset-based welfare (Ronald &amp; Kadi).</p></div>
+    <div class="link-card"><div class="pair">Housing class × Gentrification</div><p>Ruonavaara's asset-class account explains who profits from gentrification (owners) and who is excluded: the real beneficiaries of the social-mix policy Lees criticizes.</p></div>
+    <div class="link-card"><div class="pair">Neighbour relations × Gentrification</div><p>Hirvonen &amp; Lilius find tenants have weaker ties but want to know neighbours more, echoing DeVerteuil and Lees on new and old residents whose paths never cross. Useful for the missing social integration in new-build apartment areas.</p></div>
+    <div class="link-card"><div class="pair">Finnish angle</div><p>Hirvonen &amp; Lilius and both Ruonavaara pieces are Finnish studies, good "local" evidence to set against international frameworks (DeVerteuil, Lees, Kern), answering the class question: does Finland have gentrification?</p></div>
+    <div class="link-card"><div class="pair">Segregation × Gentrification <span class="badge">New</span></div><p>Social mixing is one of the lecture's tools for managing segregation, and Lees (2008) and Yrjänä (2026) critique exactly how social mixing is used to package gentrification. These two readings bridge the units.</p></div>
+    <div class="link-card"><div class="pair">Housing × Segregation <span class="badge">New</span></div><p>Both lectures record Finland's shift from supply-side to demand-side subsidies. The Housing lecture treats it as a change in policy instruments; the Segregation lecture links it to shrinking social housing, harder mixing and faster financialization.</p></div>
+  </div>
+</section>
+
+<footer>
+  Sources: <span class="file">Readings-Summary.md</span>, <span class="file">Lectures-20260706/</span>, <span class="file">Readings-20260706/</span>. The Segregation lecture highlights and the two cross-link cards marked "New" were added in the web version; everything else matches the Markdown. Chinese version: <span class="file">Reading-Pages/readings-summary.html</span>.
+</footer>
+</div>
