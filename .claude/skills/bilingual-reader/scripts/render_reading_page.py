@@ -2362,6 +2362,9 @@ def render(spec):
       f"window.__BR_GLOSSARY={json.dumps(glossary_js, ensure_ascii=False)};"
       f"window.__BR_SUMMARIES={json.dumps(summaries_js, ensure_ascii=False)};</script>")
     a(f"<script>{JS}</script>")
+    # meta.extra_js: page-specific script appended after the reader's own JS
+    if m.get("extra_js"):
+        a(f"<script>{m['extra_js']}</script>")
     # Deep links (#b-N, from crosswalk pages): the native anchor jump happens before the
     # sidebars/AI-summary column finish laying out and shift the article, so re-scroll once
     # layout settles. Also covers hosts that set location.hash after load.
