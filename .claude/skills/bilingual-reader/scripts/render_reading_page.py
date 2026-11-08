@@ -1647,6 +1647,21 @@ document.addEventListener('scroll', function(){
     hint.style.display='block';
   });
   document.getElementById('hlCancel').addEventListener('click', closeCard);
+  /* The highlight card is where a selection note is written, so offer the same
+     per-note AI-interpretation prompt here (works before saving, from the draft). */
+  document.getElementById('hlAsk').addEventListener('click', function(){
+    var btn=this, txt=document.getElementById('hlNote').value.trim();
+    if(!draftFrags.length) return;
+    var f0=draftFrags[0], zh='';
+    var w=document.querySelector('.note[data-nid="'+f0.nid+'"]');
+    var host=w?(w.closest('.bipara')||w.closest('.bifig')||w.closest('blockquote')):null;
+    var z=host?host.querySelector('.zh'):null; if(z && draftFrags.length===1) zh=z.textContent.trim();
+    var r={isHighlight:true, frags:draftFrags, src:f0.text||'', zh:zh,
+           txt:txt||'（还没写批注，请解读这段原文）',
+           aiNote:document.getElementById('hlAiNote').value.trim(),
+           tags:parseTags(document.getElementById('hlTags').value)};
+    copyText(askPrompt(r), btn, btn.textContent);
+  });
   document.getElementById('hlSave').addEventListener('click', function(){
     var txt=document.getElementById('hlNote').value.trim();
     var tags=parseTags(document.getElementById('hlTags').value);
@@ -2331,6 +2346,7 @@ def render(spec):
       '<div class="hl-actions">'
       '<button id="hlLink" type="button">+ 关联另一段</button>'
       '<button id="hlDelete" type="button" style="display:none">删除</button>'
+      '<button id="hlAsk" type="button" title="把这条划线批注当问题，复制一份可直接粘贴给 AI 的解读请求">💬 AI 解读（复制）</button>'
       '<button id="hlCancel" type="button">取消</button>'
       '<button id="hlSave" class="primary" type="button">保存</button>'
       '</div></div>')

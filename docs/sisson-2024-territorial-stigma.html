@@ -277,6 +277,14 @@ article h3 .en{display:block;font-size:.97rem;color:var(--ink);font-weight:600;f
 article h3 .zh{display:block;font-family:var(--font-zh);font-size:.9rem;color:var(--ink-soft);margin-top:.18rem}
 
 .bipara{margin:0 0 1.35rem;padding-bottom:1rem;border-bottom:1px dashed var(--line)}
+/* ---- pair blocks (kind:"pair"): a two-column row inside a normal .bipara, so notes, highlights,
+   tags and export all work unchanged. Left = companion material (spec "left", HTML); right = en/zh text. ---- */
+.bipair{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:.4rem 1.2rem;align-items:start}
+.bipair .pair-L{display:flex;flex-direction:column;gap:.5rem;min-width:0}
+.bipair .pair-R{min-width:0}
+.bipair .note{grid-column:1/-1}
+.bipair .pair-L:empty{border-left:2px solid var(--line);min-height:1rem;opacity:.5}
+@media (max-width:760px){.bipair{grid-template-columns:1fr}.bipair .pair-L{order:2}.bipair .pair-R{order:1}.bipair .pair-L:empty{display:none}}
 /* block anchors (#b-N): stable per render, used by external deep links; clear the sticky top bar and flash the target */
 .bipara[id],.bifig[id],blockquote.cited[id]{scroll-margin-top:5.5rem}
 .bipara:target,.bifig:target,blockquote.cited:target{background:var(--hl-soft);border-radius:4px;transition:background 1.5s}
@@ -655,7 +663,7 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <span class="zh">公共住房与地域污名：走向一种符号与政治经济</span>
 </h1>
 <div class="byline">Alistair Sisson · Housing Studies 39(5), 1199–1218 (2024; online 2022) · 全文对照</div>
-<div class="citation"><strong>Cite as</strong> · Sisson, A. (2024). Public housing and territorial stigma: towards a symbolic and political economy. &lt;em&gt;Housing Studies&lt;/em&gt;, 39(5), 1199–1218. https://doi.org/10.1080/02673037.2022.2108383</div>
+<div class="citation"><strong>Cite as</strong> · Sisson, A. (2024). Public housing and territorial stigma: towards a symbolic and political economy. Housing Studies, 39(5), 1199–1218. https://doi.org/10.1080/02673037.2022.2108383</div>
 <div class="readnote"><strong>全文中英对照，摘要到结论全部收录；原文没有插图。</strong>参考文献附在文末（按原文抄录）。原文中"20th century"等序数词的上标在 PDF 提取中丢失，已在英文里补回。<br><br><strong>读的时候注意谁在说话：</strong>第 5 节的六段块引文全部是被批判的话语样本（官员、政府文件、记者、慈善机构负责人），Sisson 引用它们是为了分析它们怎样制造污名，<strong>不是他本人的观点</strong>。第 2 节里大量"X 认为……"是文献综述；作者自己的立场在第 2 节最后一段、第 4 节和结论。<br><br><strong>这篇和你的论文：</strong>它的四个棱镜（建成环境、人口、权属、房地产）正好可以用来组织 Waterloo 的"声誉"部分；5.4 节最后一句把声誉差距和租差连在一起，就是你两个主题的交汇点。</div>
 <article>
 <h2 id="sec-0"><span class="en">Abstract</span><span class="zh">摘要</span></h2>
@@ -1083,7 +1091,7 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 </div></div>
 <div id="selPill" style="display:none">＋ 批注</div>
 <div id="hlHint" style="display:none">请选中另一段文字，然后点击出现的＋按钮完成关联</div>
-<div id="selCard" style="display:none"><div class="hl-head">选中内容的批注</div><div id="hlFrags"></div><textarea id="hlNote" placeholder="写下你的批注…（可用电脑自带的语音输入直接对着这里说）"></textarea><input type="text" id="hlTags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea id="hlAiNote" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示"></textarea><div class="hl-actions"><button id="hlLink" type="button">+ 关联另一段</button><button id="hlDelete" type="button" style="display:none">删除</button><button id="hlCancel" type="button">取消</button><button id="hlSave" class="primary" type="button">保存</button></div></div>
+<div id="selCard" style="display:none"><div class="hl-head">选中内容的批注</div><div id="hlFrags"></div><textarea id="hlNote" placeholder="写下你的批注…（可用电脑自带的语音输入直接对着这里说）"></textarea><input type="text" id="hlTags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea id="hlAiNote" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示"></textarea><div class="hl-actions"><button id="hlLink" type="button">+ 关联另一段</button><button id="hlDelete" type="button" style="display:none">删除</button><button id="hlAsk" type="button" title="把这条划线批注当问题，复制一份可直接粘贴给 AI 的解读请求">💬 AI 解读（复制）</button><button id="hlCancel" type="button">取消</button><button id="hlSave" class="primary" type="button">保存</button></div></div>
 <div id="grefPop" style="display:none"></div>
 <datalist id="tagOptions"></datalist>
 <script>window.__BR_DOC="sisson-2024-public-housing-territorial-stigma";window.__BR_TOC=[{"id": "sec-0", "level": "h2", "en": "Abstract", "zh": "摘要"}, {"id": "sec-2", "level": "h2", "en": "1. Introduction", "zh": "1. 引言"}, {"id": "sec-6", "level": "h2", "en": "2. Territorial stigma and public housing estates", "zh": "2. 地域污名与公屋区"}, {"id": "sec-15", "level": "h2", "en": "3. Methodology", "zh": "3. 研究方法"}, {"id": "sec-18", "level": "h2", "en": "4. Historicizing the stigmatization of public housing in Australia", "zh": "4. 把澳大利亚公共住房的污名化历史化"}, {"id": "sec-30", "level": "h2", "en": "5. Territorial stigma and the ‘common-sense’ of estate renewal", "zh": "5. 地域污名与公屋区更新的“常识”"}, {"id": "sec-37", "level": "h3", "en": "5.1. Built environments", "zh": "5.1 建成环境"}, {"id": "sec-44", "level": "h3", "en": "5.2. Populations", "zh": "5.2 人口"}, {"id": "sec-54", "level": "h3", "en": "5.3. Tenure", "zh": "5.3 权属"}, {"id": "sec-61", "level": "h3", "en": "5.4. Real estate", "zh": "5.4 房地产"}, {"id": "sec-66", "level": "h2", "en": "6. Conclusion", "zh": "6. 结论"}];window.__BR_GLOSSARY=[{"id": "g-tstigma", "cat": "理论/思潮", "term": "地域污名（territorial stigma）", "def": "Wacquant 提出，指附着在地方上的\"污点\"，会转移到居民身上并影响国家如何对待这个地方。<strong>本文的核心主张：</strong>它不只是话语，也不只是真实的物质条件，而是两者\"递归地\"共同构成的。课程对照：Yrjänä (2026)。"}, {"id": "g-symbolic", "cat": "理论/思潮", "term": "符号权力（symbolic power）", "def": "Bourdieu：命名和分类世界的权力，能\"确认或改变对世界的看法，从而改变对世界的行动\"。本文用它说明\"劣势集中\"\"沉沦公屋区\"这类概念如何塑造政策。"}, {"id": "g-territorial", "cat": "概念", "term": "\"地域的\"（territorial）", "def": "Sack (1986)：地域有\"物化\"作用，把注意力从产生它的结构和制度条件转到地域本身，使其看似拥有固有特征。这是本文\"为什么叫地域污名\"的关键解释。"}, {"id": "g-renewal", "cat": "概念", "term": "公屋区更新（estate renewal）", "def": "拆除公屋区并再开发为混合权属片区。本文说明它如何成为\"常识\"（doxa）。"}, {"id": "g-residual", "cat": "概念", "term": "残余化（residualisation）", "def": "公共住房存量缩小、分配只针对最贫困者，导致劣势集中。本文第 4 节把它追溯到 1973 年后的定向化。"}, {"id": "g-neigh", "cat": "概念", "term": "邻里效应（neighbourhood effects）", "def": "认为住在劣势集中的地方本身会造成更多劣势。本文称其\"颇具争议\"，属于\"贫困病原体认识论\"。课程对照：Segregation 讲义。"}, {"id": "g-socialmix", "cat": "政策/概念", "term": "社会混合（social mix）", "def": "以混合权属替代集中公屋的政策。本文 5.2 节说明其\"榜样论\"如何依赖邻里效应话语。课程对照：Lees (2008)。"}, {"id": "g-tenureblind", "cat": "概念", "term": "权属不可辨（tenure blind）", "def": "让社会住房外观与私人住房一样。本文指出它被包装为\"反污名\"策略。"}, {"id": "g-deconc", "cat": "概念", "term": "分散（deconcentration）", "def": "以分散劣势之名再开发公屋区。本文 5.2 节核心。"}, {"id": "g-dream", "cat": "概念", "term": "澳大利亚大梦想（Great Australian Dream）", "def": "拥有自己住房的国民理想。本文第 4 节说明自有住房的至高地位如何让公共租赁一直低人一等，并与定居者殖民主义相连。课程对照：Ruonavaara 的住房阶级；Kemeny。"}, {"id": "g-subsidygap", "cat": "概念", "term": "补贴差距（subsidy gap）", "def": "本文用法：市场租金与租户实付租金之差，被官方称为\"隐性援助\"。Sisson 认为它夸大了援助，并被用来把内城租户说成\"不应得\"。注意：与 Yrjänä (2026) 引 Gray &amp; Kallin 的\"补贴差距\"（国家为私人资本垫付的成本）含义不同。"}, {"id": "g-asset", "cat": "概念", "term": "资产类别（asset class）", "def": "住房被重塑为高利润投资品（Adkins et al., 2020）。课程对照：Housing 讲义\"Housing is not just about homes, it's an asset class\"；Ruonavaara 的资产型阶级。"}, {"id": "g-assetmgmt", "cat": "政策/概念", "term": "资产管理逻辑（asset management）", "def": "住房机构把住房当资产组合经营：卖掉高价值住房、再开发公屋区来筹资。本文结论说地域污名\"结构性地嵌入\"了这种逻辑。资料对照：AHURI 358 的 asset-based viability。"}, {"id": "g-chp", "cat": "政策/机构", "term": "社区住房提供者（CHPs）", "def": "非营利住房机构。本文 5.3 节说明\"国家管理不行、CHPs 更好\"的话语，以及 CHPs 因租户可领联邦租金援助而收入更高这一被忽略的事实。"}, {"id": "g-hbu", "cat": "概念", "term": "最高最佳用途（highest and best use）", "def": "房地产估价概念：一块地在法律允许下能产生最大价值的用途。本文 5.4 节说明它如何被用来把公屋说成\"浪费土地\"。"}, {"id": "g-millers", "cat": "地名", "term": "Millers Point", "def": "悉尼海港边的历史公屋区，2014 年起政府迁走租户并出售 300 多套住房。资料对照：Morris (2019)；Darcy &amp; Rogers (2016)。"}, {"id": "g-repgap", "cat": "概念", "term": "声誉差距（reputational gap）", "def": "Kallin (2017)：贬低现在、理想化未来之间的差距。本文 5.4 节结尾把它和租差连起来：用声誉差距去追逐租差。这正是\"符号\"与\"政治经济\"的连接点。"}, {"id": "g-rentgap", "cat": "理论/思潮", "term": "租差（rent gap）", "def": "Smith (1979)。本文最后一句：更新计划\"表达出声誉差距，以便在缺乏充足资金的情况下追逐租差\"。课程对照：Gentrification 讲义。"}];window.__BR_SUMMARIES={};</script>
@@ -2065,6 +2073,21 @@ document.addEventListener('scroll', function(){
     hint.style.display='block';
   });
   document.getElementById('hlCancel').addEventListener('click', closeCard);
+  /* The highlight card is where a selection note is written, so offer the same
+     per-note AI-interpretation prompt here (works before saving, from the draft). */
+  document.getElementById('hlAsk').addEventListener('click', function(){
+    var btn=this, txt=document.getElementById('hlNote').value.trim();
+    if(!draftFrags.length) return;
+    var f0=draftFrags[0], zh='';
+    var w=document.querySelector('.note[data-nid="'+f0.nid+'"]');
+    var host=w?(w.closest('.bipara')||w.closest('.bifig')||w.closest('blockquote')):null;
+    var z=host?host.querySelector('.zh'):null; if(z && draftFrags.length===1) zh=z.textContent.trim();
+    var r={isHighlight:true, frags:draftFrags, src:f0.text||'', zh:zh,
+           txt:txt||'（还没写批注，请解读这段原文）',
+           aiNote:document.getElementById('hlAiNote').value.trim(),
+           tags:parseTags(document.getElementById('hlTags').value)};
+    copyText(askPrompt(r), btn, btn.textContent);
+  });
   document.getElementById('hlSave').addEventListener('click', function(){
     var txt=document.getElementById('hlNote').value.trim();
     var tags=parseTags(document.getElementById('hlTags').value);

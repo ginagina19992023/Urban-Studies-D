@@ -277,6 +277,14 @@ article h3 .en{display:block;font-size:.97rem;color:var(--ink);font-weight:600;f
 article h3 .zh{display:block;font-family:var(--font-zh);font-size:.9rem;color:var(--ink-soft);margin-top:.18rem}
 
 .bipara{margin:0 0 1.35rem;padding-bottom:1rem;border-bottom:1px dashed var(--line)}
+/* ---- pair blocks (kind:"pair"): a two-column row inside a normal .bipara, so notes, highlights,
+   tags and export all work unchanged. Left = companion material (spec "left", HTML); right = en/zh text. ---- */
+.bipair{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:.4rem 1.2rem;align-items:start}
+.bipair .pair-L{display:flex;flex-direction:column;gap:.5rem;min-width:0}
+.bipair .pair-R{min-width:0}
+.bipair .note{grid-column:1/-1}
+.bipair .pair-L:empty{border-left:2px solid var(--line);min-height:1rem;opacity:.5}
+@media (max-width:760px){.bipair{grid-template-columns:1fr}.bipair .pair-L{order:2}.bipair .pair-R{order:1}.bipair .pair-L:empty{display:none}}
 /* block anchors (#b-N): stable per render, used by external deep links; clear the sticky top bar and flash the target */
 .bipara[id],.bifig[id],blockquote.cited[id]{scroll-margin-top:5.5rem}
 .bipara:target,.bifig:target,blockquote.cited:target{background:var(--hl-soft);border-radius:4px;transition:background 1.5s}
@@ -650,8 +658,8 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <h1 class="title">Wilful ignorance at Waterloo: public housing quality and political stigma in Sydney's largest estate renewal
 <span class="zh">Waterloo 的故意无视：悉尼最大公屋更新中的公共住房质量与政治污名</span>
 </h1>
-<div class="byline">Michael Zanardo, Alistair Sisson, Cameron Logan &amp;amp; Rebecca McLaughlan · Planning Perspectives 39(6), 1207–1239 (2024) · 开放获取（CC BY-NC-ND 4.0）</div>
-<div class="citation"><strong>Cite as</strong> · Zanardo, M., Sisson, A., Logan, C., &amp;amp; McLaughlan, R. (2024). Wilful ignorance at Waterloo: public housing quality and political stigma in Sydney’s largest estate renewal. &lt;em&gt;Planning Perspectives&lt;/em&gt;, 39(6), 1207–1239. https://doi.org/10.1080/02665433.2024.2337268</div>
+<div class="byline">Michael Zanardo, Alistair Sisson, Cameron Logan &amp; Rebecca McLaughlan · Planning Perspectives 39(6), 1207–1239 (2024) · 开放获取（CC BY-NC-ND 4.0）</div>
+<div class="citation"><strong>Cite as</strong> · Zanardo, M., Sisson, A., Logan, C., &amp; McLaughlan, R. (2024). Wilful ignorance at Waterloo: public housing quality and political stigma in Sydney’s largest estate renewal. Planning Perspectives, 39(6), 1207–1239. https://doi.org/10.1080/02665433.2024.2337268</div>
 <div class="readnote"><strong>全文中英对照，引言到结论全部收录；15 张图和表 1 按原文位置放回。</strong>原文跨页断开的段落已拼回完整段落，图放在该段之后。脚注（文中的上标编号与页脚引文）未收录，引用时请回原文查对应脚注；参考文献见原文 pp. 1233–1239。表 1 横排跨三页，以原页图片呈现，内容由正文"评估 Waterloo"一节总结。<br><br><strong>读的时候注意谁在说话：</strong>文中两段块引文都是 Brad Hazzard（时任社会住房部长）的话，作者引用是为了反驳；"不再适用""糟糕透顶""污秽"等是政客原话，不是作者判断；规划文件里"孤岛""错配"等也是转述。作者自己的论点集中在"评估 Waterloo"最后两段和结论。</div>
 <article>
 <h2 id="sec-0"><span class="en">Abstract</span><span class="zh">摘要</span></h2>
@@ -1134,7 +1142,7 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 </div></div>
 <div id="selPill" style="display:none">＋ 批注</div>
 <div id="hlHint" style="display:none">请选中另一段文字，然后点击出现的＋按钮完成关联</div>
-<div id="selCard" style="display:none"><div class="hl-head">选中内容的批注</div><div id="hlFrags"></div><textarea id="hlNote" placeholder="写下你的批注…（可用电脑自带的语音输入直接对着这里说）"></textarea><input type="text" id="hlTags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea id="hlAiNote" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示"></textarea><div class="hl-actions"><button id="hlLink" type="button">+ 关联另一段</button><button id="hlDelete" type="button" style="display:none">删除</button><button id="hlCancel" type="button">取消</button><button id="hlSave" class="primary" type="button">保存</button></div></div>
+<div id="selCard" style="display:none"><div class="hl-head">选中内容的批注</div><div id="hlFrags"></div><textarea id="hlNote" placeholder="写下你的批注…（可用电脑自带的语音输入直接对着这里说）"></textarea><input type="text" id="hlTags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea id="hlAiNote" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示"></textarea><div class="hl-actions"><button id="hlLink" type="button">+ 关联另一段</button><button id="hlDelete" type="button" style="display:none">删除</button><button id="hlAsk" type="button" title="把这条划线批注当问题，复制一份可直接粘贴给 AI 的解读请求">💬 AI 解读（复制）</button><button id="hlCancel" type="button">取消</button><button id="hlSave" class="primary" type="button">保存</button></div></div>
 <div id="grefPop" style="display:none"></div>
 <datalist id="tagOptions"></datalist>
 <script>window.__BR_DOC="zanardo-2024-wilful-ignorance-waterloo";window.__BR_TOC=[{"id": "sec-0", "level": "h2", "en": "Abstract", "zh": "摘要"}, {"id": "sec-3", "level": "h2", "en": "Introduction", "zh": "引言"}, {"id": "sec-10", "level": "h2", "en": "The emergence of public housing in NSW", "zh": "NSW 公共住房的出现"}, {"id": "sec-18", "level": "h2", "en": "(Re)making Waterloo", "zh": "（重新）营造 Waterloo"}, {"id": "sec-45", "level": "h2", "en": "Evaluating Waterloo", "zh": "评估 Waterloo"}, {"id": "sec-59", "level": "h2", "en": "Rationalizing redevelopment", "zh": "为再开发找理由"}, {"id": "sec-74", "level": "h2", "en": "Conclusion", "zh": "结论"}];window.__BR_GLOSSARY=[{"id": "g-renewal", "cat": "概念", "term": "公屋区更新（estate renewal）", "def": "在澳大利亚语境里，特指拆除公共住房区、在原址建混合权属住宅。<strong>本文的作用：</strong>开篇就指出\"更新\"这个词本身掩盖了\"拆除\"。课程对照：Davidson 的新建绅士化；Lees (2008)。"}, {"id": "g-cplus", "cat": "政策/机构", "term": "Communities Plus", "def": "NSW 2016 年起的公屋再开发计划，在地价高、交通好、原分区密度低的公屋区，用私人开发收入交叉补贴社会住房，典型比例为 70% 私人、30% 社会。本文第\"为再开发找理由\"一节说明，地价和开发收益决定了哪些公屋区被选中。"}, {"id": "g-futuredir", "cat": "政策/机构", "term": "Future Directions for Social Housing（社会住房未来方向）", "def": "2016 年 NSW 自由党-国家党政府的社会住房战略，Communities Plus 是其核心。目标是在州政府零净成本下替换并略增社会住房。"}, {"id": "g-chp", "cat": "政策/机构", "term": "社区住房组织（community housing organisations）", "def": "非营利住房机构。本文指出把新社会住房交给它们管理，是利用其免缴 GST、租户可领联邦租金援助，把补贴成本从州转给联邦。"}, {"id": "g-hc", "cat": "政策/机构", "term": "NSW 住房委员会（Housing Commission of NSW）", "def": "1941 年设立的州公共住房机构，建造了 Waterloo 公屋区。后来演变为 LAHC 等机构，今天由 Homes NSW 接手。"}, {"id": "g-adg", "cat": "政策/机构", "term": "《公寓设计指南》（Apartment Design Guide, ADG, 2015）", "def": "NSW 规划政策，规定三层以上、四户以上新建公寓必须达到的质量基准（日照、通风、层高、私密性、面积等）。<strong>本文的方法核心：</strong>用政府自己的标准检验\"不再适用\"的说法。"}, {"id": "g-crossvent", "cat": "概念", "term": "穿堂风（cross-ventilation）", "def": "住宅两侧开窗形成的自然通风。ADG 的重要指标；本文发现低层楼表现很好，板楼和塔楼因单朝向和内走廊而不足。"}, {"id": "g-doubleloaded", "cat": "概念", "term": "双侧走廊（double-loaded corridor）", "def": "走廊两侧都布置单元的平面形式。省地省钱，但单元只有一个朝向、走廊缺采光，是板楼最主要的缺陷。"}, {"id": "g-endeavour", "cat": "地名", "term": "Endeavour 项目", "def": "1970–76 年在 Waterloo 北部建成的高层项目：四栋 17 层板楼（James Cook、Joseph Banks、Daniel Solander、Marton）和两栋 30 层老年人塔楼（Matavai、Turanga）。媒体污名最集中的对象。"}, {"id": "g-greenban", "cat": "政策/机构", "term": "绿色禁令（green ban）", "def": "1970 年代 NSW 建筑工人联合会（BLF）拒绝参与破坏社区或环境的工程的行动。1974 年对 Waterloo 的禁令让住房委员会转向修复。课程/资料对照：Darcy &amp; Rogers (2016) 讲 Millers Point 的后绿色禁令抵抗。"}, {"id": "g-stigma", "cat": "概念", "term": "地域污名化（territorial stigmatisation）", "def": "把一个地方及其居民整体贬低的话语过程，源自 Wacquant。第二作者 Sisson 的核心研究领域。<strong>本文的作用：</strong>说明污名化让推动者得以回避\"住房到底好不好\"这个问题。课程对照：Yrjänä (2026)。"}, {"id": "g-repgap", "cat": "概念", "term": "声誉差距（reputational gap）", "def": "Kallin 提出：贬低一个地方的现状、理想化其未来，两者之间的差距为干预提供正当性。<strong>本文结论用它和租差并列</strong>，说明 Waterloo 同时存在经济差距和声誉差距。课程对照：Yrjänä (2026) 用的是同一概念。"}, {"id": "g-rentgap", "cat": "理论/思潮", "term": "租差（rent gap）", "def": "Smith (1979)：现行用途下实现的地租与潜在地租之间的差距。本文结论把 Waterloo 描述为\"州政府实现的地租与部分私有化和再开发后可能获得的地租\"之间的显著差距。课程对照：Gentrification 讲义。"}, {"id": "g-neigh", "cat": "概念", "term": "邻里效应（neighbourhood effects）", "def": "认为地区劣势集中会带来更多劣势的观点。本文称其\"极具争议\"，被政客抓来为削减公共住房辩护。课程对照：Segregation 讲义的恶性循环与邻里效应。"}, {"id": "g-deconc", "cat": "概念", "term": "分散劣势（deconcentration）", "def": "通过混合权属再开发把劣势群体\"稀释\"的政策逻辑。本文指出证据很薄，且只在公屋区边界内看\"混合\"，忽略了街区尺度。课程对照：Lees (2008) 社会混合批判；Segregation 讲义。"}, {"id": "g-residual", "cat": "概念", "term": "残余化（residualisation）", "def": "社会住房存量小、准入严格，只剩最有需要的人住，使其越来越被边缘化。本文用它解释劣势集中的真正原因。资料对照：AIHW 数据，社会住房家庭占比约 4%。"}, {"id": "g-tenureblind", "cat": "概念", "term": "权属不可辨（tenure blind）", "def": "设计上让人看不出哪栋是社会住房、哪栋是私人住房。本文指出推动者援引这一理念时，针对的正是被污名化的塔楼和板楼。"}, {"id": "g-assetrec", "cat": "政策/机构", "term": "资产回收（asset recycling）", "def": "出售或私有化公共资产、把收入再投资基础设施的财政策略，NSW 在 2010 年代大规模推行。本文把它列为再开发的背景动因之一。"}, {"id": "g-rwa", "cat": "政策/机构", "term": "Redfern Waterloo 管理局（Redfern Waterloo Authority）", "def": "2004 年设立、后被撤销的州规划机构。它的评估认为高层楼还有 30 年经济寿命、主要批评低层楼。本文用它说明规划文件与媒体污名的对象不一致。"}];window.__BR_SUMMARIES={};</script>
@@ -2116,6 +2124,21 @@ document.addEventListener('scroll', function(){
     hint.style.display='block';
   });
   document.getElementById('hlCancel').addEventListener('click', closeCard);
+  /* The highlight card is where a selection note is written, so offer the same
+     per-note AI-interpretation prompt here (works before saving, from the draft). */
+  document.getElementById('hlAsk').addEventListener('click', function(){
+    var btn=this, txt=document.getElementById('hlNote').value.trim();
+    if(!draftFrags.length) return;
+    var f0=draftFrags[0], zh='';
+    var w=document.querySelector('.note[data-nid="'+f0.nid+'"]');
+    var host=w?(w.closest('.bipara')||w.closest('.bifig')||w.closest('blockquote')):null;
+    var z=host?host.querySelector('.zh'):null; if(z && draftFrags.length===1) zh=z.textContent.trim();
+    var r={isHighlight:true, frags:draftFrags, src:f0.text||'', zh:zh,
+           txt:txt||'（还没写批注，请解读这段原文）',
+           aiNote:document.getElementById('hlAiNote').value.trim(),
+           tags:parseTags(document.getElementById('hlTags').value)};
+    copyText(askPrompt(r), btn, btn.textContent);
+  });
   document.getElementById('hlSave').addEventListener('click', function(){
     var txt=document.getElementById('hlNote').value.trim();
     var tags=parseTags(document.getElementById('hlTags').value);
