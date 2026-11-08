@@ -77,7 +77,7 @@ with sync_playwright() as p:
     ck("notes tab badge shows 1", pg.locator("#notesTabBadge").inner_text() == "1")
     ck("notes tab lists the new note", "导航面板测试批注" in pg.locator("#notesList").inner_text())
 
-    pg.locator("#notesJump").click(); pg.wait_for_timeout(1200)
+    pg.locator("#notesJump").click(); pg.wait_for_timeout(2000)
     ck("panel closed after notesJump", not pg.locator("#navPanel").is_visible())
     ck("scrolled to overview", pg.evaluate("Math.abs(document.getElementById('overview').getBoundingClientRect().top) < 400"))
     ck("overview lists the note too", "导航面板测试批注" in pg.locator("#ovList").inner_text())

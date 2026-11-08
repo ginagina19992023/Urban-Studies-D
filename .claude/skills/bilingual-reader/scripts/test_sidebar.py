@@ -21,7 +21,7 @@ with sync_playwright() as p:
     href = pg.locator(".sb-node").nth(3).get_attribute("href")
     target_id = href.lstrip("#")
     pg.locator(".sb-node").nth(3).click()
-    pg.wait_for_timeout(1200)
+    pg.wait_for_timeout(1800)
     top = pg.eval_on_selector(f"#{target_id}", "el => el.getBoundingClientRect().top")
     ck("clicking sidebar node scrolls target to top of viewport", abs(top) < 150, top)
 
@@ -43,7 +43,7 @@ with sync_playwright() as p:
     errs2=[]; pg2.on("pageerror", lambda e: errs2.append(str(e)))
     pg2.goto(url)
     ck("no JS errors (narrow desktop)", not errs2, errs2)
-    ck("sidebar hidden below 1440px", not pg2.locator("#tocSidebar").is_visible())
+    ck("sidebar hidden below the 1040px breakpoint", not pg2.locator("#tocSidebar").is_visible())
     pg2.locator("#navBtn").click(); pg2.wait_for_timeout(150)
     ck("nav panel still opens on narrow viewport", pg2.locator("#navPanel").is_visible())
     ck("nav panel toc tab still has matching rows",

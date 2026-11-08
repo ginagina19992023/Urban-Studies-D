@@ -16,8 +16,8 @@ with sync_playwright() as p:
     ov=pg.locator("#overview")
     ck("overview exists at end of doc", ov.count()==1)
     ck("overview empty-state shown", "还没有批注" in pg.locator("#ovList").inner_text())
-    ck("download buttons hidden (no capability in file://)",
-       not pg.locator("#ovSaveMd").is_visible())
+    ck("download buttons visible (native Blob-download fallback, no Claude capability needed)",
+       pg.locator("#ovSaveMd").is_visible())
 
     # write two notes
     n1=pg.locator(".bipara .note").first
@@ -61,6 +61,19 @@ with sync_playwright() as p:
     ck("markdown has blockquote form", md.count("> ")>=2, md[:120])
     ck("markdown has separators", md.count("---")>=2)
 
+    # file export: real download via the native Blob+<a download> fallback
+    with pg.expect_download() as dl_info:
+        pg.locator("#ovSaveJson").click()
+    download = dl_info.value
+    backup_path = download.path()
+    import json as _json
+    backup_data = _json.load(open(backup_path))
+    ck("downloaded backup JSON carries this document's notes",
+       any("水蛭退烧" in (v if isinstance(v,str) else v.get("text",""))
+           for v in backup_data.get("notes",{}).values()))
+    ck("button shows saved feedback", "已保存" in pg.locator("#ovSaveJson").inner_text())
+    pg.wait_for_timeout(1900)  # let the button label reset before continuing
+
     # navigator panel -> 批注 tab -> jump to overview
     pg.locator("#navBtn").click(); pg.wait_for_timeout(200)
     pg.locator('.navtab[data-tab="notes"]').click(); pg.wait_for_timeout(150)
@@ -70,11 +83,22 @@ with sync_playwright() as p:
     ck("scrolled to overview",
        pg.evaluate("Math.abs(document.getElementById('overview').getBoundingClientRect().top) < 400"))
 
-    # empty guard
+    # empty guard + the backup downloaded above still exists on disk
     pg.on("dialog", lambda d: d.accept())
     pg.locator("#ovClear").click(); pg.wait_for_timeout(400)
     ck("cleared -> empty state", "还没有批注" in pg.locator("#ovList").inner_text())
     ck("badge back to 0", pg.locator("#navBtn .n").inner_text()=="0")
+
+    # import: restoring that same backup after a clear should bring the notes back
+    with pg.expect_file_chooser() as fc_info:
+        pg.locator("#ovImport").click()
+    fc_info.value.set_files(backup_path)
+    pg.wait_for_timeout(400)
+    ck("import restores the overview row count", pg.locator("#ovList .nrow").count()==2,
+       pg.locator("#ovList .nrow").count())
+    ck("import restores the actual note text", "水蛭退烧" in pg.locator("#ovList").inner_text())
+    ck("badge reflects the restored notes", pg.locator("#navBtn .n").inner_text()=="2")
+
     ck("no JS errors overall", not errs, errs)
     b.close()
 print(); print("FAILURES:", fails if fails else "none")

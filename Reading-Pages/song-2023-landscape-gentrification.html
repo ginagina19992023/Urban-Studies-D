@@ -41,14 +41,89 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-se
 
 main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
 
-/* ---- persistent structure sidebar (wide viewports only; narrow falls back
-   to the 目录 tab in the floating navigator panel) ---- */
-#tocSidebar{position:fixed;top:5.5rem;left:calc(50vw - 40rem);width:15rem;
-            max-height:calc(100vh - 7.5rem);overflow-y:auto;display:none;z-index:10;
-            font-family:var(--font-sans)}
-@media (min-width:1440px){#tocSidebar{display:block}}
-#tocSidebar .sb-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+/* ---- persistent structure sidebar ----
+   A real two-column layout (sidebar + main as flex siblings inside .layout),
+   not a sidebar floating in whatever margin happens to be left outside a
+   separately-centered main column. That old approach needed ~1440px of
+   viewport just to have room on both sides; this one only needs enough width
+   for sidebar + gap + article, so it shows up on an ordinary, non-maximized
+   laptop window. Narrower than that, .layout stops being a flex row (falls
+   back to block, sidebar hidden) and main reverts to centering itself exactly
+   as it does with no sidebar at all — the floating navigator's 目录 tab is
+   what covers narrow/mobile viewports. */
+.layout{display:block}
+@media (min-width:1040px){
+  /* max-width is sized for ALL FOUR columns at once (TOC 13rem + gap 2rem +
+     main's own 46rem cap + gap 2rem + AI summary 13rem + gap 2rem + notes
+     14.5rem = 92.5rem) rather than gating each sidebar behind its own,
+     separate max-width bump. Every sidebar uses flex-shrink:0, so main
+     (flex:1 1 auto, no shrink override) is what absorbs the squeeze below
+     ~92.5rem*16px of actual viewport width — it just renders narrower than
+     its 46rem ideal between 1040px and ~1480px, which still reads fine.
+     Earlier this intentionally gated the notes sidebar at 1280px on the
+     theory that main needed to stay near 46rem; that was overcautious — the
+     real floor is ~1040px, same as the TOC sidebar it sits next to, and
+     gating it higher just meant it silently failed to appear on anyone
+     whose window was 1040–1279px wide. Using the FOUR-column sum here
+     (rather than leaving it at the three-column 77.5rem from before
+     #aiSidebar existed) matters even though #aiSidebar itself only turns on
+     at 1280px: a max-width too small for it meant main got squeezed harder
+     than necessary the moment #aiSidebar appeared, measurably changing
+     paragraph wrap and therefore every later scroll-position calculation on
+     the page — caught by test_sidebar.py's "scrolls target to top of
+     viewport" assertion regressing at the wide viewports that test checks.
+     (#aiSidebar's own breakpoint first shipped at 1320px and repeated
+     exactly the overcautious mistake described above for the notes
+     sidebar — a user on an ordinary 1280px-wide laptop screen reported the
+     entire column, 吸附 switch included, simply never appearing. Lowered to
+     1280px; see the comment at #aiSidebar's own rule for how that number
+     is derived.) */
+  .layout{display:flex;align-items:flex-start;gap:2rem;max-width:92.5rem;margin:0 auto}
+  main{margin:0;flex:1 1 auto;min-width:0}
+}
+#tocSidebar{display:none;width:13rem;flex-shrink:0;font-family:var(--font-sans)}
+@media (min-width:1040px){
+  #tocSidebar{display:block;position:sticky;top:5.5rem;
+              max-height:calc(100vh - 7.5rem);overflow-y:auto}
+}
+#tocSidebar .sb-label,#noteSidebar .sb-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
                        color:var(--hl);font-weight:700;margin:0 0 .9rem .3rem}
+/* Tags live as an overlay LAYER on top of the TOC tree, not a swapped-out
+   second pane. The left sidebar's one real destination is the TOC — that's
+   what a reader reaches for most — so it gets one real button-sized label
+   and the tree is never actually removed from the page; tags are a small
+   switch that lays a floating panel over the tree (and back off again),
+   not a second equally-weighted button implying two equally-likely
+   destinations. */
+.sb-toc-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin:0 0 .9rem}
+.sb-toc-head .sb-label{margin:0}
+.sb-layer-switch{display:flex;align-items:center;gap:.35rem;border:none;background:none;
+                  cursor:pointer;font-family:var(--font-sans);color:var(--muted);padding:.1rem}
+.sb-layer-switch-label{font-size:.65rem;letter-spacing:.05em;text-transform:uppercase}
+.sb-layer-switch-track{width:1.7rem;height:.95rem;border-radius:999px;background:var(--line);
+                        position:relative;flex-shrink:0;transition:background .15s}
+.sb-layer-switch-thumb{position:absolute;top:.1rem;left:.1rem;width:.75rem;height:.75rem;
+                        border-radius:50%;background:var(--paper);transition:left .15s;
+                        box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sb-layer-switch[aria-pressed="true"] .sb-layer-switch-track{background:var(--hl)}
+.sb-layer-switch[aria-pressed="true"] .sb-layer-switch-thumb{left:.85rem}
+.sb-layer-switch[aria-pressed="true"] .sb-layer-switch-label{color:var(--hl);font-weight:700}
+.sb-tree-wrap{position:relative}
+.sb-tag-overlay{position:absolute;inset:0;z-index:5;background:var(--paper);
+                 border:1px solid var(--line);border-radius:8px;
+                 box-shadow:0 8px 22px rgba(0,0,0,.14);padding:.7rem .65rem;
+                 max-height:calc(100vh - 7.5rem);overflow-y:auto}
+.sb-tag-overlay[hidden]{display:none}
+.sb-tag-row{display:flex;align-items:center;justify-content:space-between;gap:.4rem;
+            padding:.4rem .3rem;border-bottom:1px dashed var(--line);cursor:pointer;
+            font-family:var(--font-sans);font-size:.78rem;color:var(--ink-soft)}
+.sb-tag-row:last-child{border-bottom:none}
+.sb-tag-row:hover{color:var(--accent)}
+.sb-tag-row.active{color:var(--accent);font-weight:700}
+.sb-tag-row .count{flex-shrink:0;font-size:.66rem;color:var(--muted);background:var(--zh-bg);
+                    border-radius:999px;padding:.05rem .5rem}
+.sb-tag-empty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);
+              padding:1rem 0;text-align:center}
 .sb-tree{position:relative;padding-left:1rem}
 .sb-tree::before{content:"";position:absolute;left:.28rem;top:.4rem;bottom:.4rem;
                   width:1px;background:var(--line)}
@@ -66,6 +141,119 @@ main{max-width:46rem;margin:0 auto;padding:1.8rem 1.1rem 5rem}
 .sb-node .zh{display:block;font-size:.9em;opacity:.8;margin-top:.05rem}
 .sb-node.active{background:var(--accent-soft);color:var(--accent)}
 .sb-node.active::before{background:var(--accent);border-color:var(--accent)}
+
+/* ---- AI paragraph-summary column (between main and the notes sidebar) ----
+   Gated at its own breakpoint (1280px) rather than folded into the shared
+   1040px one the other two columns use — adding a FOURTH column there would
+   squeeze main harder than #tocSidebar/#noteSidebar alone do. 1280px is not
+   an arbitrary "give it more room" number: it's chosen to give main the
+   SAME floor width the 1040px breakpoint already gives it once 3 columns
+   are showing (toc 13rem + notes 14.5rem + 2 gaps = 31.5rem fixed, leaving
+   main ~33.5rem/536px at the 1040px floor). With #aiSidebar added, the
+   fixed width grows to toc 13rem + ai 13rem + notes 14.5rem + 3 gaps =
+   46.5rem, so main only matches that same ~536px floor once the viewport
+   reaches ~46.5rem + 33.5rem = 80rem = 1280px — not 1320px, and DEFINITELY
+   not higher: a 1320px+ gate was reported as invisible on an ordinary 13"
+   laptop (1280px-wide screens are extremely common and were being
+   silently excluded entirely, column AND its 吸附 switch both). Don't
+   regate this higher without re-deriving this floor; this project's own
+   earlier history already shows that erring toward "more room" on these
+   breakpoints just means the column fails to appear for a lot of real
+   windows.
+
+   Two positioning modes, toggled by #aiSnapToggle (persisted in
+   localStorage['brAiSnap']), because "follows the paragraph as you scroll"
+   and "lines up with my annotations list" are different reference frames
+   and can't both be true of a column that is only sticky in one of them:
+   - flow (default): #aiSidebar is NOT sticky — it scrolls with the page
+     like main does. #aiSummaryInner is position:relative with an explicit
+     height (set in JS to match the tallest summary block's bottom) so its
+     position:absolute children can be placed at each one's paragraph's
+     offsetTop within the layout. This is "跟随左边滑动段落滑动" — it tracks
+     main's scroll because neither column is independently sticky.
+   - snap ([data-ai-snap="1"] on <body>): #aiSidebar becomes sticky +
+     independently scrollable, exactly like #noteSidebar, and JS positions
+     each summary block to span the vertical range of the #nsList rows that
+     reference the same paragraph (hiding paragraphs with no annotation —
+     there's nothing to snap them to). Scroll position is then bound between
+     the two sticky columns (see bindScrollSync in the script) so scrolling
+     one scrolls the other, keeping the alignment visible as you read down
+     a long annotations list. */
+#aiSidebar{display:none;width:13rem;flex-shrink:0;font-family:var(--font-sans)}
+@media (min-width:1280px){
+  #aiSidebar{display:block}
+  body[data-ai-snap="1"] #aiSidebar{position:sticky;top:5.5rem;
+             max-height:calc(100vh - 7.5rem);overflow-y:auto}
+}
+/* The switch lives in this header row, and the header must stay reachable
+   regardless of which positioning mode #aiSidebar itself is in — reported
+   by a user who scrolled a short way down the article in flow (default,
+   non-sticky) mode and could no longer find the 吸附 switch at all, because
+   it had scrolled off the top of the viewport along with the rest of that
+   non-sticky column. Making the header sticky INDEPENDENTLY of the column
+   fixes this in both modes: in flow mode #aiSidebar itself has no special
+   positioning, so this child's nearest scrolling ancestor is the page
+   itself and it pins at the same top:5.5rem every other sidebar header
+   uses; in snap mode #aiSidebar is already sticky+overflow:auto, so this
+   child instead pins to the top of THAT internal scroll area.
+
+   In SNAP mode specifically, top MUST be 0, not 5.5rem: #aiSidebar itself
+   is already sticky at top:5.5rem relative to the PAGE, so once it's
+   stuck its own border-box sits at viewport y≈5.5rem already. A header
+   inside it that ALSO asks for top:5.5rem is asking for "5.5rem from the
+   top of this box's own scroll frame," which is 5.5rem lower still —
+   the two offsets compound into ~11rem, which visibly overlapped the
+   first summary block (reported by a user via screenshot as garbled,
+   overlapping "AI 总结" text). Flow mode has no such compounding (#aiSidebar
+   itself isn't sticky there, so the header's nearest scrolling ancestor is
+   the page, same as every other sidebar header), so it keeps top:5.5rem;
+   only the nested, already-stuck case needs the override. */
+#aiSidebar .sb-label-row{display:flex;align-items:center;justify-content:space-between;
+             gap:.5rem;margin:0 0 .9rem;position:sticky;top:5.5rem;z-index:3;
+             background:var(--paper);padding-bottom:.3rem}
+body[data-ai-snap="1"] #aiSidebar .sb-label-row{top:0}
+#aiSidebar .sb-label-row .sb-label{margin:0}
+#aiSummaryInner{position:relative}
+.ai-sum-block{position:absolute;left:0;right:0;box-sizing:border-box;font-size:.78rem;
+             line-height:1.6;color:var(--ink-soft);background:var(--zh-bg);
+             border-left:3px solid var(--muted);border-radius:3px;padding:.5rem .65rem;
+             overflow:hidden}
+.ai-sum-lbl{display:block;font-family:var(--font-sans);font-size:.6rem;letter-spacing:.07em;
+             text-transform:uppercase;color:var(--accent);margin-bottom:.25rem;opacity:.85}
+
+/* ---- persistent annotations sidebar (right column) ----
+   Deliberately separate from the floating nav panel's 批注 tab: this one is
+   always visible while reading (same ≥1040px breakpoint as #tocSidebar — see
+   the .layout rule above for why that's wide enough for all three columns),
+   and every row splits "jump to the passage" and "edit / link this note"
+   into two distinct click targets, so re-reading your own annotations
+   doesn't require scrolling away from wherever you currently are. */
+#noteSidebar{display:none;width:14.5rem;flex-shrink:0;font-family:var(--font-sans)}
+@media (min-width:1040px){
+  #noteSidebar{display:block;position:sticky;top:5.5rem;
+               max-height:calc(100vh - 7.5rem);overflow-y:auto}
+}
+.ns-row{position:relative;padding:.55rem 3.4rem .55rem .1rem;border-bottom:1px dashed var(--line)}
+.ns-row:last-child{border-bottom:none}
+.ns-q{font-size:.71rem;color:var(--muted);line-height:1.5;cursor:pointer;margin-bottom:.3rem}
+.ns-q:hover{color:var(--accent)}
+.ns-t{font-family:var(--font-zh);font-size:.78rem;line-height:1.65;color:var(--ink-soft);
+      white-space:pre-wrap;word-break:break-word}
+.ns-edit,.ns-ask{position:absolute;top:.5rem;width:1.5rem;height:1.5rem;border-radius:4px;
+         border:1px solid var(--line);background:var(--paper);color:var(--muted);font-size:.72rem;
+         line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
+         padding:0}
+.ns-edit{right:0}
+.ns-ask{right:1.75rem}
+.ns-edit:hover,.ns-ask:hover{border-color:var(--accent);color:var(--accent)}
+.ns-empty{font-family:var(--font-sans);font-size:.76rem;color:var(--muted);padding:1.2rem 0;text-align:center}
+/* 「AI 解读」 is the same can't-call-an-LLM-at-runtime constraint as the
+   「AI 点评」 button (see SKILL.md), just scoped to ONE annotation instead of
+   the whole set: it copies that single note treated AS A QUESTION, plus
+   its source passage, to the clipboard as a ready-to-paste prompt. */
+.ask-ai-btn{margin-top:.4rem;font-family:var(--font-sans);font-size:.68rem;border:1px solid var(--line);
+            background:none;color:var(--muted);border-radius:999px;padding:.25rem .6rem;cursor:pointer}
+.ask-ai-btn:hover{border-color:var(--accent);color:var(--accent)}
 
 .eyebrow{font-family:var(--font-sans);font-size:.65rem;text-transform:uppercase;
          letter-spacing:.14em;color:var(--hl);margin:0 0 .55rem;font-weight:700}
@@ -89,6 +277,15 @@ article h3 .en{display:block;font-size:.97rem;color:var(--ink);font-weight:600;f
 article h3 .zh{display:block;font-family:var(--font-zh);font-size:.9rem;color:var(--ink-soft);margin-top:.18rem}
 
 .bipara{margin:0 0 1.35rem;padding-bottom:1rem;border-bottom:1px dashed var(--line)}
+/* ---- figure blocks (kind:"figure"): inline image/SVG diagram shown in every language mode,
+   with a bilingual caption; the caption's English keys the block's note like any paragraph. ---- */
+.bifig{margin:0 0 1.35rem;padding-bottom:1rem;border-bottom:1px dashed var(--line)}
+.bifig .fig-art{overflow-x:auto;background:var(--zh-bg);border-radius:6px;padding:.8rem}
+.bifig .fig-art svg{display:block;width:100%;height:auto;max-width:40rem;margin:0 auto}
+.bifig .fig-art img{display:block;max-width:100%;max-height:78vh;width:auto;height:auto;margin:0 auto 6px}
+.bifig figcaption{margin-top:.55rem;font-family:var(--font-sans);font-size:.76rem;line-height:1.6;color:var(--muted)}
+.bifig figcaption .zh{display:block;font-family:var(--font-zh);margin-top:.2rem}
+body.zh-only .bifig figcaption .en{display:none} body.en-only .bifig figcaption .zh{display:none}
 .bipara:last-child{border-bottom:none}
 .bipara p.en{margin:0 0 .55rem;color:var(--ink-soft);text-align:justify;hyphens:auto}
 .bipara p.zh{margin:0;font-family:var(--font-zh);font-weight:600;color:var(--ink);font-size:.94rem;
@@ -105,6 +302,33 @@ blockquote.cited .attrib{font-family:var(--font-sans);font-size:.71rem;color:var
 
 a.gref{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent);cursor:help}
 a.gref:hover{background:var(--accent-soft)}
+
+/* ---- glossary term popover ----
+   a.gref used to be a plain anchor jump to the glossary section near the
+   bottom of the page — fine for a short article, disorienting on a long one:
+   you lose your place and have to scroll all the way back. This intercepts
+   the click and shows the definition in a floating popover right where you
+   clicked instead; the glossary section itself still exists as a fallback
+   (reachable from the 术语 nav tab, or the "查看完整条目" link in the popover)
+   for anyone who wants the full list with category grouping. */
+#grefPop{position:fixed;z-index:85;width:19rem;max-width:88vw;
+         background:var(--paper);border:1px solid var(--line);border-radius:10px;
+         box-shadow:0 6px 28px rgba(0,0,0,.22);padding:.85rem .95rem;
+         font-family:var(--font-sans);display:none}
+#grefPop .gp-cat{display:inline-block;font-size:.62rem;letter-spacing:.05em;color:var(--paper);
+                 background:var(--muted);padding:.12rem .45rem;border-radius:999px;margin-bottom:.4rem}
+#grefPop .gp-term{display:block;font-family:var(--font-zh);font-weight:600;color:var(--ink);
+                  font-size:.95rem;margin-bottom:.4rem}
+#grefPop .gp-def{font-family:var(--font-zh);font-size:.84rem;line-height:1.8;color:var(--ink-soft);
+                 max-height:40vh;overflow-y:auto}
+#grefPop .gp-def p{margin:0 0 .6rem}
+#grefPop .gp-def p:last-child{margin-bottom:0}
+#grefPop .gp-jump{display:inline-block;margin-top:.55rem;font-size:.68rem;color:var(--accent);
+                  text-decoration:none;border-bottom:1px dotted var(--accent)}
+@media (max-width:640px){
+  #grefPop{left:.8rem;right:.8rem;width:auto;top:auto!important;bottom:.8rem}
+}
+@media print{#grefPop{display:none!important}}
 
 body.zh-only .bipara p.en, body.zh-only article h2 .en,
 body.zh-only article h3 .en, body.zh-only blockquote.cited p.en{display:none}
@@ -149,9 +373,47 @@ details.pack[open] summary::before{content:"▾ "}
 .note-edit:focus{outline:none;box-shadow:0 0 0 2px var(--accent-soft)}
 .note.editing .note-body,.note.editing .note-add{display:none}
 .note.editing .note-edit{display:block}
+.note-tags{display:none;width:100%;margin-top:.35rem;font-family:var(--font-sans);font-size:.72rem;
+           color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:3px;
+           padding:.35rem .55rem;box-sizing:border-box}
+.note-tags:focus{outline:none;border-color:var(--accent)}
+.note.editing .note-tags{display:block}
 .note-status{font-family:var(--font-sans);font-size:.62rem;color:var(--accent);
              margin-top:.22rem;height:.9rem;opacity:0;transition:opacity .2s}
 .note-status.show{opacity:.8}
+/* AI 备注: a published page can't call a model itself (see the AI 点评 /
+   AI 解读 sections below), so the loop closes by hand — paste the model's
+   answer (gotten by pasting the AI 解读 prompt into a Claude chat) into this
+   plain textarea. A plain <textarea> takes a native Cmd/Ctrl+V paste with no
+   clipboard-read permission needed, which clipboard-write already needed
+   requesting for the copy half; read is more sensitive and more likely to
+   be blocked in a sandboxed context, so this sidesteps it entirely. */
+.note-ai,#hlAiNote{display:none;width:100%;margin-top:.35rem;font-family:var(--font-zh);font-size:.82rem;
+           line-height:1.6;color:var(--ink);background:var(--paper);border:1px solid var(--line);
+           border-radius:3px;padding:.5rem .65rem;box-sizing:border-box;resize:vertical;min-height:3rem}
+.note-ai:focus,#hlAiNote:focus{outline:none;border-color:var(--accent)}
+.note.editing .note-ai{display:block}
+#hlAiNote{display:block}
+.ai-note{margin-top:.45rem;padding:.5rem .65rem;background:var(--hl-soft);border-left:3px solid var(--hl);
+         border-radius:3px;font-family:var(--font-zh);font-size:.86rem;line-height:1.75;
+         color:var(--ink-soft);white-space:pre-wrap;word-break:break-word}
+.ai-note-lbl{display:block;font-family:var(--font-sans);font-size:.62rem;letter-spacing:.06em;
+             color:var(--hl);margin-bottom:.25rem;opacity:.9}
+
+/* ---- self-assigned tags (free-form, not a fixed taxonomy) ---- */
+.tag-row,.note-tagrow{margin-top:.4rem;display:flex;flex-wrap:wrap;gap:.3rem}
+.tag-chip{display:inline-block;font-family:var(--font-sans);font-size:.64rem;color:var(--accent);
+          background:var(--accent-soft);border-radius:999px;padding:.1rem .5rem;cursor:pointer;
+          border:1px solid transparent}
+.tag-chip:hover{border-color:var(--accent)}
+.tag-chip.active{background:var(--accent);color:var(--paper)}
+.note-body .tag-chip{background:var(--paper);border-color:var(--accent)}
+.tag-filter-bar{font-family:var(--font-sans);font-size:.7rem;color:var(--ink-soft);
+                background:var(--zh-bg);border-radius:4px;padding:.4rem .6rem;margin-bottom:.6rem;
+                display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.tag-filter-clear{font-family:var(--font-sans);font-size:.68rem;border:1px solid var(--line);
+                   background:none;color:var(--muted);border-radius:4px;padding:.2rem .5rem;cursor:pointer}
+.tag-filter-clear:hover{border-color:var(--accent);color:var(--accent)}
 
 /* ---- navigator (floating button + tabbed panel: 目录 / 术语 / 批注) ---- */
 #navBtn{position:fixed;right:.9rem;bottom:calc(.9rem + env(safe-area-inset-bottom,0px));z-index:60;
@@ -242,6 +504,17 @@ details.pack[open] summary::before{content:"▾ "}
 .nrow .src:hover{color:var(--accent)}
 .nrow .txt{font-family:var(--font-zh);font-size:.86rem;line-height:1.8;color:var(--ink-soft);white-space:pre-wrap}
 
+/* a linked (多段关联) highlight note's row: a badge plus one clickable line
+   per fragment, each jumping to its own passage — see renderSrcInto() */
+.frag-badge{font-weight:700;color:var(--hl);margin-bottom:.35rem}
+.frag-row{display:flex;align-items:flex-start;gap:.35rem;cursor:pointer;margin-bottom:.3rem;
+          color:var(--muted);line-height:1.5}
+.frag-row:hover{color:var(--accent)}
+.frag-row:hover .jump-icon{color:var(--accent)}
+.frag-row .jump-icon{flex-shrink:0;color:var(--hl);font-weight:700}
+.nrow .frag-badge,.nrow .frag-row{font-family:var(--font-sans);font-size:.7rem}
+.ns-row .frag-badge,.ns-row .frag-row{font-family:var(--font-sans);font-size:.7rem}
+
 /* ---- end-of-document overview ---- */
 #overview{margin-top:2.6rem;border-top:2px solid var(--accent);padding-top:1.1rem}
 #overview h2.ovh{font-family:var(--font-sans);font-size:1.02rem;color:var(--accent);
@@ -259,6 +532,61 @@ details.pack[open] summary::before{content:"▾ "}
         line-height:1.7;margin-top:.7rem;padding:.6rem .8rem;background:var(--zh-bg);border-radius:4px}
 
 /* ---- baked-in AI commentary (static, written by Claude, not generated by the page) ---- */
+/* ---- selection-anchored highlight annotations ----
+   A second, complementary annotation mode: select any phrase/sentence inside
+   a paragraph (not just the whole block) and a small pill offers to attach a
+   note to exactly that selection. The note card can also pull in a second,
+   unrelated selection elsewhere in the article ("+ 关联另一段") so one note
+   can discuss the relationship between two passages. Lives in its own
+   localStorage key and its own DOM marks, but feeds into the same entries()/
+   markdown()/reviewPrompt() used by paragraph notes, so export and the
+   AI-review prompt cover both kinds without separate UI. */
+#selPill{position:absolute;z-index:80;font-family:var(--font-sans);font-size:.72rem;
+         background:var(--accent);color:var(--paper);border:none;border-radius:999px;
+         padding:.35rem .75rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+mark.hl-anno{background:var(--hl-soft);color:inherit;border-bottom:2px solid var(--hl);
+             padding:0 .1em;cursor:pointer}
+/* Only the estimated CORRESPONDING span of the sibling paragraph (same
+   block, other language) gets underlined, not the whole paragraph — same
+   --hl color as mark.hl-anno's own border-bottom, so it reads as "this
+   corresponds to a highlight," not a separate badge/marker. A <span>, not
+   <mark>: <mark> is reserved for the exact, click-to-edit match. Purely a
+   visual cue, not interactive — open the note from the sidebar/nav/overview
+   instead. */
+span.linked-underline{
+  text-decoration: underline;
+  text-decoration-color: var(--hl);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+#hlHint{position:fixed;top:.8rem;left:50%;transform:translateX(-50%);z-index:85;
+        font-family:var(--font-sans);font-size:.72rem;color:var(--paper);background:var(--hl);
+        padding:.5rem .9rem;border-radius:999px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+#selCard{position:fixed;z-index:85;width:19rem;max-width:90vw;right:1rem;top:4.2rem;
+         background:var(--paper);border:1px solid var(--line);border-radius:10px;
+         box-shadow:0 6px 28px rgba(0,0,0,.22);padding:.9rem;font-family:var(--font-sans)}
+.hl-head{font-size:.7rem;color:var(--muted);margin-bottom:.5rem;font-weight:600}
+#hlFrags{margin-bottom:.5rem;max-height:7rem;overflow-y:auto}
+.hl-frag{font-family:var(--font-zh);font-size:.78rem;color:var(--ink-soft);
+         background:var(--hl-soft);border-left:3px solid var(--hl);border-radius:3px;
+         padding:.4rem .55rem;margin-bottom:.4rem;line-height:1.6}
+#hlNote{width:100%;font-family:var(--font-zh);font-size:.87rem;line-height:1.75;color:var(--ink);
+        background:var(--zh-bg);border:1px solid var(--line);border-radius:4px;
+        padding:.5rem .65rem;resize:vertical;min-height:4.4rem;box-sizing:border-box}
+#hlNote:focus{outline:none;border-color:var(--accent)}
+#hlTags{width:100%;margin-top:.4rem;font-family:var(--font-sans);font-size:.78rem;color:var(--ink);
+        background:var(--zh-bg);border:1px solid var(--line);border-radius:4px;
+        padding:.4rem .55rem;box-sizing:border-box}
+#hlTags:focus{outline:none;border-color:var(--accent)}
+.hl-actions{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+.hl-actions button{font-size:.7rem;border:1px solid var(--line);background:none;color:var(--ink-soft);
+                    border-radius:6px;padding:.4rem .7rem;cursor:pointer}
+.hl-actions button.primary{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+@media (max-width:640px){
+  #selCard{left:.8rem;right:.8rem;width:auto;top:auto;bottom:.8rem}
+}
+@media print{#selPill,#selCard,#hlHint{display:none!important}}
+
 #aiCommentary{margin-top:2.6rem;border-top:2px solid var(--hl);padding-top:1.1rem}
 .aic-entry{margin:0 0 1.8rem;padding-bottom:1.4rem;border-bottom:1px dashed var(--line)}
 .aic-entry:last-child{border-bottom:none}
@@ -298,7 +626,11 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <span class="crumb">Song et al. 2023 · 南京景观绅士化</span>
 <div class="modes"><button onclick="setMode('bilingual',this)">双语</button><button onclick="setMode('en-only',this)">EN</button><button onclick="setMode('zh-only',this)">中文</button></div>
 </div><div class="progress"><span></span></div></div>
-<nav id="tocSidebar"><div class="sb-label">论文结构</div><div class="sb-tree">
+<div class="layout">
+<nav id="tocSidebar">
+<div class="sb-toc-head"><span class="sb-label">目录</span><button type="button" id="tagLayerToggle" class="sb-layer-switch" aria-pressed="false" title="在目录上叠加显示标签层"><span class="sb-layer-switch-track"><span class="sb-layer-switch-thumb"></span></span><span class="sb-layer-switch-label">标签</span></button></div>
+<div class="sb-tree-wrap">
+<div class="sb-tree">
 <a class="sb-node lvl-h2" href="#sec-0" data-secid="sec-0"><span class="en">Abstract</span><span class="zh">摘要</span></a>
 <a class="sb-node lvl-h2" href="#sec-3" data-secid="sec-3"><span class="en">Introduction</span><span class="zh">引言</span></a>
 <a class="sb-node lvl-h2" href="#sec-8" data-secid="sec-8"><span class="en">1 Data and Methods</span><span class="zh">1 数据与方法</span></a>
@@ -313,7 +645,10 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <a class="sb-node lvl-h3" href="#sec-38" data-secid="sec-38"><span class="en">3.2 Effects of spatial appreciation and exclusion</span><span class="zh">3.2 空间增值与排挤效应</span></a>
 <a class="sb-node lvl-h2" href="#sec-42" data-secid="sec-42"><span class="en">4 Spatial Planning and Regulation Proposals Based on Optimal Benefits</span><span class="zh">4 基于效益最优的空间规划管制建议</span></a>
 <a class="sb-node lvl-h2" href="#sec-45" data-secid="sec-45"><span class="en">5 Conclusion and Discussion</span><span class="zh">5 结论与讨论</span></a>
-</div></nav>
+</div>
+<div class="sb-tag-overlay" id="sbTagOverlay" hidden><div id="sbTagList"></div></div>
+</div>
+</nav>
 <main>
 <div class="eyebrow">Journal article · Gentrification · 中文原文 + 英文译文</div>
 <h1 class="title">Social Space Characteristics, Mechanism and Effect of Urban Landscape Gentrification: A Case Study of Nanjing
@@ -327,185 +662,185 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <div class="bipara">
 <p class="en">Landscape gentrification, a category of gentrification with Chinese characteristics, is driven by green landscape resources, and concerns practical problems including the rational use and fair allocation of natural landscape resources. Based on multi-source heterogeneous data, including urban housing market data and mobile phone user portraits, this study proposes the concept of landscape gentrification and, using a random forest model, classifies Nanjing's residential areas neighbouring important green landscape resources into high-level, moderate-level and low-level landscape gentrified communities. It analyses their characteristics, spatial models and replacement processes, and discusses the driving forces, effects and regulation of landscape gentrification. It finds that residential quarters going through landscape gentrification are usually close to green landscape resources and have high residential grade and high socio-economic status of residents; the public attribute and degree of openness of the landscape resources are closely related to the degree of gentrification of neighbouring communities, and the "enclosure and exclusive occupation" and "corridor separation" modes more easily induce high-level landscape gentrification; landscape gentrification is driven jointly by supply and demand, and while it shows positive effects it also easily leads to problems such as the inefficient use and "privatisation" of landscape resources. An "open sharing" spatial development model should be advocated, to avoid excessive landscape gentrification and make the fullest use of the comprehensive benefits of landscape resources.</p>
 <p class="zh">由城市山水资源驱动的<a class="gref" href="#g-landscape">景观绅士化</a>现象是一种具有中国特色的绅士化类型，也是涉及城市自然景观资源合理利用与公平配置的实际问题。在提出景观绅士化概念的基础上，以南京为案例，基于城市住房市场、手机用户画像等多源异构数据，采用<a class="gref" href="#g-rf">随机森林模型</a>，根据绅士化发育程度将城市山水资源周边住宅小区划分为高度、中度和低度景观绅士化社区，分析其特征、空间模式和置换过程，并探讨景观绅士化驱力、效应与调控等问题。研究表明：景观绅士化社区通常紧邻山水资源，住宅档次与居民经济社会地位较高；山水资源的公共属性与开放程度与其周边社区景观绅士化程度密切相关，“封闭独占”和“通道分隔”模式更容易诱发高度景观绅士化现象；景观绅士化由供需两端共同推动，表现出积极效应的同时也容易导致山水资源的低效利用和“私有化”等问题；应倡导“开放共享”的空间开发模式，有效规避过度景观绅士化现象，最大程度发挥山水资源的综合效益。</p>
-<div class="note" data-nid="c9ac3e6a33"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="c9ac3e6a33"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">Keywords: green landscape resources; landscape gentrification; social space; housing price; random forest model; open sharing; spatial planning and regulation</p>
 <p class="zh">关键词：山水资源；景观绅士化；社会空间；房价；随机森林模型；开放共享；空间规划管制</p>
-<div class="note" data-nid="840bf51328"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="840bf51328"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <h2 id="sec-3"><span class="en">Introduction</span><span class="zh">引言</span></h2>
 <div class="bipara">
 <p class="en">In the era of "planetary gentrification", Lees and colleagues have argued for overturning the stereotype that gentrification is simply alike across the globe and diffuses hierarchically outward from Anglo-American cities, calling instead for attention to the differentiated forms gentrification takes under each country's particular political-economic conditions, and for greater conceptual clarity, so as to better understand this varied and shifting global landscape [1]. In early twenty-first-century European and North American cities undergoing post-industrial transformation, an environmentally driven form of gentrification emerged [2]. After industry moved out and inner cities declined, abandoned factories, railway lines and other vacant land were converted into green space, effectively promoting local economic revival and community regeneration [3]. New capital then drove larger-scale demolition and renewal, sharply raising environmental quality, commercial level and property prices in the surrounding areas. While this brought positive economic, social and ecological benefits, original low-income residents who could not afford the rising cost of living were forced to move out and were replaced by higher-income groups [4], producing an upscale restructuring of social space and the "green space paradox"① [5]. Scholars have defined this kind of gentrification, triggered by urban greening or environmental improvement, as ecological gentrification [6], environmental gentrification [7] or green gentrification [8]. It was first documented in cities such as New York, Atlanta, Chicago and Toronto, and then rapidly extended and evolved into a global gentrification phenomenon. Recent Chinese studies of Beijing, Shanghai, Guangzhou and Changchun, for example, have found that large urban parks in Chinese cities produce gentrifying restructuring effects, upgrading the physical landscape and replacing social classes [9-10].</p>
 <p class="zh">“<a class="gref" href="#g-planetary">星球绅士化</a>”（planetary gentrification）时代，Lees 等提出要扭转绅士化现象在全球范围具有简单相似性和由英美城市向外等级式扩散的刻板认知，而要重点关注各国特殊政治经济背景下差异化的绅士化现象，同时增加概念上的清晰度，以更好理解这一纷繁多变的全球化景观［1］。在 21 世纪初欧美后工业化转型的城市中，出现了一种由环境驱动的绅士化现象［2］。工业外迁和内城衰退以后，城市中废弃的工厂、铁路线和其他闲置土地被改造为绿色空间，有效促进了地区经济复兴和社区活力再生［3］，新的资本进入推动更大规模的拆建与更新，使周边地区环境品质、商业层次和房地产价格大幅提升，带来积极经济、社会和生态效益的同时，由于原住低收入群体难以负担不断上涨的生活成本，被迫迁离和被高收入阶层置换［4］，产生社会空间高端化重构和“<a class="gref" href="#g-paradox">绿色空间悖论</a>”①（Green Space Paradox）［5］。此类因城市绿化或生态环境改善催生的绅士化，被学者们定义为生态绅士化（Ecological Gentrification）［6］、“环境绅士化”（Environmental Gentrification）［7］或<a class="gref" href="#g-green">绿色绅士化</a>（Green Gentrification）［8］，并率先在纽约、亚特兰大、芝加哥和多伦多等城市得到验证，随后迅速拓展和演化为一种全球性绅士化现象。例如近年来，国内学者通过对北京、上海、广州和长春等城市的研究发现，我国城市大型公园发挥着促进物质景观升级和社会阶层置换等绅士化重构效应［9-10］。</p>
-<div class="note" data-nid="0a65e51bbe"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="0a65e51bbe"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">Footnote ①: Building large green infrastructure on abandoned land is an important part of urban sustainable development plans. The original intention is to benefit residents around the green space, but the result is that rising property prices force original residents, especially vulnerable groups, to move away: this is the "green space paradox".</p>
 <p class="zh">脚注①：利用废弃空间建设大型绿色基础设施是城市可持续发展计划的重要组成部分，其初衷是使绿色空间周边居民受益，但结果却是，因房地产价格升高使原住居民特别是弱势群体被迫迁离，即“绿色空间悖论”。</p>
-<div class="note" data-nid="586f4fc2a3"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="586f4fc2a3"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">Gentrification oriented toward mountain and water (shanshui) resources within Chinese cities differs in certain respects from the Western gentrification driven by environmental greening. Specifically: (1) Western environmental, green or ecological gentrification usually occurs in economically depressed, environmentally degraded inner-city areas where poverty is concentrated, where brownfields and derelict land are "green-transformed" into urban parks and other green infrastructure to attract the middle class back, as with New York's High Line [11]. Chinese cities, by contrast, have not experienced large-scale decline or occupation by low-income groups, and small artificial urban green spaces are not enough to drive class replacement; only the few large park and scenic areas within cities and the natural mountains and waters on their periphery can attract an increasingly affluent middle class that values living environment and landscape quality, thereby driving gentrification. (2) In the West, environmental, green or ecological gentrification has been "stigmatised" for causing social inequity and environmental injustice through rising land prices and the displacement of original residents [12]; minority groups have even rejected and protested greening around their communities, fearing that green infrastructure would raise their housing burden and bring in white residents [13]. Chinese cities have no serious ethnic or class conflicts, and social differentiation and residential segregation are far lower than in the West. Apart from the small number of shantytowns occupying prime landscape space within cities that have been demolished and rebuilt through gentrification, gentrification is mostly achieved by building new high-end residential areas on vacant land around peripheral mountains and water bodies. This is a kind of urban spatial development and "new-build gentrification", whose negative effects lie mainly in the "environmental justice" problems caused by exclusive occupation of the city's prime landscape resources [14].</p>
 <p class="zh">中国城市内部以山水资源为导向的绅士化类型，与西方由环境绿色化改造驱动的绅士化现象存在一定差异。具体体现为：①西方的环境/绿色/生态绅士化通常发生在经济萧条、环境脏乱、贫困集聚的内城区，通过将棕地、废弃地“绿色转型”为城市公园等绿色基础设施（Green Infrastructure）以吸引中产阶层回流，例如纽约的“<a class="gref" href="#g-highline">高线公园</a>”［11］；而中国城市未曾出现大面积衰败和被低收入群体占据的情况，人为修造的小型城市绿地并不足以驱动阶层置换，唯有城中少量的大型公园景区和外围的天然山水资源，才能吸引日益富裕且注重居住环境与景观质量的中产阶层集聚，从而推动绅士化的发生。②西方环境/绿色/生态绅士化过程中因地价上涨和原住居民“<a class="gref" href="#g-displacement">失所</a>”（Displacement），导致社会不公平和环境非正义而被“污名化”［12］，少数族裔群体甚至因惧怕绿色基础设施建设可能带来的住房负担增加和白人群体迁入，而拒绝和抗议社区周边的绿色化改造行为［13］；中国城市内部不存在严重的族裔或阶层间矛盾，社会分化与居住隔离程度亦远不及西方，除城市内部少量占据优质景观空间的棚户区被拆迁与绅士化重建以外，更多是通过在城市外围山体、水体周边空地新建高端住宅区的形式实现绅士化过程，这属于城市空间开发和“<a class="gref" href="#g-newbuild">新建绅士化</a>”的一种，其负面效应主要体现在对城市优质山水景观资源的排他性占有导致的“<a class="gref" href="#g-ej">环境正义</a>”问题［14］。</p>
-<div class="note" data-nid="d22912378b"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="d22912378b"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">On this basis, this paper proposes the concept of landscape gentrification with Chinese characteristics: the phenomenon in which groups of higher socio-economic status, in pursuit of a high-quality natural-landscape living environment, occupy areas beside mountains and water, displacing or excluding groups of lower socio-economic status. To depict this type of gentrification driven by urban shanshui resources, the paper takes Nanjing's main city as the case area, selects and constructs identification indicators of landscape gentrification suited to Chinese conditions, and uses big data on the urban housing market and mobile phone user portraits to quantitatively evaluate the degree of gentrification around Nanjing's large landscape resources. It examines the community attributes, spatial models, replacement processes and supply–demand driving mechanisms of landscape gentrification, aiming to analyse the phenomenon in depth, propose countermeasures to mitigate its negative effects, and provide a reference for the efficient and sustainable use of the city's scarce natural landscape resources.</p>
 <p class="zh">基于此，本文提出具有中国本土特色的景观绅士化（Landscape Gentrification）概念，即城市中具有较高经济社会地位群体，为追求高品质自然景观居住环境而占据依山傍水地区，置换或排斥较低经济社会地位群体的现象。为描刻此种由城市山水资源驱动的绅士化类型，本文以南京主城为案例区，通过遴选、构建符合中国实际的景观绅士化辨识指标，采用城市住房市场和手机用户画像等大数据，量化评测南京大型山水景观资源周边的绅士化发育程度，探究景观绅士化社区属性、空间模式、置换过程与供需驱动机制，以期深度解析景观绅士化现象，提出缓解景观绅士化负面效应的对策建议，为促进城市稀缺自然山水景观资源的高效、永续利用提供一定参考借鉴。</p>
-<div class="note" data-nid="9d51dd1f3c"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="9d51dd1f3c"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <h2 id="sec-8"><span class="en">1 Data and Methods</span><span class="zh">1 数据与方法</span></h2>
 <h3 id="sec-9"><span class="en">1.1 Study area and data sources</span><span class="zh">1.1 研究区概况与数据来源</span></h3>
 <div class="bipara">
 <p class="en">Nanjing lies in the Yangtze River Delta, is economically developed and densely populated, and is known for the integration of "mountains, water, city and forest". The city contains Zijin Mountain, Xuanwu Lake and the Qinhuai River; on its periphery lie Laoshan, Qixia, Mufu, Jiangjun, Niushou and Fang mountains; and the Yangtze runs through the city, dividing the main city into the Jiangnan and Jiangbei areas. Between 2000 and 2020 Nanjing's resident population surged from 5.45 million to 9.31 million, and its urbanisation rate rose to 86.8%. With large-scale inner renewal and outward expansion, the areas around urban shanshui resources became hotspots for real-estate development and upgraded housing, making Nanjing an excellent case for examining landscape gentrification. As shown in Fig. 1, the study area is Nanjing's main city (to highlight the research theme, the Ring Expressway is used as the boundary for the Jiangbei and Jiangning areas, and Laoshan, Jiangjun and Niushou mountains are included). Within it, 61 landscape resources each larger than 50,000 m² (5 ha) were selected, including large urban parks and natural mountains and water bodies; for rivers, mainly the Yangtze and the Qinhuai (including the Jiajiang, the inner and outer Qinhuai and the moat).</p>
 <p class="zh">南京地处长三角，经济发达，人口密集，素有“山水城林一体”之称，城中有紫金山、玄武湖、秦淮河，外围有老山、栖霞山、幕府山、将军山、牛首山、方山等自然山体，长江穿城而过，将主城划分为江南、江北两个片区。2020 年，南京市常住人口由 2000 年的 545 万猛增至 931 万，城镇化率提升至 86.8%。伴随大规模的城市内部更新与向外拓展，城市山水资源周边成为房地产开发与改善型居住的热点地带，也使南京成为深入探讨景观绅士化及相关问题的绝佳案例地。如图 1 所示，本文以南京主城区为研究范围（为突出研究主题，江北地区和江宁地区选取绕城高速为边界，将老山、将军山和牛首山纳入研究区），遴选出区域内单体面积大于 50000 m²（5 hm²）的山水景观资源共计 61 个，包括城市大型公园绿地和自然山体水体，河流主要选取长江与秦淮河（包括夹江、内外秦淮河与护城河）。</p>
-<div class="note" data-nid="2f70646482"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="2f70646482"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">To identify landscape-gentrified spaces and their degree, the study takes residential quarters near landscape resources as its objects and builds a socio-spatial attribute database with the residential quarter (xiaoqu) as the basic unit. Community attributes such as each quarter's location, boundaries, year of construction, green-space ratio and price per unit area (2020 average) come from Amap (amap.com) and the China Real Estate Price Platform (creprice.cn). Group-structure attributes such as residents' age, occupation, household composition and consumption level come from mobile phone user-portrait data on a 152 m × 152 m grid, collected in November 2020 by the Getui (getui.com) big-data platform of Daily Interactive. The platform holds accumulated push-service data from 110,000 apps including Baidu Maps, Didi, JD.com and China UnionPay, with mobile terminal coverage above 95%, and can effectively collect the LBS data called by multiple apps, ensuring collection frequency and accuracy. By training models on long-term data about users' workplaces and residences, offline behaviour and scene preferences, and online app types and habits, it derives social attributes such as age group, gender, occupation, consumption level and household assets.</p>
 <p class="zh">为辨识景观绅士化空间及其程度，以靠近山水景观资源的居住小区为研究对象，构建以小区为基本单元的社会空间属性数据库。其中住宅小区的空间位置、四至边界、建成年代、绿化率和单位面积价格（2020 年均价）等社区属性数据，来源于高德地图（amap.com）和中国房价行情平台（creprice.cn）。小区居民年龄、职业、家庭构成、消费水平等群体结构属性数据，来源于每日互动“个推”（getui.com）大数据智能服务平台于 2020 年 11 月采集的 152 m×152 m 网格单元<a class="gref" href="#g-portrait">手机用户画像</a>数据。该平台掌握着包括百度地图、滴滴出行、京东、中国银联等 11 万个 App 的推送服务数据积累，移动终端覆盖率超过 95%，能够有效采集多个 App 调用的 LBS 数据，从而保证数据采集频率和精度，进而通过长期学习手机用户工作地和居住地、线下行为与场景偏好、线上 App 使用类型和习惯等数据进行模型训练，获取用户年龄段、性别、职业、消费水平和家庭资产等群体社会属性。</p>
-<div class="note" data-nid="f8c35a1743"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="f8c35a1743"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <h3 id="sec-12"><span class="en">1.2 Research design and analytical method</span><span class="zh">1.2 研究设计与分析方法</span></h3>
 <div class="bipara">
 <p class="en">Western studies generally use buffer zones around green space or census tracts as spatial units, and quantitatively evaluate the degree of gentrification by measuring the relative level and change of composite indicators such as housing prices, the share of white residents, the share of highly educated people and high-income households, and the number of high-end consumption venues [15-17]. Quantitative gentrification research in China is still exploratory. Given the complexity of urban socio-spatial differentiation and its influencing factors, large aggregate units such as buffers or census tracts make it hard to exclude the influence of factors such as school districts, transport location and public services. This paper therefore uses the residential quarter as the spatial unit and selects the 1,267 quarters near shanshui resources (where landscape gentrification may occur) as evaluation objects, quantitatively measuring and comparing their socio-spatial attributes to judge whether landscape gentrification has occurred around the shanshui resources.</p>
 <p class="zh">西方普遍以绿地周边缓冲区或人口普查区为空间单元，通过测度住房价格、白人比例、高学历人口和高收入家庭比例，以及高消费场所数量等综合指标的相对高低及其变化，量化评价某地区的绅士化程度［15-17］。国内的定量绅士化研究尚处于探索阶段，考虑到城市社会空间分异及其影响因素的复杂性，采用缓冲区或人口普查区等大尺度空间汇总单元，难以剔除诸如学区、交通区位和公共服务等因素的影响，故本文以居住小区为空间单元，选择邻近山水资源（有可能发生景观绅士化）的 1267 个居住小区为评价对象，通过量化测度与比较其社会空间属性特征，判断山水资源周边是否发生了景观绅士化。</p>
-<div class="note" data-nid="04af26f516"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="04af26f516"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">In selecting evaluation indicators: first, proximity to shanshui landscape is the basic condition of a landscape-gentrified community, because landscape housing is scarce and expensive, and the higher the grade of the landscape resource and the closer the housing is to it, the more pronounced the price spillover effect [18-19]; second, landscape gentrifiers generally have higher socio-economic status, and while pursuing ecological and landscape quality outside the community, they also have high requirements for private green space and environmental quality inside it [20]. The paper therefore selects seven indicators across three dimensions of each quarter (landscape, price and group attributes): landscape distance, community environment, housing price, premium level, occupation type, consumption level and household assets (Table 1), and uses a random forest model to determine each quarter's degree of landscape gentrification.</p>
 <p class="zh">在评价指标的选取上，首先，邻近山水景观是景观绅士化社区的基本条件，因景观型住宅具有稀缺性，房价较高，而且越是高等级的山水资源和越接近山水景观的住宅，其房价溢出效应越明显［18-19］；其次，景观绅士化群体一般具备较高的经济社会地位，他们在追求社区外部生态与景观质量的同时，对于社区内部的私有绿地和环境品质同样具有较高的要求［20］。因此，本文从居住小区的景观属性、房价属性和群体属性 3 个方面分别选取景观距离、社区环境、住宅价格、溢价程度、职业类型、消费水平和家庭资产 7 个<a class="gref" href="#g-indicators">特征指标</a>（表 1），采用随机森林模型（Random forest）判定居住小区的景观绅士化程度。</p>
-<div class="note" data-nid="3da19baab6"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="3da19baab6"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">Table 1 (identification factors and descriptions): Landscape attributes — landscape distance (walking distance from the quarter's nearest entrance to the landscape resource, m); community environment (green-space ratio: quarter green area / site area, %). Price attributes — housing price (average annual listing price per unit area, yuan/m²); premium level (relative price advantage: ratio of the quarter's price to the average price within 500 m, %). Group attributes — occupation type (share of white-collar groups, from mobile location combined with online and offline behaviour, %); consumption level (share of high-consumption groups, equivalent to monthly income above 20,000 yuan, based on consumption habits, %); household assets (share of groups owning a house and a car: the sum of the shares owning private housing and owning a private car, %). Data sources: China Real Estate Price Platform; Getui big-data platform; Amap; OSM (openstreetmap.org).</p>
 <p class="zh">表 1 南京景观绅士化特征指标及描述：景观属性——景观距离（邻近景观程度，m；小区最近出入口到山水资源的步行距离）、社区环境（居住小区绿化率，%；小区绿化面积与占地面积之比）；房价属性——住宅价格（单位面积均价，元/m²；小区住宅单位面积年度挂牌均价）、溢价程度（房价相对优势度，%；小区房价与周边 500 m 范围平均房价之比）；群体属性——职业类型（白领职业群体占比，%；根据手机定位结合线上线下行为特征）、消费水平（高消费群体占比，%；根据消费习惯，相当于月收入 2 万元以上）、家庭资产（有房有车群体占比，%；拥有私有住房与拥有私家车群体比例之和）。数据来源：中国房价行情平台；“个推”大数据平台；高德地图；OSM（openstreetmap.org）。</p>
-<div class="note" data-nid="0add022a30"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="0add022a30"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">The random forest model is a popular supervised machine-learning algorithm in recent years. It runs efficiently, adapts well to datasets and is highly accurate; it handles both continuous and discrete values, processes high-dimensional data directly, and detects interactions among features while identifying key features. Its principle is to randomly select training samples and feature parameters from all samples for classification: samples are drawn with replacement from the training set to form sample sets, each weak classifier is a CART decision tree, and the final result is decided by the vote or average of all trees, giving the overall model high accuracy. This paper runs the random forest model on the residential quarters' feature indicators to accurately identify landscape-gentrified communities of different degrees among all quarter samples.</p>
 <p class="zh">随机森林模型是近年来热门的监督机器学习算法，具有运行高效、对数据集适应能力强、准确率高等特点，既能处理连续值也能处理离散值，可直接处理高维数据，检测特征间的相互关系并识别关键特征要素。其原理是在全部样本中随机选择训练样本和特征参数用于分类，在训练样本中有放回地随机抽取样本组成样本集，每一个弱分类器即为 CART 决策树，最终结果由每棵决策树结果投票或取均值，使得整体模型的结果具有较高的精确度。本文针对居住小区的特征指标开展随机森林模型运算，用以在所有小区样本中精准识别不同发育程度的景观绅士化社区。</p>
-<div class="note" data-nid="2c20fc9a21"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="2c20fc9a21"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">The study uses the random forest classification algorithm in ArcGIS Pro; the procedure is shown in Fig. 2. First, using expert consultation, five experts from institutions including Nanjing University, the Nanjing Academy of Urban Planning and Design and the "I Love My Home" real-estate agency were invited. After the concept of landscape gentrification was explained to them, each freely selected, from the 1,267 quarters, a number of quarters they considered to show typical, partial or no landscape-gentrification features, classed as high, moderate and low (i.e. none) landscape-gentrified quarters. After integrating and de-duplicating the results and removing outliers following field surveys, 100 quarters were obtained as training samples (30 high, 41 moderate, 29 low). The landscape-gentrification type of each quarter (high, moderate, low) was then taken as the dependent variable and the seven feature indicators as independent variables, and entered into the random forest model for training. Quarters were classified while trying different model parameters (such as number of iterations, number of trees and the proportion of validation samples), and classification accuracy was observed under each. After comparison, overall classification accuracy was highest (91.7%) with 400 trees, 100 iterations and a 36% validation share. Finally, the classification results were returned to the experts for a further round of consultation to obtain optimised results.</p>
 <p class="zh">本文采用 ArcGIS Pro 中的随机森林分类算法，具体流程如图 2 所示。首先采用专家咨询法，邀请包括来自南京大学、南京城市规划设计研究院、“爱我家”房产中介等机构的 5 位领域内专家，在向其阐释景观绅士化概念内涵的前提下，请专家从 1267 个居住小区中自由选取各自认为符合典型景观绅士化特征、部分具备景观绅士化特征和不具有景观绅士化特征的居住小区若干，区分为高度、中度和低度（即未发生）景观绅士化小区，通过对咨询结果的整合去重与实地踏勘后的排异剔除，获取 100 个小区作为训练样本（高度 30 个、中度 41 个、低度 29 个）。然后将小区的景观绅士化类型（高度、中度、低度）作为因变量，小区的 7 个特征指标作为自变量，导入随机森林模型进行样本特征训练，通过尝试不同的模型参数（如迭代次数、决策树数量和验证样本比例等）将居住小区进行分类，并观测不同参数下的分类精度；通过比选，当决策树数量为 400，迭代次数为 100，验证样本比例为 36% 时，模型总体分类精度达到最高（91.7%）。最后将此分类结果反馈给专家再度咨询，得到进一步优化结果。</p>
-<div class="note" data-nid="3020dcf7c2"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="3020dcf7c2"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <h2 id="sec-18"><span class="en">2 Socio-spatial Characteristics of Landscape Gentrification in Nanjing</span><span class="zh">2 南京景观绅士化社会空间特征</span></h2>
 <h3 id="sec-19"><span class="en">2.1 Identification results</span><span class="zh">2.1 景观绅士化甄别结果</span></h3>
 <div class="bipara">
 <p class="en">The spatial identification results for Nanjing's landscape-gentrified communities are shown in Fig. 3. In number, there are 132 high (10.42%), 516 moderate (40.73%) and 619 low (48.85%) landscape-gentrified communities: quarters with typical landscape-gentrification features make up only about one tenth, and the great majority show little landscape gentrification. Spatially, highly gentrified quarters are concentrated at the foot of Zijin, Laoshan and Jiangjun mountains and along the inner Qinhuai River, Yueya Lake and Baijia Lake, with others scattered around other landscape resources. By community type, highly gentrified quarters are mainly relatively upmarket gated communities, among which villa estates with high green ratios, low floor-area ratios, high prices and large unit sizes make up a high proportion.</p>
 <p class="zh">南京景观绅士化社区空间识别结果如图 3。从数量规模上看，高度、中度和低度景观绅士化社区分别为 132 个（10.42%）、516 个（40.73%）和 619 个（48.85%），即具有典型景观绅士化特征的居住小区仅占 1/10 左右，而绝大多数小区的景观绅士化程度不高。从空间分布上看，高度景观绅士化居住小区主要集中于紫金山、老山、将军山脚下和内秦淮河、月牙湖和百家湖畔等地，以及零星散落在其他山水资源周边。从社区类型上看，高度绅士化居住小区主要是较为高档的<a class="gref" href="#g-gated">封闭社区</a>，其中具有高绿化率、低容积率、高房价和大面积等特征的别墅住宅区占有较高比例。</p>
-<div class="note" data-nid="78a3134715"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="78a3134715"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">Comparing the characteristics of high, moderate and low landscape-gentrified communities at the level of the residential quarter① (Table 2), the study finds: (1) highly gentrified communities are close to shanshui resources, at an average minimum distance of 66 m, and more than a third are immediately adjacent to the landscape or even embedded inside the mountain, such as the Dihao International Garden and Deji Zijin Villa within Zijin Mountain, and villa estates such as Pearl Spring No. 9, Ziran Tiancheng and Greenland Rose Garden within Laoshan; (2) high price is another marked feature: the average unit price of housing in highly gentrified quarters reaches 44,000 yuan/m², 1.5 times that of low-gentrified communities, and on average more than 1.33 times the price of surrounding housing, a clear premium effect; (3) matching their upmarket housing, residents of highly gentrified communities have relatively higher socio-economic status: the shares of "white-collar", "high-consumption" and "house-and-car-owning" groups are all much higher than in low-gentrified communities.</p>
 <p class="zh">基于居住小区的角度，通过对高、中、低不同程度景观绅士化社区的特征比较后发现①（表 2）：①高度景观绅士化社区靠近山水资源，平均最短距离为 66 m，其中超过 1/3 的小区紧邻山水景观甚至嵌入山体内部，例如紫金山中的帝豪国际花园和德基紫金山庄，以及老山中的珍珠泉 9 号、自然天成和绿地玫瑰园等别墅区；②高房价是景观绅士化住宅的另一显著特征，高度绅士化居住区住宅的单位面积均价达到 4.4 万元/m²，是低度绅士化社区的 1.5 倍，而且高度绅士化住宅价格平均在周边社区住宅价格的 1.33 倍以上，溢价效应明显；③与高档次的住宅相匹配，居住在高度绅士化社区中的居民具有相对更高的社会经济地位，如社区“白领职业群体”“高消费群体”和“有房有车群体”占比均大幅高于低度绅士化社区。</p>
-<div class="note" data-nid="c6544deb35"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="c6544deb35"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">Footnote ①: To highlight the influence of landscape on residential quarters and reduce interference from other important locational factors such as education and transport, "school-district housing" (within the catchments of the top 10 public primary and junior secondary schools) and "metro housing" (within a 5-minute walk of the nearest metro entrance) were excluded from the statistics.</p>
 <p class="zh">脚注①：为突出山水景观要素对居住小区的影响，降低教育、交通等其他重要区位因素的干扰，统计中剔除了“<a class="gref" href="#g-xuequ">学区房</a>”（位于排名前 10 公办小学、初中学区内）和“地铁房”（距离最近地铁口步行 5 min 范围内）。</p>
-<div class="note" data-nid="7f37f82a7f"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="7f37f82a7f"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <h3 id="sec-23"><span class="en">2.2 Spatial models of landscape gentrification</span><span class="zh">2.2 景观绅士化空间模式</span></h3>
 <div class="bipara">
 <p class="en">In terms of the spatial relationship between shanshui resources and landscape-gentrified communities, varying degrees of landscape gentrification can occur around both the large, culturally rich and well-known landscapes of the urban core and the smaller, less famous blue-green spaces of the periphery (Fig. 3). Observation shows that the degree of landscape gentrification around a resource has no clear or fixed relationship with the resource's location, scale, fame or importance; rather, it is closely related to the resource's public attribute or degree of openness. That is, landscape gentrification is unlikely around resources with good publicness and openness, such as Xuanwu Lake; whereas around resources where housing is built against the mountain and beside the water, restricting others' access, or even cutting up shorelines and embedding into mountains through exclusive development, marked and clustered landscape gentrification is more likely, as at Baijia Lake and Jiangjun Mountain. It can therefore be judged that the open or enclosed character of urban shanshui resources is associated with the degree of landscape gentrification of surrounding quarters. According to the scale of public space between quarters and landscape resources, the paper divides the ways urban shanshui resources are developed and used into three models: "enclosure and exclusive occupation" (public space 0 m), "corridor separation" (public space roughly 10–50 m wide) and "open sharing" (public space on average more than 100 m wide).</p>
 <p class="zh">从山水资源与景观绅士化社区的空间关系上看，不管是城市核心区具有深厚文化底蕴和较高知名度的大型山水，还是城市外围规模较小、知名度不高的蓝绿空间，其周边均可能存在不同程度的景观绅士化现象（图 3）。通过观察发现，山水资源周边景观绅士化发育程度，与山水资源的区位、规模、知名度和重要性等属性，并不存在明显的关联或固定的规律，而是与山水资源的公共属性或开放程度存在较为密切关联。即是说，具有良好公共性和开放性的山水资源周边，不容易出现景观绅士化现象，如玄武湖；而采取住宅区依山傍水而建，限制他人进入，甚至通过切割水体岸线、嵌入山体空间等排他性开发方式的山水资源周边，更容易产生显著且集聚的景观绅士化现象，如百家湖和将军山。由此判断，城市山水资源空间开放/封闭属性与其周边居住小区景观绅士化程度之间存在关联。根据居住小区与山水资源之间的公共空间尺度特征，本文将城市山水资源空间开发利用方式划分为“<a class="gref" href="#g-modes">封闭独占</a>”（公共空间为 0 m）、“通道分隔”（公共空间宽度约为 10～50 m）和“开放共享”（公共空间宽度平均在 100 m 以上）3 种模式。</p>
-<div class="note" data-nid="636bbb5f44"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="636bbb5f44"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">(1) Enclosure and exclusive occupation. In this model natural mountains and water are tightly joined to residential quarters with no public corridor between them; private housing in the form of gated communities cuts up and occupies waterfront shorelines or mountain green space. Because housing that monopolises shanshui resources is scarce and positioned as high-quality, it more easily produces high prices and attracts high-income groups, giving rise to high-level landscape gentrification and the privatisation of urban shanshui resources and public space. Taking Baijia Lake and Jiangjun Mountain as examples (Fig. 4), several villa estates of high and moderate gentrification are distributed along the west bank of Baijia Lake (Fig. 4a) and the eastern foot of Jiangjun Mountain (Fig. 4b), blocking residents outside the communities from approaching the mountain and water.</p>
 <p class="zh">①封闭独占模式。该模式下自然山水与居住小区紧密相连，两者间缺乏公共廊道，私人住宅以封闭社区的形式切割占据滨水岸线或山体绿地。由于独占山水资源住宅的稀缺性和高品质定位，更容易产生高房价和吸引高收入群体，催生高度景观绅士化现象，并造成城市山水资源和公共空间的私有化。以百家湖和将军山为例，如图 4 所示，百家湖西畔（图 4a）与将军山东麓（图 4b）分布有多个高、中绅士化程度的别墅住宅区，阻隔社区外部居民近山亲水。</p>
-<div class="note" data-nid="5c4110b54d"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="5c4110b54d"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">(2) Corridor separation. Here the landscape and the residential quarters are separated by city roads or pedestrian paths: residents can reach the shanshui resources, but there is not enough public space. This model safeguards the public attribute of the resources and ordinary citizens' accessibility, while keeping nearby housing close to them, but the insufficient supply of public space reduces the resources' attractiveness and reach. Along the Qinhuai River and Yueya Lake (Fig. 5), for example, in the urban renewal campaign launched at the end of the twentieth century, many dilapidated traditional waterside houses were demolished and rebuilt as modern residential quarters, and upmarket estates with prime location and landscape became typical landscape-gentrified communities.</p>
 <p class="zh">②通道分隔模式。指山水景观与居住小区之间通过城市道路或人行步道进行分隔，城市居民可以接触到山水资源，但缺乏足够的公共空间。该模式保障了城市山水资源的公共属性和普通市民的可进入性，也使周边住宅区足够亲近山水资源，但由于公共空间供给不足，降低了山水资源的吸引力和影响范围。如秦淮河与月牙湖沿岸（图 5），在 20 世纪末启动的城市更新改造运动中，大量传统临水而建的破旧民房被推倒重建为现代化的住宅小区，拥有优质区位和景观的高档住宅区成为典型的景观绅士化社区。</p>
-<div class="note" data-nid="4d6adfd20e"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="4d6adfd20e"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">(3) Open sharing. This model respects the public attribute and comprehensive value of shanshui resources: with natural mountains and water at its core, it retains or expands ample green public open space around them, better protecting ecological space and providing residents with comfortable places for leisure. Under this model residents can share shanshui resources relatively fairly, preventing prime landscape space from being privately occupied by a small affluent group, so clusters of highly gentrified communities are unlikely to appear. At Xuanwu Lake and Jiulong Lake, for example, only Jinling Imperial Garden at the south-east corner of Xuanwu Lake, right on the lakeshore, is a highly gentrified community (Fig. 6a); and Jiulong Lake, not far from Jiangjun Mountain and Baijia Lake, abandoned the enclosed, exclusive development model of those two, so that only the Jiulong Lake Villas at its north-west corner is highly gentrified (Fig. 6b).</p>
 <p class="zh">③开放共享模式。此模式尊重山水资源的公共属性与综合价值，以自然山水为核心，外围保留或拓展充足的绿色公共开敞空间，更好保护山水生态空间并为居民提供舒适的休闲游憩场所。该模式下城市居民可以相对公平地共享山水资源，避免了优质景观空间被少量富裕群体私占，因此不易出现高度绅士化社区集聚的现象。以玄武湖和九龙湖为例，玄武湖边唯有东南角紧邻湖面的金陵御花园呈现为高度绅士化社区（图 6a）；而距将军山与百家湖不远的九龙湖，因摒弃了前两者封闭独占式的开发模式，周边仅有西北角的九龙湖别墅为高度景观绅士化社区（图 6b）。</p>
-<div class="note" data-nid="346460d1aa"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="346460d1aa"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">The comparison of these models confirms that as the spatial development model of urban shanshui resources moves from enclosed to open, the degree of landscape gentrification of surrounding communities moves from strong to weak. Enclosing and monopolising shanshui landscape is a spatial-resource development model adopted by local governments in pursuit of short-term economic returns, and the resulting clusters of highly gentrified communities may bring problems such as inefficient use of scarce urban resources, weakened ecological functions of the landscape, intensified residential differentiation and environmental justice [21]. Therefore, from the perspective of tapping and amplifying the comprehensive benefits of urban shanshui resources to the fullest, developing and using them through the open-sharing model can extend the service radius of natural landscape resources, increase the long-term returns of surrounding land management, ease the socio-spatial polarisation of the city, and avoid the unequal allocation of natural resources and social inequity caused by excessive landscape gentrification.</p>
 <p class="zh">通过上述景观绅士化模式的比较，证实随着城市山水资源空间开发模式由封闭到开放，其周边社区景观绅士化程度则由强到弱。封闭独占山水景观是地方政府追求短期经济效益采取的空间资源开发模式，由此产生的高度景观绅士化社区集聚现象，可能带来城市稀缺资源低效利用、景观生态功能弱化、<a class="gref" href="#g-fenyi">居住分异</a>加剧和环境正义等问题［21］。因此，从最大限度挖潜、放大城市山水资源综合效益的角度考虑，采用开放共享模式开发利用城市山水资源，能够扩大自然景观资源的服务辐射范围，增加周边土地经营的长期收益，还可以缓解城市社会空间分异极化现象，规避过度景观绅士化导致的自然资源配置不均衡和社会不公平问题。</p>
-<div class="note" data-nid="ad84e99cf7"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="ad84e99cf7"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <h3 id="sec-29"><span class="en">2.3 Replacement process of landscape gentrification</span><span class="zh">2.3 景观绅士化置换过程</span></h3>
 <div class="bipara">
 <p class="en">Spatial upgrading and replacement is an important marker of the gentrification process [22]. Taking the highly gentrified communities as examples, to examine the type and timing of their spatial replacement, replacement is roughly divided into three types — shantytown redevelopment, urban renewal and reconstruction, and development of unused land (including redevelopment of rural construction land) — and three periods: before 2000, 2001–2010 and 2011–2020. As shown in Fig. 7, of the 132 highly gentrified communities, 33 came from shantytown demolition and redevelopment and 36 from urban renewal and reconstruction, together 52.27% of the total, located mainly on both banks of the inner Qinhuai River in the core of the main city; 63 were newly built on unused land, of which nearly 70% (44) are in the periphery of the main city. In time, fewer than 10% (13) arose before 2000, all on the waterfront of the main-city core; those arising in 2001–2010 and 2011–2020 account for 50.76% (67) and 39.39% (52) respectively, with a relatively balanced spatial distribution.</p>
 <p class="zh">空间升级置换是绅士化过程的重要标识［22］。以高度景观绅士化社区为例，为考察其空间置换类型与发生时间，将绅士化社区空间置换大致区分为城市棚户区改造、城市更新与重建、未利用土地开发（包括农村建设用地再开发）3 种类型，发生时间上划分为 2000 年以前、2001—2010 年、2011—2020 年 3 个阶段。如图 7 所示，在 132 个高度景观绅士化社区中，由棚户区拆迁改造和城市更新重建而来的社区分别为 33 和 36 个，合占总数的 52.27%，空间上主要位于主城核心区内秦淮河两岸，而在未利用土地上开发新建的社区为 63 个，其中近七成（44 个）位于主城外围地区。时间上产生于 2000 年以前的景观绅士化社区不足 10%（13 个），且均分布在主城核心区滨水地带，发生在 2001—2010 和 2011—2020 年的绅士化案例分别占 50.76%（67 个）和 39.39%（52 个），空间分布上相对较为均衡。</p>
-<div class="note" data-nid="a27e259d73"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="a27e259d73"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">In terms of spatial model (Fig. 8), most highly gentrified communities are of the corridor-separation type (60.61%), open sharing accounts for only 2.27%, and enclosure and exclusive occupation is as high as 37.12%. Compared with landscape-gentrified communities in the main-city core produced through shantytown redevelopment or urban renewal and reconstruction, those newly built on unused or rural land in the periphery more often adopt the enclosed, exclusive model (Fig. 8a). Corridor separation dominates in every period, but the share of enclosed, exclusive communities reached 44.8% in 2001–2010, significantly higher than in the periods before and after (Fig. 8b).</p>
 <p class="zh">从图 8 空间模式上看，高度绅士化社区中通道分隔式居多（60.61%），开放共享模式仅占 2.27%，而封闭独占式社区高达 37.12%；相对主城核心区通过棚改或城市更新与重建的景观绅士化社区，主城外围地区在未利用土地或农村土地上新建的绅士化社区，更多采取封闭独占式的空间模式（图 8a）；不同阶段均以通道分隔式绅士化社区为主，其中 2001—2010 年封闭独占式社区占比高达 44.8%，显著高于其前后 2 个时期（图 8b）。</p>
-<div class="note" data-nid="2b4c5980d7"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="2b4c5980d7"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">Overall, landscape-gentrified communities can be produced either through redevelopment or through new building on vacant land, and since the market reform of housing, residential areas built under the corridor-separation and enclosure models have more easily become highly gentrified communities. Of course, whether urban landscape gentrification occurs depends not only on the spatial development models of shanshui resources and residential communities; behind it lie relatively complex driving mechanisms and multiple after-effects. Only by probing the drivers and effects of landscape gentrification in depth can effective means and measures be proposed to scientifically guide the rational use of urban shanshui resources and the benign development of landscape gentrification.</p>
 <p class="zh">综合判断，通过改造重建或空地新建方式均可产生景观绅士化社区，而<a class="gref" href="#g-housingreform">住房市场化改革</a>后，采用通道分隔与封闭独占模式建设的居住区，更容易成为高度绅士化社区。当然，城市景观绅士化现象的发生不仅取决于山水资源和居住社区的空间开发建设模式，其背后更隐匿着相对复杂的驱动机制和多重后效，惟有对景观绅士化驱力和效应的深度探究，方能提出科学引导城市山水资源合理利用和景观绅士化良性发展的有效手段与措施。</p>
-<div class="note" data-nid="f75a8e4772"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="f75a8e4772"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <h2 id="sec-33"><span class="en">3 Supply–Demand Mechanisms and Positive and Negative Effects of Landscape Gentrification</span><span class="zh">3 景观绅士化的供需机制与正负效应</span></h2>
 <h3 id="sec-34"><span class="en">3.1 Mechanisms of spatial production and consumption</span><span class="zh">3.1 空间生产与消费机制</span></h3>
 <div class="bipara">
 <p class="en">Gentrification in Europe and North America was initially seen as driven by middle-class lifestyles and residential preferences [23]. Neil Smith then proposed the well-known "rent gap" theory, stressing that macroeconomic factors on the supply side are the core driver of gentrification [24]. Although the demand-side camp represented by David Ley criticised Smith's economic determinism for seriously neglecting the socio-cultural characteristics and active consumption demands of gentrifiers [25], with the neoliberal global turn, the practice of more and more countries shows that government, capital and the market are the main driving forces of gentrification [26]. Particularly in the Chinese context of public land ownership and new-build gentrification as the dominant model, strong government intervention and market mechanisms have greater explanatory power for urban landscape gentrification than the cultural preferences and consumption drive of the affluent urban middle class [27].</p>
 <p class="zh">欧美绅士化现象最初被认为是中产阶层生活方式和居住偏好驱动的结果［23］。<a class="gref" href="#g-smith">Neil Smith</a> 则提出著名的“<a class="gref" href="#g-rentgap">租差</a>”（Rent Gap）理论，强调供给端的宏观经济因素才是发生绅士化的核心驱力［24］。尽管以 <a class="gref" href="#g-ley">David Ley</a> 为代表的需求端阵营批评 Smith 的经济决定论严重忽视绅士化群体的社会文化特征与能动消费需求［25］，但伴随新自由主义全球化转型，越来越多国家的实践表明，政府、资本和市场是绅士化进程的主要驱动力量［26］。特别是在中国土地公有制和以新建绅士化为主导模式的语境下，相对于城市富裕中产阶层的文化偏好与消费驱力［27］，强有力的政府干预与市场化机制对于城市景观绅士化现象更具解释力。</p>
-<div class="note" data-nid="820e76f598"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="820e76f598"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">First, from the supply-side perspective of local government urban management and the production of space: the high dependence of city governments on land finance is an undisputed fact, and because the areas around shanshui landscapes are beautiful and scarce, they have become huge "activatable capital" that local governments are keen to manage, and an effective tool for the "growth coalition" of government, developers and financial institutions to pursue capital appreciation [28-29]. In rapid urbanisation and urban renewal, city governments — to boost the urban economy, improve spatial quality, upgrade the living environment and expand urban space — create conditions for developing landscape space by consolidating land rights, demolition and resettlement, and land transfer, and (re)produce the spaces around shanshui resources once occupied by industrial enterprises and low-end housing, or left unused, as high-end landscape residential areas that cater to the housing demands and tastes of affluent groups. In terms of rent-gap theory, shanshui resources can generate a "green rent gap" [30]; spaces adjoining important landscapes that are occupied by low-end functions or unused have especially large rent gaps, more readily attracting local governments to renew and develop them and stimulating real-estate capital's enthusiasm for investment, thereby driving landscape gentrification. For example, during Nanjing's shantytown redevelopment (2008–2020), many shantytowns in landscape locations along the Yangtze, beside the Qinhuai and at the foot of Mufu Mountain were among the first to be demolished and rebuilt as modern residential or commercial areas [31].</p>
 <p class="zh">首先，从供给端的地方政府城市经营与空间生产视角解读。城市政府对<a class="gref" href="#g-landfinance">土地财政</a>的高依赖度已经是不争的事实，而山水景观周边地区因环境优美和资源稀缺等特点，成为地方政府热衷经营的巨大“可活化资本”，以及政府、开发商和金融机构“<a class="gref" href="#g-growth">增长联盟</a>”追逐资本增值的有效工具［28-29］。在快速城市化和城市更新过程中，城市政府出于拉动城市经济、提升空间品质、改善居住环境和拓展城市空间等目的，通过整理土地权属、拆迁安置和土地出让等手段为山水景观空间开发创造条件，将山水景观资源周边原本被工业企业和低端住房占据的空间或未利用土地，空间（再）生产为迎合富裕群体居住需求和生活品位的高端景观型住宅区。基于“租差理论”理解，山水资源可以产生“<a class="gref" href="#g-greenrentgap">绿色租差</a>”（Green rent gap）［30］，特别是毗邻重要山水景观，被低端功能占据或未被利用的空间，其“租差”较大，更容易吸引地方政府更新改造和开发建设以及激发房地产资本的投资热情，由此推动景观绅士化的发生。例如在南京城市棚户区改造（2008—2020 年）过程中，大量位于长江边、秦淮河畔、幕府山脚下等景观地段的棚户区较早被推倒重建为现代化住宅区或商业区［31］。</p>
-<div class="note" data-nid="f9a0ad617d"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="f9a0ad617d"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">Second, from the demand side of affluent groups' landscape consumption and market bid-rent: entering the period of ecological civilisation construction and the building of a moderately prosperous society in all respects, urban residents increasingly value living environment and quality of life. Affluent and middle-class households in particular have enormous demand for shanshui landscape housing that combines urban convenience with living comfort, becoming the consumption-side driver of landscape gentrification. Under the principle of market allocation of housing, the prices of scenic and scarce "landscape homes" keep climbing, turning them into sought-after "luxury goods" that quickly attract large numbers of high-income groups to cluster in landscape communities beside mountains and water [32]. As Ley and others emphasised the importance of gentrifiers' cultural demands and consumption tastes from the perspective of post-industrial urban transformation [33], superior shanshui landscape and community environment better meet the needs and tastes of middle-aged households of higher socio-economic status, which in turn stimulates local governments and developers to produce and supply landscape housing, and, through publicity and marketing, to continually induce and implant the status symbolism and class connotations of landscape community housing. As a result, large numbers of landscape-gentrified communities with distinct locational features and class (sub)cultural attributes have formed around urban shanshui resources.</p>
 <p class="zh">其次，从需求端的富裕群体景观消费与市场竞租层面理解。进入<a class="gref" href="#g-shengtai">生态文明建设和全面小康</a>时期，城市居民日益重视居住环境与生活品质，特别是富裕和中产家庭，对于兼具城市便利性和生活舒适性的山水景观型住宅产生巨大需求，成为景观绅士化消费端的驱动力量。在住房市场化配置原则下，风景宜人、数量稀缺的“景观房”价格不断攀高，变为炙手可热、竞相追逐的“奢侈品”，并迅速吸引大批高收入群体聚居于依山傍水的景观型社区［32］。正如 Ley 等基于后工业社会城市转型角度强调绅士化群体文化需求和消费品味的重要性［33］，优越的山水景观与社区环境，更能满足城市中具有较高经济社会地位中年家庭的需求与品味，亦刺激着地方政府与开发商空间生产供给景观型住宅，并通过宣传营销不断诱导与植入景观型社区住宅的身份象征与阶层意涵，从而在城市山水资源周边形成大量具有鲜明空间区位特征和阶层（亚）文化属性的景观绅士化社区。</p>
-<div class="note" data-nid="d233643c9e"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="d233643c9e"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <h3 id="sec-38"><span class="en">3.2 Effects of spatial appreciation and exclusion</span><span class="zh">3.2 空间增值与排挤效应</span></h3>
 <div class="bipara">
 <p class="en">As a phenomenon of "upscale" socio-spatial replacement and restructuring, gentrification's social effects are highly contested. Supporters, usually out of concern for urban management and regional development, stress that gentrification helps increase fiscal revenue and ease local decline, so that local government, gentrifiers and local residents can all benefit; critics generally stand with the groups displaced in the process, arguing that the "displacement" of original residents harms their interests and causes class division and social injustice [34]. As for landscape gentrification, related Western gentrification concepts have been steeped in critique since their birth, whereas urban landscape gentrification in China has not produced social contradictions and conflicts as serious as in the West and shows mostly positive economic and social effects; but because of inappropriate resource allocation and spatial development models, the process of landscape gentrification also contains socio-spatial problems that deserve attention and vigilance.</p>
 <p class="zh">绅士化作为一种城市社会空间“高级化”置换与重构现象，其社会效应极富争议。支持者通常出于城市经营与区域发展的考虑，强调绅士化有利于增加财政收入和缓解地区衰退，地方政府、绅士化群体（Gentrifiers）和地区居民皆可受益；批评者则普遍站在绅士化过程中被置换群体的立场，认为原住居民的“流离失所”使其利益受损，并造成阶层分化与社会不公等后果［34］。就景观绅士化而言，国外相关绅士化概念自诞生之日起即饱含批判性，而中国城市景观绅士化并未出现类似西方较为严重的社会矛盾与冲突，更多呈现出的是积极的经济与社会效应，但因不恰当的资源配置方式和空间开发模式，景观绅士化过程中同样存在一些值得关注和警惕的社会空间问题。</p>
-<div class="note" data-nid="7b81f8326e"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="7b81f8326e"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">The positive effects of landscape gentrification lie mainly in the following. (1) Raising land value. European and North American research shows that green space positively affects property values [35]; this paper also confirms that housing prices and their growth in landscape-gentrified communities are significantly higher than in non-landscape communities with similar locational conditions, while also pulling up surrounding land and housing prices. By closing the "rent gap", the value of land is fully tapped, commerce and consumption are upgraded, and local fiscal revenue and the regional economy are boosted through multiple channels — as in the Yueya Lake area, which became Nanjing's first "rich district" after the commodification reform of housing. (2) Improving the urban landscape. By clearing and replacing abandoned "brownfields" or dilapidated neighbourhoods in the city's shanshui areas, landscape gentrification greatly improves the physical landscape and liveability of communities, expands space for social interaction, can even effectively reduce crime [36], and highlights the landscape value of shanshui resources, improving the city's overall image — as in the area along the Qinhuai River, successfully transformed into an "urban scenic belt" through environmental improvement and urban renewal. (3) Expanding urban space. People's desire for shanshui landscape makes peripheral shanshui resources important spatial engines of urban expansion. With shanshui resources at its core and housing development as its vanguard, landscape gentrification's ring-like expansion from inside out and its extension from residential to other functions are an effective tool and typical model for driving peripheral development — as with Xianlin Lake, a "green core" driving the development of a new town on the outskirts.</p>
 <p class="zh">从景观绅士化的积极效应来看，主要表现为以下方面：①提升土地价值。欧美相关研究表明绿色空间对于房地产价值具有积极影响［35］，本文亦证实景观绅士化社区房价及其增速显著高于相似区位条件下的非景观社区，同时拉动周边地价与房价上涨，通过弥合“租差”充分挖潜土地价值亦带动商业和消费升级，多渠道增加地方财税收入与繁荣地区经济，例如住房商品化改革后最早成为南京“富人区”的月牙湖地区。②改善城市景观。景观绅士化过程通过清除和置换城市内部山水地带的废弃“棕地”或破败邻里，极大改善社区物质景观与宜居环境，扩大了社会交往空间，甚至可以有效降低犯罪率［36］，凸显山水资源的景观价值进而提升城市整体形象面貌，例如通过环境整治与城市更新成功蜕变为“城市风光带”的沿秦淮河地区。③拓展城市空间。人们对山水景观的渴望使城市外围的山水资源成为城市拓展的重要空间引擎。景观绅士化以山水资源为核心、住宅开发为先导，由内向外的圈层式拓展和由居住向其他职能的延伸，是推动城市外围开发建设的有效工具与典型模式，如作为“绿核”带动城市远郊新城开发的仙林湖。</p>
-<div class="note" data-nid="8c1b4e5f3d"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="8c1b4e5f3d"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">The negative effects of landscape gentrification are mainly the privatisation of urban shanshui resources and the resulting problem of "spatial displacement". Because of the high land and housing prices around shanshui resources, landscape-gentrified communities are spaces "conquered" by capital: only groups holding substantial economic or power capital can occupy prime landscape space. Worse still, the enclosed, exclusive landscape-gentrified communities around Baijia Lake and Jiangjun Mountain, seeking exclusive views, turn shanshui resources that should be public space into "private territory", producing the "club-isation" of landscape resources and the degradation of their social function. As Western scholars have criticised, gentrification under the logic of capital keeps raising the cost for vulnerable groups of sharing green space, so that prime landscape resources ultimately become "enclaves" of a privileged few [37] — a process of "green grabbing" [38] and "resource appropriation" [39]. Chinese scholars have also argued that market mechanisms for allocating landscape resources and the gentrification process have produced differences among groups in access to parks and green space in large cities such as Shanghai and Nanjing, and environmental inequality caused by "displacement" [20, 40]. This "displacement" exists at least: (1) for lower-income original residents who cannot afford the rebuilt commodity housing and are forced to move away — direct "spatial displacement" — or who suffer indirect "cultural displacement" when neighbourhood relations change and emotional ties are damaged [41]; (2) for potential buyers who aspire to landscape housing, for whom continually rising prices make purchase ever harder; especially within metropolises where shanshui resources are scarce, landscape housing gradually becomes the exclusive commodity of affluent groups, and most residents face "exclusionary displacement" because of affordability [42]; (3) for all urban residents and outsiders, landscape gentrification may produce spatial exclusion beyond the community scale — especially gentrified communities that cut up shorelines or are built hard against mountains, which objectively encroach on or even deprive residents outside the community of the right to approach the city's shanshui resources, producing city-scale spatial segregation and group displacement in a broad sense.</p>
 <p class="zh">从景观绅士化的消极影响来看，突出体现为城市山水资源的私有化和由此导致的“空间失所”问题。由于山水资源周边的高地价和高房价，景观绅士化社区是一种被资本“征服”的空间，唯有掌握较多经济或权力资本的群体才能占有优质的景观空间。更有甚者如百家湖和将军山周边封闭独占式的景观绅士化社区，为追求独享景观而将本属于公共空间的山水资源转变为“私人领地”，造成景观资源的“<a class="gref" href="#g-club">空间俱乐部化</a>”与社会功能退化。正如西方学者所批评的，资本逻辑下的绅士化不断增加弱势群体分享绿色空间的成本，优质景观资源最终沦为少数特权阶层的“飞地”［37］，成为一种“<a class="gref" href="#g-grab">绿色掠夺</a>”（Green Grabbing）［38］和“资源侵占”（Resource Appropriation）［39］过程。国内学者亦提出，景观资源配置的市场化机制与绅士化过程，造成上海、南京等大城市公园绿地可达性的群体间差异和由于“失所”带来的环境不平等现象［20，40］。这种“失所”至少存在于：①对于较低收入的原住居民，因难以负担重建后的商品住宅而被迫迁离，即直接的“空间失所”，或因社区邻里关系改变和情感破坏而造成间接的“<a class="gref" href="#g-cultural">文化失所</a>”（Cultural Displacement）［41］；②对于渴望居住在景观型住宅的潜在消费者，持续攀升的房价不断增加其购房难度，特别是山水资源稀缺的大都市内部，景观住宅逐渐成为富裕群体的专属商品，大部分城市居民则因经济负担能力问题而面临“<a class="gref" href="#g-exclusive">排斥性失所</a>”（Exclusive Displacement）［42］；③对于所有城市居民和外来群体而言，景观绅士化有可能产生超越社区尺度的空间排斥效应，尤其是切割岸线或紧贴山体而建的绅士化社区，客观上侵占甚至剥夺了社区外居民亲近城市山水资源的权利，由此造成城市尺度的空间隔离和广义范畴的群体失所。</p>
-<div class="note" data-nid="5073cf553c"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="5073cf553c"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <h2 id="sec-42"><span class="en">4 Spatial Planning and Regulation Proposals Based on Optimal Benefits</span><span class="zh">4 基于效益最优的空间规划管制建议</span></h2>
 <div class="bipara">
 <p class="en">Rational development of urban natural resources and the intensive, efficient use of spatial resources are important elements of territorial spatial planning. Mountains and water bodies are important scarce spatial resources within cities: they not only raise land-use value and urban economic competitiveness but also improve the urban ecological environment and microclimate, and provide places for leisure, sport and sightseeing, helping promote social interaction and integration and raise residents' well-being, bringing comprehensive economic, ecological, social and cultural benefits. Article 9 of the Constitution of the People's Republic of China provides that mineral resources, waters, forests, mountains, grasslands, unreclaimed land, beaches and other natural resources are owned by the state, that is, by the whole people, and that the appropriation or destruction of natural resources by any organisation or individual by whatever means is prohibited. It follows that urban shanshui resources are a "pure public good" with the characteristics of equality, sharedness, non-rivalry and non-excludability, and should be jointly owned and shared by all. Under the "public trust doctrine" for natural resources, the government, entrusted by all the people, is obliged to manage urban shanshui resources, should maintain their public use and may not dispose of them on the market at will, and should above all avoid exclusive use. In reality, however, city governments' shanshui-resource management philosophy of pursuing short-term economic returns has produced large numbers of enclosed-exclusive and corridor-separated landscape-gentrified communities. This mode of development and use not only fails to fully reflect the public attribute of urban shanshui resources but even "privatises" a public good, seriously affecting the comprehensive benefits of shanshui resources (Fig. 9); it is in fact an inefficient use of the city's prime spatial resources [21].</p>
 <p class="zh">合理开发城市自然资源，实现空间资源集约高效利用，是国土空间规划的重要内涵。山体、水体是城市内部重要的稀缺空间资源，不但能提高土地利用价值和城市经济竞争力，还能改善城市生态环境和微气候条件，更为人们提供休闲运动与观光游憩场所，有利于促进社会交往融合与提升居民幸福感，发挥着经济、生态、社会和文化等综合效益。《中华人民共和国宪法》第九条规定：矿藏、水流、森林、山岭、草原、荒地、滩涂等自然资源，都属于国家所有，即全民所有；禁止任何组织或者个人用任何手段侵占或者破坏自然资源。由此判断，城市山水资源是一种具有平等性、共享性、非竞争性和非排他性特征的“<a class="gref" href="#g-publicgood">纯公共物品</a>”，理应由全民共有共享。根据自然资源的“<a class="gref" href="#g-trust">公共信托原则</a>”，政府受全体人民的委托义务性管理城市山水资源，应维护其公共用途并不可随意市场化处置，特别要避免排他性的使用。但现实中，城市政府追逐短期经济效益的山水资源经营理念，使城市中出现大量封闭独占式和通道分隔式的景观绅士化社区，这种开发利用模式非但未能充分体现城市山水资源的公共属性，甚至将公共物品“私有化”，严重影响山水资源综合效益的发挥（图 9），实则是对城市优质空间资源的低效利用［21］。</p>
-<div class="note" data-nid="9906ab856f"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="9906ab856f"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">In response to the social problems brought by green gentrification, European and North American scholars have argued that green space should not be used as a tool of real-estate development and that the rights of vulnerable groups and green environmental justice should be safeguarded [30], and have proposed "anti-gentrification" strategies such as providing affordable housing for low-income groups, collective resistance to the influx of gentrifiers, dispersing small green spaces, and "just green enough" greening [43]. Although Chinese urban landscape gentrification also involves low-income residents being displaced and replaced, unlike in Europe and North America the construction of large urban green infrastructure is widely welcomed, and the problem that truly needs solving is the privatised appropriation of natural shanshui resources. To this end, with the goals of maximising the comprehensive benefits of shanshui resources and reducing the negative effects of landscape gentrification, the paper proposes spatial control measures for the development and use of large urban natural shanshui resources. First, the public attribute of shanshui resources should be established and protected: for example, modelled on spatial controls such as the urban blue line and green line, an "urban white line" [21] management regime should be set in territorial spatial planning, designating a certain range around shanshui resources as public space where buildings for private use are prohibited, to prevent shanshui resources from being carved up and "enclosed" by upmarket gated communities and degraded into the "private property" of gentrifiers. Second, for enclosed-exclusive landscape-gentrified residential areas, administrative or economic interventions such as mandatory wall setbacks, opening landscape walkways, encouraging the opening of residential quarters and moderately raising property tax are recommended, to add public spaces such as citizen passages between gated quarters and shanshui resources wherever possible so that more residents can share them. Finally, long-term urban management strategies and planning philosophies should be cultivated: grading shanshui resources by importance, encouraging developers to set back and provide public open space through floor-area-ratio bonuses or lower tax rates, while bringing in citizens to supervise the fairness of the government's allocation of spatial resources, exploring a balance among government, market and society to achieve a win-win of economic efficiency, social equity and spatial justice in the use of urban shanshui resources [21].</p>
 <p class="zh">欧美学者针对绿色绅士化带来的社会问题，提出不应将绿色空间作为房地产开发工具，而应保障弱势群体权利和绿色环境正义［30］，并建议为低收入群体提供可支付住房、集体抵抗绅士化群体侵入、分散布局小规模绿色空间和“<a class="gref" href="#g-jge">适可而止的绿化</a>”（Just Green Enough）等“反绅士化”（Anti-gentrification）策略［43］。中国城市景观绅士化过程中尽管也存在低收入居民被置换取代的现象，但与欧美不同，城市大型绿色基础设施的建设受到广泛欢迎，真正亟待解决的是自然山水资源被私有化侵占的问题。为此，以山水资源综合效益最大化和减少景观绅士化消极作用为目标，提出城市大型自然山水资源开发利用的空间管控措施：首先，应确立和保护山水资源的公共属性，例如仿效城市蓝线、绿线等空间管控措施，在国土空间规划中制定“<a class="gref" href="#g-whiteline">城市白线</a>”［21］管理办法，即划定山水资源周边一定范围为公共空间，禁止建造私人用途建筑，避免山水资源被高档封闭社区切割“圈地”和退化为绅士化群体的“私产”。其次，针对“封闭独占”式的景观绅士化居住区，建议采用强制围墙退让、开辟景观步道、鼓励小区开放、适度提高房产税等行政或经济干预手段，尽量在封闭住宅小区与山水景观资源之间增设市民通道等公共空间，让更多城市居民能够共享山水景观资源。最后，应培育长效城市经营策略和规划理念，将山水资源根据重要程度分等定级，通过奖励容积率或降低税率鼓励开发商退让和提供公共开敞空间，同时发挥市民力量监督政府空间资源配置的公平性，探索政府、市场、社会三者制衡实现城市山水资源利用经济效益、社会公平和空间正义的共赢［21］。</p>
-<div class="note" data-nid="1bd29dd2d7"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="1bd29dd2d7"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <h2 id="sec-45"><span class="en">5 Conclusion and Discussion</span><span class="zh">5 结论与讨论</span></h2>
 <div class="bipara">
 <p class="en">Taking gentrification driven by urban blue-green space as its object, and on the basis of comparing similar Chinese and Western gentrification phenomena, this paper proposes the concept of "landscape gentrification", which better reflects the orientation toward large shanshui resources within Chinese cities. Through systematic analysis of the spatial identification, multidimensional characteristics, typical models, driving mechanisms and comprehensive effects of landscape gentrification in Nanjing, it reaches the following main conclusions: (1) typical landscape-gentrified communities are limited in number but widely distributed, and are generally adjacent to shanshui resources, with high community quality, housing prices and residents' socio-economic status; (2) landscape gentrification does not necessarily occur around shanshui resources; besides landscape quality and location, whether it occurs depends more on the public attribute and openness of the resources, and enclosed, exclusive development more easily induces high-level landscape gentrification; (3) landscape gentrification is driven jointly by the growth coalition on the supply side and affluent classes on the demand side; while affirming its inevitability and reasonableness, one must also guard against the negative effects of the "privatisation" of shanshui resources and "excessive" landscape gentrification; (4) the public-good attribute of urban shanshui resources should be clarified and emphasised, an open-sharing model of spatial development advocated, and planning policy instruments such as the "urban white line" used to guide the scientific development and sustainable use of shanshui resources.</p>
 <p class="zh">本文以城市蓝绿空间驱动的绅士化类型为研究对象，在比较中西方类似绅士化现象的基础上，提出更能体现中国城市内部大型山水资源导向特征的“景观绅士化”概念。通过对南京景观绅士化空间甄别、多维特征、典型模式、驱动机制与综合效应的系统分析，得出主要结论如下：①典型景观绅士化社区数量有限但分布广泛，一般具有紧邻山水资源，社区品质、住宅价格与居民社会经济地位较高等特点；②山水资源周边并非必然出现景观绅士化，除景观质量和区位条件等因素外，是否发生景观绅士化更多取决于山水资源的公共属性与开放程度，封闭独占式的资源开发模式更容易诱发高度景观绅士化现象；③景观绅士化过程由供需两端的增长联盟和富裕阶层共同推动，在肯定其必然性与合理性的同时，亦要警惕山水资源“私有化”和“过度”景观绅士化带来的负面效应；④应明确和强调城市山水资源的公共物品属性，倡导开放共享式的空间开发模式，采用“城市白线”等规划政策手段引导山水资源的科学开发与永续利用。</p>
-<div class="note" data-nid="a54e3dfcf8"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="a54e3dfcf8"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 <div class="bipara">
 <p class="en">It must be acknowledged that landscape gentrification is only one type of residential gentrification in Chinese cities today, favoured and driven mainly by middle-class households pursuing a high-quality living environment. The diversification of urban households' housing needs and preferences has given rise to diverse forms of gentrification. For example, under the urban "school district" system and the East Asian cultural emphasis on education, more and more young middle-class families are voluntarily giving up prime landscape locations and moving into run-down "school-district housing" in the old city, and the resulting "school-district gentrification" also has distinctly Chinese characteristics. The era of planetary gentrification requires gentrification research to de-centre Europe and North America and to emphasise the indigenous problems of different countries and regions. After 20 years, Chinese gentrification research has become increasingly systematic, and exploring gentrification phenomena with local characteristics has become a current focus. The concept of landscape gentrification proposed here can enrich and complete the "family" of Chinese gentrification research and facilitate international exchange, dialogue and comparison. This paper has analysed the overall socio-spatial characteristics of landscape gentrification mainly at the scale of the residential quarter; future work needs to combine socio-spatial big data with small data such as questionnaires and interviews to explore in depth the typical models and communities of landscape gentrification, the main stakeholder groups, after-effect evaluation and policy responses, deepening understanding of the gentrifying restructuring of Chinese urban space and its social governance in the new era, and providing decision-making references for building people-centred, fair and shared park cities and people's cities.</p>
 <p class="zh">必须承认，景观绅士化仅是当下中国城市居住绅士化中的一种类型，更多受追求高品质居住环境的中产阶层家庭的青睐和推动。城市家庭居住需求和偏好的多元分化，催生了多样化的绅士化现象，比如城市“学区”制度和东方“重教”文化背景下，越来越多的年轻中产阶层家庭主动放弃优质景观地段，选择并迁居至城市老城区破旧的“学区房”，由此带来的“学区绅士化”现象亦具有鲜明的中国特色。星球绅士化时代要求绅士化研究去欧美中心化，强调不同国家或地区本土化的原生性问题。中国绅士化研究历经 20 年已日臻系统化，发掘探索具有本土化特征的绅士化现象成为当前热点方向。本文景观绅士化的提出可以丰富和完善中国绅士化研究“家族”序列，有利于开展相关领域的国际交流、对话与比较。本文重点从居住小区尺度分析了景观绅士化的总体社会空间特征，未来还需结合社会空间大数据与问卷访谈等小数据，针对景观绅士化的典型模式与社区、各主要利益相关群体、后效评估及政策应对等方面展开深度探讨，深化对新时期中国城市空间绅士化重构及其社会治理等问题的理解，为推进以人为本、公平共享的<a class="gref" href="#g-renmin">公园城市和人民城市</a>建设提供决策参考。</p>
-<div class="note" data-nid="d7d31261e5"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
+<div class="note" data-nid="d7d31261e5"><div class="note-body"></div><textarea class="note-edit" placeholder="写下你的批注…（自动保存；Esc 或 ⌘/Ctrl+Enter 收起）"></textarea><input type="text" class="note-tags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea class="note-ai" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示在批注下方"></textarea><button class="note-add" type="button">＋ 批注</button><div class="note-status"></div></div>
 </div>
 </article>
 <details class="pack" open><summary>名词与人物详解 <span style="font-weight:400;font-size:.75rem">(32 条)</span></summary>
@@ -719,11 +1054,14 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <h2 class="ovh">我的批注 · 总览</h2>
 <p class="ovsub">下列为你在本页写下的全部批注，按出现顺序排列。点击引用的原文句可跳回该段。</p>
 <div id="ovList"></div>
-<div id="ovTools"><button id="ovReview" class="primary" type="button">生成 AI 点评请求（复制）</button><button id="ovCopy" type="button">复制为 Markdown</button><button id="ovSaveMd" type="button" style="display:none">下载 .md</button><button id="ovSaveJson" type="button" style="display:none">备份 .json</button><button id="ovClear" class="danger" type="button">清空</button></div>
+<div id="ovTools"><button id="ovReview" class="primary" type="button">生成 AI 点评请求（复制）</button><button id="ovCopy" type="button">复制为 Markdown</button><button id="ovSaveMd" type="button" style="display:none">下载 .md</button><button id="ovSaveJson" type="button" style="display:none">备份 .json</button><button id="ovImport" type="button">导入备份 .json</button><input type="file" id="ovImportFile" accept="application/json" style="display:none"><button id="ovClear" class="danger" type="button">清空</button></div>
 <div id="ovHint"><strong>关于「AI 点评」：</strong>发布页无法直接调用大模型，所以这个按钮的作用是把<strong>你的全部批注 + 对应原文 + 一份写好的点评指令</strong>打包复制到剪贴板。粘给 Claude 即可得到点评——它会做三件事：提炼你的关注主线、逐条判断哪些批注抓住了要害／哪些是误读（尤其是把作者引来批驳的观点误当成作者立场）、以及指出哪几条有潜力发展成论文段落。</div>
 </section>
 <footer>译文供精读辅助之用。正式引用请依据原文与期刊页码（pp. 104–114）。生成工具：bilingual-reader skill。</footer>
 </main>
+<nav id="aiSidebar"><div class="sb-label-row"><span class="sb-label">AI 总结</span><button type="button" id="aiSnapToggle" class="sb-layer-switch" aria-pressed="false" title="吸附：让每段摘要对齐右侧批注所占的高度范围"><span class="sb-layer-switch-track"><span class="sb-layer-switch-thumb"></span></span><span class="sb-layer-switch-label">吸附</span></button></div><div id="aiSummaryInner"></div></nav>
+<nav id="noteSidebar"><div class="sb-label">我的批注</div><div id="nsList"></div></nav>
+</div>
 <button id="navBtn" type="button">☰ 导航 <span class="n" data-zero="1">0</span></button>
 <div id="navBackdrop"></div>
 <div id="navPanel">
@@ -733,7 +1071,12 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);
 <div class="navpane" data-pane="gloss" hidden><input id="gSearch" type="search" placeholder="搜索术语、人物、地名…"><div id="gList"></div></div>
 <div class="navpane" data-pane="notes" hidden><div id="notesTools"><button id="navReview" class="primary" type="button">生成 AI 点评请求（复制）</button><button id="navCopyMd" type="button">复制为 Markdown</button></div><p id="notesHint">点「生成 AI 点评请求」→ 粘贴进与 Claude 的对话 → 发送。页面本身无法直接调用 AI，这一步跳不过去。</p><div id="notesList"></div><div id="notesJumpRow"><button id="notesJump" type="button">前往总览（导出文件 / 清空）→</button></div></div>
 </div></div>
-<script>window.__BR_DOC="song-2023-landscape-gentrification-nanjing";window.__BR_TOC=[{"id": "sec-0", "level": "h2", "en": "Abstract", "zh": "摘要"}, {"id": "sec-3", "level": "h2", "en": "Introduction", "zh": "引言"}, {"id": "sec-8", "level": "h2", "en": "1 Data and Methods", "zh": "1 数据与方法"}, {"id": "sec-9", "level": "h3", "en": "1.1 Study area and data sources", "zh": "1.1 研究区概况与数据来源"}, {"id": "sec-12", "level": "h3", "en": "1.2 Research design and analytical method", "zh": "1.2 研究设计与分析方法"}, {"id": "sec-18", "level": "h2", "en": "2 Socio-spatial Characteristics of Landscape Gentrification in Nanjing", "zh": "2 南京景观绅士化社会空间特征"}, {"id": "sec-19", "level": "h3", "en": "2.1 Identification results", "zh": "2.1 景观绅士化甄别结果"}, {"id": "sec-23", "level": "h3", "en": "2.2 Spatial models of landscape gentrification", "zh": "2.2 景观绅士化空间模式"}, {"id": "sec-29", "level": "h3", "en": "2.3 Replacement process of landscape gentrification", "zh": "2.3 景观绅士化置换过程"}, {"id": "sec-33", "level": "h2", "en": "3 Supply–Demand Mechanisms and Positive and Negative Effects of Landscape Gentrification", "zh": "3 景观绅士化的供需机制与正负效应"}, {"id": "sec-34", "level": "h3", "en": "3.1 Mechanisms of spatial production and consumption", "zh": "3.1 空间生产与消费机制"}, {"id": "sec-38", "level": "h3", "en": "3.2 Effects of spatial appreciation and exclusion", "zh": "3.2 空间增值与排挤效应"}, {"id": "sec-42", "level": "h2", "en": "4 Spatial Planning and Regulation Proposals Based on Optimal Benefits", "zh": "4 基于效益最优的空间规划管制建议"}, {"id": "sec-45", "level": "h2", "en": "5 Conclusion and Discussion", "zh": "5 结论与讨论"}];window.__BR_GLOSSARY=[{"id": "g-landscape", "cat": "概念", "term": "景观绅士化（landscape gentrification）", "def": "本文提出的核心概念：较高经济社会地位群体为追求自然景观居住环境而占据依山傍水地区，<strong>置换或排斥</strong>较低经济社会地位群体。和西方绿色绅士化的区别在于：景观本来就在（大型山水），而不是靠改造棕地造出来的。定义里的\"或排斥\"是关键：它让在空地上新建、没有人被赶走的情况也能算作绅士化。课程对照：Davidson 的 new-build gentrification、Stein 的定义。"}, {"id": "g-planetary", "cat": "理论/思潮", "term": "星球绅士化（planetary gentrification）", "def": "Shin, Lees &amp; López-Morales (2016) 的同名著作。主张绅士化不是从英美城市向外扩散的单一模式，要看各国政治经济条件下的不同形态，同时要求概念更清晰。<strong>本文的作用：</strong>开头和结尾都用它为\"提出中国本土概念\"提供正当性。课程对照：Brenner &amp; Schmid 的 planetary urbanism。"}, {"id": "g-paradox", "cat": "概念", "term": "绿色空间悖论（green space paradox）", "def": "建公园本意是让周边居民受益，结果房价上涨把原住居民挤走。本文引 Immergluck &amp; Balan (2018) 对亚特兰大 BeltLine 的研究。"}, {"id": "g-green", "cat": "理论/思潮", "term": "生态 / 环境 / 绿色绅士化", "def": "三个相近术语：生态绅士化（Dooling 2009）、环境绅士化（Checker 2011）、绿色绅士化（Rigolon &amp; Collins 2023 等）。共同点是城市绿化或环境改善引发房价上涨与置换。本文用它们作为对照，论证中国的景观绅士化是不同的类型。课程对照：Yrjänä (2026) 中的 green gentrification（Wallin 2021）。"}, {"id": "g-highline", "cat": "地名", "term": "高线公园（The High Line，纽约）", "def": "由废弃高架铁路改造的线性公园，是绿色绅士化最常被引用的案例（本文引 Black &amp; Richards 2020；参考文献 [28] Loughran 2014 也以它讨论增长机器）。"}, {"id": "g-displacement", "cat": "概念", "term": "失所 / 置换（displacement）", "def": "中文文献常译\"失所\"或\"置换\"。本文在 3.2 节把它扩展为三种：直接的空间失所、间接的文化失所、排斥性失所，再加上\"城市尺度\"的群体失所。课程对照：Davidson &amp; Lees 四要素之一；Shaw 引 Slater 关于置换被忽视的批评。"}, {"id": "g-newbuild", "cat": "概念", "term": "新建绅士化（new-build gentrification）", "def": "在新建住宅（而非翻新旧房）上发生的绅士化，常有国家主导。核心争议是没有直接置换算不算绅士化。本文明确把景观绅士化归入这一类。课程对照：Davidson (2018)，精读页 davidson-newbuild-gentrification.html。"}, {"id": "g-ej", "cat": "概念", "term": "环境正义（environmental justice）", "def": "环境好处与坏处在不同群体间是否公平分配。本文把景观绅士化的主要负面效应定位为环境正义问题，而不是西方式的阶层冲突。课程对照：Brenner &amp; Schmid 列出的\"terrain of struggle\"之一。"}, {"id": "g-rf", "cat": "方法", "term": "随机森林（random forest）", "def": "监督式机器学习分类方法，由大量决策树投票得出结果。本文用 5 位专家挑选的 100 个样本小区训练模型，再给 1267 个小区分类，总体精度 91.7%。读的时候要注意：模型学到的是专家心中的\"景观绅士化\"标准。"}, {"id": "g-portrait", "cat": "方法", "term": "手机用户画像（\"个推\"数据）", "def": "商业大数据平台根据 App 定位与使用行为推断用户的年龄、职业、消费水平、资产。本文用 152 m 网格、2020 年 11 月的截面数据。分类口径由平台定义（如\"高消费群体\"＝相当于月收入 2 万元以上），不是社会学定义。"}, {"id": "g-indicators", "cat": "方法", "term": "七个特征指标", "def": "景观属性（景观距离、绿化率）、房价属性（均价、溢价）、群体属性（白领、高消费、有房有车）。课程对照：可以对照 Davidson &amp; Lees 四要素检查，资本再投资、阶层升级、景观变化都有对应指标，置换没有。"}, {"id": "g-gated", "cat": "概念", "term": "封闭社区（gated community）", "def": "有围墙门禁的居住小区，中国城市住宅的常见形态。本文发现高度绅士化社区多为高档封闭社区和别墅区。课程对照：Kern (2007) 把安全商品化；洛杉矶学派讲义里的 fortified city；Paadam et al. 合集中保加利亚门禁社区一章。"}, {"id": "g-xuequ", "cat": "概念", "term": "学区房 / 学区绅士化", "def": "位于优质公立学校学区内的住房。本文为单独识别景观效应把它剔除，又在结论里把\"学区绅士化\"列为另一种中国特色绅士化。课程对照：Segregation 讲义中居住隔离向学校领域扩展（van Ham &amp; Tammaru 2016）。"}, {"id": "g-modes", "cat": "概念", "term": "封闭独占 / 通道分隔 / 开放共享", "def": "本文按小区与山水之间公共空间的宽度划分的三种开发模式：0 m、约 10–50 m、平均 100 m 以上。是全文政策论证的基础：模式越开放，绅士化越弱。作者官方英文摘要把封闭独占译作 enclosure development mode，把开放共享译作 public sharing spatial development model。"}, {"id": "g-fenyi", "cat": "概念", "term": "居住分异（residential differentiation）", "def": "不同群体在居住空间上的分化，比\"居住隔离\"（segregation）语气更中性。本文两种说法交替使用。课程对照：Segregation 讲义专门列出 'segregation' vs 'spatial differentiation'。"}, {"id": "g-housingreform", "cat": "政策/机构", "term": "住房市场化 / 商品化改革", "def": "指中国 1990 年代末起以货币化分配取代福利分房、住房走向商品市场的改革。本文用它作为封闭独占模式和\"富人区\"出现的时间节点。课程对照：Ilmonen 的 housing as need → housing as consumption；Madden &amp; Marcuse 的 home vs real estate。"}, {"id": "g-smith", "cat": "人物", "term": "Neil Smith", "def": "马克思主义地理学家，1979 年提出 rent gap 理论（本文参考文献 [24]：Toward a theory of gentrification: a back to the city movement by capital, not people）。代表绅士化研究的供给端或生产端解释。"}, {"id": "g-rentgap", "cat": "理论/思潮", "term": "租差（rent gap）", "def": "现行土地用途下资本化地租与潜在地租之间的差距，差距够大时再开发就有利可图。<strong>本文的作用：</strong>3.1 节用它解释供给端驱动，3.2 节又把\"弥合租差\"列为积极效应。课程对照：Gentrification 讲义的 Smith 1979 定义与结尾引文。"}, {"id": "g-ley", "cat": "人物", "term": "David Ley", "def": "加拿大地理学家，绅士化研究需求端或消费端解释的代表，强调后工业社会新中产阶级的文化偏好（本文参考文献 [25][33]）。本文 3.1 节第一段在复述 Smith 与 Ley 之争，作者自己的立场在该段最后一句：中国语境下政府干预与市场机制更具解释力。"}, {"id": "g-landfinance", "cat": "概念", "term": "土地财政（land finance）", "def": "地方政府高度依赖土地出让收入的财政模式。本文把它作为供给端驱动的制度基础。"}, {"id": "g-growth", "cat": "理论/思潮", "term": "增长联盟（growth coalition）", "def": "源自 Logan &amp; Molotch 的增长机器（growth machine）理论：地方政府、开发商、金融机构结成追求土地增值的联盟。本文引 Loughran (2014) 与 Waley (2016)。课程对照：Introduction 讲义 1970 年代政治经济学批评（国家、地主、开发商）；Harvey (1989) 城市企业主义。"}, {"id": "g-greenrentgap", "cat": "概念", "term": "绿色租差（green rent gap）", "def": "把租差理论扩展到绿色或景观资源：邻近重要山水、但被低端功能占据或闲置的土地，潜在地租特别高。本文引 Anguelovski et al. (2019)。"}, {"id": "g-shengtai", "cat": "政策/机构", "term": "生态文明建设、全面小康", "def": "中国官方的国家发展目标表述。本文用它说明需求端变化的时代背景：居民越来越重视居住环境与生活品质。"}, {"id": "g-club", "cat": "概念", "term": "空间俱乐部化", "def": "公共资源被少数付费成员独享，类似经济学中的\"俱乐部物品\"（可排他、非竞争）。本文用来描述封闭独占模式下山水资源变成小区业主的\"私人领地\"。"}, {"id": "g-grab", "cat": "概念", "term": "绿色掠夺（green grabbing）", "def": "Fairhead, Leach &amp; Scoones (2012) 提出，指以环保为名对自然资源的占有。本文与 Anguelovski et al. (2019) 的\"被掠夺的城市景观\"一起引用，用来描述优质景观被特权群体圈占。"}, {"id": "g-cultural", "cat": "概念", "term": "文化失所（cultural displacement）", "def": "人没有搬走，但邻里关系、社区文化、归属感被改变而造成的间接失所。本文引 Shaw &amp; Hagemans (2015)\"没有置换的绅士化\"与地方感丧失的研究。"}, {"id": "g-exclusive", "cat": "概念", "term": "排斥性失所（exclusionary displacement）", "def": "不是被赶走，而是因为价格上涨再也住不进来。概念源自 Marcuse (1985)，本文引的是 Elliott-Cooper, Hubbard &amp; Lees (2020) <em>Moving beyond Marcuse</em>。作者英文写作 Exclusive Displacement，学界通行写法是 exclusionary displacement。这是本文回应\"新建开发没有置换\"质疑的关键概念。"}, {"id": "g-publicgood", "cat": "概念", "term": "纯公共物品（pure public good）", "def": "同时具有非竞争性与非排他性的物品。本文据宪法第九条把城市山水定为纯公共物品，作为政策建议的规范基础。"}, {"id": "g-trust", "cat": "概念", "term": "公共信托原则（public trust doctrine）", "def": "源自英美法：某些自然资源由政府受全体人民委托管理，必须维持其公共用途，不得随意让渡。本文用它论证政府不应把山水资源市场化处置。"}, {"id": "g-jge", "cat": "政策/机构", "term": "适可而止的绿化（just green enough）", "def": "Curran &amp; Hamilton 等提出的反绿色绅士化策略：做足以改善环境、但不至于触发绅士化的小规模绿化。本文引 Rigolon &amp; Németh (2020) 与 Gould &amp; Lewis (2020)。作者随后说明中国情况不同：大型绿地受欢迎，问题在于私有化。"}, {"id": "g-whiteline", "cat": "政策/机构", "term": "城市白线", "def": "作者（宋伟轩等 2010，本文参考文献 [21]）提出的规划管控建议：仿照城市蓝线（水域）、绿线（绿地），在山水资源周边划定一定范围为公共空间，禁止私人用途建筑。"}, {"id": "g-renmin", "cat": "政策/机构", "term": "公园城市、人民城市", "def": "中国官方城市发展理念。\"人民城市人民建，人民城市为人民\"2019 年提出；\"公园城市\"2018 年起在成都首倡。本文把结论落在这两个目标上。"}];</script>
+<div id="selPill" style="display:none">＋ 批注</div>
+<div id="hlHint" style="display:none">请选中另一段文字，然后点击出现的＋按钮完成关联</div>
+<div id="selCard" style="display:none"><div class="hl-head">选中内容的批注</div><div id="hlFrags"></div><textarea id="hlNote" placeholder="写下你的批注…（可用电脑自带的语音输入直接对着这里说）"></textarea><input type="text" id="hlTags" list="tagOptions" placeholder="标签（可选，空格分隔，如：可引用 待查）"><textarea id="hlAiNote" placeholder="AI 备注（可选）：粘贴 AI 的回答，会标注为「AI 备注」单独显示"></textarea><div class="hl-actions"><button id="hlLink" type="button">+ 关联另一段</button><button id="hlDelete" type="button" style="display:none">删除</button><button id="hlCancel" type="button">取消</button><button id="hlSave" class="primary" type="button">保存</button></div></div>
+<div id="grefPop" style="display:none"></div>
+<datalist id="tagOptions"></datalist>
+<script>window.__BR_DOC="song-2023-landscape-gentrification-nanjing";window.__BR_TOC=[{"id": "sec-0", "level": "h2", "en": "Abstract", "zh": "摘要"}, {"id": "sec-3", "level": "h2", "en": "Introduction", "zh": "引言"}, {"id": "sec-8", "level": "h2", "en": "1 Data and Methods", "zh": "1 数据与方法"}, {"id": "sec-9", "level": "h3", "en": "1.1 Study area and data sources", "zh": "1.1 研究区概况与数据来源"}, {"id": "sec-12", "level": "h3", "en": "1.2 Research design and analytical method", "zh": "1.2 研究设计与分析方法"}, {"id": "sec-18", "level": "h2", "en": "2 Socio-spatial Characteristics of Landscape Gentrification in Nanjing", "zh": "2 南京景观绅士化社会空间特征"}, {"id": "sec-19", "level": "h3", "en": "2.1 Identification results", "zh": "2.1 景观绅士化甄别结果"}, {"id": "sec-23", "level": "h3", "en": "2.2 Spatial models of landscape gentrification", "zh": "2.2 景观绅士化空间模式"}, {"id": "sec-29", "level": "h3", "en": "2.3 Replacement process of landscape gentrification", "zh": "2.3 景观绅士化置换过程"}, {"id": "sec-33", "level": "h2", "en": "3 Supply–Demand Mechanisms and Positive and Negative Effects of Landscape Gentrification", "zh": "3 景观绅士化的供需机制与正负效应"}, {"id": "sec-34", "level": "h3", "en": "3.1 Mechanisms of spatial production and consumption", "zh": "3.1 空间生产与消费机制"}, {"id": "sec-38", "level": "h3", "en": "3.2 Effects of spatial appreciation and exclusion", "zh": "3.2 空间增值与排挤效应"}, {"id": "sec-42", "level": "h2", "en": "4 Spatial Planning and Regulation Proposals Based on Optimal Benefits", "zh": "4 基于效益最优的空间规划管制建议"}, {"id": "sec-45", "level": "h2", "en": "5 Conclusion and Discussion", "zh": "5 结论与讨论"}];window.__BR_GLOSSARY=[{"id": "g-landscape", "cat": "概念", "term": "景观绅士化（landscape gentrification）", "def": "本文提出的核心概念：较高经济社会地位群体为追求自然景观居住环境而占据依山傍水地区，<strong>置换或排斥</strong>较低经济社会地位群体。和西方绿色绅士化的区别在于：景观本来就在（大型山水），而不是靠改造棕地造出来的。定义里的\"或排斥\"是关键：它让在空地上新建、没有人被赶走的情况也能算作绅士化。课程对照：Davidson 的 new-build gentrification、Stein 的定义。"}, {"id": "g-planetary", "cat": "理论/思潮", "term": "星球绅士化（planetary gentrification）", "def": "Shin, Lees &amp; López-Morales (2016) 的同名著作。主张绅士化不是从英美城市向外扩散的单一模式，要看各国政治经济条件下的不同形态，同时要求概念更清晰。<strong>本文的作用：</strong>开头和结尾都用它为\"提出中国本土概念\"提供正当性。课程对照：Brenner &amp; Schmid 的 planetary urbanism。"}, {"id": "g-paradox", "cat": "概念", "term": "绿色空间悖论（green space paradox）", "def": "建公园本意是让周边居民受益，结果房价上涨把原住居民挤走。本文引 Immergluck &amp; Balan (2018) 对亚特兰大 BeltLine 的研究。"}, {"id": "g-green", "cat": "理论/思潮", "term": "生态 / 环境 / 绿色绅士化", "def": "三个相近术语：生态绅士化（Dooling 2009）、环境绅士化（Checker 2011）、绿色绅士化（Rigolon &amp; Collins 2023 等）。共同点是城市绿化或环境改善引发房价上涨与置换。本文用它们作为对照，论证中国的景观绅士化是不同的类型。课程对照：Yrjänä (2026) 中的 green gentrification（Wallin 2021）。"}, {"id": "g-highline", "cat": "地名", "term": "高线公园（The High Line，纽约）", "def": "由废弃高架铁路改造的线性公园，是绿色绅士化最常被引用的案例（本文引 Black &amp; Richards 2020；参考文献 [28] Loughran 2014 也以它讨论增长机器）。"}, {"id": "g-displacement", "cat": "概念", "term": "失所 / 置换（displacement）", "def": "中文文献常译\"失所\"或\"置换\"。本文在 3.2 节把它扩展为三种：直接的空间失所、间接的文化失所、排斥性失所，再加上\"城市尺度\"的群体失所。课程对照：Davidson &amp; Lees 四要素之一；Shaw 引 Slater 关于置换被忽视的批评。"}, {"id": "g-newbuild", "cat": "概念", "term": "新建绅士化（new-build gentrification）", "def": "在新建住宅（而非翻新旧房）上发生的绅士化，常有国家主导。核心争议是没有直接置换算不算绅士化。本文明确把景观绅士化归入这一类。课程对照：Davidson (2018)，精读页 davidson-newbuild-gentrification.html。"}, {"id": "g-ej", "cat": "概念", "term": "环境正义（environmental justice）", "def": "环境好处与坏处在不同群体间是否公平分配。本文把景观绅士化的主要负面效应定位为环境正义问题，而不是西方式的阶层冲突。课程对照：Brenner &amp; Schmid 列出的\"terrain of struggle\"之一。"}, {"id": "g-rf", "cat": "方法", "term": "随机森林（random forest）", "def": "监督式机器学习分类方法，由大量决策树投票得出结果。本文用 5 位专家挑选的 100 个样本小区训练模型，再给 1267 个小区分类，总体精度 91.7%。读的时候要注意：模型学到的是专家心中的\"景观绅士化\"标准。"}, {"id": "g-portrait", "cat": "方法", "term": "手机用户画像（\"个推\"数据）", "def": "商业大数据平台根据 App 定位与使用行为推断用户的年龄、职业、消费水平、资产。本文用 152 m 网格、2020 年 11 月的截面数据。分类口径由平台定义（如\"高消费群体\"＝相当于月收入 2 万元以上），不是社会学定义。"}, {"id": "g-indicators", "cat": "方法", "term": "七个特征指标", "def": "景观属性（景观距离、绿化率）、房价属性（均价、溢价）、群体属性（白领、高消费、有房有车）。课程对照：可以对照 Davidson &amp; Lees 四要素检查，资本再投资、阶层升级、景观变化都有对应指标，置换没有。"}, {"id": "g-gated", "cat": "概念", "term": "封闭社区（gated community）", "def": "有围墙门禁的居住小区，中国城市住宅的常见形态。本文发现高度绅士化社区多为高档封闭社区和别墅区。课程对照：Kern (2007) 把安全商品化；洛杉矶学派讲义里的 fortified city；Paadam et al. 合集中保加利亚门禁社区一章。"}, {"id": "g-xuequ", "cat": "概念", "term": "学区房 / 学区绅士化", "def": "位于优质公立学校学区内的住房。本文为单独识别景观效应把它剔除，又在结论里把\"学区绅士化\"列为另一种中国特色绅士化。课程对照：Segregation 讲义中居住隔离向学校领域扩展（van Ham &amp; Tammaru 2016）。"}, {"id": "g-modes", "cat": "概念", "term": "封闭独占 / 通道分隔 / 开放共享", "def": "本文按小区与山水之间公共空间的宽度划分的三种开发模式：0 m、约 10–50 m、平均 100 m 以上。是全文政策论证的基础：模式越开放，绅士化越弱。作者官方英文摘要把封闭独占译作 enclosure development mode，把开放共享译作 public sharing spatial development model。"}, {"id": "g-fenyi", "cat": "概念", "term": "居住分异（residential differentiation）", "def": "不同群体在居住空间上的分化，比\"居住隔离\"（segregation）语气更中性。本文两种说法交替使用。课程对照：Segregation 讲义专门列出 'segregation' vs 'spatial differentiation'。"}, {"id": "g-housingreform", "cat": "政策/机构", "term": "住房市场化 / 商品化改革", "def": "指中国 1990 年代末起以货币化分配取代福利分房、住房走向商品市场的改革。本文用它作为封闭独占模式和\"富人区\"出现的时间节点。课程对照：Ilmonen 的 housing as need → housing as consumption；Madden &amp; Marcuse 的 home vs real estate。"}, {"id": "g-smith", "cat": "人物", "term": "Neil Smith", "def": "马克思主义地理学家，1979 年提出 rent gap 理论（本文参考文献 [24]：Toward a theory of gentrification: a back to the city movement by capital, not people）。代表绅士化研究的供给端或生产端解释。"}, {"id": "g-rentgap", "cat": "理论/思潮", "term": "租差（rent gap）", "def": "现行土地用途下资本化地租与潜在地租之间的差距，差距够大时再开发就有利可图。<strong>本文的作用：</strong>3.1 节用它解释供给端驱动，3.2 节又把\"弥合租差\"列为积极效应。课程对照：Gentrification 讲义的 Smith 1979 定义与结尾引文。"}, {"id": "g-ley", "cat": "人物", "term": "David Ley", "def": "加拿大地理学家，绅士化研究需求端或消费端解释的代表，强调后工业社会新中产阶级的文化偏好（本文参考文献 [25][33]）。本文 3.1 节第一段在复述 Smith 与 Ley 之争，作者自己的立场在该段最后一句：中国语境下政府干预与市场机制更具解释力。"}, {"id": "g-landfinance", "cat": "概念", "term": "土地财政（land finance）", "def": "地方政府高度依赖土地出让收入的财政模式。本文把它作为供给端驱动的制度基础。"}, {"id": "g-growth", "cat": "理论/思潮", "term": "增长联盟（growth coalition）", "def": "源自 Logan &amp; Molotch 的增长机器（growth machine）理论：地方政府、开发商、金融机构结成追求土地增值的联盟。本文引 Loughran (2014) 与 Waley (2016)。课程对照：Introduction 讲义 1970 年代政治经济学批评（国家、地主、开发商）；Harvey (1989) 城市企业主义。"}, {"id": "g-greenrentgap", "cat": "概念", "term": "绿色租差（green rent gap）", "def": "把租差理论扩展到绿色或景观资源：邻近重要山水、但被低端功能占据或闲置的土地，潜在地租特别高。本文引 Anguelovski et al. (2019)。"}, {"id": "g-shengtai", "cat": "政策/机构", "term": "生态文明建设、全面小康", "def": "中国官方的国家发展目标表述。本文用它说明需求端变化的时代背景：居民越来越重视居住环境与生活品质。"}, {"id": "g-club", "cat": "概念", "term": "空间俱乐部化", "def": "公共资源被少数付费成员独享，类似经济学中的\"俱乐部物品\"（可排他、非竞争）。本文用来描述封闭独占模式下山水资源变成小区业主的\"私人领地\"。"}, {"id": "g-grab", "cat": "概念", "term": "绿色掠夺（green grabbing）", "def": "Fairhead, Leach &amp; Scoones (2012) 提出，指以环保为名对自然资源的占有。本文与 Anguelovski et al. (2019) 的\"被掠夺的城市景观\"一起引用，用来描述优质景观被特权群体圈占。"}, {"id": "g-cultural", "cat": "概念", "term": "文化失所（cultural displacement）", "def": "人没有搬走，但邻里关系、社区文化、归属感被改变而造成的间接失所。本文引 Shaw &amp; Hagemans (2015)\"没有置换的绅士化\"与地方感丧失的研究。"}, {"id": "g-exclusive", "cat": "概念", "term": "排斥性失所（exclusionary displacement）", "def": "不是被赶走，而是因为价格上涨再也住不进来。概念源自 Marcuse (1985)，本文引的是 Elliott-Cooper, Hubbard &amp; Lees (2020) <em>Moving beyond Marcuse</em>。作者英文写作 Exclusive Displacement，学界通行写法是 exclusionary displacement。这是本文回应\"新建开发没有置换\"质疑的关键概念。"}, {"id": "g-publicgood", "cat": "概念", "term": "纯公共物品（pure public good）", "def": "同时具有非竞争性与非排他性的物品。本文据宪法第九条把城市山水定为纯公共物品，作为政策建议的规范基础。"}, {"id": "g-trust", "cat": "概念", "term": "公共信托原则（public trust doctrine）", "def": "源自英美法：某些自然资源由政府受全体人民委托管理，必须维持其公共用途，不得随意让渡。本文用它论证政府不应把山水资源市场化处置。"}, {"id": "g-jge", "cat": "政策/机构", "term": "适可而止的绿化（just green enough）", "def": "Curran &amp; Hamilton 等提出的反绿色绅士化策略：做足以改善环境、但不至于触发绅士化的小规模绿化。本文引 Rigolon &amp; Németh (2020) 与 Gould &amp; Lewis (2020)。作者随后说明中国情况不同：大型绿地受欢迎，问题在于私有化。"}, {"id": "g-whiteline", "cat": "政策/机构", "term": "城市白线", "def": "作者（宋伟轩等 2010，本文参考文献 [21]）提出的规划管控建议：仿照城市蓝线（水域）、绿线（绿地），在山水资源周边划定一定范围为公共空间，禁止私人用途建筑。"}, {"id": "g-renmin", "cat": "政策/机构", "term": "公园城市、人民城市", "def": "中国官方城市发展理念。\"人民城市人民建，人民城市为人民\"2019 年提出；\"公园城市\"2018 年起在成都首倡。本文把结论落在这两个目标上。"}];window.__BR_SUMMARIES={};</script>
 <script>
 function setMode(m, btn){
   document.body.className = m;
@@ -761,11 +1104,57 @@ document.addEventListener('scroll', function(){
   var notes={};
   try{ notes=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ notes={}; }
 
+  var HL_KEY='br-highlights:'+(window.__BR_DOC||'doc');
+  var highlights=[];
+  try{ highlights=JSON.parse(localStorage.getItem(HL_KEY)||'[]'); }catch(e){ highlights=[]; }
+  function persistHL(){
+    try{ localStorage.setItem(HL_KEY, JSON.stringify(highlights)); return true; }
+    catch(e){ return false; }
+  }
+
   function persist(){
     try{ localStorage.setItem(KEY, JSON.stringify(notes)); return true; }
     catch(e){ return false; }
   }
-  function count(){ return Object.keys(notes).filter(function(k){return (notes[k]||'').trim();}).length; }
+  /* Free-form tags, self-assigned by the reader (e.g. "可引用 待查"), not a
+     fixed taxonomy. Paragraph notes predate tags and were plain strings in
+     localStorage — noteOf() reads either the legacy string form or the new
+     {text,tags} object form, so existing saved notes don't need migrating. */
+  function parseTags(s){
+    return (s||'').split(/[,，\s]+/).map(function(t){return t.trim();}).filter(Boolean);
+  }
+  function tagsLabel(tags){ return (tags||[]).join(' '); }
+  function noteOf(id){
+    var raw=notes[id];
+    if(!raw) return {text:'', tags:[], aiNote:''};
+    if(typeof raw==='string') return {text:raw, tags:[], aiNote:''};
+    return {text:raw.text||'', tags:raw.tags||[], aiNote:raw.aiNote||''};
+  }
+  function focusSoon(el){
+    el.focus();
+    requestAnimationFrame(function(){ el.focus(); });
+  }
+  var activeTagFilter=null;
+  function toggleTagFilter(tag){
+    activeTagFilter=(activeTagFilter===tag)?null:tag;
+    refreshAll();
+  }
+  function buildTagRow(tags){
+    var row=document.createElement('div'); row.className='tag-row';
+    tags.forEach(function(t){
+      var chip=document.createElement('span'); chip.className='tag-chip';
+      if(t===activeTagFilter) chip.classList.add('active');
+      chip.textContent='#'+t;
+      chip.addEventListener('click', function(e){ e.stopPropagation(); toggleTagFilter(t); });
+      row.appendChild(chip);
+    });
+    return row;
+  }
+  function count(){
+    var n=Object.keys(notes).filter(function(k){return noteOf(k).text.trim();}).length;
+    n += highlights.filter(function(h){return (h.note||'').trim();}).length;
+    return n;
+  }
   function refreshBtn(){
     var n=count();
     var badge=document.querySelector('#navBtn .n');
@@ -773,10 +1162,23 @@ document.addEventListener('scroll', function(){
     var tabBadge=document.getElementById('notesTabBadge');
     if(tabBadge) tabBadge.textContent=n;
   }
+  function buildAiNoteBlock(aiNote){
+    var ai=document.createElement('div'); ai.className='ai-note';
+    var lbl=document.createElement('span'); lbl.className='ai-note-lbl'; lbl.textContent='🤖 AI 备注';
+    ai.appendChild(lbl);
+    ai.appendChild(document.createTextNode(aiNote));
+    return ai;
+  }
   function paint(wrap){
-    var id=wrap.dataset.nid, v=(notes[id]||'').trim();
+    var id=wrap.dataset.nid, nd=noteOf(id), v=nd.text.trim();
     var body=wrap.querySelector('.note-body');
-    if(v){ wrap.classList.add('has'); body.innerHTML='<span class="lbl">我的批注</span>'; body.appendChild(document.createTextNode(v)); }
+    if(v){
+      wrap.classList.add('has');
+      body.innerHTML='<span class="lbl">我的批注</span>';
+      body.appendChild(document.createTextNode(v));
+      if(nd.tags.length) body.appendChild(buildTagRow(nd.tags));
+      if(nd.aiNote.trim()) body.appendChild(buildAiNoteBlock(nd.aiNote.trim()));
+    }
     else { wrap.classList.remove('has'); body.textContent=''; }
   }
   function flash(wrap){
@@ -788,8 +1190,12 @@ document.addEventListener('scroll', function(){
   }
   function save(wrap){
     var id=wrap.dataset.nid, ta=wrap.querySelector('.note-edit');
+    var tagInput=wrap.querySelector('.note-tags');
+    var aiInput=wrap.querySelector('.note-ai');
     var v=ta.value.trim();
-    if(v) notes[id]=v; else delete notes[id];
+    var tags=tagInput?parseTags(tagInput.value):[];
+    var aiNote=aiInput?aiInput.value.trim():'';
+    if(v) notes[id]={text:v, tags:tags, aiNote:aiNote}; else delete notes[id];
     if(persist()){ flash(wrap); } else {
       var s=wrap.querySelector('.note-status');
       s.textContent='保存失败(浏览器存储不可用)'; s.classList.add('show');
@@ -802,70 +1208,270 @@ document.addEventListener('scroll', function(){
   }
   function edit(wrap){
     var ta=wrap.querySelector('.note-edit');
-    ta.value=notes[wrap.dataset.nid]||'';
+    var tagInput=wrap.querySelector('.note-tags');
+    var aiInput=wrap.querySelector('.note-ai');
+    var nd=noteOf(wrap.dataset.nid);
+    ta.value=nd.text;
+    if(tagInput) tagInput.value=tagsLabel(nd.tags);
+    if(aiInput){ aiInput.value=nd.aiNote; autogrow(aiInput); }
     wrap.classList.add('editing');
-    ta.focus();
+    focusSoon(ta);
     ta.setSelectionRange(ta.value.length, ta.value.length);
     autogrow(ta);
   }
   function autogrow(ta){ ta.style.height='auto'; ta.style.height=(ta.scrollHeight+2)+'px'; }
+  function scheduleCollapseCheck(wrap){
+    /* Tabbing from the note textarea to its tag-input field blurs the
+       textarea, but focus is still inside the SAME note — collapsing the
+       editing UI on that blur would hide the tag field before the reader
+       can even reach it. Defer the check a tick so the newly-focused element
+       (if it's still within this wrap) is already document.activeElement. */
+    setTimeout(function(){
+      if(!wrap.contains(document.activeElement)) wrap.classList.remove('editing');
+    }, 0);
+  }
 
+  var nidToBlock={};
   document.querySelectorAll('.note').forEach(function(wrap){
     paint(wrap);
+    var host0=wrap.closest('.bipara')||wrap.closest('.bifig')||wrap.closest('blockquote');
+    if(host0) nidToBlock[wrap.dataset.nid]=host0;
     wrap.querySelector('.note-add').addEventListener('click', function(){ edit(wrap); });
     wrap.querySelector('.note-body').addEventListener('click', function(){ edit(wrap); });
     var ta=wrap.querySelector('.note-edit');
+    var tagInput=wrap.querySelector('.note-tags');
+    var aiInput=wrap.querySelector('.note-ai');
     ta.addEventListener('input', function(){
       autogrow(ta);
       clearTimeout(wrap.__st);
       wrap.__st=setTimeout(function(){ save(wrap); }, 500);
     });
     ta.addEventListener('blur', function(){
-      clearTimeout(wrap.__st); save(wrap); wrap.classList.remove('editing');
+      clearTimeout(wrap.__st); save(wrap); scheduleCollapseCheck(wrap);
     });
     ta.addEventListener('keydown', function(e){
       if(e.key==='Escape'){ ta.blur(); }
       if(e.key==='Enter' && (e.metaKey||e.ctrlKey)){ ta.blur(); }
     });
+    if(tagInput){
+      tagInput.addEventListener('input', function(){
+        clearTimeout(wrap.__st);
+        wrap.__st=setTimeout(function(){ save(wrap); }, 500);
+      });
+      tagInput.addEventListener('blur', function(){
+        clearTimeout(wrap.__st); save(wrap); scheduleCollapseCheck(wrap);
+      });
+      tagInput.addEventListener('keydown', function(e){
+        if(e.key==='Escape'){ tagInput.blur(); }
+        if(e.key==='Enter'){ e.preventDefault(); tagInput.blur(); }
+      });
+    }
+    if(aiInput){
+      /* multi-line (a pasted AI answer can be several paragraphs), so unlike
+         .note-tags this does NOT blur on Enter -- Enter is just a newline. */
+      aiInput.addEventListener('input', function(){
+        autogrow(aiInput);
+        clearTimeout(wrap.__st);
+        wrap.__st=setTimeout(function(){ save(wrap); }, 500);
+      });
+      aiInput.addEventListener('blur', function(){
+        clearTimeout(wrap.__st); save(wrap); scheduleCollapseCheck(wrap);
+      });
+      aiInput.addEventListener('keydown', function(e){
+        if(e.key==='Escape'){ aiInput.blur(); }
+      });
+    }
   });
   var panel=document.getElementById('navPanel');
 
   function entries(){
     var out=[];
     document.querySelectorAll('.note').forEach(function(w){
-      var v=(notes[w.dataset.nid]||'').trim();
+      var nd=noteOf(w.dataset.nid);
+      var v=nd.text.trim();
       if(!v) return;
-      var host=w.closest('.bipara')||w.closest('blockquote');
+      var host=w.closest('.bipara')||w.closest('.bifig')||w.closest('blockquote');
       var en=host?host.querySelector('.en'):null;
       var zh=host?host.querySelector('.zh'):null;
-      out.push({el:host, src:en?en.textContent.trim():'',
+      out.push({el:host, nid:w.dataset.nid, src:en?en.textContent.trim():'',
                 zh:zh?zh.textContent.trim():'', txt:v,
-                isQuote: !!(host&&host.tagName==='BLOCKQUOTE')});
+                isQuote: !!(host&&host.tagName==='BLOCKQUOTE'), tags:nd.tags, aiNote:nd.aiNote.trim()});
+    });
+    highlights.forEach(function(h){
+      var v=(h.note||'').trim();
+      if(!v || !h.frags || !h.frags.length) return;
+      out.push({el:nidToBlock[h.frags[0].nid], nid:h.frags[0].nid,
+                src:h.frags.map(function(f){return f.text;}).join('" ... "'),
+                zh:'', txt:v, isQuote:false, isHighlight:true, frags:h.frags, hlId:h.id, tags:h.tags||[],
+                aiNote:(h.aiNote||'').trim()});
     });
     return out;
   }
-  function buildList(list, closeAfterJump){
+  function filteredRows(){
     var rows=entries();
+    if(!activeTagFilter) return rows;
+    return rows.filter(function(r){ return (r.tags||[]).indexOf(activeTagFilter)!==-1; });
+  }
+  function filterBarInto(container){
+    if(!activeTagFilter) return;
+    var bar=document.createElement('div'); bar.className='tag-filter-bar';
+    bar.appendChild(document.createTextNode('筛选：#'+activeTagFilter+' '));
+    var clear=document.createElement('button');
+    clear.type='button'; clear.className='tag-filter-clear'; clear.textContent='✕ 清除筛选';
+    clear.addEventListener('click', function(){ activeTagFilter=null; refreshAll(); });
+    bar.appendChild(clear);
+    container.appendChild(bar);
+  }
+  /* Shared by buildList() (nav 批注 tab / overview) and buildSidebarList():
+     a highlight note with more than one linked fragment ("+ 关联另一段")
+     used to collapse into one joined-quote line that jumped only to the
+     FIRST fragment — the other fragment(s) were invisible and unreachable
+     from the list. Now a multi-fragment row gets a "🔗 关联 N 处" badge plus
+     one small jump row per fragment, each independently clickable, so the
+     list actually reflects that this note spans more than one passage. */
+  function renderSrcInto(container, r, opts){
+    opts=opts||{};
+    var truncLen=opts.truncLen||110;
+    var singleClass=opts.singleClass||'src';
+    if(r.isHighlight && r.frags && r.frags.length>1){
+      var badge=document.createElement('div'); badge.className='frag-badge';
+      badge.textContent='🔗 关联 '+r.frags.length+' 处，点击分别跳转：';
+      container.appendChild(badge);
+      r.frags.forEach(function(f){
+        var fr=document.createElement('div'); fr.className='frag-row';
+        var icon=document.createElement('span'); icon.className='jump-icon'; icon.textContent='↳';
+        fr.appendChild(icon);
+        fr.appendChild(document.createTextNode('“'+fragLabel(f.text)+'”'));
+        fr.addEventListener('click', function(){
+          var host=nidToBlock[f.nid];
+          if(host) host.scrollIntoView({behavior:'smooth',block:'center'});
+          if(opts.afterJump) opts.afterJump();
+        });
+        container.appendChild(fr);
+      });
+    } else {
+      var s=document.createElement('div'); s.className=singleClass;
+      s.textContent=(r.isHighlight?'［选段］“':(r.isQuote?'［引文］“':'“'))+r.src.slice(0,truncLen)+(r.src.length>truncLen?'…':'')+'”';
+      s.addEventListener('click', function(){
+        if(r.el) r.el.scrollIntoView({behavior:'smooth',block:'center'});
+        if(opts.afterJump) opts.afterJump();
+      });
+      container.appendChild(s);
+    }
+  }
+  function buildList(list, closeAfterJump){
+    var rows=filteredRows();
     list.innerHTML='';
+    filterBarInto(list);
     if(!rows.length){
-      list.innerHTML='<div class="nempty">还没有批注。点击任意段落下方的「＋ 批注」开始。</div>';
+      var empty=document.createElement('div'); empty.className='nempty';
+      empty.textContent=activeTagFilter?('没有标签为 "'+activeTagFilter+'" 的批注。'):'还没有批注。点击任意段落下方的「＋ 批注」开始。';
+      list.appendChild(empty);
       return;
     }
     rows.forEach(function(r){
       var d=document.createElement('div'); d.className='nrow';
-      var s=document.createElement('div'); s.className='src';
-      s.textContent=(r.isQuote?'［引文］“':'“')+r.src.slice(0,110)+(r.src.length>110?'…':'')+'”';
-      s.addEventListener('click', function(){
-        if(closeAfterJump) closePanel();
-        r.el.scrollIntoView({behavior:'smooth',block:'center'});
-      });
+      renderSrcInto(d, r, {truncLen:110, singleClass:'src',
+        afterJump:function(){ if(closeAfterJump) closePanel(); }});
       var t=document.createElement('div'); t.className='txt'; t.textContent=r.txt;
-      d.appendChild(s); d.appendChild(t); list.appendChild(d);
+      d.appendChild(t);
+      if(r.aiNote) d.appendChild(buildAiNoteBlock(r.aiNote));
+      if(r.tags && r.tags.length) d.appendChild(buildTagRow(r.tags));
+      d.appendChild(buildAskBtn(r, false));
+      list.appendChild(d);
+    });
+  }
+  function buildSidebarList(){
+    var list=document.getElementById('nsList');
+    if(!list) return;
+    var rows=filteredRows();
+    list.innerHTML='';
+    filterBarInto(list);
+    if(!rows.length){
+      var empty=document.createElement('div'); empty.className='ns-empty';
+      empty.textContent=activeTagFilter?('没有标签为 "'+activeTagFilter+'" 的批注。'):'还没有批注。选中文字，或点段落下方的「＋批注」。';
+      list.appendChild(empty);
+      return;
+    }
+    rows.forEach(function(r){
+      var row=document.createElement('div'); row.className='ns-row';
+      if(r.nid) row.dataset.nid=r.nid;
+      renderSrcInto(row, r, {truncLen:70, singleClass:'ns-q'});
+      var t=document.createElement('div'); t.className='ns-t';
+      t.textContent=r.txt.slice(0,90)+(r.txt.length>90?'…':'');
+      var editBtn=document.createElement('button');
+      editBtn.type='button'; editBtn.className='ns-edit'; editBtn.textContent='✎';
+      if(r.isHighlight){
+        editBtn.title='编辑或关联其他段落（不跳转）';
+        editBtn.addEventListener('click', function(e){ e.stopPropagation(); openCardById(r.hlId); });
+      } else {
+        editBtn.title='前往并编辑';
+        editBtn.addEventListener('click', function(e){
+          e.stopPropagation();
+          if(!r.el) return;
+          r.el.scrollIntoView({behavior:'smooth',block:'center'});
+          var w=r.el.querySelector('.note');
+          if(w) setTimeout(function(){ edit(w); }, 650);
+        });
+      }
+      row.appendChild(t);
+      if(r.aiNote) row.appendChild(buildAiNoteBlock(r.aiNote.slice(0,160)+(r.aiNote.length>160?'…':'')));
+      if(r.tags && r.tags.length) row.appendChild(buildTagRow(r.tags));
+      row.appendChild(buildAskBtn(r, true));
+      row.appendChild(editBtn);
+      list.appendChild(row);
+    });
+  }
+  /* Previously-used tags become pickable rather than needing to be retyped
+     each time: every .note-tags / #hlTags input shares one <datalist>,
+     refreshed from whatever tags already exist across both notes and
+     highlights. A plain HTML5 datalist only replaces the WHOLE input value
+     when a suggestion is picked, so it helps most for a field's first tag;
+     typing a second tag after a space still needs typing it out. That's an
+     accepted limit of using the native control instead of a custom
+     multi-chip widget, not a bug. */
+  function allDistinctTags(){
+    var set={};
+    Object.keys(notes).forEach(function(k){ noteOf(k).tags.forEach(function(t){ set[t]=true; }); });
+    highlights.forEach(function(h){ (h.tags||[]).forEach(function(t){ set[t]=true; }); });
+    return Object.keys(set).sort();
+  }
+  function refreshTagOptions(){
+    var dl=document.getElementById('tagOptions');
+    if(!dl) return;
+    dl.innerHTML='';
+    allDistinctTags().forEach(function(t){
+      var opt=document.createElement('option'); opt.value=t;
+      dl.appendChild(opt);
+    });
+  }
+  function buildTagDirectory(){
+    var list=document.getElementById('sbTagList');
+    if(!list) return;
+    var counts={};
+    entries().forEach(function(r){ (r.tags||[]).forEach(function(t){ counts[t]=(counts[t]||0)+1; }); });
+    var tags=Object.keys(counts).sort();
+    list.innerHTML='';
+    if(!tags.length){
+      list.innerHTML='<div class="sb-tag-empty">还没有标签。写批注时顺手加几个吧。</div>';
+      return;
+    }
+    tags.forEach(function(t){
+      var row=document.createElement('div'); row.className='sb-tag-row';
+      if(t===activeTagFilter) row.classList.add('active');
+      var label=document.createElement('span'); label.textContent='#'+t;
+      var count=document.createElement('span'); count.className='count'; count.textContent=counts[t];
+      row.appendChild(label); row.appendChild(count);
+      row.addEventListener('click', function(){ toggleTagFilter(t); });
+      list.appendChild(row);
     });
   }
   function refreshAll(){
     buildList(document.getElementById('notesList'), true);
     buildList(document.getElementById('ovList'), false);
+    buildSidebarList();
+    buildTagDirectory();
+    refreshTagOptions();
     refreshBtn();
   }
 
@@ -873,12 +1479,19 @@ document.addEventListener('scroll', function(){
   var CITE=document.querySelector('.citation') ? document.querySelector('.citation').textContent.trim() : '';
 
   function markdown(){
-    var rows=entries();
+    var rows=filteredRows();
     var out=['# 批注 — '+TITLE, '', CITE, ''];
+    if(activeTagFilter){ out.push('（仅导出标签：#'+activeTagFilter+'）'); out.push(''); }
     rows.forEach(function(r){
-      out.push('> '+r.src.replace(/\s+/g,' '));
+      if(r.isHighlight && r.frags && r.frags.length>1){
+        r.frags.forEach(function(f){ out.push('> '+f.text.replace(/\s+/g,' ')); });
+      } else {
+        out.push('> '+r.src.replace(/\s+/g,' '));
+      }
       out.push('');
       out.push(r.txt);
+      if(r.aiNote){ out.push(''); out.push('AI 备注：'+r.aiNote); }
+      if(r.tags && r.tags.length) out.push('标签：'+r.tags.map(function(t){return '#'+t;}).join(' '));
       out.push('');
       out.push('---');
       out.push('');
@@ -887,7 +1500,7 @@ document.addEventListener('scroll', function(){
   }
 
   function reviewPrompt(){
-    var rows=entries();
+    var rows=filteredRows();
     var out=[];
     out.push('我正在精读下面这篇文献，附上原文段落与我自己写的批注。请据此完成三件事，要具体，不要泛泛而谈：');
     out.push('');
@@ -898,20 +1511,57 @@ document.addEventListener('scroll', function(){
     out.push('文献：'+TITLE);
     if(CITE) out.push(CITE);
     out.push('批注条数：'+rows.length);
+    if(activeTagFilter) out.push('（仅包含标签 #'+activeTagFilter+' 的批注）');
     out.push('');
     rows.forEach(function(r,i){
-      out.push('════ 第 '+(i+1)+' 条'+(r.isQuote?'（针对引文）':'')+' ════');
-      out.push('【原文】'+r.src.replace(/\s+/g,' '));
+      var tag = r.isQuote ? '（针对引文）'
+              : r.isHighlight ? (r.frags.length>1 ? '（关联 '+r.frags.length+' 段）' : '（选中片段）')
+              : '';
+      out.push('════ 第 '+(i+1)+' 条'+tag+' ════');
+      if(r.isHighlight && r.frags && r.frags.length>1){
+        r.frags.forEach(function(f,fi){ out.push('【原文片段'+(fi+1)+'】'+f.text.replace(/\s+/g,' ')); });
+      } else {
+        out.push('【原文】'+r.src.replace(/\s+/g,' '));
+      }
       if(r.zh) out.push('【译文】'+r.zh.replace(/\s+/g,' '));
       out.push('【我的批注】'+r.txt);
+      if(r.aiNote) out.push('【此前的 AI 备注】'+r.aiNote);
+      if(r.tags && r.tags.length) out.push('【标签】'+r.tags.map(function(t){return '#'+t;}).join(' '));
       out.push('');
     });
     return out.join('\n');
   }
 
-  function copyText(txt, btn, label){
+  /* Per-note counterpart to reviewPrompt(): treats ONE annotation's text as
+     a QUESTION rather than folding it into a batch review, since "what does
+     this bit even mean" and "judge my whole reading" are different asks and
+     a reader shouldn't have to wade through every other note to get the
+     first one answered. */
+  function askPrompt(r){
+    var out=[];
+    out.push('请把我下面这条批注当作一个问题来解读：先说明原文这段在论证什么，再针对性地回答或解读我提出的问题，不要泛泛而谈。如果我的批注本身有误读的地方，也请指出来。');
+    out.push('');
+    out.push('文献：'+TITLE);
+    if(CITE) out.push(CITE);
+    out.push('');
+    if(r.isHighlight && r.frags && r.frags.length>1){
+      r.frags.forEach(function(f,fi){ out.push('【原文片段'+(fi+1)+'】'+f.text.replace(/\s+/g,' ')); });
+    } else {
+      out.push('【原文】'+r.src.replace(/\s+/g,' '));
+    }
+    if(r.zh) out.push('【译文】'+r.zh.replace(/\s+/g,' '));
+    out.push('');
+    out.push('【我的问题/批注】'+r.txt);
+    if(r.aiNote) out.push('【此前已有的 AI 备注，这次请在此基础上继续回答，不要重复】'+r.aiNote);
+    if(r.tags && r.tags.length) out.push('【标签】'+r.tags.map(function(t){return '#'+t;}).join(' '));
+    return out.join('\n');
+  }
+
+  function copyText(txt, btn, label, opts){
+    opts=opts||{};
+    var okText=opts.okText||'✓ 已复制', failText=opts.failText||'复制失败';
     function done(ok){
-      btn.textContent = ok?'✓ 已复制':'复制失败';
+      btn.textContent = ok?okText:failText;
       setTimeout(function(){ btn.textContent=label; },1800);
     }
     if(navigator.clipboard && navigator.clipboard.writeText){
@@ -924,8 +1574,32 @@ document.addEventListener('scroll', function(){
       document.body.removeChild(ta); done(ok);
     }
   }
+  /* Shared by buildList() and buildSidebarList(): a small button per row
+     that copies askPrompt(r) to the clipboard. `compact` picks the icon-only
+     ns-row variant (no room there for a text label) over the pill-with-
+     label variant used in the wider nav/overview rows. */
+  function buildAskBtn(r, compact){
+    var b=document.createElement('button');
+    b.type='button';
+    if(compact){
+      b.className='ns-ask'; b.textContent='💬';
+      b.title='生成 AI 解读请求（复制），把这条批注当问题问 AI';
+    } else {
+      b.className='ask-ai-btn'; b.textContent='💬 AI 解读';
+      b.title='把这条批注当问题，复制一份可直接粘贴给 AI 的解读请求';
+    }
+    var label=b.textContent;
+    b.addEventListener('click', function(e){
+      e.stopPropagation();
+      copyText(askPrompt(r), b, label, compact?{okText:'✓',failText:'✕'}:undefined);
+    });
+    return b;
+  }
   function guardEmpty(){
-    if(!entries().length){ alert('还没有批注。先在段落下方写几条再来。'); return true; }
+    if(!filteredRows().length){
+      alert(activeTagFilter ? ('没有标签为 "'+activeTagFilter+'" 的批注。') : '还没有批注。先在段落下方写几条再来。');
+      return true;
+    }
     return false;
   }
 
@@ -1026,6 +1700,23 @@ document.addEventListener('scroll', function(){
   buildGlossary('');
   try{ showTab(localStorage.getItem('brNavTab')||'toc'); }catch(e){ showTab('toc'); }
 
+  /* Tags overlay the TOC tree as a layer, toggled by one small switch —
+     see the .sb-toc-head CSS comment for why this isn't a second pane. */
+  (function(){
+    var toggle=document.getElementById('tagLayerToggle');
+    var overlay=document.getElementById('sbTagOverlay');
+    if(!toggle || !overlay) return;
+    function setLayer(on){
+      toggle.setAttribute('aria-pressed', on?'true':'false');
+      overlay.hidden=!on;
+      try{ localStorage.setItem('brTagLayer', on?'1':'0'); }catch(e){}
+    }
+    toggle.addEventListener('click', function(){
+      setLayer(toggle.getAttribute('aria-pressed')!=='true');
+    });
+    try{ setLayer(localStorage.getItem('brTagLayer')==='1'); }catch(e){}
+  })();
+
   document.getElementById('ovCopy').addEventListener('click', function(){
     if(guardEmpty()) return; copyText(markdown(), this, '复制为 Markdown');
   });
@@ -1045,47 +1736,520 @@ document.addEventListener('scroll', function(){
     if(guardEmpty()) return;
     if(!confirm('清空本篇全部批注？此操作无法撤销。建议先导出备份。')) return;
     notes={}; persist();
+    highlights=[]; persistHL();
     document.querySelectorAll('.note').forEach(paint);
+    paintHighlights();
     refreshAll();
   });
 
-  /* file export — only when the downloads capability is present in this view */
+  /* file export: the Claude-artifact `downloads` capability when present
+     (gives the viewer a save-location picker), falling back to a universal
+     Blob + <a download> otherwise — so export keeps working when this same
+     rendered HTML is served as a plain web page (e.g. from GitHub Pages),
+     where window.claude doesn't exist at all. */
+  function nativeDownload(filename, data){
+    try{
+      var blob=new Blob([data], {type:'text/plain;charset=utf-8'});
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a');
+      a.href=url; a.download=filename;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+      return true;
+    }catch(e){ return false; }
+  }
   var dl = (window.claude && window.claude.downloads) ? window.claude.downloads : null;
   var slug=(window.__BR_DOC||'notes').replace(/[^a-zA-Z0-9_-]+/g,'-').slice(0,60);
-  if(dl){
-    ['ovSaveMd','ovSaveJson'].forEach(function(id){
-      var b=document.getElementById(id); if(b) b.style.display='';
-    });
-    function offer(btn, label, filename, data){
-      btn.disabled=true;
-      dl.save({filename:filename, data:data}).then(function(){
-        btn.textContent='✓ 已保存';
-      }).catch(function(err){
-        var c=err&&err.code;
-        btn.textContent = c==='declined' ? '已取消'
-                        : c==='rate_limited' ? '稍后再试'
-                        : c==='too_large' ? '文件过大'
-                        : '保存不可用';
-        if(c==='unavailable'||c==='not_granted'||c==='capability_disabled'||c==='capability_removed'){
-          btn.style.display='none';
-        }
-      }).then(function(){
-        btn.disabled=false;
-        setTimeout(function(){ if(btn.style.display!=='none') btn.textContent=label; },1800);
-      });
+  ['ovSaveMd','ovSaveJson'].forEach(function(id){
+    var b=document.getElementById(id); if(b) b.style.display='';
+  });
+  function offer(btn, label, filename, data){
+    btn.disabled=true;
+    function settle(ok, msg){
+      btn.textContent = ok ? '✓ 已保存' : (msg||'保存不可用');
+      btn.disabled=false;
+      setTimeout(function(){ if(btn.style.display!=='none') btn.textContent=label; },1800);
     }
-    document.getElementById('ovSaveMd').addEventListener('click', function(){
-      if(guardEmpty()) return;
-      offer(this,'下载 .md', slug+'-notes.md', markdown());
-    });
-    document.getElementById('ovSaveJson').addEventListener('click', function(){
-      if(guardEmpty()) return;
-      offer(this,'备份 .json', slug+'-notes.json',
-            JSON.stringify({doc:window.__BR_DOC, saved:new Date().toISOString(), notes:notes}, null, 2));
+    if(dl){
+      dl.save({filename:filename, data:data}).then(function(){ settle(true); }).catch(function(err){
+        var c=err&&err.code;
+        if(c==='unavailable'||c==='not_granted'||c==='capability_disabled'||c==='capability_removed'){
+          settle(nativeDownload(filename, data));
+        } else {
+          settle(false, c==='declined'?'已取消':c==='rate_limited'?'稍后再试':c==='too_large'?'文件过大':'保存不可用');
+        }
+      });
+    } else {
+      settle(nativeDownload(filename, data));
+    }
+  }
+  document.getElementById('ovSaveMd').addEventListener('click', function(){
+    if(guardEmpty()) return;
+    offer(this,'下载 .md', slug+'-notes.md', markdown());
+  });
+  document.getElementById('ovSaveJson').addEventListener('click', function(){
+    if(guardEmpty()) return;
+    offer(this,'备份 .json', slug+'-notes.json',
+          JSON.stringify({doc:window.__BR_DOC, saved:new Date().toISOString(), notes:notes, highlights:highlights}, null, 2));
+  });
+
+  /* import: restores a previously exported "备份 .json" — the other half of
+     moving between hosts (e.g. a Claude artifact -> this page served
+     elsewhere), since there is no live channel between two pages' separate
+     localStorage to migrate data automatically. Merges by key/id rather than
+     replacing outright, so importing doesn't silently discard anything
+     already written on THIS page since the backup was made. */
+  var importBtn=document.getElementById('ovImport');
+  var importFile=document.getElementById('ovImportFile');
+  if(importBtn && importFile){
+    importBtn.addEventListener('click', function(){ importFile.click(); });
+    importFile.addEventListener('change', function(){
+      var file=importFile.files[0];
+      importFile.value='';
+      if(!file) return;
+      var reader=new FileReader();
+      reader.onload=function(){
+        var data;
+        try{ data=JSON.parse(reader.result); }catch(e){
+          alert('这不是有效的备份文件（JSON 解析失败）。'); return;
+        }
+        if(data.doc && data.doc!==window.__BR_DOC){
+          if(!confirm('这份备份来自另一篇文献（'+data.doc+'），当前页面是「'+window.__BR_DOC+'」。确定仍要导入吗？')) return;
+        }
+        var existingCount=count();
+        if(existingCount>0 && !confirm('导入会与当前已有的 '+existingCount+' 条批注合并（相同位置的批注会被备份中的版本覆盖）。确定继续吗？')) return;
+        if(data.notes){ Object.keys(data.notes).forEach(function(k){ notes[k]=data.notes[k]; }); persist(); }
+        if(data.highlights){
+          var byId={}; highlights.forEach(function(h){ byId[h.id]=h; });
+          data.highlights.forEach(function(h){ byId[h.id]=h; });
+          highlights=Object.keys(byId).map(function(k){ return byId[k]; });
+          persistHL();
+        }
+        document.querySelectorAll('.note').forEach(paint);
+        paintHighlights();
+        refreshAll();
+        alert('导入完成。');
+      };
+      reader.readAsText(file);
     });
   }
 
+  /* ---- selection-anchored highlight annotations ---- */
+  var pill=document.getElementById('selPill');
+  var card=document.getElementById('selCard');
+  var hint=document.getElementById('hlHint');
+  var pendingFrags=null;      /* set while waiting for a second selection to link */
+  var pendingNoteDraft='';
+  var pendingTagsDraft='';
+  var pendingAiNoteDraft='';
+  var editingHlId=null;
+  var draftFrags=[];
+
+  function findBlockNid(el){
+    var host=el.closest('.bipara')||el.closest('.bifig')||el.closest('blockquote.cited');
+    if(!host) return null;
+    var w=host.querySelector('.note');
+    return w?w.dataset.nid:null;
+  }
+  function fragLabel(t){ return t.length>90 ? t.slice(0,90)+'…' : t; }
+  function hidePill(){ pill.style.display='none'; }
+
+  function textOffsetInAncestor(ancestor, node, offset){
+    var walker=document.createTreeWalker(ancestor, NodeFilter.SHOW_TEXT, null, false);
+    var total=0, n;
+    while(n=walker.nextNode()){
+      if(n===node) return total+offset;
+      total+=n.nodeValue.length;
+    }
+    return total;
+  }
+  /* Splits plain text into sentence-sized chunks on EN/ZH sentence-ending
+     punctuation (keeping trailing closing quotes/brackets with the sentence
+     they close). This is a cheap heuristic, not real NLP — but it needs no
+     spec.json changes and no manual re-segmentation of existing content: it
+     runs on whatever EN/ZH text is already in the page. Used to narrow the
+     cross-language underline from "a fraction of the whole paragraph" down
+     to "a fraction of one sentence," which is the fix for the proportional
+     guess being noticeably off on longer paragraphs.
+
+     A first version treated every ".!?。！？…" as a sentence end, which badly
+     OVER-splits academic EN text full of page citations like "(Wacquant,
+     2010, p. 218)" — "p." alone reads as a sentence end to a naive regex.
+     The ZH translation cites the same page as "第218页" (no period at all),
+     so the EN side ended up with noticeably MORE "sentences" than its ZH
+     sibling, breaking the sentence-count match this whole scheme depends on
+     and falling back to the much coarser whole-paragraph guess on exactly
+     the citation-heavy paragraphs this skill annotates most. Confirmed on a
+     real block (Yrjänä item 44, three "p. ###)" citations): naive splitting
+     gave EN 7 "sentences" against ZH's real 4.
+
+     Fix: after finding a candidate end mark, peek at what follows it (skip
+     whitespace and at most one opening bracket/paren). Real sentence ends
+     are virtually always followed by a capital letter, an opening quote, or
+     the end of the paragraph. A citation abbreviation like "p." / "pp." /
+     "et al." is virtually always followed by a lowercase letter or a digit
+     ("p. 218", "et al. (2008)", "pp. 12–15") — so treat THAT as the signal
+     to keep accumulating instead of maintaining a fixed abbreviation list. */
+  function sentenceRanges(text){
+    var enders=[], re=/[.!?。！？…]+[”"'’）)]*/g, m;
+    while((m=re.exec(text))){
+      enders.push({start:m.index, end:m.index+m[0].length});
+      if(m[0].length===0) re.lastIndex++;
+    }
+    var out=[], segStart=0;
+    for(var i=0;i<enders.length;i++){
+      var e=enders[i];
+      var wsEnd=e.end;
+      while(wsEnd<text.length && /\s/.test(text[wsEnd])) wsEnd++;
+      var peek=wsEnd;
+      if(peek<text.length && /[([]/.test(text[peek])) peek++;
+      var nextCh=peek<text.length ? text[peek] : '';
+      var isLastEnder=(i===enders.length-1);
+      if(!isLastEnder && nextCh && /[a-z0-9]/.test(nextCh)) continue;
+      out.push({start:segStart, end:wsEnd});
+      segStart=wsEnd;
+    }
+    if(segStart<text.length) out.push({start:segStart, end:text.length});
+    if(!out.length) out.push({start:0, end:text.length});
+    return out;
+  }
+  function locateInSentences(sents, globalOffset){
+    for(var i=0;i<sents.length;i++){
+      var s=sents[i];
+      if(globalOffset<s.end || i===sents.length-1){
+        var len=Math.max(1, s.end-s.start);
+        return {idx:i, frac:Math.max(0, Math.min(1, (globalOffset-s.start)/len))};
+      }
+    }
+    return {idx:0, frac:0};
+  }
+  function validSelection(){
+    var sel=window.getSelection();
+    if(!sel||sel.isCollapsed||!sel.rangeCount) return null;
+    if(!sel.toString().trim()) return null;
+    var range=sel.getRangeAt(0);
+
+    /* Anchor on the paragraph the selection STARTS in, not on requiring the
+       whole raw Range to live inside one <p>. p.en and p.zh sit close
+       together, and a real mouse drag very easily overshoots the end of a
+       wrapped line by a few pixels — enough for the browser to resolve the
+       end point into the next paragraph (even the other language). Demanding
+       the entire selection stay inside one element made that overshoot
+       silently reject the WHOLE selection, which is what made annotating a
+       paragraph look broken. */
+    var startEl=range.startContainer.nodeType===1?range.startContainer:range.startContainer.parentElement;
+    var pEl=startEl?startEl.closest('p.en, p.zh'):null;
+    if(!pEl) return null;
+    var nidv=findBlockNid(pEl);
+    if(!nidv) return null;
+
+    var clipped=range.cloneRange();
+    if(!pEl.contains(clipped.endContainer)){
+      try{ clipped.setEnd(pEl, pEl.childNodes.length); }catch(e){}
+    }
+    var text=clipped.toString().trim();
+    if(!text) return null;
+
+    /* Where this selection falls WITHIN its own paragraph. There is no real
+       word/clause alignment between the EN and ZH translations of a block,
+       so none of this is a guarantee — but a flat whole-paragraph fraction
+       noticeably drifted on longer paragraphs, so this also locates the
+       selection by SENTENCE (ssIdx/esIdx within srcSentCount sentences, via
+       sentenceRanges()) plus a fraction WITHIN that sentence (ssFrac/esFrac).
+       When the sibling paragraph splits into the same number of sentences,
+       markLinkedRange() maps sentence-to-sentence by index instead of
+       guessing over the whole paragraph — much tighter in the common case.
+       startFrac/endFrac (the old whole-paragraph fraction) are kept as the
+       fallback for when the sibling's sentence count doesn't match. */
+    var startOffAbs=textOffsetInAncestor(pEl, clipped.startContainer, clipped.startOffset);
+    var endOffAbs=textOffsetInAncestor(pEl, clipped.endContainer, clipped.endOffset);
+    var fullLen=pEl.textContent.length || 1;
+    var srcSents=sentenceRanges(pEl.textContent);
+    var startLoc=locateInSentences(srcSents, startOffAbs);
+    var endLoc=locateInSentences(srcSents, endOffAbs);
+
+    return {text:text, lang:pEl.classList.contains('zh')?'zh':'en', nid:nidv, clippedRange:clipped,
+            startFrac:startOffAbs/fullLen, endFrac:endOffAbs/fullLen,
+            ssIdx:startLoc.idx, ssFrac:startLoc.frac,
+            esIdx:endLoc.idx, esFrac:endLoc.frac, srcSentCount:srcSents.length};
+  }
+  document.addEventListener('selectionchange', function(){
+    clearTimeout(window.__selT);
+    window.__selT=setTimeout(function(){
+      var v=validSelection();
+      if(!v){ hidePill(); return; }
+      var rect=v.clippedRange.getBoundingClientRect();
+      if(!rect||(!rect.width&&!rect.height)){ hidePill(); return; }
+      pill.style.display='block';
+      var top=window.scrollY+rect.top-42;
+      var left=window.scrollX+rect.left;
+      var maxLeft=window.scrollX+document.documentElement.clientWidth-140;
+      pill.style.top=Math.max(window.scrollY+4, top)+'px';
+      pill.style.left=Math.min(Math.max(8, left), maxLeft)+'px';
+      pill.__sel=v;
+    }, 120);
+  });
+  document.addEventListener('mousedown', function(e){
+    if(pill.style.display!=='none' && !pill.contains(e.target) && !card.contains(e.target)) hidePill();
+  });
+  pill.addEventListener('mousedown', function(e){ e.preventDefault(); });
+  pill.addEventListener('click', function(){
+    var v=pill.__sel;
+    if(!v) return;
+    hidePill();
+    var frag={nid:v.nid, lang:v.lang, text:v.text, startFrac:v.startFrac, endFrac:v.endFrac,
+              ssIdx:v.ssIdx, ssFrac:v.ssFrac, esIdx:v.esIdx, esFrac:v.esFrac, srcSentCount:v.srcSentCount};
+    if(pendingFrags){
+      pendingFrags.push(frag);
+      hint.style.display='none';
+      openCard(pendingFrags, editingHlId, pendingNoteDraft, pendingTagsDraft, pendingAiNoteDraft);
+      pendingFrags=null;
+    } else {
+      openCard([frag], null);
+    }
+    window.getSelection().removeAllRanges();
+  });
+
+  function renderCardFrags(){
+    var wrap=document.getElementById('hlFrags');
+    wrap.innerHTML='';
+    draftFrags.forEach(function(f){
+      var d=document.createElement('div'); d.className='hl-frag';
+      d.textContent='“'+fragLabel(f.text)+'”';
+      wrap.appendChild(d);
+    });
+  }
+  function closeCard(){
+    card.style.display='none';
+    hint.style.display='none';
+    pendingFrags=null; editingHlId=null; draftFrags=[];
+  }
+  function openCard(frags, hlId, presetNote, presetTags, presetAiNote){
+    draftFrags=frags; editingHlId=hlId||null;
+    renderCardFrags();
+    var ta=document.getElementById('hlNote');
+    var tagsInput=document.getElementById('hlTags');
+    var aiInput=document.getElementById('hlAiNote');
+    var existing = hlId ? highlights.filter(function(h){return h.id===hlId;})[0] : null;
+    if(typeof presetNote==='string') ta.value=presetNote;
+    else ta.value = existing ? (existing.note||'') : '';
+    if(typeof presetTags==='string') tagsInput.value=presetTags;
+    else tagsInput.value = existing ? tagsLabel(existing.tags) : '';
+    if(typeof presetAiNote==='string') aiInput.value=presetAiNote;
+    else aiInput.value = existing ? (existing.aiNote||'') : '';
+    document.getElementById('hlDelete').style.display = hlId ? '' : 'none';
+    card.style.display='block';
+    focusSoon(ta);
+  }
+  function openCardById(hlId){
+    var h=highlights.filter(function(x){return x.id===hlId;})[0];
+    if(!h) return;
+    openCard(h.frags.slice(), hlId);
+  }
+  document.getElementById('hlLink').addEventListener('click', function(){
+    pendingFrags=draftFrags.slice();
+    pendingNoteDraft=document.getElementById('hlNote').value;
+    pendingTagsDraft=document.getElementById('hlTags').value;
+    pendingAiNoteDraft=document.getElementById('hlAiNote').value;
+    card.style.display='none';
+    hint.style.display='block';
+  });
+  document.getElementById('hlCancel').addEventListener('click', closeCard);
+  document.getElementById('hlSave').addEventListener('click', function(){
+    var txt=document.getElementById('hlNote').value.trim();
+    var tags=parseTags(document.getElementById('hlTags').value);
+    var aiNote=document.getElementById('hlAiNote').value.trim();
+    if(!txt){ closeCard(); return; }
+    if(editingHlId){
+      var h=highlights.filter(function(x){return x.id===editingHlId;})[0];
+      if(h){ h.note=txt; h.frags=draftFrags; h.tags=tags; h.aiNote=aiNote; }
+    } else {
+      highlights.push({id:'hl'+Date.now()+Math.random().toString(36).slice(2,6),
+                        frags:draftFrags, note:txt, tags:tags, aiNote:aiNote, ts:new Date().toISOString()});
+    }
+    persistHL();
+    closeCard();
+    paintHighlights();
+    refreshAll();
+  });
+  document.getElementById('hlDelete').addEventListener('click', function(){
+    if(!editingHlId) return;
+    highlights=highlights.filter(function(x){return x.id!==editingHlId;});
+    persistHL();
+    closeCard();
+    paintHighlights();
+    refreshAll();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key!=='Escape') return;
+    if(pendingFrags){ pendingFrags=null; hint.style.display='none'; }
+    if(card.style.display==='block') closeCard();
+  });
+
+  function unwrapMarks(){
+    ['mark.hl-anno', 'span.linked-underline'].forEach(function(sel){
+      document.querySelectorAll(sel).forEach(function(m){
+        var parent=m.parentNode;
+        while(m.firstChild) parent.insertBefore(m.firstChild, m);
+        parent.removeChild(m);
+        parent.normalize();
+      });
+    });
+  }
+  function rangeFromGlobalOffsets(container, startOff, endOff){
+    var walker=document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+    var total=0, node, range=document.createRange(), started=false;
+    while(node=walker.nextNode()){
+      var len=node.nodeValue.length;
+      if(!started && total+len>=startOff){
+        range.setStart(node, Math.max(0, startOff-total));
+        started=true;
+      }
+      if(started && total+len>=endOff){
+        range.setEnd(node, Math.max(0, Math.min(len, endOff-total)));
+        return range;
+      }
+      total+=len;
+    }
+    return null;
+  }
+  function markLinkedRange(p, f){
+    /* The exact selected phrase can only be marked in the language it was
+       actually selected in — there is no real word/clause alignment between
+       the EN and ZH translations of a block to compute the true
+       corresponding substring. Preferred approximation: if the sibling
+       paragraph splits into the SAME number of sentences as the source did
+       at selection time (f.srcSentCount, via sentenceRanges()), map
+       sentence-to-sentence by index and apply the within-sentence fraction
+       — narrows the guess from "a span of the whole paragraph" down to "a
+       span of one sentence," which is what fixed the guess being visibly
+       off on longer paragraphs. Falls back to the old whole-paragraph
+       fraction (f.startFrac/endFrac) when the sentence counts don't match.
+       Either way this is still an approximation, not a guarantee, and still
+       much closer than underlining the sibling's full text, which an
+       earlier version did and was explicitly rejected as wrong
+       ("应该只有对应划线的那部分也有划线，而不应该是现在这样全段划上").
+       Wraps the estimated span in a plain <span class="linked-underline">
+       (not <mark>, which is reserved for the exact, click-to-edit match) —
+       purely a visual cue, no click handler. Best-effort like
+       wrapTextInNode(): if the estimated range happens to straddle an inline
+       tag boundary in a way surroundContents() can't wrap, this just skips
+       rather than falling back to the whole paragraph. */
+    var fullLen=p.textContent.length;
+    if(!fullLen) return;
+    var startOff, endOff;
+    if(typeof f.ssIdx==='number' && typeof f.srcSentCount==='number'){
+      var sibSents=sentenceRanges(p.textContent);
+      if(sibSents.length===f.srcSentCount){
+        var ss=sibSents[Math.min(f.ssIdx, sibSents.length-1)];
+        var es=sibSents[Math.min(f.esIdx, sibSents.length-1)];
+        startOff=Math.round(ss.start+f.ssFrac*(ss.end-ss.start));
+        endOff=Math.round(es.start+f.esFrac*(es.end-es.start));
+      }
+    }
+    if(typeof startOff!=='number' || typeof endOff!=='number'){
+      startOff=Math.round(f.startFrac*fullLen);
+      endOff=Math.round(f.endFrac*fullLen);
+    }
+    startOff=Math.max(0, Math.min(fullLen, startOff));
+    endOff=Math.max(startOff+1, Math.min(fullLen, endOff));
+    var range=rangeFromGlobalOffsets(p, startOff, endOff);
+    if(!range) return;
+    var span=document.createElement('span');
+    span.className='linked-underline';
+    try{ range.surroundContents(span); }catch(e){ /* straddles a tag boundary; skip */ }
+  }
+  function wrapTextInNode(p, text, hlId){
+    /* best-effort: only wraps when the selected text sits intact inside a
+       single text node (not split across inline tags like a.gref). When the
+       original selection crossed such a boundary the note is still saved and
+       still shows up in the list/overview/export — it just won't also get an
+       inline highlight. */
+    var walker=document.createTreeWalker(p, NodeFilter.SHOW_TEXT, null, false);
+    var node;
+    while(node=walker.nextNode()){
+      if(node.parentElement && node.parentElement.closest('mark.hl-anno')) continue;
+      var idx=node.nodeValue.indexOf(text);
+      if(idx===-1) continue;
+      var range=document.createRange();
+      range.setStart(node, idx);
+      range.setEnd(node, idx+text.length);
+      var mark=document.createElement('mark');
+      mark.className='hl-anno'; mark.dataset.hlid=hlId;
+      try{ range.surroundContents(mark); }catch(e){ continue; }
+      mark.addEventListener('click', function(){ openCardById(hlId); });
+      return true;
+    }
+    return false;
+  }
+  function paintHighlights(){
+    unwrapMarks();
+    highlights.forEach(function(h){
+      h.frags.forEach(function(f){
+        var host=nidToBlock[f.nid];
+        if(!host) return;
+        var p=host.querySelector(f.lang==='zh'?'p.zh':'p.en');
+        if(!p) return;
+        wrapTextInNode(p, f.text, h.id);
+        var siblingP=host.querySelector(f.lang==='zh'?'p.en':'p.zh');
+        if(siblingP && typeof f.startFrac==='number' && typeof f.endFrac==='number'){
+          markLinkedRange(siblingP, f);
+        }
+      });
+    });
+  }
+  paintHighlights();
+
   refreshAll();
+})();
+
+/* ---------------- glossary term popover (a.gref) ---------------- */
+(function(){
+  var pop=document.getElementById('grefPop');
+  if(!pop) return;
+  var byId={};
+  (window.__BR_GLOSSARY||[]).forEach(function(g){ byId[g.id]=g; });
+
+  function closePop(){ pop.style.display='none'; }
+  function openPop(g, anchorEl){
+    pop.innerHTML='';
+    if(g.cat){ var c=document.createElement('span'); c.className='gp-cat'; c.textContent=g.cat; pop.appendChild(c); }
+    var t=document.createElement('span'); t.className='gp-term'; t.textContent=g.term; pop.appendChild(t);
+    var d=document.createElement('div'); d.className='gp-def'; d.innerHTML=g.def||''; pop.appendChild(d);
+    var jump=document.createElement('a'); jump.className='gp-jump'; jump.href='#'+g.id;
+    jump.textContent='在术语表中查看完整条目 →';
+    jump.addEventListener('click', function(e){
+      e.preventDefault(); closePop();
+      var el=document.getElementById(g.id);
+      if(!el) return;
+      var details=el.closest('details'); if(details) details.open=true;
+      el.scrollIntoView({behavior:'smooth',block:'center'});
+      el.classList.add('flash'); setTimeout(function(){ el.classList.remove('flash'); }, 1500);
+    });
+    pop.appendChild(jump);
+
+    pop.style.display='block';
+    var rect=anchorEl.getBoundingClientRect();
+    var popW=pop.offsetWidth||304, popH=pop.offsetHeight||160;
+    var left=Math.min(Math.max(8, rect.left), window.innerWidth-popW-8);
+    var top=rect.bottom+8;
+    if(top+popH > window.innerHeight-8) top=Math.max(8, rect.top-popH-8);
+    pop.style.left=left+'px';
+    pop.style.top=top+'px';
+  }
+  document.addEventListener('click', function(e){
+    var a=e.target.closest?e.target.closest('a.gref'):null;
+    if(a){
+      if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
+      e.preventDefault();
+      var id=(a.getAttribute('href')||'').replace(/^#/, '');
+      var g=byId[id];
+      if(g) openPop(g, a);
+      return;
+    }
+    if(!pop.contains(e.target)) closePop();
+  });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closePop(); });
 })();
 
 /* ---------------- sidebar scroll-spy ---------------- */
@@ -1110,5 +2274,234 @@ document.addEventListener('scroll', function(){
   document.querySelectorAll('article h2[id], article h3[id]').forEach(function(h){
     observer.observe(h);
   });
+})();
+
+/* ---------------- AI paragraph-summary column ---------------- */
+(function(){
+  var sidebar=document.getElementById('aiSidebar');
+  var inner=document.getElementById('aiSummaryInner');
+  var toggle=document.getElementById('aiSnapToggle');
+  var header=sidebar?sidebar.querySelector('.sb-label-row'):null;
+  var nsList=document.getElementById('nsList');
+  if(!sidebar || !inner || !toggle) return;
+  var SUMMARIES=window.__BR_SUMMARIES||{};
+  var blocks={};  /* nid -> {el, host} */
+
+  /* The header is position:sticky so the 吸附 switch stays reachable (see
+     its own CSS comment), but #aiSidebar itself is sticky in snap mode and
+     NOT sticky in flow mode -- a sticky element's own STATIC (unstuck) flow
+     position is what siblings after it reserve space against, which is NOT
+     the same as where it actually renders once "stuck." When #aiSidebar's
+     own natural top sits above the header's top:5.5rem offset (true here,
+     since #tocSidebar/#noteSidebar/main/#aiSidebar all start at the same
+     flow position, which is above 5.5rem), the header immediately sticks
+     and visually floats DOWN away from its reserved space -- and in snap
+     mode the offset compounds further, since #aiSidebar is ALSO sticky at
+     the same 5.5rem, relative to its own now-stuck box. Either way,
+     #aiSummaryInner's naive flow position ends up starting ABOVE where the
+     header is actually rendering, so the first summary block overlapped
+     the header -- reported by a user via screenshot as what looked like
+     garbled, overlapping "AI 总结" text. Rather than hand-tune a magic
+     margin for one specific layout, measure the header's ACTUAL rendered
+     bottom edge and push #aiSummaryInner down to clear it, whatever mode
+     or compounding produced that position. */
+  function reserveHeaderSpace(){
+    if(!header) return;
+    var needed=header.getBoundingClientRect().bottom - sidebar.getBoundingClientRect().top;
+    inner.style.marginTop=Math.max(0, needed)+'px';
+  }
+
+  function build(){
+    inner.innerHTML=''; blocks={};
+    document.querySelectorAll('.note[data-nid]').forEach(function(wrap){
+      var nidv=wrap.dataset.nid;
+      var text=SUMMARIES[nidv];
+      if(!text) return;
+      var host=wrap.closest('.bipara')||wrap.closest('.bifig')||wrap.closest('blockquote');
+      if(!host) return;
+      var el=document.createElement('div');
+      el.className='ai-sum-block'; el.dataset.nid=nidv;
+      var lbl=document.createElement('span'); lbl.className='ai-sum-lbl'; lbl.textContent='AI 总结';
+      el.appendChild(lbl);
+      el.appendChild(document.createTextNode(text));
+      inner.appendChild(el);
+      blocks[nidv]={el:el, host:host};
+    });
+  }
+
+  function isSnap(){ return document.body.dataset.aiSnap==='1'; }
+
+  /* default mode: not sticky, tracks the page's own scroll like main does.
+     Each block is placed at its paragraph's offset within #aiSummaryInner
+     (position:relative), which is given an explicit height so its
+     position:absolute children have room -- an element with only absolutely
+     positioned children is otherwise 0px tall. */
+  function syncFlow(){
+    if(sidebar.offsetParent===null) return;
+    clearSnapPadding();
+    reserveHeaderSpace();
+    var containerTop=inner.getBoundingClientRect().top;
+    var maxBottom=0;
+    Object.keys(blocks).forEach(function(nidv){
+      var rec=blocks[nidv];
+      rec.el.style.height='auto';
+      var top=rec.host.getBoundingClientRect().top-containerTop;
+      top=Math.max(0, top);
+      rec.el.style.top=top+'px';
+      var bottom=top+rec.el.offsetHeight;
+      if(bottom>maxBottom) maxBottom=bottom;
+    });
+    inner.style.height=maxBottom+'px';
+  }
+
+  function clearSnapPadding(){
+    if(!nsList) return;
+    nsList.querySelectorAll('.ns-row[data-snap-pad]').forEach(function(row){
+      row.style.paddingBottom='';
+      delete row.dataset.snapPad;
+    });
+  }
+  function measureGroups(innerTop){
+    var groups={};
+    nsList.querySelectorAll('.ns-row[data-nid]').forEach(function(row){
+      var nidv=row.dataset.nid;
+      var r=row.getBoundingClientRect();
+      var top=r.top-innerTop, bottom=r.bottom-innerTop;
+      if(!groups[nidv]) groups[nidv]={top:top, bottom:bottom, lastRow:row};
+      else {
+        groups[nidv].top=Math.min(groups[nidv].top, top);
+        if(bottom>groups[nidv].bottom){ groups[nidv].bottom=bottom; groups[nidv].lastRow=row; }
+      }
+    });
+    return groups;
+  }
+  /* snap mode: sticky, independently scrollable (like #noteSidebar). Each
+     block that has at least one matching #nsList row is positioned to span
+     that row-group's vertical range; a paragraph with no annotation has
+     nothing to snap to, so it's hidden rather than shown at some arbitrary
+     position. Multiple rows sharing one nid (several notes/highlights on
+     the same paragraph) widen the span to cover all of them, per the
+     original request ("右侧标注比如1-3条都是第一段，那么就跟第一段summary对
+     齐，第一段summary高度为右侧1-3条的范围").
+
+     The first version of this forced each block's HEIGHT down to whatever
+     its row-group's span happened to be, clipping the summary text
+     (overflow:hidden) whenever that span was shorter than the summary
+     needed -- reported by a user as visibly cut-off text, and rightly
+     called backwards: "应该是反过来...在ai总结去对齐批注的时候批注也要适应
+     于ai总结的这个长度要做一个自适应". The summary is Claude's own written
+     content; it should never be the side that gets silently truncated to
+     fit whatever height the OTHER column's content happens to produce.
+     Fixed with a three-pass layout instead of one:
+       1. measure each row-group's un-inflated natural span, and reset
+          every block to height:auto so ITS natural content height can be
+          read too (a block kept from a previous sync still has an old
+          fixed height, which would make this measurement stale).
+       2. walk the groups top-to-bottom; wherever a block's natural height
+          exceeds its group's natural span, grow the ANNOTATION side to
+          match by adding that difference as padding-bottom on the LAST row
+          of that group -- normal document flow then pushes every row
+          below it down automatically, so later groups don't need manual
+          repositioning for this.
+       3. re-measure every group's span now that the padding from step 2
+          has reflowed the list, and only THEN size/position each block --
+          by construction no block's natural height can exceed its own
+          (possibly now-inflated) group's span, so nothing gets clipped. */
+  function syncSnap(){
+    if(sidebar.offsetParent===null || !nsList) return;
+    /* Both columns are position:sticky at the same top:5.5rem, so their
+       OUTER <nav> boxes align on screen -- but #aiSummaryInner and #nsList
+       sit different distances below that (the switch-row header here is a
+       different height than the plain label there, and reserveHeaderSpace()
+       separately compensates for the header's OWN sticky offset -- see its
+       comment), so their inner tops do NOT share a viewport Y. Measuring
+       each ns-row's offset against #aiSummaryInner's own top (rather than
+       #nsList's) sidesteps the header-height difference specifically: the
+       number produced is already "where this row would sit if placed
+       inside #aiSummaryInner," which is exactly the coordinate space
+       rec.el.style.top is set in below. */
+    clearSnapPadding();
+    reserveHeaderSpace();
+    var innerTop=inner.getBoundingClientRect().top;
+    var groups=measureGroups(innerTop);
+    Object.keys(blocks).forEach(function(nidv){ blocks[nidv].el.style.height='auto'; });
+    Object.keys(groups).sort(function(a,b){ return groups[a].top-groups[b].top; }).forEach(function(nidv){
+      var rec=blocks[nidv];
+      if(!rec) return;
+      var g=groups[nidv];
+      var naturalBlockH=rec.el.offsetHeight;
+      var naturalGroupH=g.bottom-g.top;
+      if(naturalBlockH>naturalGroupH){
+        /* .ns-row already carries its own CSS padding-bottom (.55rem, for
+           breathing room before the next row/border); setting the inline
+           style to just the shortfall REPLACES that base padding rather
+           than adding to it, under-growing the row by however much base
+           padding it already had. Read the current computed value first
+           and add the shortfall on top of it. */
+        var basePad=parseFloat(getComputedStyle(g.lastRow).paddingBottom)||0;
+        g.lastRow.style.paddingBottom=(basePad+(naturalBlockH-naturalGroupH))+'px';
+        g.lastRow.dataset.snapPad='1';
+      }
+    });
+    var groups2=measureGroups(innerTop);
+    var maxBottom=0;
+    Object.keys(blocks).forEach(function(nidv){
+      var rec=blocks[nidv], g=groups2[nidv];
+      if(!g){ rec.el.style.display='none'; rec.el.style.height='auto'; return; }
+      rec.el.style.display='';
+      rec.el.style.top=g.top+'px';
+      rec.el.style.height=Math.max(g.bottom-g.top, 28)+'px';
+      if(g.bottom>maxBottom) maxBottom=g.bottom;
+    });
+    inner.style.height=maxBottom+'px';
+  }
+
+  function sync(){ if(isSnap()) syncSnap(); else syncFlow(); }
+
+  function setSnap(on){
+    document.body.dataset.aiSnap=on?'1':'0';
+    toggle.setAttribute('aria-pressed', on?'true':'false');
+    try{ localStorage.setItem('brAiSnap', on?'1':'0'); }catch(e){}
+    sync();
+  }
+  toggle.addEventListener('click', function(){
+    setSnap(toggle.getAttribute('aria-pressed')!=='true');
+  });
+
+  /* In snap mode #aiSidebar and #noteSidebar are two independently sticky,
+     independently scrollable columns -- matching heights alone doesn't keep
+     them visually aligned once the reader scrolls one of them, so their
+     scroll positions are bound together. */
+  var syncingScroll=false;
+  function bindScroll(a, b){
+    a.addEventListener('scroll', function(){
+      if(syncingScroll || !isSnap()) return;
+      syncingScroll=true; b.scrollTop=a.scrollTop; syncingScroll=false;
+    });
+  }
+  var noteSidebarEl=document.getElementById('noteSidebar');
+  if(noteSidebarEl){ bindScroll(sidebar, noteSidebarEl); bindScroll(noteSidebarEl, sidebar); }
+
+  build();
+  try{ setSnap(localStorage.getItem('brAiSnap')==='1'); }catch(e){ sync(); }
+
+  /* Resync on any layout change to main (mode toggle, a note/highlight
+     changing a paragraph's height, window resize, web font load) instead of
+     hooking every individual place that could change paragraph heights. */
+  var mainEl=document.querySelector('main');
+  if(mainEl && window.ResizeObserver){
+    var ro=new ResizeObserver(function(){ requestAnimationFrame(sync); });
+    ro.observe(mainEl);
+  } else {
+    window.addEventListener('resize', sync);
+  }
+  /* Resync when #nsList is rebuilt (note/highlight added, edited, deleted,
+     or a tag filter narrowing it) -- buildSidebarList() replaces its whole
+     innerHTML, which this observes rather than reaching into that other
+     IIFE's closure. */
+  if(nsList && window.MutationObserver){
+    var mo=new MutationObserver(function(){ requestAnimationFrame(sync); });
+    mo.observe(nsList, {childList:true, subtree:true});
+  }
 })();
 </script>

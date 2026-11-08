@@ -162,6 +162,190 @@ that stay locked inside a reading page are inert; this workflow is reading
 *toward* an essay, so notes have to come out in a form that pastes into a
 draft.
 
+### Selection-anchored annotations (highlight-and-note on any phrase)
+
+The `＋ 批注` control above is paragraph-level — one note per block. A second,
+complementary mode lets the reader select *any* phrase or sentence inside a
+paragraph and attach a note to exactly that selection, Medium/Hypothesis-style:
+
+- Selecting text inside an `.en`/`.zh` paragraph shows a small floating `＋ 批注`
+  pill near the selection. Clicking it opens a card — docked to the right edge
+  on desktop, a bottom sheet on narrow/mobile viewports — with the quoted
+  selection, a textarea, and Save/Cancel/Delete.
+- `validSelection()` anchors on the paragraph the selection **starts** in and
+  clips the end back to that paragraph's own boundary — it does not require
+  the whole raw Range to already live inside one `<p>`. This matters because
+  `p.en` and `p.zh` sit close together: a real mouse drag very easily
+  overshoots the end of a wrapped line by a few pixels, which resolves the
+  browser's own selection Range into the *next* paragraph (sometimes the
+  other language, sometimes the following block entirely). An earlier version
+  demanded the whole selection stay inside one `<p>` and silently rejected
+  the entire selection the moment it overshot — which is what made "select a
+  phrase to annotate" effectively not work for ordinary mouse drags (it only
+  worked for drag distances/line lengths lucky enough to never overshoot). If
+  you touch this function, test it with a genuine `page.mouse` drag across a
+  wrapped line in Playwright, scrolled into view first — not just a
+  synthetic `Range`+`selectionchange` dispatch, which won't reproduce this.
+- Saving wraps the selected substring in `<mark class="hl-anno">` inline, so the
+  reader sees at a glance which phrases carry a note; clicking an existing mark
+  reopens the card to edit or delete it.
+- **「+ 关联另一段」** lets one note span two passages that aren't adjacent: click
+  it, the card hides with a hint to go select elsewhere, and the next selection
+  gets appended to the same draft before the card reopens with both quoted
+  fragments and the note text you'd already typed preserved. Use this for "these
+  two claims contradict" or "this is the same move as that" style notes.
+- These live in their own `localStorage` key (`br-highlights:{doc}`, separate
+  from `br-notes:{doc}`) but feed into the *same* `entries()`/`markdown()`/
+  `reviewPrompt()` pipeline as paragraph notes — so the overview, the 批注 nav
+  tab, the badge count, and the AI-review-prompt export all include both kinds
+  without any extra reader-facing distinction beyond a `［选段］` tag.
+- A linked (multi-fragment) note never collapses into one flattened line in
+  any of those lists — `renderSrcInto()` (shared by `buildList()` and the
+  sidebar) gives it a `🔗 关联 N 处` badge plus one independently clickable
+  `↳` row per fragment, each jumping to *that* fragment's own passage. This
+  was a real bug, not a style choice: the first version joined every
+  fragment's text into a single string whose one click target only ever
+  scrolled to the first fragment, silently stranding the others.
+- Highlighting is best-effort: it only wraps a selection that sits intact
+  inside a single text node (not split across an inline tag like a glossary
+  link). When a selection crosses such a boundary, the note still saves and
+  still shows up in every list/export — it just doesn't also get the inline
+  `<mark>`. This is a deliberate scope boundary, not a bug to chase.
+- Because the EN and ZH paragraphs are two independent translations, there's
+  no reliable way to compute which substring of the *other* language
+  corresponds to an arbitrary selected phrase — there's no true word/clause
+  alignment data to work from, and building one would mean restructuring
+  spec.json into per-sentence segment arrays and re-segmenting every already-
+  translated block (218 across the two current readings) — rejected as too
+  costly for the payoff (see below). What ships is a **two-tier heuristic**,
+  tried after the flat whole-paragraph version was reported as "比例非常不准确"
+  (noticeably off on longer paragraphs):
+  1. **Sentence-level (preferred).** `sentenceRanges()` splits plain text on
+     EN/ZH sentence-ending punctuation (`. ! ? 。！？…` plus trailing closing
+     quotes/brackets) — a cheap regex heuristic, not real NLP, but needs no
+     spec.json change and no manual re-segmentation, since it runs on
+     whatever EN/ZH text is already on the page. The FIRST version of this
+     treated every end-mark as a real sentence end, which badly over-split
+     academic EN text full of page citations like "(Wacquant, 2010, p. 218)"
+     — "p." alone reads as a sentence end to a naive regex, while the ZH
+     side cites the same page as "第218页" (no period at all) — so the EN
+     side ended up with noticeably MORE "sentences" than ZH on exactly the
+     citation-heavy paragraphs this skill annotates most, breaking the
+     index-mapping below and silently falling back to the coarser
+     whole-paragraph guess. Reported by the user via a live screenshot
+     (Yrjänä item 44, three "p. ###)" citations: naive splitting gave EN 7
+     "sentences" against ZH's real 4). Fixed by peeking at what follows each
+     candidate end-mark (skip whitespace, at most one opening bracket): real
+     sentence ends are virtually always followed by a capital letter, an
+     opening quote, or end of paragraph, while a citation abbreviation like
+     "p."/"pp."/"et al." is virtually always followed by a lowercase letter
+     or digit — so that signal decides whether to split there, rather than a
+     fixed abbreviation list. `validSelection()` locates the selection's
+     start/end as `{ssIdx/esIdx, ssFrac/esFrac, srcSentCount}` — which
+     sentence, and a 0–1 fraction *within* that sentence — via
+     `locateInSentences()`. If the sibling paragraph happens to split into
+     the **same number of sentences**, `markLinkedRange()` maps sentence-to-
+     sentence by index and applies the within-sentence fraction there — this
+     narrows the guess from "a span of the whole paragraph" to "a span of one
+     sentence," confirmed in `test_sentence_alignment.py` to not bleed into
+     neighboring sentences on a real 3-sentence/3-sentence block.
+  2. **Whole-paragraph fallback.** When the sibling's sentence count doesn't
+     match, falls back to the original flat `startFrac`/`endFrac` (where the
+     selection falls within its OWN paragraph's text length, via
+     `textOffsetInAncestor()`) applied to the sibling paragraph's length —
+     still an approximation, but keeps the feature from erroring or reverting
+     to underlining the whole paragraph when sentence counts disagree.
+  Either tier wraps the estimated span — not the whole paragraph — in
+  `<span class="linked-underline">`, via `rangeFromGlobalOffsets()` plus
+  `range.surroundContents()` (best-effort, same as `wrapTextInNode()`: skips
+  silently if the estimated range straddles an inline tag boundary it can't
+  wrap). Both tiers are still heuristic approximations, not guarantees — say
+  so if the user asks how exact it is. `text-decoration` (not `border-bottom`)
+  in `--hl`, matching `mark.hl-anno`'s own color so it reads as "corresponds
+  to a highlight." Went through three rejected VISUAL designs in direct
+  testing before settling on an underline at all: a bare 🔗 glyph (too
+  subtle), a tinted box with a "🔗 关联批注" pill (read as a separate badge,
+  not "对应划线"), then underlining the WHOLE sibling paragraph (explicitly
+  rejected — "应该只有对应划线的那部分也有划线，而不应该是现在这样全段划上") —
+  and then one rejected ACCURACY tier (the original flat whole-paragraph
+  proportional guess alone, superseded by the sentence-level tier above once
+  it was reported as too inaccurate). Deliberately **not interactive** — no
+  click handler on the span — since the only way to add one without
+  colliding with normal text selection elsewhere in that paragraph would be a
+  separate click target, which is exactly what got rejected in the visual-
+  design round; open the note from the sidebar/nav/overview instead.
+- There is deliberately **no in-page voice input.** An earlier draft wired up
+  the Web Speech API, but it's pointless complexity: any OS-level dictation
+  (macOS dictation, Windows voice typing, etc.) already types into the note
+  textarea like any other text field, with no iframe-permission uncertainty
+  and no extra code to maintain.
+- Opening a note for editing (`edit()` for paragraph notes, `openCard()` for
+  highlights) calls `focusSoon()` — `el.focus()` immediately, then again on
+  the next `requestAnimationFrame` — not a bare `.focus()`. A bare call
+  worked in this skill's own `file://` Playwright tests but was reported as
+  unreliable on the real published artifact; the double call is cheap
+  insurance against whatever layout/paint timing difference causes that, and
+  costs nothing when the first call already worked.
+
+### Self-assigned tags (free-form, not a fixed taxonomy)
+
+Both annotation kinds — paragraph notes and selection highlights — take an
+optional space/comma-separated tag field (`.note-tags` inline under the
+paragraph editor, `#hlTags` in the highlight card). Tags are read-your-own
+labels like "可引用" or "待查", not a controlled vocabulary the skill defines.
+
+- Paragraph notes predate tags and were plain strings in `localStorage`.
+  `noteOf(id)` reads either the legacy string form or the new `{text,tags}`
+  object form, so nothing needed migrating — an old saved note just has an
+  empty tag list until edited. Don't "clean up" by forcing every entry to the
+  new shape on load; the whole point of `noteOf()` is that both forms stay
+  valid indefinitely.
+- Tags render as small pill chips (`.tag-chip`) wherever a note's text shows:
+  inline under the paragraph, in the sidebar, in the nav panel's 批注 tab, and
+  in the end-of-document overview. **Clicking any chip, anywhere, toggles a
+  tag filter** (`activeTagFilter`) that narrows all three list views to
+  matching rows and scopes `markdown()`/`reviewPrompt()` to the same subset —
+  one shared filter state, not a per-list control. A `.tag-filter-bar` with a
+  clear button appears at the top of a filtered list; exports that are
+  currently filtered say so in their own text (`（仅导出标签：#…）`) so a
+  pasted export doesn't silently look like the reader's full set of notes.
+  `ovClear`/"清空" always wipes everything regardless of the active filter —
+  it's a full reset, not a scoped delete, and should stay that way.
+- Tabbing from a note's textarea into its tag field blurs the textarea, but
+  the editing UI must not collapse on that blur — `scheduleCollapseCheck()`
+  defers the check one tick so the newly-focused field (if still inside the
+  same `.note`) is already `document.activeElement` by the time it runs. Both
+  the textarea's and the tag input's blur handlers go through this, not a
+  bare `wrap.classList.remove('editing')`.
+- Previously-used tags are **pickable**, not just freely retyped: every
+  `.note-tags`/`#hlTags` input shares one `<datalist id="tagOptions">`
+  (`list="tagOptions"`), rebuilt from `allDistinctTags()` inside `refreshAll()`
+  so it's always current. A native datalist replaces the WHOLE input value
+  when a suggestion is picked — it helps most for a field's first tag; a
+  second tag after a space still has to be typed out. That's an accepted
+  limit of using the plain HTML control instead of building a custom
+  multi-chip tag-input widget, not a bug to fix later unless asked.
+- `#tocSidebar` shows the tag directory as an **overlay layer on top of the
+  TOC tree**, not a second swapped-in pane (`.sb-pane`/`.sb-switch-btn` — a
+  pair of equal-weight buttons — was the first design; rejected: "左边目录标签
+  不是这个意思 是说标签像是一层layer... 左侧只需要目录这个按钮不需要标签的大
+  按钮，最多是一个开关" — the reader wants 目录 as the one real destination,
+  with tags as an occasional small switch, not a second button implying two
+  equally-likely panes). The tree (`.sb-tree`) always stays in the DOM inside
+  `.sb-tree-wrap`; a single small toggle (`#tagLayerToggle`, styled as a
+  tiny switch, not a button the size of "目录") shows/hides an absolutely
+  positioned `#sbTagOverlay` (`position:absolute;inset:0` within
+  `.sb-tree-wrap`, elevated with a border + shadow so it visibly reads as a
+  layer sitting above the tree, not a replacement for it) containing
+  `#sbTagList` (`buildTagDirectory()`). The directory lists every distinct
+  tag across both annotation kinds with a count, sorted alphabetically;
+  clicking a row calls the SAME `toggleTagFilter()` the chips elsewhere
+  call, so filtering from the directory and filtering from a chip are one
+  shared state, not two. The switch's on/off state persists across reloads
+  via `localStorage['brTagLayer']`. This is independent of the floating nav
+  panel's own `showTab()` (目录/术语/批注) — different component, same toggle
+  idea, don't conflate them if you touch either.
+
 ### The 「AI 点评」 button — what it can and cannot be
 
 A published artifact **cannot call a language model at runtime.** The only
@@ -189,6 +373,212 @@ than any in-page call could, since the reviewer can check the notes against
 the full text rather than the excerpt. Say this plainly when handing the page
 over — frame the button as what it is, so nobody waits for an answer that is
 not coming.
+
+### 「AI 解读」 — the same idea, scoped to ONE annotation as a question
+
+"评价我全部的批注" (批评/点评, above) and "解读我这一条批注在问什么" are different
+asks — the second shouldn't require copying every other note just to get one
+question answered. `askPrompt(r)` is the per-row counterpart to
+`reviewPrompt()`: it treats that single note/highlight's text AS A QUESTION
+and copies it, plus its source passage (EN + ZH, or every linked fragment if
+it's a multi-fragment highlight) and its tags, to the clipboard as a
+ready-to-paste request. Same runtime constraint as 「AI 点评」 — no completion
+endpoint on a published page, so this copies the request, it doesn't answer
+it.
+
+`buildAskBtn(r, compact)` renders one of two variants of the same action,
+shared by `buildList()` (nav 批注 tab + end-of-document overview) and
+`buildSidebarList()` (`#noteSidebar`):
+- `compact=false` → `.ask-ai-btn`, a labeled pill ("💬 AI 解读") — there's
+  room for a label in those wider rows.
+- `compact=true` → `.ns-ask`, an icon-only button ("💬") positioned left of
+  the existing `.ns-edit` (✎) icon in a `.ns-row` — that column is only
+  14.5rem wide, no room for a text label next to a second icon. `.ns-row`'s
+  right padding grew from `1.7rem` to `3.4rem` to fit both icons.
+`copyText()` gained an optional 4th `opts` param (`{okText, failText}`) so
+the icon-only variant can flash a bare `✓`/`✕` instead of the long "✓ 已复制"
+label, which would overflow a 1.5rem-wide button.
+
+### AI 备注 — closing the loop 「AI 解读」 opens
+
+The user tried 「AI 解读」, pasted the copied prompt into a Claude conversation,
+got a real answer back, then pasted THAT answer into the chat and said: "我
+需要的恰恰是AI输出完可以直接加入到这个批注内容里并标注AI备注" — the missing
+piece wasn't the answer, it was a place to put it back. A published page
+still can't call a model itself, so this doesn't close the loop
+automatically; it gives the reader somewhere to paste the result by hand.
+
+Both annotation kinds get an optional `aiNote` field, alongside `text`/`tags`:
+`.note-ai` (a plain `<textarea>`, shown only while a paragraph note is
+`.editing`, right after `.note-tags`) and `#hlAiNote` (always visible in
+`#selCard`, the highlight card). Deliberately a plain textarea, not a
+"📋 粘贴" button wired to `navigator.clipboard.readText()` — clipboard
+**write** already needed requesting permission for 「AI 解读」/「AI 点评」;
+**read** is more sensitive and more likely to be refused outright in a
+sandboxed context like a Claude Artifact's iframe. A textarea takes a native
+Cmd/Ctrl+V paste with no permission prompt at all, so it sidesteps the
+question entirely instead of risking a second clipboard feature that's
+quietly broken in the one environment this skill ships to most.
+
+`noteOf()`/highlight objects carry `aiNote` the same way they carry `tags` —
+`paint()` (paragraph notes) and `entries()` → `buildList()`/
+`buildSidebarList()` (both kinds) render it as a visually distinct
+`<div class="ai-note">` block, labeled "🤖 AI 备注" (`.ai-note-lbl`), styled
+with the `--hl` accent (same family as the cross-language underline and
+`mark.hl-anno`) so it reads as "AI-sourced," not mixed into the reader's own
+paragraph text. `markdown()`/`reviewPrompt()` both include it as its own
+line (`AI 备注：…` / `【此前的 AI 备注】…`) so an existing AI note survives a
+re-export instead of being silently dropped. `askPrompt()` also includes it
+when present (`【此前已有的 AI 备注，这次请在此基础上继续回答，不要重复】`) so
+asking a FOLLOW-UP question doesn't make the next answer repeat the first.
+
+### AI 总结 — a fourth column, with two different coordinate frames
+
+The ask: "帮我对每一段做AI总结功能，放在右上角，展示后显示在我的批注左侧跟随左边滑动
+段落滑动，也有一个吸附按钮自动对齐右侧标注所在的段落（右侧标注比如1-3条都是第一段，
+那么就跟第一段summary对齐，第一段summary高度为右侧1-3条的范围）". That's two distinct
+behaviors for one column, not a bug to pick between:
+
+- **Default ("跟随左边滑动段落滑动").** `#aiSidebar` is a normal (non-sticky)
+  flex sibling that scrolls with the page exactly like `main` does, sitting
+  between `main` and `#noteSidebar`. Each `.ai-sum-block` is
+  `position:absolute` inside `#aiSummaryInner` (`position:relative`, given
+  an explicit JS-computed `height` since an element with only absolutely
+  positioned children is otherwise 0px tall), placed at its own paragraph's
+  `getBoundingClientRect().top` relative to the container. This is `syncFlow()`
+  in the script.
+- **Snap (`#aiSnapToggle`, persisted via `localStorage['brAiSnap']`).**
+  `#aiSidebar` becomes sticky + independently scrollable, exactly like
+  `#noteSidebar` — because "aligned with my annotations list" and "sticky"
+  have to be the SAME claim for this to make sense: `#noteSidebar` doesn't
+  scroll with the page either. `syncSnap()` groups `#nsList .ns-row`
+  elements by `data-nid` (added to `entries()`'s output and copied onto each
+  row in `buildSidebarList()`) and sets each matching `.ai-sum-block`'s
+  `top`/`height` to span the full top-to-bottom range of that nid's rows —
+  this is the literal "第一段summary高度为右侧1-3条的范围" ask. A paragraph
+  with a summary but no annotation is hidden rather than shown at some
+  arbitrary position; there's nothing to snap it to.
+  - Both nav columns are sticky in this mode but scroll INDEPENDENTLY by
+    default (two separate `overflow-y:auto` boxes) — matching heights alone
+    doesn't keep them visually aligned once either one is scrolled, so
+    `bindScroll()` mirrors `scrollTop` between them while snap is active.
+  - The two sidebars' content doesn't start at the same viewport Y even
+    though both `<nav>`s are pinned at the same `top:5.5rem` — `#aiSidebar`'s
+    switch-row header isn't the same height as `#noteSidebar`'s plain label.
+    `syncSnap()` sidesteps this by measuring each `.ns-row`'s position
+    against `#aiSummaryInner`'s OWN top (not `#nsList`'s) — the number that
+    produces is already in the right coordinate space, rather than assuming
+    the two containers' inner tops coincide.
+  - A highlight's row is grouped under its FIRST fragment's nid
+    (`r.frags[0].nid`, matching how `nidToBlock[h.frags[0].nid]` already
+    picks a highlight's "home" paragraph elsewhere) — a multi-paragraph
+    linked highlight only snaps against one of its paragraphs, a known,
+    accepted simplification rather than something to fix unless asked.
+
+Content: `summary` is a plain string field on a `p`/`quote` spec item (same
+level as `en`/`zh`), authored by Claude when building the page — there is no
+live summarization call, so these are written once per block, the same way
+`ai_commentary` is. Keyed in the page by `nid(doc_key, en)` (`window.__BR_SUMMARIES`,
+embedded alongside `__BR_TOC`/`__BR_GLOSSARY`), so it reattaches correctly
+across re-renders the same way notes do, and a block with no `summary` key
+simply gets no column entry — the feature degrades per-paragraph, not
+all-or-nothing.
+
+Gated behind its own `@media (min-width:1280px)` breakpoint rather than
+folded into the shared 1040px one `#tocSidebar`/`#noteSidebar` use — adding a
+FOURTH column to that breakpoint would squeeze `main` on an ordinary laptop
+window before this column has anywhere comfortable to go. 1280px isn't
+arbitrary either: it's the viewport width at which `main` gets the SAME
+floor width (~536px) the 1040px breakpoint already gives it once the other
+two columns are showing — derived, not guessed, and specifically re-derived
+after shipping at 1320px first and getting it wrong the same way
+`#noteSidebar` was once overcautiously gated at 1280px (see that sidebar's
+own CSS comment): a user on an ordinary 1280px-wide 13" laptop reported the
+whole column, switch included, simply never appearing. **When adding this
+column, `.layout`'s `max-width` had to grow from 77.5rem (three columns) to
+92.5rem (four)** — leaving it at 77.5rem meant `main` got squeezed the
+moment `#aiSidebar` turned on even though 92.5rem of budget was only needed
+there, which silently broke unrelated pixel-exact scroll-position tests
+(`test_sidebar.py`, `test_sidebar_notes_gref.py`) by changing paragraph
+line-wrap. If another column is ever added to this
+layout, redo this max-width sum rather than assuming the existing one still
+covers it.
+
+Resyncing: one `ResizeObserver` on `main` (mode toggle, a note/highlight
+changing a paragraph's height, window resize, font load) and one
+`MutationObserver` on `#nsList` (rebuilt wholesale by `buildSidebarList()`
+whenever notes/highlights/tag-filter change) cover every case that can move
+a paragraph or change which rows exist, rather than hooking each individual
+call site that could affect either.
+
+#### The sticky header's nested-offset bug (and why it needs `reserveHeaderSpace()`)
+
+`#aiSidebar .sb-label-row` (holding the "AI 总结" label and `#aiSnapToggle`)
+is `position:sticky` so the switch stays reachable regardless of scroll —
+see its own CSS comment for that story. Making it sticky INDEPENDENTLY of
+`#aiSidebar` (which is only sticky in snap mode) turned out to need two
+separate fixes, both found by a user screenshot showing the header visually
+overlapping/garbling the first summary block:
+
+1. **Flow mode**: `#aiSidebar` itself is `position:static`, so its natural
+   top sits above the header's `top:5.5rem` offset — the header immediately
+   "sticks" and visually floats down by the gap, but `#aiSummaryInner` (the
+   next sibling in flow) still reserves space based on the header's
+   UNSTUCK static position, not where it's actually rendering. Fixed by
+   `reserveHeaderSpace()`: measure the header's actual rendered `bottom`
+   each sync and set that as `#aiSummaryInner`'s `margin-top`, rather than
+   hand-tuning a magic pixel value for one specific topbar/font
+   configuration. This only matters in flow mode, because flow-mode block
+   positions are computed relative to `#aiSummaryInner`'s own rendered top
+   (`containerTop` in `syncFlow()`) — snap-mode block positions are NOT
+   (see next point), so this fix is a no-op there.
+2. **Snap mode**: `#aiSidebar` itself is ALSO sticky at `top:5.5rem` here,
+   with `overflow-y:auto` making it the header's sticky containing block —
+   so the header's OWN `top:5.5rem`, now measured relative to a box that is
+   itself already sitting at viewport-y≈5.5rem, compounds into ~11rem
+   instead of lining up at 5.5rem. `reserveHeaderSpace()`'s margin-top trick
+   does NOT fix this, because in snap mode each block's absolute viewport
+   position is deliberately set to exactly its `#nsList` row's own absolute
+   position (`g.top`/`g.bottom` from `measureGroups()`), independent of
+   wherever `#aiSummaryInner` itself starts — margin-top on the container
+   changes nothing about where its position:absolute children end up on
+   screen. The actual fix is `body[data-ai-snap="1"] #aiSidebar
+   .sb-label-row{top:0}`: once the column itself provides the 5.5rem
+   offset, the header only needs to stick to the top of ITS OWN
+   already-positioned scroll frame, not ask for another 5.5rem on top of it.
+
+Moral for touching this again: a sticky element nested inside another
+sticky-or-not element doesn't just "add harmlessly" — whether the offsets
+compound depends on which element the inner one's sticky `top` resolves
+against, which flips between the page and the outer box depending on
+whether the outer box is a scroll container. Measure actual rendered
+positions (as both fixes above do, one via JS, one via a mode-specific CSS
+override) rather than assuming two `top:5.5rem` values will visually agree.
+
+#### The snap-inflation padding bug: replacing vs. adding to existing padding
+
+`syncSnap()` never clips a summary's own text to fit a shorter annotation
+span — a user rightly called the original behavior (which DID clip, via a
+fixed `height` + `overflow:hidden`) backwards: "应该是反过来...批注也要适应于
+ai总结的这个长度". So when a block's natural content height exceeds its
+`#nsList` row-group's natural span, the ANNOTATION side grows instead,
+by adding padding-bottom to the group's last row (normal flow then pushes
+every row below it down automatically) — never the other way around. The
+first version of that fix set `g.lastRow.style.paddingBottom = shortfall +
+'px'` directly.
+`.ns-row` already carries its own CSS `padding-bottom` (`.55rem`, part of
+its `padding:.55rem 3.4rem .55rem .1rem` shorthand) for normal breathing
+room — setting the inline style to just the shortfall REPLACES that base
+padding instead of adding to it, so the row only grows by
+`shortfall - basePadding` instead of the full `shortfall`, leaving the
+summary still clipped by however much base padding it ate. Confirmed with a
+real measurement: asking for 20.92px of extra padding only grew the row by
+12.13px (20.92 − 8.8, the row's own `.55rem`). Fixed by reading
+`getComputedStyle(row).paddingBottom` first and adding the shortfall to
+THAT, not overwriting it. General lesson: never set `style.paddingBottom`
+(or any box-model property) to an "amount to add" without first checking
+whether the element already has a non-zero value for that property from its
+own stylesheet rules.
 
 ### Baking your own analysis into the page
 
@@ -240,38 +630,116 @@ for an individual spec unless the user asks for that page specifically.
 
 ### The persistent structure sidebar
 
-On wide viewports (≥1440px) a fixed sidebar renders to the left of the
-article, listing every h2/h3 as a small vertical tree — a spine line with a
-larger dot per h2 and smaller indented dots for h3, doubling as both the
-table of contents and a lightweight visual of the paper's structure. It's
-generated straight from the same heading data the floating navigator's 目录
-tab uses, requires no spec changes, and updates automatically as sections are
-added. An `IntersectionObserver` highlights whichever section is currently in
-view as the reader scrolls, so the sidebar also answers "where am I in this
+On viewports ≥1040px a sidebar renders to the left of the article, listing
+every h2/h3 as a small vertical tree — a spine line with a larger dot per h2
+and smaller indented dots for h3, doubling as both the table of contents and
+a lightweight visual of the paper's structure. It's generated straight from
+the same heading data the floating navigator's 目录 tab uses, requires no
+spec changes, and updates automatically as sections are added. An
+`IntersectionObserver` highlights whichever section is currently in view as
+the reader scrolls, so the sidebar also answers "where am I in this
 argument" while reading, not just "where can I jump to."
 
-Below 1440px there usually isn't room for a 15rem sidebar next to a 46rem
+This is a real two-column layout, not a sidebar floating in whatever margin
+happens to be left outside an independently-centered article column. `main`
+and `#tocSidebar` are flex siblings inside a shared `.layout` wrapper
+(`max-width:61rem`, centered as a unit), and the sidebar itself is
+`position:sticky` rather than `position:fixed`. That distinction is the
+reason 1040px works as a breakpoint at all — a `fixed` sidebar positioned
+relative to viewport width needs roughly double the room (enough for a fully
+centered 46rem column *plus* clear margin on both sides for the sidebar), but
+a flex layout only needs sidebar + gap + article side by side, which fits an
+ordinary, non-maximized laptop window. If you're tempted to widen the sidebar
+or lengthen node labels, remeasure against this breakpoint rather than
+assuming there's slack — it was sized deliberately tight to catch ordinary
+laptop widths, not just ultrawide monitors.
+
+### The annotations sidebar (right column, ≥1040px) and glossary popover
+
+Two more pieces of the same "don't make the reader lose their place" problem:
+
+**Persistent 我的批注 sidebar.** A third flex column (`#noteSidebar`), sticky
+like `#tocSidebar`, listing every saved annotation — both paragraph notes and
+selection highlights, pulled from the same `entries()` used by the overview
+and exports — with **two separate click targets per row**: the quoted text
+jumps to the passage (`scrollIntoView`), a small `✎` button opens the note
+for editing *without* scrolling. For a highlight annotation that's a real
+distinction (its editor is the floating `#selCard`, which doesn't require
+navigating anywhere); for a plain paragraph note it still has to scroll,
+because that note's only editor is the inline textarea under the paragraph —
+`✎` there scrolls and then auto-opens the textarea, saving a click rather
+than skipping the scroll entirely. Don't conflate these into one click target
+again; a reader checking "did I already annotate this" should not be forced
+to jump away from where they're currently reading just to look.
+
+It shares the same **≥1040px** breakpoint as `#tocSidebar` rather than a
+separate, higher one. An earlier version gated it at 1280px on the theory
+that a third column needed main to stay near its full 46rem to look right —
+overcautious: both sidebars use `flex-shrink:0`, so `main` (`flex:1 1 auto`,
+no shrink override) is what absorbs the squeeze, rendering as narrow as
+~33.5rem right at 1040px and growing back to its full 46rem by ~1240px. That
+narrower column still reads fine, so there was no real reason to hide the
+sidebar on anyone whose window happened to be 1040–1279px wide — which is
+exactly the range where it had silently failed to appear. `.layout`'s
+max-width (`77.5rem` = 13 + 2 + 46 + 2 + 14.5) is sized for all three columns
+at once; if you touch sidebar widths, recompute this sum rather than guessing.
+Below 1040px, annotations are still fully reachable through the floating nav
+panel's 批注 tab — nothing is lost, the sidebar is a progressive enhancement.
+
+**Glossary term popover.** `a.gref` links used to be plain `href="#g-id"`
+anchors — clicking one jumped straight to the glossary section, which for a
+100+ block article can be most of a page-length scroll away, with no obvious
+way back except the browser's Back button. They're now intercepted globally
+(a single delegated `click` listener checking `.closest('a.gref')`) and
+open a small floating popover with the term, category, and full definition
+right next to where you clicked — no navigation, no lost scroll position.
+The popover still carries a "在术语表中查看完整条目 →" link for anyone who
+wants the full glossary with category grouping; that's the fallback, not the
+default path. A modifier-click (⌘/Ctrl/Shift/Alt) still falls through to the
+native anchor behavior, so opening the glossary entry in a new tab still
+works for anyone who wants that.
+
+Below 1040px there usually isn't room for a 13rem sidebar next to a 46rem
 article column without cramping either one, so it hides entirely and the
 floating navigator's 目录 tab is what's left to serve narrower and mobile
 viewports — don't try to also cram a shrunk sidebar into medium widths, that
 navigator tab already covers it.
 
-### File export (optional, needs a capability)
+### File export and import — works on any host, not just Claude artifacts
 
-`下载 .md` and `备份 .json` stay hidden unless `window.claude.downloads` is
-present, so the page degrades cleanly when opened as a local file. To enable
-them, publish with `capabilities: {downloads: true}`. The `.json` backup is
-worth offering because `localStorage` is genuinely fragile — it is the only
-thing standing between a reader and losing a paper's worth of annotations to a
-cleared cache. Saves are viewer-confirmed and can be declined; the button
-handles `declined`, `rate_limited`, `too_large`, and hides itself on the
-lifecycle codes.
+`下载 .md` and `备份 .json` always render (not gated behind a capability
+check): `offer()` tries the Claude-artifact `downloads` capability
+(`window.claude.downloads`) first when present — it gives the viewer a
+save-location picker — and falls back to a universal `Blob` + `<a download>`
+(`nativeDownload()`) otherwise. That fallback is what makes export work when
+this exact rendered HTML is served as a plain web page (e.g. from GitHub
+Pages) where `window.claude` doesn't exist at all, and it's also just a
+better fallback on a Claude artifact than silently hiding the buttons when
+the capability isn't granted. The `.json` backup is worth offering because
+`localStorage` is genuinely fragile — it's the only thing standing between a
+reader and losing a paper's worth of annotations to a cleared cache.
+
+`导入备份 .json` is the other half: it reads a previously-exported backup file
+(via a hidden `<input type="file">`) and **merges** it into the current
+page's `notes`/`highlights` by key/id — an imported entry overwrites one with
+the same id, but nothing already on the page gets discarded outright. This
+exists specifically for moving notes between two different hosts of the same
+reading (e.g. a Claude artifact a reader already annotated, and the same page
+later republished to GitHub Pages): there is no live channel between two
+pages' separate `localStorage`, so export-then-import is the whole
+mechanism, not a stopgap for one. It warns (not blocks) on a `doc` mismatch
+between the backup and the current page, in case the reader picks the wrong
+file.
 
 Two things to be aware of, and to tell the user when it matters:
 
-- **Notes are per browser, per device.** `localStorage` is not synced. Someone
-  who annotates on a laptop will not see those notes on their phone, and
-  clearing site data erases them. Suggest exporting anything they care about.
+- **Notes are per browser, per device, per origin.** `localStorage` is not
+  synced, and two different hosts (a Claude artifact vs. GitHub Pages, or
+  even two different GitHub Pages repos) are two different origins with
+  completely separate storage, even for byte-identical HTML. Someone who
+  annotates on a laptop will not see those notes on their phone; moving a
+  page to a new host starts that host's copy empty until an import happens.
+  Suggest exporting anything they care about before a host change.
 - **Note identity is keyed to `meta.doc_id` plus a hash of each block's English
   text.** So re-rendering after adding new sections preserves existing notes,
   which is what makes incremental section-by-section delivery safe. But

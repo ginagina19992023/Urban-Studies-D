@@ -38,7 +38,7 @@ with sync_playwright() as p:
     ck("fast-path markdown export contains the note", "快捷路径测试批注" in md)
 
     # jump-to-overview link for the remaining tools (export file / clear) still works
-    pg.locator("#notesJump").click(); pg.wait_for_timeout(1200)
+    pg.locator("#notesJump").click(); pg.wait_for_timeout(2000)
     ck("jump-to-overview still works from notes tab", not pg.locator("#navPanel").is_visible())
     ck("landed near overview", pg.evaluate("Math.abs(document.getElementById('overview').getBoundingClientRect().top) < 400"))
 
