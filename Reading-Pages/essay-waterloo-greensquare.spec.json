@@ -1,0 +1,406 @@
+{
+ "meta": {
+  "doc_id": "essay-waterloo-greensquare",
+  "eyebrow": "Urban Studies 期末论文 · 完整稿 · 中英对照",
+  "title_en": "Housing Development Strategies and Area Reputation in Sydney: Contrasting Waterloo and Green Square",
+  "title_zh": "悉尼的住房开发策略与区域声誉：Waterloo 与 Green Square 的对比",
+  "byline": "正文约 6,600 词；Times New Roman 12 pt、1.15 倍行距、A4 排版共 14 页（含参考文献；正文约 11 页）",
+  "crumb": "Reading Pages",
+  "citation": "课程论文草稿，供逐句批注与修改；引用页码以所列文献为准。",
+  "note": "每一段首句与末句扣住核心论点，中间展开概念在文献中是否出现、如何被解读。可划线批注并导出。",
+  "footer": "本稿的解释部分均已在正文中标明是“我的解读”；事实性引用均来自已读原文。"
+ },
+ "items": [
+  {
+   "kind": "h2",
+   "en": "1. Introduction: two neighbours, two stories",
+   "zh": "1. 引言：两个邻居，两种叙事"
+  },
+  {
+   "kind": "p",
+   "en": "Two precincts in inner-south Sydney, about one kilometre apart, are being rebuilt as high-density neighbourhoods, yet they are described in very different terms. Green Square, a 278-hectare former industrial area, is presented by the City of Sydney as Sydney's \"oldest industrial heartland\" that \"has transformed into a vibrant, sustainable and connected community\", with a planned 63,000 residents and about 22,000 jobs (City of Sydney, n.d.). Waterloo's public housing estate, about 2,000 dwellings on 18 hectares, has been called \"terrible\" and \"no longer fit for purpose\" by ministers and local members, and long overdue for renewal (Zanardo et al., 2024). Its planning proposal places it \"1 kilometre north of Green Square Town Centre\" (NSW Land and Housing Corporation [LAHC], 2021, §1.1.2). This essay argues that the two precincts sit inside one planning frame, that of a global city, but are separated by two different stories about their past, and that the planning documents then use the first precinct as a built-form precedent for the second. The cost of transplanting a model onto a place that is already inhabited falls on the people who live there.",
+   "zh": "悉尼内城南部有两个相距约一公里的片区，正在被改建成高密度社区，但人们谈论它们的方式却截然不同。Green Square 是一片 278 公顷的前工业区，City of Sydney 把它描述为悉尼“最古老的工业核心地带”，如今“已转变为充满活力、可持续、互联互通的社区”，规划居民 63,000 人、就业岗位约 22,000 个（City of Sydney, n.d.）。Waterloo 公屋区约有 2,000 套住宅，占地 18 公顷，部长和本地议员曾称它“糟糕透顶”“不再适用”，早就该更新（Zanardo et al., 2024）。它的规划建议书把它定位为“位于 Green Square Town Centre 以北 1 公里”（NSW Land and Housing Corporation [LAHC], 2021, §1.1.2）。本文认为：这两个片区处在同一个规划框架——全球城市——之内，却被两种不同的“过去”叙事分开；而规划文件随后又把前者当作后者的建筑形态先例。把一种模式移植到一个已有人居住的地方，其代价落在居住者身上。"
+  },
+  {
+   "kind": "p",
+   "en": "The argument is built from the four units of the course. From the introductory unit it takes the global city (Sassen, 1991) and the view of urbanisation as a terrain of struggle over land and housing; from the housing unit, the conflict between housing as home and as real estate (Madden & Marcuse, 2016); from the segregation unit, vicious circles and neighbourhood effects (Tammaru et al., 2021); and from the gentrification unit, the rent gap, social mixing and state-led gentrification (Lees, 2008; Yrjänä, 2026). The evidence is policy and planning documents, the consultation record, and three academic studies of Waterloo by Sisson (2024), Zanardo et al. (2024) and Wynne and Rogers (2021). Because these studies already use some of the same concepts, each section below states which concepts they use and what the contrast with Green Square adds. Sisson and Zanardo et al. both describe a \"reputational gap\" between the estate's present and its idealised future; none of the three studies mentions Green Square in its text. The contribution of this essay is therefore the comparison, and the test of what the idealised future leaves out.",
+   "zh": "本文的论证按课程的四个单元展开。导论单元提供全球城市（Sassen, 1991）和“城市化是围绕土地与住房的斗争场域”这一视角；住房单元提供“住房作为家”与“住房作为房地产”之间的冲突（Madden & Marcuse, 2016）；隔离单元提供恶性循环与邻里效应（Tammaru et al., 2021）；绅士化单元提供租金差、社会混合与国家主导的绅士化（Lees, 2008; Yrjänä, 2026）。证据包括政策与规划文件、咨询记录，以及三项关于 Waterloo 的学术研究：Sisson (2024)、Zanardo et al. (2024) 和 Wynne & Rogers (2021)。由于这些研究已经用到部分相同的概念，下文每一节都会交代它们用了哪些概念，以及与 Green Square 的对比能增加什么。Sisson 和 Zanardo 等人都描述了公屋区“现状”与“被理想化的未来”之间的“声誉差距”；三项研究都没有提到 Green Square。因此，本文的贡献在于这一对比，以及检验那个“被理想化的未来”遗漏了什么。"
+  },
+  {
+   "kind": "p",
+   "en": "A personal note explains the motivation, although it is not evidence. The author has lived near Redfern, knows the area's reputation well, and still enjoyed walking its streets; the gap between the reputation and the experience is where this essay began. The essay proceeds in four steps that follow the course units: Section 2 places the two precincts in Sydney's global-city planning; Section 3 compares their development strategies; Section 4 examines how their reputations are produced; and Section 5 asks what the promise of mixing and return means for those who live in Waterloo. Throughout, claims about intent are avoided, and the interpretation is marked as interpretation, because documents can show what a policy says and what it uses as a reference, but not what the authors of the policy hoped.",
+   "zh": "有一段个人经历说明了写作动机，但它不是证据。作者曾住在 Redfern 附近，很清楚这个地区的名声，却依然喜欢在那里的街上散步；名声与体验之间的落差，是本文的起点。文章沿着课程单元分四步展开：第 2 节把两个片区放入悉尼的全球城市规划；第 3 节比较它们的开发策略；第 4 节考察它们的声誉是如何被生产出来的；第 5 节追问混合与回迁的承诺对 Waterloo 的居住者意味着什么。全文避免对意图下判断，并把解释明确标为解释，因为文件能说明一项政策写了什么、用什么作参照，却无法说明政策制定者的期望。"
+  },
+  {
+   "kind": "h2",
+   "en": "2. The global city: one corridor, two neighbours",
+   "zh": "2. 全球城市：同一条走廊，两个邻居"
+  },
+  {
+   "kind": "p",
+   "en": "The introductory unit supplies the frame in which both precincts can be read together. Sassen (1991) describes a small number of cities, such as New York, London and Tokyo, as hubs that manage and coordinate the global economy, and also as sites of deep inequality and social change; Brenner and Schmid (2021), as presented in the course, treat urbanisation as a global process and a terrain of struggle over land, housing and basic services. Neither concept is applied to Sydney in the lectures, so the application here is an interpretation. It follows the logic of both: if a city competes as a global economic hub, land becomes the place where that ambition meets the residents who already live on it. For this essay, land and housing are the terrain, and Waterloo and Green Square are two fields of the same struggle.",
+   "zh": "导论单元提供了把两个片区放在一起阅读的框架。Sassen (1991) 把纽约、伦敦、东京等少数城市描述为管理和协调全球经济的枢纽，同时也是深刻不平等与社会变迁的场所；Brenner & Schmid (2021)（课程中介绍）把城市化看作一个全球过程，是围绕土地、住房和基本服务的斗争场域。讲义并没有把这些概念用到悉尼，所以这里的应用是一种解释。它遵循两者的逻辑：如果一座城市以全球经济枢纽的身份竞争，那么土地就成了这种雄心与已经住在那里的居民相遇的地方。对本文而言，土地与住房就是斗争场域，Waterloo 和 Green Square 则是同一场斗争的两块战场。"
+  },
+  {
+   "kind": "p",
+   "en": "Sydney's own planning documents state the ambition explicitly. The 2014 metropolitan strategy, subtitled \"a strong global city, a great place to live\", defines a Global Economic Corridor that \"extends from Macquarie Park through the Sydney CBD to Port Botany and Sydney Airport\" and \"generates over 41 per cent of the NSW Gross State Product\" (NSW Planning and Environment, 2014, p. 44; the subtitle is as catalogued by the National Library of Australia). The map of the corridor (Figure 15, p. 45) marks Green Square as a strategic centre, the strategy lists it among Sydney's strategic centres, and its Central subregion section commits to facilitating the Green Square Town Centre project, \"comprising around 4,000 dwellings and 90,000m² of commercial and retail area\" (p. 113). In this document the concept of the global city appears as economic competitiveness: jobs, output and infrastructure. Green Square is therefore an explicit part of the global-city plan.",
+   "zh": "悉尼自己的规划文件明确写出了这种雄心。2014 年的大都市战略副标题是“一个强大的全球城市，一个宜居之地”，它界定了一条全球经济走廊：“从 Macquarie Park 经悉尼 CBD 到 Port Botany 和悉尼机场”，并“贡献 NSW 逾 41% 的州内生产总值”（NSW Planning and Environment, 2014, p. 44；副标题据澳大利亚国家图书馆目录）。走廊地图（图 15，p. 45）把 Green Square 标为战略中心，战略文本也把它列入悉尼的战略中心，中部分区部分则承诺推进 Green Square Town Centre 项目，“约 4,000 套住宅和 90,000 平方米商业零售面积”（p. 113）。在这份文件里，全球城市的概念表现为经济竞争力：就业、产出和基础设施。因此，Green Square 是全球城市规划中被明确点名的一部分。"
+  },
+  {
+   "kind": "p",
+   "en": "Waterloo's place in that frame is less direct. The 2014 strategy does not name Waterloo anywhere; it mentions Redfern and the Central to Eveleigh area. On the corridor map, which is at a small scale and does not label Waterloo, the yellow band runs from the CBD south through Green Square towards the airport, and Waterloo lies between the CBD and Green Square, so it falls inside the band by position. This is the present author's reading of the map. Wynne (2018) reads the estate the same way: she writes that Waterloo \"sits within this global economic corridor\" and alongside the Green Square \"strategic centre\", citing the same strategy. I did not find the phrase \"urban renewal corridor\", which she also uses, in the strategy's text, so the corridor claim should be attributed to her interpretation and to the map, not to a statement in the plan. The link between Waterloo and the global-city frame is therefore plausible and geographical, but made by the reader.",
+   "zh": "Waterloo 在这个框架里的位置则没那么直接。2014 年的战略文件通篇没有点名 Waterloo，只提到 Redfern 和 Central to Eveleigh 地区。走廊地图的比例尺很小，也没有标注 Waterloo，但黄色走廊带从 CBD 向南经过 Green Square 通向机场，而 Waterloo 正好在 CBD 与 Green Square 之间，所以按位置它落在这条带内。这是本文作者对地图的读法。Wynne (2018) 也这样理解：她写道 Waterloo“位于这条全球经济走廊之内”，紧邻 Green Square 这个“战略中心”，并引用了同一份战略。我在战略正文里没有找到她同样使用的“urban renewal corridor”这一措辞，因此走廊的说法应归于她的解读和这张地图，而不是规划原文的陈述。所以，Waterloo 与全球城市框架的联系是合理的、基于地理位置的，但是由读者建立的。"
+  },
+  {
+   "kind": "p",
+   "en": "Wynne's (2018) ethnography shows what the frame means for those who live inside it. She writes that municipalities approach the global-city ambition \"by opening up real estate markets for global investment and large-scale development\", and that inner-city public housing residents \"are aware that they, too, are seen as being in the way of the city's transformation\". The contrast she reports between government and residents is also a contrast between two concepts from the introductory unit. Sennett (2018) distinguishes the building of cities from the dwelling in them, and defines the city as a settlement in which strangers are likely to meet. In Wynne's account, the government sees the estate's modernist towers \"as signifying anachronistic welfare state and city planning ideals\", while a resident says of them: \"they're good to live in. These buildings were built for eternity\". Sennett's pair does not appear in Sisson, in Zanardo et al., or in Wynne and Rogers, so it is one of the concepts this essay adds. Building and dwelling are in tension in Waterloo, and the global-city frame favours the first.",
+   "zh": "Wynne (2018) 的民族志展示了这个框架对身处其中的人意味着什么。她写道，各市政府追求全球城市的雄心，是通过“向全球投资开放房地产市场、推进大规模开发”，而内城公屋居民“也意识到自己被视为城市转型路上的障碍”。她所报告的政府与居民之间的对比，同时也是导论单元里两个概念之间的对比。Sennett (2018) 区分了城市的“建造”与“栖居”，并把城市定义为陌生人有可能相遇的聚落。在 Wynne 的叙述里，政府把公屋区的现代主义塔楼视为“过时的福利国家与城市规划理念的象征”，而一位居民谈到这些塔楼时说：“它们住起来很好。这些楼是为永久而建的。”Sennett 的这一对概念在 Sisson、Zanardo 等人以及 Wynne & Rogers 中都没有出现，所以是本文增加的概念之一。在 Waterloo，建造与栖居相互紧张，而全球城市框架偏向前者。"
+  },
+  {
+   "kind": "p",
+   "en": "The global-city frame also meets older claims on the same land. Wynne (2018) reports that members of the local Aboriginal community see the renewal of Waterloo, and the use of land at The Block for student housing, as part of a strategy to remove their community from the area, and she notes that Redfern-Waterloo and nearby Green Square, close to several universities, have become sites of a boom in student housing that is partly aimed at international students. The urban design study for Waterloo South, for its part, says that Waterloo and Redfern are at the centre of the Aboriginal rights struggle in Australia and that understanding the local Aboriginal story is important to the renewal (Turner Studio & Turf, 2020, Part 1, PDF p. 56). The two accounts differ in tone, and both put the question of who belongs in the area on the table. In terms of the unit's concepts, this is the terrain of struggle that Brenner and Schmid describe, and it is a reminder that the residents of Waterloo are not one group, so any view of the estate as a single community should be tested against the different claims inside it. For the argument of this essay, the global-city frame places pressure on land that carries more than one history.",
+   "zh": "全球城市框架还遇到了同一块土地上更早的主张。Wynne (2018) 报告说，当地原住民社区的成员把 Waterloo 的更新以及在 The Block 的土地上建学生住房，看作要把他们的社区从这一地区移走的策略的一部分；她还指出，Redfern-Waterloo 以及邻近的 Green Square 靠近多所大学，已成为学生住房热潮的所在，部分针对国际学生。Waterloo South 的城市设计研究则说，Waterloo 和 Redfern 处在澳大利亚原住民权利斗争的中心，了解当地原住民的故事对更新很重要（Turner Studio & Turf, 2020, Part 1, PDF p. 56）。两种叙述的语气不同，但都把“谁属于这个地方”的问题摆上了桌面。从本单元的概念看，这就是 Brenner & Schmid 所说的斗争场域，也提醒我们：Waterloo 的居民不是单一群体，因此把公屋区看作单一“社区”的看法，应当拿内部不同的主张来检验。对本文的论证而言，全球城市框架是在对一块承载着不止一种历史的土地施加压力。"
+  },
+  {
+   "kind": "p",
+   "en": "The policy implication is that the planning frame and the housing strategy are written in different registers. The 2014 strategy measures land by jobs and output, while the social housing strategy of 2016, discussed in Section 4, measures it by the aim of breaking disadvantage; the two documents sit side by side without reconciling these measures. The corridor strategy does not oppose housing: it provides for roughly 4,000 dwellings at Green Square, and in that sense it supports residential growth. But a plan that counts land in terms of the economy has no indicator for the people already living on that land. For Waterloo, this means that the global-city frame strengthens the pressure to treat the estate as land with potential, a point the housing unit develops next.",
+   "zh": "政策含义是：规划框架与住房策略是用不同的语言写成的。2014 年的战略用就业和产出衡量土地，而第 4 节将讨论的 2016 年社会住房策略则以“打破劣势”为目标衡量它；两份文件并列存在，却没有调和这两种衡量方式。走廊战略并不反对住房：它在 Green Square 安排了约 4,000 套住宅，从这个意义上说它支持居住增长。但是，一个以经济来计算土地的规划，对已经住在这块土地上的人没有任何指标。对 Waterloo 而言，这意味着全球城市框架增强了把公屋区当作“有潜力的土地”的压力，下一节的住房单元将展开这一点。"
+  },
+  {
+   "kind": "h2",
+   "en": "3. Housing: home, land and two development strategies",
+   "zh": "3. 住房：家、土地与两种开发策略"
+  },
+  {
+   "kind": "p",
+   "en": "The housing unit asks whether housing is a home or an asset, and the Waterloo case shows that the two answers compete. Madden and Marcuse (2016, p. 4) describe \"a conflict between housing as lived, social space and housing as an instrument for profitmaking – a conflict between home and real estate\", and Aalbers (2016) defines financialisation as the growing role of financial motives, markets and actors in shaping housing. The lecture adds that housing is now \"an asset class\". The term financialisation does not appear in the three Waterloo studies, but the idea does, in other words. Sisson (2024) speaks of \"neoliberal asset management logics\" in public housing policy and of the aim of \"value for money\"; Zanardo et al. (2024) speak of land values, \"highest and best use\" and asset recycling; Wynne and Rogers (2021) speak of \"land value uplift\". The concepts are therefore present under different names, and the question this section asks is how Waterloo and Green Square each treat housing as land.",
+   "zh": "住房单元问的是住房是家还是资产，Waterloo 的案例表明这两个答案在相互竞争。Madden & Marcuse (2016, p. 4) 描述了“住房作为被居住的社会空间与住房作为牟利工具之间的冲突——家与房地产之间的冲突”，Aalbers (2016) 则把金融化定义为金融动机、市场与行为者在塑造住房中的作用日益增强。讲义还补充说，住房如今是“一种资产类别”。“金融化”这个词没有出现在三项 Waterloo 研究里，但这个想法以别的说法出现了：Sisson (2024) 谈到公共住房政策中的“新自由主义资产管理逻辑”和“物有所值”的目标；Zanardo 等人 (2024) 谈到地价、“最高和最佳用途”和资产回收；Wynne & Rogers (2021) 谈到“土地价值上涨”。所以这些概念是以不同名称存在的，本节要问的是：Waterloo 和 Green Square 各自如何把住房当作土地。"
+  },
+  {
+   "kind": "p",
+   "en": "Waterloo's strategy is stated in the 2016 social housing strategy, Future Directions. Its first action is to \"fast-track redevelopment of its social housing portfolio\" in partnership with the private sector through Communities Plus, and to \"ensure large redevelopments target a 70:30 ratio of private to social housing to enable more integrated communities\" (NSW Government, 2016, p. 9). Sites were chosen for land value. Zanardo et al. (2024) report that Communities Plus \"major projects\" targeted large estates \"with high land values, close proximity to employment and economic growth areas, good transport connections\", and a history of low-density zoning that allowed intensification; Waterloo \"comfortably met\" these criteria, and the decision to build a metro station there \"further enhanc[ed] land values and ensur[ed] financial feasibility\". Wynne and Rogers (2021) likewise link the decision to redevelop to the station and to transit-led \"land value uplift\". The mechanism is that private development pays for the replacement of social housing, which community housing providers then manage, drawing on exemption from the goods and services tax and on tenants' eligibility for Commonwealth Rent Assistance (Zanardo et al., 2024). In this strategy, the estate's value as land is what makes its renewal affordable to the state.",
+   "zh": "Waterloo 的策略写在 2016 年的社会住房策略 Future Directions 里。它的第一项行动是与私营部门合作，通过 Communities Plus“加快”社会住房存量的再开发，并“确保大型再开发以私人住房与社会住房 70:30 为目标，以形成更融合的社区”（NSW Government, 2016, p. 9）。选址看的是土地价值。Zanardo 等人 (2024) 指出，Communities Plus 的“重大项目”瞄准的是“地价高、靠近就业与经济增长区、交通便利”并且历来低密度分区、允许加密的大型公屋区；Waterloo“轻松满足”这些标准，而在此设地铁站的决定“进一步提高了地价，确保了财务可行性”。Wynne & Rogers (2021) 也把再开发的决定与地铁站及站点导向的“土地价值上涨”联系起来。其机制是：私人开发为社会住房的重建买单，而重建后的社会住房由社区住房组织管理，利用其免缴商品与服务税和租户可领联邦租金援助的条件（Zanardo et al., 2024）。在这一策略中，公屋区作为土地的价值，正是让国家负担得起它的更新的原因。"
+  },
+  {
+   "kind": "p",
+   "en": "The numbers show what this arrangement does to the share of social housing. Waterloo South currently has about 750 social dwellings (NSW Government, 2024). The 2026 project plan is for about 3,300 homes, including about 1,050 social, 700 affordable and 1,550 private homes (Homes NSW, 2026). The number of social homes therefore rises by about 300, but they fall from the great majority of the existing homes to about a third of the total. The government's own framing also shifted: the first stage of 749 dwellings was revised in 2023 to 30 per cent social, 50 per cent market and 20 per cent affordable (Zanardo et al., 2024), and the proportion of social and affordable housing for the project was raised from 34 to 50 per cent (NSW Government, 2023). Zanardo et al. add that social housing in Australia is a highly \"residualised\" tenure, with a small stock and tight eligibility. The concept of residualisation appears in their account, and the figures illustrate it: even where the stock grows, its place in the whole shrinks. The strategy increases the stock while reducing the weight of public housing in the neighbourhood, which is what treating housing as land produces.",
+   "zh": "数字显示了这种安排对社会住房占比的影响。Waterloo South 目前约有 750 套社会住房（NSW Government, 2024）。2026 年的项目方案是约 3,300 套住宅，其中约 1,050 套社会住房、700 套可负担住房和 1,550 套私人住房（Homes NSW, 2026）。因此社会住房的数量增加了约 300 套，但在总数中的比重却从绝大多数降到约三分之一。政府自己的说法也有变化：第一期 749 套在 2023 年调整为 30% 社会住房、50% 市场住房和 20% 可负担住房（Zanardo et al., 2024），整个项目的社会与可负担住房比例则从 34% 提高到 50%（NSW Government, 2023）。Zanardo 等人还指出，澳大利亚的社会住房是一种高度“残余化”的权属，存量小、准入严。“残余化”这个概念出现在他们的论述中，这些数字正好是它的例证：即使存量增加，它在整体中的位置也在缩小。这一策略增加了存量，却降低了公共住房在这个社区里的分量，这正是把住房当作土地所产生的结果。"
+  },
+  {
+   "kind": "p",
+   "en": "Green Square follows a different strategy. It is new construction on former industrial land, led by the City and the state, and the City's page reports that total private development cost will be about A$22 billion, against A$1.8 billion for local public infrastructure, of which the City itself spends about A$710 million including land (City of Sydney, n.d.). White (2014), an author from the City, lists the challenges as flooding, traffic and transport, infrastructure funding, fragmented land ownership, climate change and place making, and describes planning mechanisms used \"to encourage developers and the state government to partner in the city's vision\". The City's page does not mention affordable or social housing. The urban design study for Waterloo South, however, tabulates Green Square Town Centre as having 104 social and affordable dwellings out of 3,308, about 3 per cent (Turner Studio & Turf, 2020, App. 6, p. 463; the figures are read from a scanned table and should be checked against the page). The strategy is the same in logic, since public money prepares land for private housing, but it is applied to land with no inhabitants and results in a very small share of social housing.",
+   "zh": "Green Square 采取的是另一种策略。它是在前工业用地上新建，由 City 和州政府主导。City 的页面显示，私人开发总造价约 22 亿澳元，本地公共基础设施约 18 亿澳元，其中 City 自己的支出约 7.1 亿澳元（含土地）（City of Sydney, n.d.）。来自 City 的作者 White (2014) 把挑战列为洪水、交通、基础设施资金、零散的土地所有权、气候变化和场所营造，并描述了用来“鼓励开发商和州政府参与城市愿景”的规划机制。City 的页面没有提到可负担或社会住房。但 Waterloo South 的城市设计研究把 Green Square Town Centre 列为 3,308 套住宅中有 104 套社会与可负担住房，约占 3%（Turner Studio & Turf, 2020, App. 6, p. 463；数字取自扫描表格，需对照原页核对）。这一策略在逻辑上是相同的，即公共资金为私人住房准备土地，但它用在没有居民的土地上，结果是社会住房的比例很小。"
+  },
+  {
+   "kind": "p",
+   "en": "A fair account must also credit what the Waterloo strategy delivers. The 2023 government release says that the project builds on the government's commitment to deliver more social and affordable housing, and that 70 new social homes at the Waterloo Metro Quarter and over 100 social homes at Elizabeth Street in Redfern will allow some Waterloo South tenants to be relocated in the local area (NSW Government, 2023). Both are real additions to the stock of social housing in a high-value part of the city, and the Green Square precinct, on the evidence of the design study, has provided far less. At the same time, Zanardo et al. (2024) note that the new social housing is managed by community housing organisations instead of the state housing agency, which shifts both the funding route and the form of management. The point for this essay is not that the strategy fails to add homes, which it does not, but that the way it adds them ties the future of social housing to the value of the land.",
+   "zh": "公允的叙述还必须承认 Waterloo 策略所带来的东西。政府 2023 年的新闻稿说，该项目建立在政府提供更多社会与可负担住房的承诺之上，Waterloo Metro Quarter 的 70 套新社会住房和 Redfern 的 Elizabeth Street 逾 100 套社会住房，将使 Waterloo South 的一部分租户可以在本地安置（NSW Government, 2023）。两者都是在城市高价值地段为社会住房存量实实在在的增加，而按设计研究提供的证据，Green Square 片区提供的要少得多。同时，Zanardo 等人 (2024) 指出，新的社会住房由社区住房组织而不是州住房机构管理，这改变了资金路径，也改变了管理形式。本文的重点不是说这项策略没有增加住房，它确实增加了，而是说它增加住房的方式把社会住房的未来与土地的价值绑在了一起。"
+  },
+  {
+   "kind": "p",
+   "en": "The two strategies can be compared on one measure, and the comparison has limits. Waterloo South plans 30 per cent of residential floor area as social housing (LAHC, 2020, §5.1.7), while the Green Square Town Centre is recorded at about 3 per cent social and affordable. The scopes differ: the City's own target in Sustainable Sydney 2030 is that, by 2030, 7.5 per cent of housing in the whole local area will be social and 7.5 per cent affordable rental housing (City of Sydney, n.d.-b), and the 3 per cent refers to one town centre. The difference does not show that Green Square excludes disadvantaged groups by design, for which this essay has no evidence; it shows that the precinct is a market-led one, while the Waterloo precinct is one where the state owns the land and has to reconcile redevelopment with the people on it. The policy implication is that the same document treats the market-led precinct as a precedent for the state-owned one, a point examined in Section 5.",
+   "zh": "这两种策略可以用同一个指标来比较，但这种比较有局限。Waterloo South 规划把 30% 的住宅楼面面积用作社会住房（LAHC, 2020, §5.1.7），而 Green Square Town Centre 的记录是社会与可负担住房约 3%。两者口径不同：City 自己在《Sustainable Sydney 2030》中的目标是到 2030 年，整个本地区 7.5% 的住房为社会住房、7.5% 为可负担租赁住房（City of Sydney, n.d.-b），而 3% 只指一个镇中心。这个差别并不说明 Green Square 在设计上排斥弱势群体，对此本文没有证据；它说明的是：Green Square 是市场主导的片区，而 Waterloo 是国家拥有土地、必须在再开发与现有居民之间取得平衡的片区。政策含义是：同一份文件把市场主导的片区当作国有土地片区的先例，这一点将在第 5 节中检验。"
+  },
+  {
+   "kind": "h2",
+   "en": "4. Segregation: when the place becomes the problem",
+   "zh": "4. 隔离：当“地方”成为问题"
+  },
+  {
+   "kind": "p",
+   "en": "The segregation unit supplies the vocabulary in which the Waterloo estate is described, and the policy documents use the same vocabulary in plain terms. Massey and Denton (1988) define segregation as the degree to which groups live separately in different parts of the urban environment. Tammaru et al. (2021, p. 68) explain its reproduction through \"the sorting of people into concrete activity sites\" and \"the contextual effects people experience at these activity sites\", and add that the way social housing is distributed, clustered in certain neighbourhoods or spread evenly, shapes this sorting; \"advantage breeds advantage and disadvantage breeds disadvantage\" (p. 69). The lecture develops this into a chain from spatial clustering of disadvantage, through neighbourhood effects and selective mobility, to wider segregation and immobility across generations (Rosengren, 2026). The NSW documents speak in these terms, so the concepts are present in the policy rather than imposed by the course, and the question of this section is how that language is used to describe Waterloo.",
+   "zh": "隔离单元提供了描述 Waterloo 公屋区的词汇，而政策文件直接用了同一套词汇。Massey & Denton (1988) 把隔离定义为各群体在城市环境的不同部分分开居住的程度。Tammaru 等人 (2021, p. 68) 用“人们被分选到具体的活动场所”和“人们在这些场所经历的情境效应”来解释它的再生产，并补充说，社会住房的分布方式——集中在某些街区还是均匀分散——会影响这种分选；“优势滋生优势，劣势滋生劣势”（p. 69）。讲义把它展开为一条链：劣势在空间上集聚，经邻里效应和选择性迁移，到更广泛的隔离和跨代固化（Rosengren, 2026）。NSW 的文件就是这样说话的，所以这些概念是政策里本来就有的，不是课程强加的；本节要问的是，这套语言如何被用来描述 Waterloo。"
+  },
+  {
+   "kind": "p",
+   "en": "Future Directions makes the diagnosis in these words. About 40 per cent (41,000 dwellings) of social housing in NSW is in concentrated estates, and \"while a range of social housing estates function relatively well, many estates experience high levels of crime, unemployment, domestic violence, tenancy management problems, poor educational outcomes and associated child protection issues. These experiences can be passed on through multiple generations, reinforcing the cycle of disadvantage\" (NSW Government, 2016, p. 24). The Productivity Commission (2017, p. 205) writes that \"a social environment can develop that compounds the effects of disadvantage, and increases the chance that disadvantage is passed on from one generation to the next\", citing Vinson (2009). The remedy in the passage on page 24 is Place Plans, which aim at education, training and jobs, and it does not mention demolition. But the same strategy proposes the 70:30 redevelopments \"to enable more integrated communities\" (p. 9), and a minister's statement on the same page presents Communities Plus as \"at the forefront of encouraging people in social housing to be aspirational, not generational\". Diagnosis and remedy are in different sections, and the link between them is made in the ministerial language and in the research that follows.",
+   "zh": "Future Directions 用这样的话作出诊断：NSW 约 40%（41,000 套）的社会住房位于集中的住宅区，“虽然一部分社会住房区运作相对良好，但许多住宅区犯罪、失业、家庭暴力、租务管理问题、教育成果差及相关儿童保护问题的发生率都很高。这些经历可能代代相传，强化劣势循环”（NSW Government, 2016, p. 24）。Productivity Commission (2017, p. 205) 写道，“可能形成一种社会环境，加剧劣势的影响，并增加劣势代际传递的可能”，并引用了 Vinson (2009)。第 24 页这一段给出的对策是 Place Plans，目标是教育、培训和就业，没有提到拆除。但同一份战略在第 8 页提出了“以形成更融合的社区”为目的的 70:30 再开发，而第 9 页一位部长的话把 Communities Plus 描述为“走在鼓励社会住房居民‘有志向，而非世代相传’的最前面”。诊断与对策在不同的章节里，把它们连起来的，是部长的话语和随后的研究。"
+  },
+  {
+   "kind": "p",
+   "en": "Sisson (2024) is the study that analyses this link, and his critique has four parts. First, he calls the concept of neighbourhood effects behind \"concentrated disadvantage\" one that \"controversially\" locates cause in the estate; second, he notes that tenants are thereby represented, \"sympathetically (albeit condescendingly)\", as \"passive agents whose lives are structured by their noxious environment\"; third, he argues that the concentration itself resulted from \"targeting, market rents and funding declines\", so the focus on the place obscures structural causes; and fourth, he shows how this stigma legitimises renewal, especially where public housing stands on valuable real estate and the state wants \"value for money\". He draws on Wacquant's concept of territorial stigma and on Kallin's reputational gap, and he describes Communities Plus as articulating reputational gaps \"between an estate's supposedly deficient present and its idealized future\" in order to pursue rent gaps. Zanardo et al. (2024) extend this: Waterloo suffers several stigmas, in housing and social policy, in planning and design, and in the media, and it is selectively presented as obsolete although there is no evidence that it is among the worst public housing in NSW. These two studies have already made the central argument about Waterloo's reputation.",
+   "zh": "Sisson (2024) 是分析这一联系的研究，他的批评有四个部分。第一，他称“邻里效应”这一支撑“劣势集中”的概念“有争议地”把原因放在住宅区上；第二，他指出租户因此被“同情地（尽管居高临下地）”表述为“生活被有害环境塑造的被动行动者”；第三，他论证劣势集中本身是“定向分配、市场租金和经费下降”造成的，所以把焦点放在地方上掩盖了结构性原因；第四，他说明这种污名如何为更新提供正当性，尤其是在公屋占着有价值的房地产、国家想要“物有所值”的地方。他借助 Wacquant 的地域污名概念和 Kallin 的声誉差距，并描述 Communities Plus 是在表达“住宅区所谓有缺陷的现状与其被理想化的未来之间”的声誉差距，以便追求租金差。Zanardo 等人 (2024) 进一步指出：Waterloo 承受着住房与社会政策、规划设计、媒体三个层面的多重污名，而且它被选择性地呈现为过时的，尽管没有证据表明它是 NSW 最差的公共住房。这两项研究已经完成了关于 Waterloo 声誉的核心论证。"
+  },
+  {
+   "kind": "p",
+   "en": "The phrase \"aspirational, not generational\" shows how a diagnosis turns into a theory of the tenant. In Future Directions it is a goal for the whole system: \"We want to encourage residents in social housing to be aspirational, not generational\" (NSW Government, 2016, p. 4); and a minister later joins it to a condition, namely that many new social housing units will be used \"to trial innovative programs that link housing assistance to participation in education, training and local employment opportunities\" (p. 9). Three readings are possible. It can be read as an honest aim of opening routes out of poverty. It can be read, with Sisson, as locating the cause in the tenant's lack of aspiration, which resembles what Arthurson and Jacobs (2009, as cited in Sisson, 2024) call a social integrationist discourse, in which disadvantage is blamed on isolation and on the conditioning of aspirations by concentration. And it can be read as a step towards conditionality, linking the right to a home to behaviour. The course literature does not analyse this phrase, so the mapping to Sisson's categories is mine. I found no counterpart to it in the official descriptions of Green Square, which speak of place rather than of the aspirations of its residents.",
+   "zh": "“有志向，而非世代相传”这句话显示了诊断如何变成对租户的一种理论。在 Future Directions 里，它是整个体系的目标：“我们希望鼓励社会住房居民有志向，而不是世代相传”（NSW Government, 2016, p. 4）；一位部长后来又把它与一个条件连在一起，即许多新的社会住房将被用来“试验把住房援助与参加教育、培训和本地就业机会挂钩的创新项目”（p. 9）。可以有三种读法。一种是把它读作开辟脱贫路径的诚实目标。一种是随 Sisson 把它读作把原因放在租户缺乏志向上，这类似于 Arthurson & Jacobs (2009，转引自 Sisson, 2024) 所说的“社会整合话语”：把劣势归咎于孤立，以及集中居住对志向的塑造。还有一种是把它读作走向附带条件的一步，把获得住房的权利与行为挂钩。课程文献没有分析这句话，所以与 Sisson 分类的对应是我的。我在对 Green Square 的官方描述里没有找到与之对应的说法，那些描述谈的是地方，而不是居民的志向。"
+  },
+  {
+   "kind": "p",
+   "en": "A fair reading must also include the counter-evidence. The mechanism behind the diagnosis is not an invention of politicians. The segregation lecture itself treats neighbourhood effects as a real mechanism, with objective effects on education and services and subjective effects on perceptions of the neighbourhood; the Productivity Commission cites research on children in lower-income neighbourhoods; and Future Directions concedes that many estates function relatively well, which shows some care in its wording. Sisson's critique is therefore best read as a critique of attribution and remedy, namely that the problem is placed in the estate and the remedy is its redevelopment, not as a denial that concentration of disadvantage can matter. This distinction matters for the essay, because the contrast with Green Square asks where the \"problem\" is placed, not whether disadvantage is real. A defence of the policy can claim support in the course's own concepts, and the argument here has to answer it.",
+   "zh": "公允的阅读还必须包括对立证据。这一诊断背后的机制并不是政治家的发明。隔离讲义本身就把邻里效应当作一种真实的机制，对教育和服务有客观影响，对邻里的观感有主观影响；Productivity Commission 引用了关于低收入街区儿童的研究；Future Directions 也承认许多住宅区运作相对良好，这说明它的措辞有一定的谨慎。因此，Sisson 的批评最好理解为对归因与对策的批评，即把问题放在住宅区里、把对策定为拆除重建，而不是否认劣势集中可能产生影响。这个区分对本文很重要，因为与 Green Square 的对比问的是“问题”被放在哪里，而不是劣势是否真实。对这项政策的辩护可以在课程自己的概念里找到支持，本文的论证必须回应它。"
+  },
+  {
+   "kind": "p",
+   "en": "Green Square offers the contrast, and its limits must be stated. The City's description of Green Square is of heritage and promise: \"a rich past and an exciting future\", an \"industrial heartland\" turned into a \"vibrant, sustainable and connected community\" (City of Sydney, n.d.), and White (2014) places the area's problems in flooding, transport, funding and land ownership. I did not find a source that describes Green Square before redevelopment as a stigmatised place, but the search was limited, and an absence in a few sources is not proof of an absence of stigma. A more defensible reading follows from the concept of the reputational gap, which Sisson and Zanardo et al. take from Kallin (2017): the gap between an imagined potential and a devalued present exists in both places, but in Green Square the devalued thing is land and infrastructure, while in Waterloo it is people and buildings. The difference may follow from the fact that there were no residents on the Green Square site to be stigmatised. This reading is my interpretation. It does not claim that Green Square is stigma-free, and it does not require evidence of exclusion.",
+   "zh": "Green Square 提供了对照，但必须说明其局限。City 对 Green Square 的描述是遗产与前景：“丰富的过去和令人期待的未来”，“工业核心地带”变成“充满活力、可持续、互联互通的社区”（City of Sydney, n.d.），而 White (2014) 把该地区的问题放在洪水、交通、资金和土地所有权上。我没有找到把 Green Square 改造前描述为被污名化之地的资料，但这次搜索有限，几份资料里的缺席并不证明没有污名。更站得住的读法来自声誉差距这一概念，Sisson 和 Zanardo 等人从 Kallin (2017) 那里借用了它：想象的潜力与被贬低的现状之间的差距在两个地方都存在，但在 Green Square，被贬低的是土地和基础设施，而在 Waterloo，被贬低的是人和建筑。这一差别可能源于 Green Square 的场地上没有居民可以被污名化。这一读法是我的解释。它并不声称 Green Square 没有污名，也不需要排斥的证据。"
+  },
+  {
+   "kind": "p",
+   "en": "The policy implication is that stigma and redevelopment reinforce each other in Waterloo. The urban design study for Waterloo South states that \"the challenge for Waterloo South is to link this community with the established economic centres by increasing links either north towards Redfern or south to Green Square\" (Turner Studio & Turf, 2020, Part 1, PDF p. 84). Here the residents are described as a community to be connected, and Green Square is named as one of the destinations. The diagnosis of concentration and the aim of mixing support one another: the first defines the problem and the second defines the remedy. If the problem is the place, the remedy is to change the place, and the land value released in doing so pays for it. This is the pattern which Sisson (2024) criticises, and the Green Square contrast shows its other side: where the land is empty, no such account of the problem is needed.",
+   "zh": "政策含义是：在 Waterloo，污名与再开发相互强化。Waterloo South 的城市设计研究写道：“Waterloo South 的挑战是通过增加向北通往 Redfern 或向南通往 Green Square 的联系，把这个社区与既有的经济中心连接起来”（Turner Studio & Turf, 2020, Part 1, PDF p. 84）。在这里，居民被描述为需要被连接的社区，而 Green Square 被点名为目的地之一。集中的诊断与混合的目标相互支持：前者定义问题，后者定义对策。如果问题是地方，对策就是改变地方，而由此释放的土地价值为它买单。这正是 Sisson (2024) 批评的模式，而 Green Square 的对比展示了它的另一面：土地上没有人的地方，就不需要这样一种对问题的说法。"
+  },
+  {
+   "kind": "h2",
+   "en": "5. Gentrification: mixing, return and the cost of a precedent",
+   "zh": "5. 绅士化：混合、回迁与先例的代价"
+  },
+  {
+   "kind": "p",
+   "en": "The gentrification unit brings the earlier concepts together and asks who gains and who bears the cost. Stein (2019, p. 41), as quoted in the lecture, defines gentrification as the process by which capital is reinvested in neighbourhoods, and poorer residents and their cultural products are displaced and replaced by richer people and their preferred aesthetics and amenities; it is \"planned by the state, produced by the developers and consumed by the condo crowd\". Smith's (1979) rent gap is the disparity between potential ground rent and the rent capitalised under the present land use. Davidson (2018) extends the concept to new-build development and to indirect displacement; Lees (2008) criticises social mixing as a positive packaging of gentrification; and Yrjänä (2026) shows in Helsinki how anti-segregation policy can serve state-led gentrification, with a reputational gap and a subsidy gap. In the Waterloo literature the label is already in use: Wynne (2018) writes of \"the state-led gentrification of their neighbourhood\", and Wynne and Rogers (2021) discuss gentrification and cite Lees and Davidson. The contribution of this section is therefore to test what the precedent and the promise mean for the residents.",
+   "zh": "绅士化单元把前面的概念汇集起来，追问谁受益、谁承担代价。Stein (2019, p. 41)（讲义引用）把绅士化定义为：资本被再投入社区，较穷的居民及其文化产品被置换，由更富的人及其偏好的美学与设施取代；它由“国家规划、开发商生产、公寓族消费”。Smith (1979) 的租金差是潜在地租与现有土地用途下资本化地租之间的差距。Davidson (2018) 把这一概念扩展到新建开发和间接置换；Lees (2008) 批评社会混合是绅士化的正面包装；Yrjänä (2026) 则展示了赫尔辛基的反隔离政策如何服务于国家主导的绅士化，并带有声誉差距和补贴差距。在关于 Waterloo 的文献里，这个标签已经在使用：Wynne (2018) 写到居民面对“自己社区的国家主导的绅士化”，Wynne & Rogers (2021) 讨论了绅士化并引用了 Lees 和 Davidson。因此，本节的贡献是检验这个先例和这个承诺对居民意味着什么。"
+  },
+  {
+   "kind": "p",
+   "en": "The rent gap is the part of the account that is closest to the documents. Zanardo et al. (2024) show that Waterloo was selected for its land value, that the metro station \"further enhanc[ed]\" it, and that the estate has a \"significant reputational gap, created through denigration of its present use and idealization of its future use\", which they connect to ground rents potentially received through partial privatisation and redevelopment. Sisson (2024) shows that public housing is stigmatised in relation to real estate values: because it is public land with low rents, it is said not to be its \"highest and best use\", and tenants in valuable locations are said to receive \"implicit assistance\" (Productivity Commission, 2017) or an \"in-kind subsidy\". The term rent gap itself appears once in Sisson, in the statement that renewal articulates reputational gaps in order to pursue rent gaps, and not at all in Zanardo et al.; the logic is shared, but the vocabulary is not. The same logic can be applied to Green Square, where low-intensity industrial use could be described as a gap between actual and potential rent, though I did not find a source that analyses it in these terms. The rent gap thus explains why the state wants Waterloo's land, and the contrast shows that in Green Square the same gap was closed without anyone to displace.",
+   "zh": "租金差是这套论述中最贴近文件的部分。Zanardo 等人 (2024) 表明，Waterloo 是因为地价被选中的，地铁站“进一步提高”了地价，而且这个公屋区有“一个显著的声誉差距，是通过贬低它的现状用途、理想化它的未来用途造成的”，他们把这一点与部分私有化和再开发可能获得的地租联系起来。Sisson (2024) 表明，公共住房是在与房地产价值的关系中被污名化的：因为它是公共土地、租金低，被说成不是其“最高和最佳用途”，处在高价值地段的租户被说成获得了“隐性援助”（Productivity Commission, 2017）或“实物补贴”。“租金差”这个词本身在 Sisson 里只出现一次，即更新表达声誉差距以追求租金差；在 Zanardo 等人那里一次也没有出现；逻辑是共享的，词汇则不然。同样的逻辑可以用在 Green Square：低强度的工业用途可以被描述为实际地租与潜在地租之间的差距，尽管我没有找到用这些术语分析它的资料。因此，租金差解释了国家为什么想要 Waterloo 的土地，而对比表明，在 Green Square，同一个差距被填平时并没有需要被置换的人。"
+  },
+  {
+   "kind": "p",
+   "en": "Social mixing is the promise that is supposed to make the redevelopment acceptable, and the evidence on it is divided. Future Directions links the 70:30 target to \"more integrated communities\", and the Waterloo plans use the language of tenure-blind design, which Sisson and Zanardo et al. both note. The consultation report for the estate found \"strong support for social, affordable and private housing to be evenly distributed across the whole of the Waterloo precinct\", but \"mixed views\" on mixing within individual buildings: those in favour felt it \"would be more equitable and help support social cohesion\", while those against stressed the difficulty of meeting the diverse needs of the different residents in one building (Elton Consulting, 2019). Lees (2008) supplies the sceptical case from the unit: mixing policies are one-directional, they do not in practice produce interaction between old and new residents, and they can erode the support networks that concentration provides. Neither view is settled, and the Elton report shows that residents themselves hold both. The mixing argument is therefore a legitimate position, and its weakness is that its promise has not been shown to reach the people it names.",
+   "zh": "社会混合是被认为能让再开发变得可接受的承诺，而关于它的证据是分裂的。Future Directions 把 70:30 的目标与“更融合的社区”联系起来，Waterloo 的规划使用了“权属不可辨”设计的语言，Sisson 和 Zanardo 等人都注意到了这一点。该公屋区的咨询报告发现，“强烈支持社会、可负担和私人住房均匀分布在整个 Waterloo 片区”，但对同一栋楼里的混合意见不一：赞成者认为这“更公平，有助于社会凝聚”，反对者则强调在同一栋楼里难以兼顾不同居民的多样需求（Elton Consulting, 2019）。Lees (2008) 提供了本单元的怀疑立场：混合政策是单向的，实际上并不会促成新老居民之间的互动，还可能侵蚀集中居住所提供的互助网络。两种看法都没有定论，而 Elton 报告显示居民自己也持有两种看法。所以混合的论点是一个合理的立场，它的弱点在于，其承诺还没有被证明能够触及它所指的那些人。"
+  },
+  {
+   "kind": "p",
+   "en": "Yrjänä's (2026) study of Helsinki, a course reading, offers a parallel that shows what is specific to Sydney. In two stigmatised outer neighbourhoods, Mellunkylä and Meri-Rastila, a new urban renewal model launched in 2020 aimed to deconcentrate disadvantaged and ethnic-minority groups and to change the tenure mix, and Yrjänä argues that the language of anti-segregation, with its statistical measures, gives moral cover to state-led gentrification. She uses the reputational gap, which Sisson and Zanardo et al. also use, and the subsidy gap, in which the state first pays the economic difference in order to de-risk private investment. The parallel is useful in two ways. The structure of the argument, a stigmatised place, a state that owns the land and a policy of mixing, is the same in both cities. The difference lies in the welfare context: Finland's mixing policy draws on a large social housing sector and a long record of social mixing (Rosengren, 2026), while Waterloo's draws on a small, residualised sector, which is why its mixing has to be paid for by private development. The subsidy gap also raises a question for Waterloo, namely whether the state's investment in the metro station works as such a first payment; I offer this as an analogy, and I have not found it documented.",
+   "zh": "Yrjänä (2026) 对赫尔辛基的研究是一项课程阅读，它提供了一个对照，显示出悉尼的特殊之处。在两个被污名化的外围社区 Mellunkylä 和 Meri-Rastila，2020 年启动的新的城市更新模式旨在“去集中化”弱势群体和族裔少数群体并改变权属结构，Yrjänä 认为，反隔离的语言及其统计指标为国家主导的绅士化提供了道德掩护。她用到了声誉差距（Sisson 和 Zanardo 等人也用到了）和补贴差距，即国家先垫付经济差额，以便为私人投资去风险。这一对照有两点用处。论证的结构——被污名化的地方、拥有土地的国家、混合政策——在两座城市是相同的。差别在福利背景：芬兰的混合政策依赖于庞大的社会住房部门和长期的社会混合实践（Rosengren, 2026），而 Waterloo 的混合依赖于一个小的、残余化的部门，这就是它的混合必须由私人开发来买单的原因。补贴差距还为 Waterloo 提出了一个问题：国家对地铁站的投资是否起着这样的“先垫付”作用；我把它作为类比提出，并没有找到文件记载。"
+  },
+  {
+   "kind": "p",
+   "en": "For residents, the redevelopment is already experienced as a loss of place before any building is demolished. Wynne and Rogers (2021) call this emplaced displacement: displacement that occurs in the absence of physical relocation, and they find that \"timeline uncertainty is a key problem\" in the experience of residents. Rogers and Wynne (2020) summarise their ethnography of 2010–2017 by saying that \"even the threat of being moved has already done significant damage to residents' relationship with their homes and community\", at an estate of about 4,000 people in about 2,000 dwellings in 2018. The consultation found that participants \"expressed a strong connection to the Waterloo social housing estate and local area\" and stressed that it should remain \"an authentic place with its own character\" (Elton Consulting, 2019). A 2023 survey of 320 public housing tenants, reported in the press, found that 58 per cent feel part of their community, that 45 per cent would move out if given the opportunity, that 59 per cent feel unsafe walking in the neighbourhood after dark, and that only 33 per cent think their voice can be heard (South Sydney Herald, 2024). These findings show both attachment and dissatisfaction, and they fit the concept of emplaced displacement: the place is valued and the future of the place is uncertain.",
+   "zh": "对居民来说，在任何建筑被拆除之前，再开发就已经被体验为对地方的丧失。Wynne & Rogers (2021) 把这称为“在地失所”：在没有发生实际搬迁的情况下发生的失所，并发现“时间表的不确定”是居民体验中的一个关键问题。Rogers & Wynne (2020) 在概括 2010–2017 年的民族志时说，“即使只是被搬迁的威胁，也已严重损害居民与家和社区的关系”，该公屋区在 2018 年约有 4,000 人、约 2,000 套住宅。咨询发现，参与者“表达了对 Waterloo 社会住房区及周边的强烈联系”，并强调它应保持为“有自己特色的真实地方”（Elton Consulting, 2019）。一项 2023 年对 320 位公屋租户的调查（经媒体报道）发现，58% 觉得自己是社区的一员，45% 说有机会就会搬走，59% 夜间在附近走动感到不安全，只有 33% 认为自己的意见能被听到（South Sydney Herald, 2024）。这些发现既显示了依恋，也显示了不满，并且与“在地失所”的概念吻合：这个地方被珍视，而它的未来是不确定的。"
+  },
+  {
+   "kind": "p",
+   "en": "The precedent is where the comparison with Green Square becomes concrete. The planning proposal for Waterloo South states that its urban design study \"provides a detailed analysis of built form precedents throughout the broader Green Square area\" (LAHC, 2020, §5.1.7). In that study, Green Square Town Centre is one of three local \"comparative density case studies\", alongside Central Park and Crown Square, which are said to show the factors that lead to \"great urban places\" within Australia, and a further page compares Waterloo and Zetland together, at 143 people per hectare at present and 247 in the future (Turner Studio & Turf, 2020, App. 6, pp. 462–464). On the other side, the residents in Wynne's (2018) study fear that \"we'll have something soulless like what's around Danks St\" and the paper reports that \"global city\" renewal projects, \"such as at Green Square, are viewed by residents as unattractive places to live\". The documents therefore show that Green Square is used as a precedent, and the residents show that they do not want its result. I read the two together as Green Square functioning for Waterloo as an imagined future, but no document says so, and this is the interpretation to be tested rather than a finding.",
+   "zh": "先例是与 Green Square 的比较变得具体的地方。Waterloo South 的规划建议书说，其城市设计研究“详细分析了更广泛的 Green Square 一带的建筑形态先例”（LAHC, 2020, §5.1.7）。在这项研究里，Green Square Town Centre 是三个本地“可比密度案例”之一，另两个是 Central Park 和 Crown Square，据说它们展示了在澳大利亚“好的城市地方”的形成因素；另有一页把 Waterloo 和 Zetland 合在一起比较，现有 143 人/公顷，未来 247 人/公顷（Turner Studio & Turf, 2020, App. 6, pp. 462–464）。另一方面，Wynne (2018) 研究中的居民担心“我们会得到像 Danks St 一带那样没有灵魂的东西”，论文还报告说，“全球城市”更新项目，“如 Green Square，被居民视为不吸引人的居住地”。所以，文件显示 Green Square 被用作先例，居民则显示他们不想要它的结果。我把两者放在一起，解读为 Green Square 对 Waterloo 起着“被想象的未来”的作用，但没有哪份文件这样说，这是有待检验的解释，而不是发现。"
+  },
+  {
+   "kind": "p",
+   "en": "The promise of return is the point on which the comparison can be tested, and it cannot yet be tested. The state's commitment is that existing tenants \"will be relocated in small stages … and will be given the right to return once the renewal is complete\", and that new social homes at the Waterloo Metro Quarter and in Redfern would let some be rehoused locally (NSW Government, 2023). Because the redevelopment is staged over many years, whether tenants return cannot be known now. Advocacy groups argue that the right of return should be granted now and that those relocated report different experiences from those the government publicises (City Hub, n.d.). What can be said is what the concept of emplaced displacement implies: that a right to return does not remove the displacement that occurs while waiting, and that \"return\" needs defining, to the same place, the same dwelling or the same community. Wynne and Rogers (2021) add that it is \"not the benevolence of the state\" but the land values of the global city that allow residents to stay in place at all. Sisson and Ruming (2024) have developed new measures of the social housing lost and added in estate renewal, which indicates how a promise of this kind could be checked once data exist.",
+   "zh": "回迁的承诺是可以检验这一对比的地方，但目前还无法检验。国家的承诺是，现有租户“将分小批搬迁……并在更新完成后获得回迁的权利”，Waterloo Metro Quarter 和 Redfern 的新建社会住房可以让一部分人在本地安置（NSW Government, 2023）。由于再开发要分阶段进行许多年，租户是否回迁，现在无从得知。倡导团体认为回迁权应当现在就给予，并称被搬迁者讲述的经历与政府宣传的不同（City Hub, n.d.）。能说的是“在地失所”这一概念所蕴含的：回迁的权利不能消除等待期间发生的失所，而且“回迁”需要被定义——回到同一个地方、同一套住宅，还是同一个社区。Wynne & Rogers (2021) 还指出，让居民得以留在原地的，“不是国家的仁慈”，而是全球城市的地价。Sisson & Ruming (2024) 已经发展出新的指标，用来测算再开发中社会住房的损失与新增，这表明一旦有了数据，这类承诺如何可以被核查。"
+  },
+  {
+   "kind": "p",
+   "en": "The policy question is whether these arrangements strengthen or weaken the gentrification dynamic, and the evidence points both ways. They strengthen it where the funding model makes land value the condition of renewal, where the precedent is a market-led precinct, and where the promise of mixing replaces a measure of who benefits. They weaken it where the number of social homes rises, where the combined social and affordable share was raised to 50 per cent in 2023, and where local rehousing is offered (NSW Government, 2023). A defender can fairly say that more social homes are better than the status quo and that the alternative to value capture has been no renewal at all. The limits of that defence are that the share of social housing falls while the stock rises, that the precedent gives little weight to those who live there, and that the promise of return has not been tested. These policies do not simply benefit or harm the residents; they move the cost of the model onto them in ways that the documents do not count.",
+   "zh": "政策问题是，这些安排究竟是强化还是削弱了绅士化的动力，证据指向两个方向。在资金模式让土地价值成为更新的条件、先例是市场主导的片区、混合的承诺取代了对“谁受益”的衡量时，它们强化了这种动力；在社会住房数量增加、2023 年社会与可负担合计比例提高到 50%、并提供本地安置时，它们削弱了这种动力（NSW Government, 2023）。辩护者可以公平地说，更多的社会住房好于现状，而价值捕获的替代方案是根本没有更新。这一辩护的局限在于：存量上升时占比在下降，先例很少给予居住者分量，回迁的承诺尚未经受检验。这些政策并不简单地使居民受益或受害；它们把这种模式的成本以文件没有计入的方式转移到了居民身上。"
+  },
+  {
+   "kind": "h2",
+   "en": "6. Conclusion and discussion",
+   "zh": "6. 结论与讨论"
+  },
+  {
+   "kind": "p",
+   "en": "The comparison of Waterloo and Green Square shows that the issue is not whether one precinct is better than the other, but what happens when a model is transplanted onto a place that is inhabited. Both precincts belong to a global-city plan, as the introductory unit's concepts and the 2014 strategy suggest; their development strategies differ in who owns the land and who pays; their reputations are produced through different stories of the past, which the segregation unit's concepts of neighbourhood effects and the reputational gap help to read; and the planning documents use the market-led precinct as a precedent for the state-owned one. This is the central argument of the essay. The existing studies of Waterloo, Sisson (2024) and Zanardo et al. (2024), establish that stigma legitimises renewal; the contrast added here shows what the idealised future is made of, and that its social cost is not in the documents' accounts.",
+   "zh": "Waterloo 与 Green Square 的比较表明，问题不在于哪个片区更好，而在于把一种模式移植到有人居住的地方会发生什么。两个片区都属于一份全球城市规划，这是导论单元的概念和 2014 年战略所提示的；它们的开发策略不同，差别在于谁拥有土地、谁来付费；它们的声誉由不同的过去叙事所生产，隔离单元的邻里效应与声誉差距概念有助于解读这一点；规划文件则把市场主导的片区当作国有土地片区的先例。这是本文的核心论点。关于 Waterloo 的既有研究——Sisson (2024) 和 Zanardo 等人 (2024)——已经确立了污名为更新提供正当性；本文增加的对比则显示了那个被理想化的未来是用什么构成的，以及它的社会代价不在文件的账目之内。"
+  },
+  {
+   "kind": "p",
+   "en": "A count of the concepts in the existing literature shows where this essay adds to it. In the English text of the three Waterloo studies, territorial stigma appears 46 times in Sisson and not at all in the others; the reputational gap appears once in Sisson and twice in Zanardo et al.; the rent gap appears once, in Sisson; words built on \"gentrif-\" appear 11 times in Wynne and Rogers, who also use the global city five times and introduce emplaced displacement; and social mixing or tenure-blind design appears in all three. Green Square does not appear in any of the three, and neither does Sennett's pair of building and dwelling. In Wynne's (2018) conference paper, the global city appears more than fifty times and Green Square three times, but the paper is about tenants' perspectives and not about the comparison. These counts are a rough guide to emphasis, not to argument, since a concept can be used without the term. They do show that stigma and the reputational gap are already well covered, and that the places where this essay adds to the literature are the Green Square contrast, the building and dwelling distinction, and the test of the promise of return.",
+   "zh": "对既有文献中概念的统计，显示了本文在哪些地方有所补充。在三项 Waterloo 研究的英文正文里，“地域污名”在 Sisson 里出现 46 次，在另两项里一次也没有；“声誉差距”在 Sisson 里出现 1 次、在 Zanardo 等人里出现 2 次；“租金差”只出现 1 次，在 Sisson 里；以“gentrif-”为词根的词在 Wynne & Rogers 里出现 11 次，他们还用了 5 次“全球城市”并提出了“在地失所”；“社会混合”或“权属不可辨”设计则在三项研究里都出现了。Green Square 在三项里一次都没有出现，Sennett 的“建造与栖居”这一对概念也没有。在 Wynne (2018) 的会议论文里，“全球城市”出现五十多次，Green Square 出现 3 次，但该文谈的是租户的视角，不是这种对比。这些统计只是强调重点的粗略指南，不是论证，因为一个概念可以不用术语也被使用。但它们确实表明：污名与声誉差距已经被很好地覆盖，而本文对文献的补充，是 Green Square 的对比、“建造与栖居”的区分，以及对回迁承诺的检验。"
+  },
+  {
+   "kind": "p",
+   "en": "The tension that the essay started from, between a welfare commitment and a global-city ambition, appears more complicated than a simple opposition. Zanardo et al. (2024) describe social housing in Australia as highly residualised, a small stock with tight eligibility, so Sydney is not a strong welfare city on this evidence, although the extent of its welfare provision more broadly is not something this essay has examined. Within that small sector, the model of Communities Plus uses the land value of estates to pay for the replacement of social housing. On this reading, social housing in Waterloo depends on the same land value that the global-city frame creates, so it is difficult for it to act as a counterweight to that frame. This is an interpretation drawn from documents that I have read, and not a statement found in them. If it is right, the contradiction is built into the funding of the policy, which explains why the promise of mixing and the promise of return carry so much weight.",
+   "zh": "本文出发时所说的福利承诺与全球城市雄心之间的张力，看起来比简单的对立更复杂。Zanardo 等人 (2024) 把澳大利亚的社会住房描述为高度残余化、存量小、准入严，所以按这个证据，悉尼并不是一个强福利城市，尽管它更广泛的福利供给程度并不是本文考察的内容。在这个很小的部门里，Communities Plus 的模式用公屋区的地价来为社会住房的重建付费。按这一读法，Waterloo 的社会住房依赖于全球城市框架所创造的同一种地价，因此它很难成为这一框架的制衡力量。这是我从已读文件中得出的解释，而不是文件中的陈述。如果它成立，这个矛盾就内置于政策的资金安排之中，这也解释了为什么混合的承诺和回迁的承诺承载着如此大的分量。"
+  },
+  {
+   "kind": "p",
+   "en": "Several planning implications follow, and each can be checked against the documents. First, the return promise should be defined and reported: how many tenants return, when, and to the same place or only the same area. Second, the project should publish the share of social housing alongside the number of social homes, since the stock is rising while the share is falling. Third, when a precinct is used as a precedent, the planning documents should say what the precedent does not carry, which here is the difference between land that is empty and land that is a home. Fourth, renewal should consider retention and renovation where feasible; Zanardo et al. (2024) conclude that most of the existing buildings, with the possible exception of the slab blocks, could have their lives extended with relatively modest renovation. Fifth, policy language should avoid locating the problem in the place, which Sisson (2024) criticises, and should give residents a voice, given that only a third of surveyed tenants feel heard (South Sydney Herald, 2024). These suggestions follow from the argument, and none of them requires the claim that the policy is acting in bad faith.",
+   "zh": "由此可以推出几项规划含义，每一项都可以对照文件检验。第一，回迁的承诺应当被定义并报告：多少租户回迁、什么时候、回到同一个地方还是只回到同一个区域。第二，项目应当在公布社会住房数量的同时公布社会住房的占比，因为存量在上升而占比在下降。第三，当一个片区被用作先例时，规划文件应当说明这个先例没有带走什么，在这里就是空地与家园之间的差别。第四，更新应当在可行时考虑保留与翻新；Zanardo 等人 (2024) 的结论是，除了板楼可能是例外，大多数现有建筑只需相对适度的翻新就能延长使用寿命。第五，政策语言应避免把问题放在地方上（这是 Sisson (2024) 所批评的），并应给居民发声的机会，因为只有三分之一的受访租户觉得自己被听到（South Sydney Herald, 2024）。这些建议是从论证中推出的，没有一项需要以政策是出于恶意为前提。"
+  },
+  {
+   "kind": "p",
+   "en": "The essay has several limits, and they define the next steps. I found no evidence on the experience of Green Square's residents or on how Green Square was regarded before redevelopment, so the contrast rests on official descriptions. Suburb-level census figures cannot show the difference between the estate's residents and those of the new apartments: in 2021 Waterloo and Zetland had similar median weekly household incomes (A$2,028 and A$2,192) and similar shares of rented dwellings (72.7 and 70.5 per cent), because the Waterloo suburb includes many private apartments (Australian Bureau of Statistics, 2021a, 2021b). The reading of the corridor map and the interpretation of Green Square as an imagined future are mine. I read only parts of the urban design study, the 2023 tenant survey is known through a press report, and some documents were read in the form in which they were available. Future work should read the whole design study, analyse the estate at a finer geography, and follow the relocation and return of tenants as they happen. Even so, the main point holds within these limits: when Waterloo is measured against Green Square, the measure leaves out the people who live there.",
+   "zh": "本文有若干局限，它们也决定了下一步工作。我没有找到关于 Green Square 居民体验、或 Green Square 改造前如何被看待的证据，所以对比建立在官方描述之上。郊区层级的人口普查数据无法显示公屋区居民与新建公寓居民之间的差别：2021 年 Waterloo 与 Zetland 的家庭周收入中位数相近（2,028 澳元和 2,192 澳元），租住比例也相近（72.7% 和 70.5%），因为 Waterloo 这个郊区包含许多私人公寓（Australian Bureau of Statistics, 2021a, 2021b）。对走廊地图的读法，以及把 Green Square 解读为被想象的未来，都是我自己的。我只读了城市设计研究的部分内容，2023 年租户调查是通过媒体报道知道的，有些文件是按可获得的形式阅读的。未来的工作应读完整份设计研究，在更精细的地理单位上分析公屋区，并在租户搬迁和回迁发生时跟踪它们。即便如此，主要的结论在这些局限之内依然成立：当用 Green Square 来衡量 Waterloo 时，这把尺子漏掉了住在那里的人。"
+  },
+  {
+   "kind": "p",
+   "en": "The essay therefore ends with a question that reframes the original one. The usual question is whether Waterloo should become more like Green Square, and the answer depends on what is counted. A better question is what a precedent leaves out, and this essay's answer is the residents, their attachment to the place, and the years in which they wait. Seen in this way, the comparison is not an argument against redevelopment, nor does it argue that Green Square is a failure; it is an argument for including in the measure of a good urban place the people who already live in it. This is the point at which Sennett's distinction between building and dwelling, which no previous study of Waterloo examined, returns: a city is built for its economy, and it is dwelt in by its residents, and a planning model that counts only the first will repeat the pattern each time it is applied.",
+   "zh": "因此，本文以一个重新界定原问题的问题收尾。通常的问题是 Waterloo 是否应当更像 Green Square，答案取决于计入什么。一个更好的问题是：先例遗漏了什么。本文的答案是：居民、他们对这个地方的依恋，以及他们等待的那些年。这样看，这一对比既不是反对再开发的论证，也不是说 Green Square 是失败的；它主张的是，在衡量一个好的城市地方时，把已经住在那里的人也计入。这正是 Sennett 对“建造”与“栖居”的区分重新出现的地方——此前关于 Waterloo 的研究都没有考察过这一区分：城市是为它的经济而建的，也是由它的居民栖居的，一个只计入前者的规划模式，每次被应用时都会重复同样的模式。"
+  },
+  {
+   "kind": "h2",
+   "en": "References",
+   "zh": "参考文献"
+  },
+  {
+   "kind": "p",
+   "en": "Aalbers, M. B. (2016). The financialization of housing: A political economy approach. Routledge.",
+   "zh": "Aalbers, M. B. (2016). The financialization of housing: A political economy approach. Routledge."
+  },
+  {
+   "kind": "p",
+   "en": "Australian Bureau of Statistics. (2021a). 2021 Census QuickStats: Waterloo (NSW). https://abs.gov.au/census/find-census-data/quickstats/2021/SAL14201",
+   "zh": "Australian Bureau of Statistics. (2021a). 2021 Census QuickStats: Waterloo (NSW). https://abs.gov.au/census/find-census-data/quickstats/2021/SAL14201"
+  },
+  {
+   "kind": "p",
+   "en": "Australian Bureau of Statistics. (2021b). 2021 Census QuickStats: Zetland. https://abs.gov.au/census/find-census-data/quickstats/2021/SAL14542",
+   "zh": "Australian Bureau of Statistics. (2021b). 2021 Census QuickStats: Zetland. https://abs.gov.au/census/find-census-data/quickstats/2021/SAL14542"
+  },
+  {
+   "kind": "p",
+   "en": "City Hub. (n.d.). Waterloo South residents reject Minister's claims as Save Waterloo rally goes ahead. https://cityhub.com.au/waterloo-south-residents-reject-ministers-claims-as-save-waterloo-rally-goes-ahead/",
+   "zh": "City Hub. (n.d.). Waterloo South residents reject Minister's claims as Save Waterloo rally goes ahead. https://cityhub.com.au/waterloo-south-residents-reject-ministers-claims-as-save-waterloo-rally-goes-ahead/"
+  },
+  {
+   "kind": "p",
+   "en": "City of Sydney. (n.d.). Green Square. https://www.cityofsydney.nsw.gov.au/green-square",
+   "zh": "City of Sydney. (n.d.). Green Square. https://www.cityofsydney.nsw.gov.au/green-square"
+  },
+  {
+   "kind": "p",
+   "en": "City of Sydney. (n.d.-b). Planning proposal: Affordable housing review – Green Square Town Centre (post exhibition), Attachment B. https://meetings.cityofsydney.nsw.gov.au/documents/s44648/",
+   "zh": "City of Sydney. (n.d.-b). Planning proposal: Affordable housing review – Green Square Town Centre (post exhibition), Attachment B. https://meetings.cityofsydney.nsw.gov.au/documents/s44648/"
+  },
+  {
+   "kind": "p",
+   "en": "Davidson, M. (2018). New-build gentrification. In L. Lees & M. Phillips (Eds.), Handbook of gentrification studies (ch. 15). Edward Elgar.",
+   "zh": "Davidson, M. (2018). New-build gentrification. In L. Lees & M. Phillips (Eds.), Handbook of gentrification studies (ch. 15). Edward Elgar."
+  },
+  {
+   "kind": "p",
+   "en": "Elton Consulting. (2019). Waterloo redevelopment: Options testing consultation report – key findings. Prepared for the Department of Family and Community Services. https://meetings.cityofsydney.nsw.gov.au/documents/s50165/",
+   "zh": "Elton Consulting. (2019). Waterloo redevelopment: Options testing consultation report – key findings. Prepared for the Department of Family and Community Services. https://meetings.cityofsydney.nsw.gov.au/documents/s50165/"
+  },
+  {
+   "kind": "p",
+   "en": "Homes NSW. (2026). Waterloo renewal project [Web page, updated 21 October 2026]. https://www.nsw.gov.au/homes-nsw/waterloo",
+   "zh": "Homes NSW. (2026). Waterloo renewal project [Web page, updated 21 October 2026]. https://www.nsw.gov.au/homes-nsw/waterloo"
+  },
+  {
+   "kind": "p",
+   "en": "Lees, L. (2008). Gentrification and social mixing: Towards an inclusive urban renaissance? Urban Studies, 45(12), 2449–2470.",
+   "zh": "Lees, L. (2008). Gentrification and social mixing: Towards an inclusive urban renaissance? Urban Studies, 45(12), 2449–2470."
+  },
+  {
+   "kind": "p",
+   "en": "Madden, D., & Marcuse, P. (2016). In defense of housing. Verso.",
+   "zh": "Madden, D., & Marcuse, P. (2016). In defense of housing. Verso."
+  },
+  {
+   "kind": "p",
+   "en": "Massey, D. S., & Denton, N. A. (1988). The dimensions of residential segregation. Social Forces, 67(2), 281–315.",
+   "zh": "Massey, D. S., & Denton, N. A. (1988). The dimensions of residential segregation. Social Forces, 67(2), 281–315."
+  },
+  {
+   "kind": "p",
+   "en": "NSW Government. (2016). Future directions for social housing in NSW. NSW Family and Community Services.",
+   "zh": "NSW Government. (2016). Future directions for social housing in NSW. NSW Family and Community Services."
+  },
+  {
+   "kind": "p",
+   "en": "NSW Government. (2023, August 21). Waterloo South social and affordable housing boosted to 50% [Media release]. https://www.nsw.gov.au/media-releases/waterloo-affordable-housing-boost",
+   "zh": "NSW Government. (2023, August 21). Waterloo South social and affordable housing boosted to 50% [Media release]. https://www.nsw.gov.au/media-releases/waterloo-affordable-housing-boost"
+  },
+  {
+   "kind": "p",
+   "en": "NSW Government. (2024, August 9). Next step complete for Australia's largest social housing build [Media release]. https://nsw.gov.au/media-releases/next-step-complete-for-australias-largest-social-housing-build",
+   "zh": "NSW Government. (2024, August 9). Next step complete for Australia's largest social housing build [Media release]. https://nsw.gov.au/media-releases/next-step-complete-for-australias-largest-social-housing-build"
+  },
+  {
+   "kind": "p",
+   "en": "NSW Land and Housing Corporation. (2020). Waterloo South planning proposal report (Attachment B2). https://meetings.cityofsydney.nsw.gov.au/documents/s49951/",
+   "zh": "NSW Land and Housing Corporation. (2020). Waterloo South planning proposal report (Attachment B2). https://meetings.cityofsydney.nsw.gov.au/documents/s49951/"
+  },
+  {
+   "kind": "p",
+   "en": "NSW Land and Housing Corporation. (2021). Planning proposal: Waterloo Estate (South) – Sydney Local Environmental Plan 2012 amendment (Attachment A). https://meetings.cityofsydney.nsw.gov.au/documents/s49854/",
+   "zh": "NSW Land and Housing Corporation. (2021). Planning proposal: Waterloo Estate (South) – Sydney Local Environmental Plan 2012 amendment (Attachment A). https://meetings.cityofsydney.nsw.gov.au/documents/s49854/"
+  },
+  {
+   "kind": "p",
+   "en": "NSW Planning and Environment. (2014). A plan for growing Sydney: A strong global city, a great place to live. NSW Government.",
+   "zh": "NSW Planning and Environment. (2014). A plan for growing Sydney: A strong global city, a great place to live. NSW Government."
+  },
+  {
+   "kind": "p",
+   "en": "Productivity Commission. (2017). Introducing competition and informed user choice into human services: Reforms to human services (Report No. 85). Commonwealth of Australia.",
+   "zh": "Productivity Commission. (2017). Introducing competition and informed user choice into human services: Reforms to human services (Report No. 85). Commonwealth of Australia."
+  },
+  {
+   "kind": "p",
+   "en": "Rogers, D., & Wynne, L. (2020, August 12). Public housing renewal can make tenants feel displaced in their home, even before any work begins. The Conversation. https://theconversation.com/public-housing-renewal-can-make-tenants-feel-displaced-in-their-home-even-before-any-work-begins-142912",
+   "zh": "Rogers, D., & Wynne, L. (2020, August 12). Public housing renewal can make tenants feel displaced in their home, even before any work begins. The Conversation. https://theconversation.com/public-housing-renewal-can-make-tenants-feel-displaced-in-their-home-even-before-any-work-begins-142912"
+  },
+  {
+   "kind": "p",
+   "en": "Rosengren, K. (2026, January 27). Segregation in a retrenching housing regime [Lecture]. Aalto University.",
+   "zh": "Rosengren, K. (2026, January 27). Segregation in a retrenching housing regime [Lecture]. Aalto University."
+  },
+  {
+   "kind": "p",
+   "en": "Sassen, S. (1991). The global city: New York, London, Tokyo. Princeton University Press.",
+   "zh": "Sassen, S. (1991). The global city: New York, London, Tokyo. Princeton University Press."
+  },
+  {
+   "kind": "p",
+   "en": "Sennett, R. (2018). Building and dwelling: Ethics for the city. Allen Lane.",
+   "zh": "Sennett, R. (2018). Building and dwelling: Ethics for the city. Allen Lane."
+  },
+  {
+   "kind": "p",
+   "en": "Sisson, A. (2024). Public housing and territorial stigma: Towards a symbolic and political economy. Housing Studies, 39(5), 1199–1218. https://doi.org/10.1080/02673037.2022.2108383",
+   "zh": "Sisson, A. (2024). Public housing and territorial stigma: Towards a symbolic and political economy. Housing Studies, 39(5), 1199–1218. https://doi.org/10.1080/02673037.2022.2108383"
+  },
+  {
+   "kind": "p",
+   "en": "Sisson, A., & Ruming, K. (2024). Calculating the system-wide supply impacts of social housing estate renewal: New measures and methods. Housing Studies, 40(8), 1821–1845. https://doi.org/10.1080/02673037.2024.2378852",
+   "zh": "Sisson, A., & Ruming, K. (2024). Calculating the system-wide supply impacts of social housing estate renewal: New measures and methods. Housing Studies, 40(8), 1821–1845. https://doi.org/10.1080/02673037.2024.2378852"
+  },
+  {
+   "kind": "p",
+   "en": "Smith, N. (1979). Toward a theory of gentrification: A back to the city movement by capital, not people. Journal of the American Planning Association, 45(4), 538–548.",
+   "zh": "Smith, N. (1979). Toward a theory of gentrification: A back to the city movement by capital, not people. Journal of the American Planning Association, 45(4), 538–548."
+  },
+  {
+   "kind": "p",
+   "en": "South Sydney Herald. (2024). Tenants have their say about Waterloo. https://southsydneyherald.com.au/tenants-have-their-say-about-waterloo",
+   "zh": "South Sydney Herald. (2024). Tenants have their say about Waterloo. https://southsydneyherald.com.au/tenants-have-their-say-about-waterloo"
+  },
+  {
+   "kind": "p",
+   "en": "Stein, S. (2019). Capital city: Gentrification and the real estate state. Verso.",
+   "zh": "Stein, S. (2019). Capital city: Gentrification and the real estate state. Verso."
+  },
+  {
+   "kind": "p",
+   "en": "Tammaru, T., Knapp, D., Silm, S., van Ham, M., & Witlox, F. (2021). Spatial underpinnings of social inequalities: A vicious circles of segregation approach. Social Inclusion, 9(2), 65–76. https://doi.org/10.17645/si.v9i2.4345",
+   "zh": "Tammaru, T., Knapp, D., Silm, S., van Ham, M., & Witlox, F. (2021). Spatial underpinnings of social inequalities: A vicious circles of segregation approach. Social Inclusion, 9(2), 65–76. https://doi.org/10.17645/si.v9i2.4345"
+  },
+  {
+   "kind": "p",
+   "en": "Turner Studio & Turf. (2020). Waterloo Estate – Waterloo South: Urban design & public domain study (Part 1 and Appendix 6 case studies; planning proposal Attachment 5). City of Sydney meeting papers, Attachments B7a and B7i.",
+   "zh": "Turner Studio & Turf. (2020). Waterloo Estate – Waterloo South: Urban design & public domain study (Part 1 and Appendix 6 case studies; planning proposal Attachment 5). City of Sydney meeting papers, Attachments B7a and B7i."
+  },
+  {
+   "kind": "p",
+   "en": "White, D. A. (2014). Green Square Town Centre: The making of a sustainable town centre in a city. In The Sustainable City IX (WIT Transactions on Ecology and the Environment, Vol. 191). WIT Press. https://doi.org/10.2495/SC140071",
+   "zh": "White, D. A. (2014). Green Square Town Centre: The making of a sustainable town centre in a city. In The Sustainable City IX (WIT Transactions on Ecology and the Environment, Vol. 191). WIT Press. https://doi.org/10.2495/SC140071"
+  },
+  {
+   "kind": "p",
+   "en": "Wynne, L. (2018). Trying to stay local in Sydney's 'global arc': Social housing tenant perspectives. 8th State of Australian Cities National Conference, 1–11. https://opus.lib.uts.edu.au/handle/10453/133423",
+   "zh": "Wynne, L. (2018). Trying to stay local in Sydney's 'global arc': Social housing tenant perspectives. 8th State of Australian Cities National Conference, 1–11. https://opus.lib.uts.edu.au/handle/10453/133423"
+  },
+  {
+   "kind": "p",
+   "en": "Wynne, L., & Rogers, D. (2021). Emplaced displacement and public housing redevelopment: From physical displacement to social, cultural, and economic replacement. Housing Policy Debate, 31(3–5), 395–410. https://doi.org/10.1080/10511482.2020.1772337",
+   "zh": "Wynne, L., & Rogers, D. (2021). Emplaced displacement and public housing redevelopment: From physical displacement to social, cultural, and economic replacement. Housing Policy Debate, 31(3–5), 395–410. https://doi.org/10.1080/10511482.2020.1772337"
+  },
+  {
+   "kind": "p",
+   "en": "Yrjänä, H. (2026). By any means necessary: The anti-segregation efforts and state-led gentrification in Helsinki. Cities, 170, 106718.",
+   "zh": "Yrjänä, H. (2026). By any means necessary: The anti-segregation efforts and state-led gentrification in Helsinki. Cities, 170, 106718."
+  },
+  {
+   "kind": "p",
+   "en": "Zanardo, M., Sisson, A., Logan, C., & McLaughlan, R. (2024). Wilful ignorance at Waterloo: Public housing quality and political stigma in Sydney's largest estate renewal. Planning Perspectives, 39(6), 1207–1239. https://doi.org/10.1080/02665433.2024.2337268",
+   "zh": "Zanardo, M., Sisson, A., Logan, C., & McLaughlan, R. (2024). Wilful ignorance at Waterloo: Public housing quality and political stigma in Sydney's largest estate renewal. Planning Perspectives, 39(6), 1207–1239. https://doi.org/10.1080/02665433.2024.2337268"
+  }
+ ],
+ "glossary": []
+}
