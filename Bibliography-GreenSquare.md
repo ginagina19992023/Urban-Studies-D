@@ -39,3 +39,10 @@
 - ✅ White, D. A. (2014). Green Square Town Centre: the making of a sustainable town centre in a city. *The Sustainable City IX*, WIT Transactions on Ecology and the Environment 191. doi:10.2495/SC140071. [PDF](https://www.witpress.com/Secure/elibrary/papers/SC14/SC14007FU1.pdf)。作者为 City of Sydney 员工，官方视角；摘要写 80 公顷，与 City 官方页的 278 公顷口径不同（范围不同，需注明）。
 - ✅ City of Sydney. Planning Proposal: Affordable Housing Review – Green Square Town Centre (Post Exhibition), Attachment B. [PDF](https://meetings.cityofsydney.nsw.gov.au/documents/s44648/Attachment%20B%20-%20Planning%20Proposal%20-%20Affordable%20Housing%20Review%20-%20Green%20Square%20Town%20Centre%20-%20Post%20Exhib.pdf)。Sustainable Sydney 2030 目标：2030 年 7.5% 为社会住房、7.5% 为可负担租赁住房。
 - ❓ 未取得原文：NSW Government (2016) *Future Directions for Social Housing in NSW*（官方 PDF 链接已失效，p.24 措辞仍来自 Sisson 引用）。
+
+## C、D 模块补充（2026-11，已读原文）
+- ✅ ABS 2021 人口普查 QuickStats（suburb 层级）：[Waterloo (NSW)](https://abs.gov.au/census/find-census-data/quickstats/2021/SAL14201)：16,379 人；家庭周收入中位数 $2,028；租住 72.7%；公寓 91.1%；出生于澳大利亚 37.2%。[Zetland](https://abs.gov.au/census/find-census-data/quickstats/2021/SAL14542)：12,622 人；$2,192；租住 70.5%；公寓 92.5%；出生于澳大利亚 32.3%。**两者接近，suburb 数据被新建私人公寓稀释，不能用来证明公屋区居民的差别。**
+- ✅ South Sydney Herald (2024)：[Tenants have their say about Waterloo](https://southsydneyherald.com.au/tenants-have-their-say-about-waterloo)（2023 年 Waterloo Public Housing Tenant Survey，UNSW 研究者，320 位租户：58% 觉得是社区一员；45% 说有机会就搬走；59% 夜间感到不安全；33% 认为意见会被听到。报告全文在 waterloo2017.com/reports，未读）。
+- ✅ Rogers, D., & Wynne, L. (2020-08-12). [Public housing renewal can make tenants feel displaced in their home, even before any work begins](https://theconversation.com/public-housing-renewal-can-make-tenants-feel-displaced-in-their-home-even-before-any-work-begins-142912). *The Conversation*.
+- ❓ LAHC Consultation and Visioning Report（City of Sydney 会议附件 B9a）：[PDF](https://meetings.cityofsydney.nsw.gov.au/documents/s50165/Attachment%20B9a%20Consultation%20and%20Visioning%20Report%20Part%201%20LaHC.pdf)，只见搜索摘要。
+- ❓ Green Square 改造前的“声誉”：未找到一手文献。
