@@ -312,6 +312,14 @@ article h3 .en{display:block;font-size:.97rem;color:var(--ink);font-weight:600;f
 article h3 .zh{display:block;font-family:var(--font-zh);font-size:.9rem;color:var(--ink-soft);margin-top:.18rem}
 
 .bipara{margin:0 0 1.35rem;padding-bottom:1rem;border-bottom:1px dashed var(--line)}
+/* ---- pair blocks (kind:"pair"): a two-column row inside a normal .bipara, so notes, highlights,
+   tags and export all work unchanged. Left = companion material (spec "left", HTML); right = en/zh text. ---- */
+.bipair{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:.4rem 1.2rem;align-items:start}
+.bipair .pair-L{display:flex;flex-direction:column;gap:.5rem;min-width:0}
+.bipair .pair-R{min-width:0}
+.bipair .note{grid-column:1/-1}
+.bipair .pair-L:empty{border-left:2px solid var(--line);min-height:1rem;opacity:.5}
+@media (max-width:760px){.bipair{grid-template-columns:1fr}.bipair .pair-L{order:2}.bipair .pair-R{order:1}.bipair .pair-L:empty{display:none}}
 /* block anchors (#b-N): stable per render, used by external deep links; clear the sticky top bar and flash the target */
 .bipara[id],.bifig[id],blockquote.cited[id]{scroll-margin-top:5.5rem}
 .bipara:target,.bifig:target,blockquote.cited:target{background:var(--hl-soft);border-radius:4px;transition:background 1.5s}
@@ -2111,6 +2119,12 @@ def render(spec):
     a(f"<title>{esc(title)}{' — 中英对照' if m.get('title_zh') else ''}</title>")
     a('<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">')
     a(f"<style>{CSS}</style>")
+    # Optional per-spec additions: meta.wide widens the article column (for two-column
+    # "pair" blocks); meta.extra_css carries page-specific styles for content inside blocks.
+    if m.get("wide"):
+        a("<style>main{max-width:76rem}@media (min-width:1040px){.layout{max-width:118rem}}</style>")
+    if m.get("extra_css"):
+        a(f"<style>{m['extra_css']}</style>")
 
     a('<div class="topbar"><div class="topbar-inner">')
     a(f'<span class="crumb">{esc(m.get("crumb") or title)}</span>')
@@ -2194,6 +2208,14 @@ def render(spec):
             a(f'<figcaption><span class="en">{esc(en)}</span><span class="zh">{zh}</span></figcaption>')
             a(note(en))
             a("</figure>")
+        elif k == "pair":
+            a(f'<div class="bipara bipair" id="b-{i}">')
+            a(f'<div class="pair-L">{it.get("left", "")}</div>')
+            a(f'<div class="pair-R"><p class="en">{esc(en)}</p><p class="zh">{zh}</p></div>')
+            a(note(en))
+            a("</div>")
+            if it.get("summary"):
+                summaries_js[nid(doc_key, en)] = it["summary"]
         else:
             a(f'<div class="bipara" id="b-{i}">')
             a(f'<p class="en">{esc(en)}</p>')
