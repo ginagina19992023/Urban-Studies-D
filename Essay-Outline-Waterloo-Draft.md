@@ -11,6 +11,8 @@
 - 评分表 5 分：考虑并反驳对立证据
 
 ## 1. 题目（候选，未定）
+0. **悉尼的住房开发策略与区域声誉：Waterloo 与 Green Square 的对比**（当前首选）
+   *Housing Development Strategies and Area Reputation in Sydney: Contrasting Waterloo and Green Square*
 1. 同一条路，两种名声：悉尼 Waterloo 与 Green Square 的地域污名与价值归属
 2. 「要有志向，而非世代相传」：污名、地价与 Waterloo 公共住房的再开发（❓ 引文须先在 Future Directions 全文核实）
 3. 从 Green Square 看 Waterloo：污名、地价与悉尼的公共住房再开发
@@ -60,3 +62,10 @@
 - [ ] 取得 Future Directions 2016 与 Productivity Commission 2017 全文，核对 Sisson 引文
 - [ ] 确认 Waterloo 与 Green Square 的地理关系（资料包）
 - [ ] 你逐句确认 / 改写 A–D 四句
+
+## 7. 2026-11 更新：主题改为“住房开发策略与区域声誉”
+- A（Introduction）：悉尼把自己规划成全球城市，Green Square 和 Waterloo 被放进同一条“全球经济走廊”，却被描述成两种地方。依据：Wynne（转引 2014 规划，原文待核对）。
+- B（Housing）：两处开发策略不同（前工业用地新建 vs 现有公屋区混合权属再开发），都连着土地价值释放。依据：City of Sydney 官方页、Zanardo 61–62。
+- C（Segregation）：Waterloo 的声誉由政策话语和多重污名叠加；Green Square 无需“修正”的污名现状（你的假设）。依据：Sisson、Zanardo 72–73。
+- D（Gentrification）：声誉差别落到居民：社会混合下的在地失所；居民眼中 Green Square 式开发“没有灵魂”。依据：Wynne & Rogers、Wynne。
+- Green Square 资料见 `Bibliography-GreenSquare.md`。
