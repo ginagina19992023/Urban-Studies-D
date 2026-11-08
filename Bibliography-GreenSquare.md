@@ -46,3 +46,8 @@
 - ✅ Rogers, D., & Wynne, L. (2020-08-12). [Public housing renewal can make tenants feel displaced in their home, even before any work begins](https://theconversation.com/public-housing-renewal-can-make-tenants-feel-displaced-in-their-home-even-before-any-work-begins-142912). *The Conversation*.
 - ❓ LAHC Consultation and Visioning Report（City of Sydney 会议附件 B9a）：[PDF](https://meetings.cityofsydney.nsw.gov.au/documents/s50165/Attachment%20B9a%20Consultation%20and%20Visioning%20Report%20Part%201%20LaHC.pdf)，只见搜索摘要。
 - ❓ Green Square 改造前的“声誉”：未找到一手文献。
+
+## Future Directions 2016 已核对（用户上传 PDF，28 页）
+- ✅ NSW Government (2016). *Future Directions for Social Housing in NSW*。第 24 页，3.4 节：“Approximately 40% (41,000 dwellings) of social housing in NSW are located in concentrated housing estates. While a range of social housing estates function relatively well, many estates experience high levels of crime, unemployment, domestic violence, tenancy management problems, poor educational outcomes and associated child protection issues. These experiences can be passed on through multiple generations, reinforcing the cycle of disadvantage.” 同段的对策是 Place Plans，未提拆除。
+- ✅ 第 4 页：“We want to encourage residents in social housing to be aspirational, not generational.” 第 9 页：Hazzard 称 Communities Plus 将“at the forefront of encouraging people in social housing to be aspirational, not generational”。
+- 文件已存入 `External-Sources/NSW-Government-2016-Future-Directions-for-Social-Housing.pdf`。
