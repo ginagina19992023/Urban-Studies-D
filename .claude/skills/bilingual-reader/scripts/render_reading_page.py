@@ -312,6 +312,9 @@ article h3 .en{display:block;font-size:.97rem;color:var(--ink);font-weight:600;f
 article h3 .zh{display:block;font-family:var(--font-zh);font-size:.9rem;color:var(--ink-soft);margin-top:.18rem}
 
 .bipara{margin:0 0 1.35rem;padding-bottom:1rem;border-bottom:1px dashed var(--line)}
+/* block anchors (#b-N): stable per render, used by external deep links; clear the sticky top bar and flash the target */
+.bipara[id],.bifig[id],blockquote.cited[id]{scroll-margin-top:5.5rem}
+.bipara:target,.bifig:target,blockquote.cited:target{background:var(--hl-soft);border-radius:4px;transition:background 1.5s}
 /* ---- figure blocks (kind:"figure"): inline image/SVG diagram shown in every language mode,
    with a bilingual caption; the caption's English keys the block's note like any paragraph. ---- */
 .bifig{margin:0 0 1.35rem;padding-bottom:1rem;border-bottom:1px dashed var(--line)}
@@ -2176,7 +2179,7 @@ def render(spec):
             sec_id = f"sec-{i}"
             a(f'<{k} id="{sec_id}"><span class="en">{esc(en)}</span><span class="zh">{esc(zh)}</span></{k}>')
         elif k == "quote":
-            a('<blockquote class="cited">')
+            a(f'<blockquote class="cited" id="b-{i}">')
             a(f'<p class="en">{esc(en)}</p>')
             a(f'<p class="zh">{zh}</p>')
             if it.get("attrib"):
@@ -2186,13 +2189,13 @@ def render(spec):
             if it.get("summary"):
                 summaries_js[nid(doc_key, en)] = it["summary"]
         elif k == "figure":
-            a('<figure class="bifig">')
+            a(f'<figure class="bifig" id="b-{i}">')
             a(f'<div class="fig-art">{it.get("html", "")}</div>')
             a(f'<figcaption><span class="en">{esc(en)}</span><span class="zh">{zh}</span></figcaption>')
             a(note(en))
             a("</figure>")
         else:
-            a('<div class="bipara">')
+            a(f'<div class="bipara" id="b-{i}">')
             a(f'<p class="en">{esc(en)}</p>')
             a(f'<p class="zh">{zh}</p>')
             a(note(en))
@@ -2321,6 +2324,14 @@ def render(spec):
       f"window.__BR_GLOSSARY={json.dumps(glossary_js, ensure_ascii=False)};"
       f"window.__BR_SUMMARIES={json.dumps(summaries_js, ensure_ascii=False)};</script>")
     a(f"<script>{JS}</script>")
+    # Deep links (#b-N, from crosswalk pages): the native anchor jump happens before the
+    # sidebars/AI-summary column finish laying out and shift the article, so re-scroll once
+    # layout settles. Also covers hosts that set location.hash after load.
+    a("<script>(function(){function go(){var m=/^#b-(\\d+)$/.exec(location.hash);if(!m)return;"
+      "var el=document.getElementById('b-'+m[1]);if(!el)return;"
+      "[60,400,1200].forEach(function(t){setTimeout(function(){el.scrollIntoView({block:'start'});},t);});}"
+      "if(document.readyState==='complete')go();else window.addEventListener('load',go);"
+      "window.addEventListener('hashchange',go);})();</script>")
     return "\n".join(out)
 
 
