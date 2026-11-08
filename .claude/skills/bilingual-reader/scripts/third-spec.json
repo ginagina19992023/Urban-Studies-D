@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "doc_id": "third-test-paper",
+    "title_en": "Third Test Paper",
+    "title_zh": "第三篇测试论文",
+    "crumb": "Third (test)"
+  },
+  "items": [
+    {"kind": "h2", "en": "Intro", "zh": "引言"},
+    {"kind": "p", "en": "This is the only paragraph in the third test paper, used to prove library switching works for more than two documents.", "zh": "这是第三篇测试论文里唯一的一段，用来证明文献库在超过两篇文献时也能正常切换。"}
+  ],
+  "glossary": [],
+  "references": "",
+  "ai_commentary": []
+}

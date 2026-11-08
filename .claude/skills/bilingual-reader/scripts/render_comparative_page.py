@@ -1,33 +1,39 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Render a dual-pane comparative reading page from two bilingual-reader specs.
+"""Render a dual-pane comparative reading page from a LIBRARY of bilingual-
+reader specs -- not a fixed pair.
 
 Usage:
-    python render_comparative_page.py specA.json specB.json output.html
+    python render_comparative_page.py spec1.json spec2.json [spec3.json ...] output.html
 
-Unlike render_reading_page.py (one document, EN/ZH columns), this renders TWO
+Takes two or more specs. The page embeds ALL of them and lets the reader pick
+ANY two, independently, from a dropdown on each pane -- this matters once the
+library grows past two papers, since a fixed pair baked in at build time would
+mean a new static page (and a fresh, disconnected set of cross-links) for
+every combination the reader wants to compare. One cross-reference annotation
+("跨文献批注": select a passage on one side, select its counterpart on the
+other, write one note attached to both) genuinely connects exactly two
+documents, so it's stored with BOTH documents' ids on it (`{doc, nid, text}`
+per side) in ONE shared library-wide list, not scoped to whichever pair
+happened to be open when it was made -- switch away to a different pair and
+back, and it's still there; switch to a DIFFERENT pair and only links
+relevant to THAT pair show, without the irrelevant ones cluttering the list
+or getting lost.
+
+Unlike render_reading_page.py (one document, EN/ZH columns), this renders
 documents side by side, each independently scrollable, so a reader can work
-through two related papers in parallel and annotate the correspondence
-between a passage in one and a passage in the other ("cross-reference
-annotations" / 跨文献批注). This is deliberately a single, self-contained
-page: all of its state (the cross-links the reader creates) lives in ONE
-page's own localStorage, so it works as a standalone Claude Artifact with no
-dependency on same-origin hosting (unlike linking between two SEPARATELY
-published single-document reading pages, which would need shared storage —
-see SKILL.md).
-
-Only `h2`/`h3`/`quote`/`p` items are rendered; this page does not let you
-WRITE a per-paragraph note (that's what the full single-document reading
-pages are for). It DOES read-and-display, read-only, whatever per-paragraph
-notes/highlights already exist in localStorage under the same keys the full
-pages use (`br-notes:<doc_id>` / `br-highlights:<doc_id>`) — but that only
-finds anything when this page is SAME-ORIGIN with the full pages it's
-reading from (e.g. all three served from the same GitHub Pages site); opened
-as a standalone Claude Artifact, it's a different origin and that lookup
-will always come back empty, which is a real browser limitation, not a bug
-to fix here. The cross-document link feature (select a passage on one side,
-select its counterpart on the other, write one note attached to both) has no
-such dependency: it's this page's OWN state, so it works from an Artifact.
+through two related papers in parallel. Only `h2`/`h3`/`quote`/`p` items are
+rendered; this page does not let you WRITE a per-paragraph note (that's what
+the full single-document reading pages are for). It DOES read-and-display,
+read-only, whatever per-paragraph notes/highlights already exist in
+localStorage under the same keys the full pages use (`br-notes:<doc_id>` /
+`br-highlights:<doc_id>`) for whichever two documents are currently open --
+but that only finds anything when this page is SAME-ORIGIN with the full
+pages it's reading from (e.g. all served from the same GitHub Pages site);
+opened as a standalone Claude Artifact, it's a different origin and that
+lookup will always come back empty, which is a real browser limitation, not
+a bug to fix here. The cross-document link feature itself has no such
+dependency: it's this page's OWN state, so it works from an Artifact.
 """
 import hashlib
 import json
@@ -87,6 +93,8 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-se
 .xrefCountBtn{font-family:var(--font-sans);font-size:.72rem;border:1px solid var(--accent);
               background:var(--accent-soft);color:var(--accent);padding:.4rem .8rem;
               border-radius:999px;cursor:pointer;flex-shrink:0;white-space:nowrap}
+#ownNoteBanner{font-family:var(--font-sans);font-size:.68rem;color:var(--muted);
+               padding:.3rem .9rem;border-bottom:1px solid var(--line)}
 
 .panes{flex:1 1 auto;display:flex;min-height:0}
 @media (max-width:860px){ .panes{flex-direction:column} }
@@ -95,11 +103,14 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-se
 @media (max-width:860px){ .pane + .pane{border-left:none;border-top:1px solid var(--line)} }
 .pane-head{flex:0 0 auto;padding:.7rem 1rem .5rem;border-bottom:1px solid var(--line);
            background:var(--accent-soft)}
-.pane-head .t-en{display:block;font-family:var(--font-sans);font-weight:700;font-size:.82rem;color:var(--ink)}
+.pane-head .t-en{display:block;font-family:var(--font-sans);font-weight:700;font-size:.82rem;color:var(--ink);
+                  margin-top:.4rem}
 .pane-head .t-zh{display:block;font-family:var(--font-zh);font-size:.74rem;color:var(--muted);margin-top:.15rem}
-.pane-head select{margin-top:.4rem;width:100%;font-family:var(--font-sans);font-size:.72rem;
+.pane-head select{width:100%;font-family:var(--font-sans);font-size:.72rem;
                    padding:.3rem .4rem;border-radius:5px;border:1px solid var(--line);
                    background:var(--paper);color:var(--ink-soft)}
+.pane-head select.jumpSelect{margin-top:.4rem}
+.pane-head select.paneDocSelect{font-weight:700;color:var(--accent);border-color:var(--accent)}
 .pane-scroll{flex:1 1 auto;overflow-y:auto;padding:1.1rem 1.2rem 4rem}
 
 h2.sec,h3.sec{font-family:var(--font-sans);font-weight:700;color:var(--ink-soft);margin:1.6rem 0 .6rem}
@@ -126,7 +137,6 @@ body[data-mode="zh-only"] .para p.en{display:none}
 mark.xref{background:var(--hl-soft);color:inherit;border-bottom:2px solid var(--hl);
           cursor:pointer;padding:0 .05rem;border-radius:2px}
 mark.xref.flash{background:var(--hl);color:var(--paper)}
-mark.xref.pending-side{background:var(--accent-soft);border-bottom:2px solid var(--accent)}
 
 #selPill{position:absolute;z-index:60;font-family:var(--font-sans);font-size:.72rem;
          background:var(--accent);color:var(--paper);padding:.35rem .7rem;border-radius:999px;
@@ -186,6 +196,8 @@ mark.xref.pending-side{background:var(--accent-soft);border-bottom:2px solid var
 
 JS = r"""
 (function(){
+  var CR_DOCS=window.__CR_DOCS, DOC_ORDER=window.__CR_DOC_ORDER;
+
   var modeBtns=document.querySelectorAll('.modes button');
   function setMode(m){
     document.body.dataset.mode=m;
@@ -197,23 +209,43 @@ JS = r"""
   try{ savedMode=localStorage.getItem('crMode')||'bilingual'; }catch(e){}
   setMode(savedMode);
 
-  document.querySelectorAll('.jumpSelect').forEach(function(sel){
-    sel.addEventListener('change', function(){
-      if(!sel.value) return;
-      var el=document.getElementById(sel.value);
-      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-      sel.value='';
-    });
+  /* jump-to-heading selects are rebuilt every time a pane's document
+     changes, so this is delegated rather than bound once at load. */
+  document.addEventListener('change', function(e){
+    if(!e.target.classList.contains('jumpSelect')) return;
+    var sel=e.target;
+    if(!sel.value) return;
+    var el=document.getElementById(sel.value);
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    sel.value='';
   });
 
-  var DOC_A=window.__CR_DOC_A, DOC_B=window.__CR_DOC_B;
-  var KEY='br-crossrefs:'+DOC_A+'__'+DOC_B;
+  function escHtml(s){ var d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+  function truncate(s,n){ return s.length>n ? s.slice(0,n)+'…' : s; }
+  function docLabel(id){ return CR_DOCS[id] ? CR_DOCS[id].meta.crumb : id; }
+
+  /* ---- shared, library-wide cross-reference link store ----
+     ONE key for the whole library, not one per pair: a link genuinely
+     connects two SPECIFIC documents (recorded on the link itself as
+     {doc,nid,text} per side), so it stays valid and findable no matter
+     which pair happens to be open when you look for it again. */
+  var KEY='br-crossrefs:library';
   var links=[];
   try{ links=JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ links=[]; }
   function persist(){ try{ localStorage.setItem(KEY, JSON.stringify(links)); }catch(e){} }
 
+  var currentDoc={A:null, B:null};
+  function relevantLinks(){
+    var pair=[currentDoc.A, currentDoc.B];
+    return links.filter(function(l){
+      return pair.indexOf(l.a.doc)!==-1 && pair.indexOf(l.b.doc)!==-1;
+    });
+  }
+
   function paneOf(pid){ return pid.charAt(0); }
-  function paraElFor(pid){ return document.querySelector('.para[data-pid="'+pid+'"] p.en'); }
+  function paraElForSide(side){
+    return document.querySelector('.para[data-doc="'+side.doc+'"][data-nid="'+side.nid+'"] p.en');
+  }
 
   function unwrapXrefs(){
     document.querySelectorAll('mark.xref').forEach(function(m){
@@ -243,9 +275,9 @@ JS = r"""
   }
   function paintLinks(){
     unwrapXrefs();
-    links.forEach(function(l){
-      wrapText(paraElFor(l.a.pid), l.a.text, l.id);
-      wrapText(paraElFor(l.b.pid), l.b.text, l.id);
+    relevantLinks().forEach(function(l){
+      wrapText(paraElForSide(l.a), l.a.text, l.id);
+      wrapText(paraElForSide(l.b), l.b.text, l.id);
     });
   }
 
@@ -257,7 +289,7 @@ JS = r"""
   }
   function jumpToLink(l){
     [l.a, l.b].forEach(function(side){
-      var el=paraElFor(side.pid);
+      var el=paraElForSide(side);
       if(el) el.closest('.para').scrollIntoView({behavior:'smooth', block:'center'});
     });
     setTimeout(function(){ flashLink(l.id); }, 350);
@@ -268,7 +300,7 @@ JS = r"""
   var hint=document.getElementById('xrefHint');
   var hintText=document.getElementById('xrefHintText');
   var hintCancel=document.getElementById('xrefHintCancel');
-  var pendingSel=null;   /* {pane,pid,text} currently under the pill */
+  var pendingSel=null;   /* {pane,pid,doc,nid,text} currently under the pill */
   var draftSide=null;    /* the FIRST side already committed by clicking the pill */
 
   function hidePill(){ pill.style.display='none'; pendingSel=null; }
@@ -287,7 +319,8 @@ JS = r"""
     var pWrap=elc.closest('.para');
     var pEn=elc.closest('p.en');
     if(!pWrap || !pEn) return null;   /* only EN text is linkable (ZH may carry inline markup) */
-    return {pane:paneOf(pWrap.dataset.pid), pid:pWrap.dataset.pid, text:text, range:range};
+    return {pane:paneOf(pWrap.dataset.pid), pid:pWrap.dataset.pid,
+             doc:pWrap.dataset.doc, nid:pWrap.dataset.nid, text:text, range:range};
   }
   document.addEventListener('selectionchange', function(){
     clearTimeout(window.__crSelT);
@@ -326,7 +359,7 @@ JS = r"""
       window.getSelection().removeAllRanges();
       hint.style.display='none';
       draftSide=null;
-      openNoteCard({a:{pid:a.pid, text:a.text}, b:{pid:b.pid, text:b.text}}, null);
+      openNoteCard({a:{doc:a.doc, nid:a.nid, text:a.text}, b:{doc:b.doc, nid:b.nid, text:b.text}}, null);
     }
   });
 
@@ -351,6 +384,8 @@ JS = r"""
     draftSide=null; hint.style.display='none'; hidePill();
     editingId=existingId;
     draftPair=pair;
+    cardA.querySelector('.side-lbl').textContent=docLabel(pair.a.doc);
+    cardB.querySelector('.side-lbl').textContent=docLabel(pair.b.doc);
     cardA.querySelector('.q').textContent='“'+pair.a.text+'”';
     cardB.querySelector('.q').textContent='“'+pair.b.text+'”';
     var existing=existingId?links.find(function(l){return l.id===existingId;}):null;
@@ -385,41 +420,45 @@ JS = r"""
     persist(); paintLinks(); refreshPanel(); closeCard();
   });
 
-  /* ---- side list panel ---- */
+  /* ---- side list panel (scoped to whichever pair is CURRENTLY open) ---- */
   var panel=document.getElementById('xrefPanel');
   var list=document.getElementById('xrefList');
   var openBtn=document.getElementById('xrefOpenBtn');
   var closeBtn=document.getElementById('xrefCloseBtn');
   function refreshPanel(){
-    openBtn.textContent='跨文献批注 ('+links.length+')';
+    var rel=relevantLinks();
+    openBtn.textContent='跨文献批注 ('+rel.length+')';
     list.innerHTML='';
-    if(!links.length){
-      list.innerHTML='<div class="xempty">还没有跨文献批注。在左右两侧各选一段对应的文字，点出现的「+ 关联」即可建立一条。</div>';
+    if(!rel.length){
+      list.innerHTML='<div class="xempty">这两篇之间还没有跨文献批注。在左右两侧各选一段对应的文字，点出现的「+ 关联」即可建立一条。</div>';
       return;
     }
-    links.forEach(function(l){
+    rel.forEach(function(l){
       var row=document.createElement('div'); row.className='xrow';
       var qa=document.createElement('div'); qa.className='xq';
-      qa.innerHTML='<b>'+DOC_A_LABEL+'</b> “'+truncate(l.a.text,60)+'”';
+      qa.innerHTML='<b>'+escHtml(docLabel(l.a.doc))+'</b> “'+escHtml(truncate(l.a.text,60))+'”';
       var qb=document.createElement('div'); qb.className='xq';
-      qb.innerHTML='<b>'+DOC_B_LABEL+'</b> “'+truncate(l.b.text,60)+'”';
+      qb.innerHTML='<b>'+escHtml(docLabel(l.b.doc))+'</b> “'+escHtml(truncate(l.b.text,60))+'”';
       var note=document.createElement('div'); note.className='xnote'; note.textContent=l.note;
       row.appendChild(qa); row.appendChild(qb); row.appendChild(note);
       row.addEventListener('click', function(){ jumpToLink(l); });
       list.appendChild(row);
     });
   }
-  function truncate(s,n){ return s.length>n ? s.slice(0,n)+'…' : s; }
   openBtn.addEventListener('click', function(){ panel.classList.add('open'); });
   closeBtn.addEventListener('click', function(){ panel.classList.remove('open'); });
 
-  /* ---- export / backup / import (same pattern as the single-paper pages) ---- */
+  /* ---- export / backup / import (same pattern as the single-paper pages).
+     Export/clear act on the CURRENTLY OPEN PAIR only; import merges into the
+     full shared library store by id regardless of which pair is open, so a
+     backup can carry links spanning the whole library, not just one pair. */
   function markdown(){
-    var out=['# 跨文献批注 — '+DOC_A_LABEL+' × '+DOC_B_LABEL, ''];
-    links.forEach(function(l,i){
+    var rel=relevantLinks();
+    var out=['# 跨文献批注 — '+docLabel(currentDoc.A)+' × '+docLabel(currentDoc.B), ''];
+    rel.forEach(function(l,i){
       out.push('════ 第 '+(i+1)+' 条 ════');
-      out.push('【'+DOC_A_LABEL+'】'+l.a.text);
-      out.push('【'+DOC_B_LABEL+'】'+l.b.text);
+      out.push('【'+docLabel(l.a.doc)+'】'+l.a.text);
+      out.push('【'+docLabel(l.b.doc)+'】'+l.b.text);
       out.push('【批注】'+l.note);
       out.push('');
     });
@@ -441,13 +480,14 @@ JS = r"""
     else { nativeDownload(filename, data); }
   }
   document.getElementById('xrefExportMd').addEventListener('click', function(){
-    if(!links.length){ alert('还没有跨文献批注。'); return; }
+    if(!relevantLinks().length){ alert('这两篇之间还没有跨文献批注。'); return; }
     offer('cross-reference-notes.md', markdown());
   });
   document.getElementById('xrefExportJson').addEventListener('click', function(){
-    if(!links.length){ alert('还没有跨文献批注。'); return; }
+    var rel=relevantLinks();
+    if(!rel.length){ alert('这两篇之间还没有跨文献批注。'); return; }
     offer('cross-reference-backup.json',
-          JSON.stringify({docA:DOC_A, docB:DOC_B, saved:new Date().toISOString(), links:links}, null, 2));
+          JSON.stringify({pair:[currentDoc.A,currentDoc.B], saved:new Date().toISOString(), links:rel}, null, 2));
   });
   var importFile=document.getElementById('xrefImportFile');
   document.getElementById('xrefImportBtn').addEventListener('click', function(){ importFile.click(); });
@@ -457,24 +497,28 @@ JS = r"""
     var reader=new FileReader();
     reader.onload=function(){
       var data;
-      try{ data=JSON.parse(reader.result); }catch(e){ alert('这不是有效的备份文件。'); return; }
+      try{ data=JSON.parse(reader.result); }catch(e){ alert('这不是有效的备份文件（JSON 解析失败）。'); return; }
       if(!Array.isArray(data.links)){ alert('备份文件里没有找到批注数据。'); return; }
       var byId={}; links.forEach(function(l){ byId[l.id]=l; });
       data.links.forEach(function(l){ byId[l.id]=l; });
       links=Object.keys(byId).map(function(k){ return byId[k]; });
       persist(); paintLinks(); refreshPanel();
-      alert('导入完成，共 '+links.length+' 条。');
+      alert('导入完成，库里现有 '+links.length+' 条跨文献批注（含所有文献对）。');
     };
     reader.readAsText(file);
   });
   document.getElementById('xrefClear').addEventListener('click', function(){
-    if(!links.length) return;
-    if(!confirm('清空全部跨文献批注？此操作无法撤销，建议先导出备份。')) return;
-    links=[]; persist(); paintLinks(); refreshPanel();
+    var rel=relevantLinks();
+    if(!rel.length) return;
+    if(!confirm('清空「'+docLabel(currentDoc.A)+'」和「'+docLabel(currentDoc.B)+'」之间的跨文献批注（共 '+rel.length+' 条）？'
+      +'此操作无法撤销，建议先导出备份。其他文献对之间的批注不受影响。')) return;
+    var relIds={}; rel.forEach(function(l){ relIds[l.id]=true; });
+    links=links.filter(function(l){ return !relIds[l.id]; });
+    persist(); paintLinks(); refreshPanel();
   });
 
-  /* ---- read-only display of each side's OWN per-paragraph notes/highlights
-     (from the full single-document reading pages) ----
+  /* ---- read-only display of each OPEN side's OWN per-paragraph
+     notes/highlights (from the full single-document reading pages) ----
      Only finds anything when this page is same-origin with those pages
      (e.g. all served from the same GitHub Pages site) -- localStorage is
      per-origin, so opened as a standalone Artifact this simply finds
@@ -505,95 +549,144 @@ JS = r"""
     return byNid;
   }
   function paintOwnAnnotations(){
-    var all=[loadOwnAnnotations(DOC_A), loadOwnAnnotations(DOC_B)];
     var total=0;
-    document.querySelectorAll('.para[data-nid]').forEach(function(para){
-      para.querySelectorAll('.own-note').forEach(function(n){ n.remove(); });
-      var side=paneOf(para.dataset.pid)==='A'?0:1;
-      var texts=all[side][para.dataset.nid];
-      if(!texts) return;
-      total+=texts.length;
-      texts.forEach(function(t){
-        var box=document.createElement('div'); box.className='own-note';
-        var lbl=document.createElement('span'); lbl.className='lbl'; lbl.textContent='已有批注';
-        box.appendChild(lbl);
-        box.appendChild(document.createTextNode(t));
-        para.appendChild(box);
+    ['A','B'].forEach(function(side){
+      var docId=currentDoc[side];
+      if(!docId) return;
+      var byNid=loadOwnAnnotations(docId);
+      document.querySelectorAll('.pane[data-side="'+side+'"] .para[data-nid]').forEach(function(para){
+        para.querySelectorAll('.own-note').forEach(function(n){ n.remove(); });
+        var texts=byNid[para.dataset.nid];
+        if(!texts) return;
+        total+=texts.length;
+        texts.forEach(function(t){
+          var box=document.createElement('div'); box.className='own-note';
+          var lbl=document.createElement('span'); lbl.className='lbl'; lbl.textContent='已有批注';
+          box.appendChild(lbl);
+          box.appendChild(document.createTextNode(t));
+          para.appendChild(box);
+        });
       });
     });
+    document.getElementById('ownNoteBanner').style.display = total ? 'none' : '';
     return total;
   }
-  var ownCount=paintOwnAnnotations();
-  if(!ownCount){
-    var note=document.createElement('div');
-    note.style.cssText='font-family:var(--font-sans);font-size:.68rem;color:var(--muted);'
-      +'padding:.3rem .9rem;border-bottom:1px solid var(--line)';
-    note.textContent='未读取到两篇文献各自的批注——如果你已经在单篇页面上写过批注，'
-      +'请从 GitHub Pages 打开这个对照页面（而不是这个 Artifact 链接），两边才是同一个域名，才能读到。';
-    document.querySelector('.topbar').insertAdjacentElement('afterend', note);
-  }
 
-  paintLinks();
-  refreshPanel();
+  /* ---- paper picker: pick ANY two documents from the library ---- */
+  function renderPane(side, docId){
+    var doc=CR_DOCS[docId];
+    var paneEl=document.querySelector('.pane[data-side="'+side+'"]');
+    paneEl.querySelector('.t-en').textContent=doc.meta.title_en;
+    var zhEl=paneEl.querySelector('.t-zh');
+    zhEl.textContent=doc.meta.title_zh||'';
+    zhEl.style.display=doc.meta.title_zh?'':'none';
+    paneEl.querySelector('.pane-scroll').innerHTML=doc.html;
+    paneEl.querySelectorAll('.sec[data-secidx]').forEach(function(h){ h.id=side+'sec-'+h.dataset.secidx; });
+    paneEl.querySelectorAll('.para[data-idx]').forEach(function(p){ p.dataset.pid=side+p.dataset.idx; });
+    var jsel=paneEl.querySelector('.jumpSelect');
+    var opts=['<option value="">跳转到…</option>'];
+    doc.toc.forEach(function(t){
+      var indent=t.level==='h3'?'　':'';
+      opts.push('<option value="'+side+'sec-'+t.idx+'">'+indent+escHtml(t.en)+'</option>');
+    });
+    jsel.innerHTML=opts.join('');
+    currentDoc[side]=docId;
+    var topSub=document.querySelector('.topbar .sub');
+    if(currentDoc.A && currentDoc.B){
+      topSub.textContent=docLabel(currentDoc.A)+' × '+docLabel(currentDoc.B)
+        +' · 文献库共 '+DOC_ORDER.length+' 篇';
+    }
+    try{ if(currentDoc.A && currentDoc.B) localStorage.setItem('crLastPair', currentDoc.A+','+currentDoc.B); }catch(e){}
+    paintLinks();
+    paintOwnAnnotations();
+    refreshPanel();
+  }
+  window.__crRenderPane=renderPane; /* exposed for tests */
+
+  document.querySelectorAll('.paneDocSelect').forEach(function(sel){
+    var side=sel.dataset.side;
+    sel.innerHTML=DOC_ORDER.map(function(id){
+      return '<option value="'+id+'">'+escHtml(CR_DOCS[id].meta.crumb)+'</option>';
+    }).join('');
+    sel.addEventListener('change', function(){ renderPane(side, sel.value); });
+  });
+
+  var savedPair=[];
+  try{ savedPair=(localStorage.getItem('crLastPair')||'').split(','); }catch(e){}
+  var initA = (savedPair[0] && CR_DOCS[savedPair[0]]) ? savedPair[0] : DOC_ORDER[0];
+  var initB;
+  if(savedPair[1] && CR_DOCS[savedPair[1]] && savedPair[1]!==initA){
+    initB=savedPair[1];
+  } else {
+    initB = (DOC_ORDER[1] && DOC_ORDER[1]!==initA) ? DOC_ORDER[1] : DOC_ORDER[0];
+  }
+  document.querySelector('.paneDocSelect[data-side="A"]').value=initA;
+  document.querySelector('.paneDocSelect[data-side="B"]').value=initB;
+  renderPane('A', initA);
+  renderPane('B', initB);
 })();
 """
 
 
-def render_pane(spec, side_letter):
-    m = spec.get("meta", {})
+def render_doc_chunk(spec, doc_id):
+    """Returns (html_chunk, toc) for ONE document. `doc_id`/`nid` are baked
+    in statically (they're properties of the content, not of whichever pane
+    happens to display it); positional ids (`data-idx`, heading `id`) are
+    NOT baked in here -- they're assigned by JS at render time, prefixed
+    with whichever pane ('A'/'B') the reader currently has this document
+    open in, since the same chunk can end up in either pane."""
     out = []
     a = out.append
-    a(f'<div class="pane-head"><span class="t-en">{esc(m.get("title_en",""))}</span>')
-    if m.get("title_zh"):
-        a(f'<span class="t-zh">{esc(m["title_zh"])}</span>')
-    toc_opts = ['<option value="">跳转到…</option>']
-    for i, it in enumerate(spec.get("items", [])):
-        if it.get("kind") in ("h2", "h3"):
-            indent = "　" if it["kind"] == "h3" else ""
-            toc_opts.append(f'<option value="{side_letter}sec-{i}">{indent}{esc(it.get("en",""))}</option>')
-    a(f'<select class="jumpSelect">{"".join(toc_opts)}</select>')
-    a("</div>")
-    a('<div class="pane-scroll">')
-    doc_key = spec.get("meta", {}).get("doc_id") or spec.get("meta", {}).get("title_en") or "doc"
+    toc = []
     for i, it in enumerate(spec.get("items", [])):
         k = it.get("kind")
         en, zh = it.get("en", ""), it.get("zh", "")
-        pid = f"{side_letter}{i}"
         if k in ("h2", "h3"):
-            a(f'<{k} class="sec" id="{side_letter}sec-{i}"><span class="en">{esc(en)}</span>'
+            a(f'<{k} class="sec" data-secidx="{i}"><span class="en">{esc(en)}</span>'
               f'<span class="zh">{esc(zh)}</span></{k}>')
+            toc.append({"idx": i, "level": k, "en": en, "zh": zh})
         elif k == "quote":
-            a(f'<div class="para quote" data-pid="{pid}" data-nid="{nid(doc_key, en)}">')
+            a(f'<div class="para quote" data-idx="{i}" data-doc="{esc(doc_id)}" data-nid="{nid(doc_id, en)}">')
             a(f'<p class="en">{esc(en)}</p>')
             a(f'<p class="zh">{zh}</p>')
             if it.get("attrib"):
                 a(f'<span class="attrib">{esc(it["attrib"])}</span>')
             a("</div>")
         elif k == "p":
-            a(f'<div class="para" data-pid="{pid}" data-nid="{nid(doc_key, en)}">')
+            a(f'<div class="para" data-idx="{i}" data-doc="{esc(doc_id)}" data-nid="{nid(doc_id, en)}">')
             a(f'<p class="en">{esc(en)}</p>')
             a(f'<p class="zh">{zh}</p>')
             a("</div>")
-    a("</div>")
-    return "".join(out)
+    return "".join(out), toc
 
 
-def render(spec_a, spec_b):
-    ma, mb = spec_a.get("meta", {}), spec_b.get("meta", {})
-    doc_a = ma.get("doc_id") or "docA"
-    doc_b = mb.get("doc_id") or "docB"
-    label_a = esc(ma.get("crumb") or ma.get("title_en") or "A")
-    label_b = esc(mb.get("crumb") or mb.get("title_en") or "B")
+def render(specs):
+    doc_order = []
+    docs_entry = {}
+    for i, spec in enumerate(specs):
+        m = spec.get("meta", {})
+        doc_id = m.get("doc_id") or m.get("title_en") or f"doc{i}"
+        chunk, toc = render_doc_chunk(spec, doc_id)
+        docs_entry[doc_id] = {
+            "meta": {
+                "title_en": m.get("title_en", ""),
+                "title_zh": m.get("title_zh", ""),
+                "crumb": m.get("crumb") or m.get("title_en") or doc_id,
+            },
+            "html": chunk,
+            "toc": toc,
+        }
+        doc_order.append(doc_id)
 
     out = []
     a = out.append
     a("<!doctype html><html><head><meta charset='utf-8'>")
     a('<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">')
-    a(f"<title>交叉对照阅读 · {esc(ma.get('title_en',''))} × {esc(mb.get('title_en',''))}</title>")
+    a(f"<title>交叉对照阅读 · 文献库（{len(doc_order)} 篇）</title>")
     a(f"<style>{CSS}</style></head><body>")
 
-    a('<div class="topbar"><h1>交叉对照阅读'
-      f'<span class="sub">{label_a} &nbsp;×&nbsp; {label_b}</span></h1>')
+    a('<div class="topbar"><h1>交叉对照阅读<span class="sub">'
+      f'从下面两个下拉菜单里任选两篇对照阅读 · 文献库共 {len(doc_order)} 篇</span></h1>')
     a('<div class="modes">'
       '<button data-mode="bilingual" type="button">双语</button>'
       '<button data-mode="en-only" type="button">EN</button>'
@@ -601,10 +694,21 @@ def render(spec_a, spec_b):
       '</div>')
     a('<button id="xrefOpenBtn" class="xrefCountBtn" type="button">跨文献批注 (0)</button>')
     a("</div>")
+    a('<div id="ownNoteBanner" style="display:none">'
+      '未读取到这两篇文献各自的批注——如果你已经在单篇页面上写过批注，'
+      '请从 GitHub Pages 打开这个对照页面（而不是这个 Artifact 链接），两边才是同一个域名，才能读到。'
+      '</div>')
 
     a('<div class="panes">')
-    a(f'<div class="pane">{render_pane(spec_a, "A")}</div>')
-    a(f'<div class="pane">{render_pane(spec_b, "B")}</div>')
+    for side in ("A", "B"):
+        a(f'<div class="pane" data-side="{side}">'
+          '<div class="pane-head">'
+          f'<select class="paneDocSelect" data-side="{side}"></select>'
+          '<span class="t-en"></span><span class="t-zh"></span>'
+          '<select class="jumpSelect"></select>'
+          "</div>"
+          '<div class="pane-scroll"></div>'
+          "</div>")
     a("</div>")
 
     a('<div id="selPill" style="display:none">+ 关联</div>')
@@ -614,8 +718,8 @@ def render(spec_a, spec_b):
     a('<div id="xrefBackdrop"></div>')
     a('<div id="xrefCard" style="display:none">'
       '<div class="hl-head">跨文献批注</div>'
-      f'<div class="xq" id="xrefCardA"><span class="side-lbl">{label_a}</span><span class="q"></span></div>'
-      f'<div class="xq" id="xrefCardB"><span class="side-lbl">{label_b}</span><span class="q"></span></div>'
+      '<div class="xq" id="xrefCardA"><span class="side-lbl"></span><span class="q"></span></div>'
+      '<div class="xq" id="xrefCardB"><span class="side-lbl"></span><span class="q"></span></div>'
       '<textarea id="xrefCardNote" placeholder="这两段之间是什么关系？写下你的批注…"></textarea>'
       '<div class="actions">'
       '<button id="xrefCardDelete" class="danger" type="button" style="display:none">删除</button>'
@@ -635,23 +739,24 @@ def render(spec_a, spec_b):
       "</div>")
     a("</div>")
 
-    a(f"<script>window.__CR_DOC_A={json.dumps(doc_a)};window.__CR_DOC_B={json.dumps(doc_b)};"
-      f"var DOC_A_LABEL={json.dumps(label_a)};var DOC_B_LABEL={json.dumps(label_b)};</script>")
+    a(f"<script>window.__CR_DOCS={json.dumps(docs_entry, ensure_ascii=False)};"
+      f"window.__CR_DOC_ORDER={json.dumps(doc_order, ensure_ascii=False)};</script>")
     a(f"<script>{JS}</script>")
     a("</body></html>")
     return "".join(out)
 
 
 def main():
-    if len(sys.argv) != 4:
+    if len(sys.argv) < 4:
         print(__doc__)
         sys.exit(1)
-    spec_a = json.load(open(sys.argv[1], encoding="utf-8"))
-    spec_b = json.load(open(sys.argv[2], encoding="utf-8"))
-    html_out = render(spec_a, spec_b)
-    with open(sys.argv[3], "w", encoding="utf-8") as f:
+    spec_paths = sys.argv[1:-1]
+    output_path = sys.argv[-1]
+    specs = [json.load(open(p, encoding="utf-8")) for p in spec_paths]
+    html_out = render(specs)
+    with open(output_path, "w", encoding="utf-8") as f:
         f.write(html_out)
-    print(f"Wrote {sys.argv[3]} ({len(html_out)} bytes)")
+    print(f"Wrote {output_path} ({len(html_out)} bytes) -- library of {len(specs)} documents")
 
 
 if __name__ == "__main__":

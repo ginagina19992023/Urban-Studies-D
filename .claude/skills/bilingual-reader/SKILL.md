@@ -833,8 +833,10 @@ Pass `capabilities: {downloads: true}` to switch on the file-export buttons.
 
 ## Cross-document (comparative) reading page
 
-`scripts/render_comparative_page.py` renders a SEPARATE page from TWO specs
-at once — two independently-scrollable panes, side by side — for cross-paper
+`scripts/render_comparative_page.py` renders a SEPARATE page from a LIBRARY
+of two-or-more specs at once (`spec1.json spec2.json [spec3.json ...]
+output.html`) — two independently-scrollable panes, side by side, each with
+its own `<select>` to pick ANY document from the library — for cross-paper
 annotation ("跨文献批注"): select a passage on one side, select its
 counterpart on the other, write one note attached to both. This is a
 distinct script and page, not a mode of `render_reading_page.py`, because the
@@ -843,15 +845,48 @@ languages vs. two documents in one language each) and forcing one script to
 do both would mean threading a "which mode" flag through nearly every
 function in it.
 
-- **Why this didn't need to wait on GitHub Pages.** Linking annotations
-  between the two EXISTING single-document pages would need shared
-  storage, which Claude Artifacts can't give two separately-published pages
-  (separate origins, no shared `localStorage`) — same-origin hosting was the
-  whole reason GitHub Pages got set up. But the comparative page is its own
-  single page: its cross-links are ITS OWN state (`br-crossrefs:{docA}__
-  {docB}` in `localStorage`), so it works as a standalone Claude Artifact
-  with no hosting dependency at all. Only ONE related feature — see below —
-  actually needs same-origin hosting.
+- **Why a picker, not a fixed pair.** The first version took exactly two
+  specs and baked that one pair into the page at build time. Reported as
+  wrong once a third paper existed: "跨文献库必须是允许自己选择开哪两篇文献的
+  ...因为我现在文章不止两篇了" — a fixed pair means a new static page (and a
+  disconnected set of cross-links) for every combination the reader wants,
+  which doesn't scale past two papers. Now ALL specs passed on the command
+  line are embedded (`window.__CR_DOCS`, keyed by `doc_id`) and each pane's
+  `<select class="paneDocSelect">` can switch to any of them independently
+  via `renderPane(side, docId)`, which replaces that pane's `.pane-scroll`
+  content, rebuilds its jump-to-heading `<select>`, and re-syncs links/own-
+  notes/the panel count for the newly-current pair. The last-opened pair is
+  remembered (`localStorage['crLastPair']`) and restored on reload, same
+  persistence pattern as the AI-总结 snap toggle elsewhere in this skill.
+- **One shared, library-wide link store, not one per pair.** A cross-link
+  genuinely connects two SPECIFIC documents, so each one now records both
+  documents' ids directly on itself — `{id, a:{doc,nid,text}, b:{doc,nid,
+  text}, note, ts}` — in ONE key, `br-crossrefs:library`, instead of a
+  pair-specific key like the first version's `br-crossrefs:{docA}__{docB}`.
+  This is what "批注...关联两篇文章" actually requires: switch from viewing
+  Lees×Yrjänä to Lees×(a third paper) and the Lees×Yrjänä links don't
+  vanish or need re-entering — `relevantLinks()` just filters the shared
+  array to `{a.doc,b.doc} ⊆ {currentDoc.A, currentDoc.B}` for painting marks,
+  the side panel's list/count, and Markdown/JSON export, while `persist()`
+  always writes the FULL array back, so switching pairs back and forth never
+  loses anything. Import merges into the shared array by id regardless of
+  which pair is currently open, so one backup file can carry links spanning
+  the whole library. (The pair-keyed format shipped only briefly and before
+  real use, so there's no migration path from it — not worth building for
+  data that never existed.)
+- **Positional ids are now ephemeral, content ids are not.** Each paragraph's
+  `data-doc`/`data-nid` are baked into its HTML chunk at Python build time
+  (properties of the CONTENT, independent of which pane ever shows it) and
+  never change; `data-pid` (`"A3"`/`"B7"`, used only to tell which of the two
+  VISIBLE panes a fresh selection came from) and each heading's `id` are
+  instead assigned by `renderPane()` every time that pane's document
+  changes, since the exact same chunk can end up in either pane depending on
+  what the reader picks. Resolving a STORED link's side back to a DOM
+  element (`paraElForSide()`) therefore never uses `pid` at all — it queries
+  `.para[data-doc="..."][data-nid="..."]` directly, which naturally finds
+  nothing (and `wrapText()`/`jumpToLink()` silently no-op) when that
+  document isn't among the two currently open, which is the correct result,
+  not a bug to special-case.
 - **Selection flow.** `document.addEventListener('selectionchange', …)`
   (debounced ~120ms), matching `render_reading_page.py`'s own pattern — NOT
   `mouseup`, which a Playwright test using `Range.selectNodeContents()` +
@@ -908,6 +943,14 @@ function in it.
   export, JSON backup+import, same `window.claude.downloads`-with-
   `nativeDownload()`-fallback) — reuse that pattern rather than re-deriving
   it if this page grows more export formats.
+- `scripts/third-spec.json` is a small, deliberately committed synthetic
+  THIRD document (one heading, one paragraph) — the only way to actually
+  exercise "pick any two from a library of more than two" in a test without
+  needing a real third translated paper on hand. Regenerate the (gitignored)
+  local fixture with all three before running `test_comparative*.py`:
+  `python3 render_comparative_page.py ../../../../Reading-Pages/lees-2008-
+  social-mixing.spec.json ../../../../Reading-Pages/yrjana-2026-helsinki.
+  spec.json third-spec.json comparative-reading.html`.
 
 ## Scope
 

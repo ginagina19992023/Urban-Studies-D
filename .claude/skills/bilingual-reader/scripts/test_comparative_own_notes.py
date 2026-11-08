@@ -14,16 +14,12 @@ with sync_playwright() as p:
     errs=[]; pg.on("pageerror", lambda e: errs.append(str(e)))
     pg.goto(url)
     ck("no JS errors", not errs, errs)
-    # (checking the rendered DOM via a locator, not pg.content(): the raw
-    # page source also contains this Chinese string as a JS literal inside
-    # the <script> tag, so a content()-substring check would always pass)
-    ck("own-note banner shows when nothing is seeded",
-       pg.locator("div:has-text('未读取到')").count() > 0)
+    ck("own-note banner shows when nothing is seeded", pg.locator("#ownNoteBanner").is_visible())
     ck("no .own-note blocks when nothing is seeded", pg.locator(".own-note").count() == 0)
-    doc_a = pg.evaluate("window.__CR_DOC_A")
-    doc_b = pg.evaluate("window.__CR_DOC_B")
-    first_nid_a = pg.eval_on_selector('.pane >> nth=0 >> .para[data-nid]', 'el=>el.dataset.nid')
-    first_nid_b = pg.eval_on_selector('.pane >> nth=1 >> .para[data-nid]', 'el=>el.dataset.nid')
+    doc_a = pg.eval_on_selector('.paneDocSelect[data-side="A"]', 'el=>el.value')
+    doc_b = pg.eval_on_selector('.paneDocSelect[data-side="B"]', 'el=>el.value')
+    first_nid_a = pg.eval_on_selector('.pane[data-side="A"] .para[data-nid]', 'el=>el.dataset.nid')
+    first_nid_b = pg.eval_on_selector('.pane[data-side="B"] .para[data-nid]', 'el=>el.dataset.nid')
     pg.close()
 
     # 2) seed br-notes / br-highlights exactly as the single-document pages
@@ -41,13 +37,21 @@ with sync_playwright() as p:
     pg.reload()
     pg.wait_for_timeout(200)
 
-    ck("banner gone once annotations are found",
-       pg.locator("div:has-text('未读取到')").count() == 0)
-    left_notes = pg.locator(".pane").nth(0).locator(".own-note")
-    right_notes = pg.locator(".pane").nth(1).locator(".own-note")
+    ck("banner gone once annotations are found", not pg.locator("#ownNoteBanner").is_visible())
+    left_notes = pg.locator('.pane[data-side="A"] .own-note')
+    right_notes = pg.locator('.pane[data-side="B"] .own-note')
     ck("left pane shows its own note", left_notes.count() == 1 and "这是左侧文献已有的批注" in left_notes.inner_text())
     ck("right pane shows its own highlight note", right_notes.count() == 1 and "这是右侧文献已有的高亮批注" in right_notes.inner_text())
     ck("own-note is labeled so it isn't confused with a cross-link", "已有批注" in left_notes.inner_text())
+
+    # 3) switch pane A to the third paper (no seeded data for it) -> its own
+    #    notes disappear from pane A, right pane's stay untouched, and the
+    #    banner comes back (since A now has nothing to show).
+    pg.locator('.paneDocSelect[data-side="A"]').select_option(label="Third (test)")
+    pg.wait_for_timeout(200)
+    ck("switching pane A clears its own-note display", pg.locator('.pane[data-side="A"] .own-note').count() == 0)
+    ck("pane B's own-note is unaffected by pane A switching",
+       pg.locator('.pane[data-side="B"] .own-note').count() == 1)
 
     b.close()
 print(); print("FAILURES:", fails if fails else "none")
