@@ -199,6 +199,24 @@
   https://doi.org/10.1080/02673037.2018.1515894  
   Millers Point 的超级绅士化，悉尼内城的对照案例。
 
+### Redfern 对照（可选背景）
+
+- ✅ Morgan, G. (2012). Urban renewal and the creative underclass: Aboriginal youth subcultures in Sydney's Redfern-Waterloo. Journal of Urban Affairs 34(2), 207–222.  
+  https://doi.org/10.1111/j.1467-9906.2012.00611.x  
+  以"Redfern-Waterloo"为研究区，讨论城市更新与原住民青年；从标题看是在回应"创意阶层"式更新话语。内容未读。（非开放获取，经 Aalto 图书馆下载）
+- ✅ Rauscher, R. & Momtaz, S. (2015). Redfern and Waterloo District: Public and private housing balance. In Sustainable Neighbourhoods in Australia, 97–111. Springer.  
+  https://doi.org/10.1007/978-3-319-17572-0_6  
+  书中一章，标题就是两地的公私住房平衡，最接近直接对比。内容未读。（非开放获取；若只读一篇 Redfern 文献，读这篇）
+- ✅ Shaw, W. S. (2000). Ways of whiteness: Harlemising Sydney's Aboriginal Redfern. Australian Geographical Studies 38(3), 291–305.  
+  https://doi.org/10.1111/1467-8470.00117  
+  Redfern 原住民社区（The Block）如何被比作"哈莱姆"而被污名化，与绅士化的关系。内容未读。（非开放获取）
+- ✅ Shaw, W. S. (2007). Cities of Whiteness. Blackwell.  
+  https://doi.org/10.1002/9780470712931  
+  同一作者的专著，Redfern 绅士化与白人性。（书，非开放获取）
+- ✅ Redfern Waterloo Authority：Draft Redfern-Waterloo Built Environment Plan Stage 2  
+  https://ginagina19992023.github.io/Urban-Studies-D/zanardo-2024-waterloo.html#b-70  
+  政策上把两地当一个片区：2004 年设立的州规划机构。Zanardo et al. (2024) 讨论了它对两地公屋的评估。（链到 Zanardo 精读页对应段落）
+
 ### Gentrification：绅士化、污名与置换
 
 - ✅ Sisson, A. (2021). Denigrating by numbers: quantification, statistics and territorial stigma. IJURR 45(3), 407–422.  
@@ -279,7 +297,7 @@
 ## 6. 仍然缺什么
 
 - Communities Plus 没找到官方页面，引用 70:30 时用 AHURI 358 或 Future Directions（2016）的二手转引。
-- Redfern-Waterloo Authority 没有学术来源，最佳线索是 NSW 议会的 Redfern-Waterloo 调查报告。
+- Redfern-Waterloo Authority 的一手文件未读；Zanardo (2024) 有讨论，Morgan (2012) 以 Redfern-Waterloo 为研究区。2004 年 Redfern 骚乱与该机构设立的关系需另找来源核实。
 - 2015 年的政府原始公告和 Future Directions 全文都没读到，这两点目前依赖二手来源。
 - SMH 和 Guardian Australia 的报道没能访问，2026 年事件目前主要靠 ABC。
 - Zanardo et al. 和 Wynne & Rogers 的全文仍需通过 Aalto 图书馆获取，才能做页码引用。
