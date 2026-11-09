@@ -107,8 +107,7 @@
 1. 【主题句】导论单元提供让两个片区可以一起读的框架　（原句开头：“The introductory unit supplies…”）
 2. 【概念】Sassen：全球城市是枢纽，也是深刻不平等的场所；Brenner & Schmid：斗争场域　（原句开头：“Sassen (1991) describes…”）
 3. 【限定】讲义没有把这些概念用到悉尼，所以应用是解释　（原句开头：“Neither concept is applied…”）
-4. 【解读】如果城市靠全球枢纽身份竞争，土地就是雄心与居民相遇的地方　（原句开头：“It follows the logic of both…”）
-5. 【回扣】土地与住房是斗争场域，两个片区是同一场斗争的两块战场　（原句开头：“For this essay…”）
+4. 【回扣】土地与住房是斗争场域，两个片区是同一场斗争的两块战场　（原句开头：“For this essay…”）
 
 - **结尾句**：对本文而言，土地与住房就是斗争场域，Waterloo 和 Green Square 则是同一场斗争的两块战场。
   - EN: For this essay, land and housing are the terrain, and Waterloo and Green Square are two fields of the same struggle.
@@ -1021,9 +1020,8 @@
 
 1. 【主题句】问题不在哪个片区更好，而在模式移植到有人居住的地方　（原句开头：“The comparison of Waterloo and Green Square…”）
 2. 【概括】四点：同一全球城市规划；策略不同；声誉不同；先例　（原句开头：“Both precincts belong…”）
-3. 【定位】这是核心论点　（原句开头：“This is the central argument…”）
-4. 【区分】已有研究确立污名正当化更新；本文显示被理想化的未来由什么构成　（原句开头：“The existing studies…”）
-5. 【回扣】其社会代价不在文件账目内　（原句开头：“its social cost…”）
+3. 【区分】已有研究确立污名正当化更新；本文显示被理想化的未来由什么构成　（原句开头：“The existing studies…”）
+4. 【回扣】其社会代价不在文件账目内　（原句开头：“its social cost…”）
 
 - **结尾句**：关于 Waterloo 的既有研究——Sisson (2024) 和 Zanardo 等人 (2024)——已经确立了污名为更新提供正当性；本文增加的对比则显示了那个被理想化的未来是用什么构成的，以及它的社会代价不在文件的账目之内。
   - EN: The existing studies of Waterloo, Sisson (2024) and Zanardo et al. (2024), establish that stigma legitimises renewal; the contrast added here shows what the idealised future is made of, and that its social cost is not in the documents' accounts.
@@ -1125,13 +1123,12 @@
 5. 【建议4】考虑保留与翻新（Zanardo 的结论）　（原句开头：“Fourth, renewal should consider…”）
 6. 【建议5】政策语言别把问题放在地方上，并给居民发声　（原句开头：“Fifth, policy language…”）
 7. 【概念】每条建议对应一个概念　（原句开头：“Each recommendation answers…”）
-8. 【回扣】这些建议只要求把居民所承担的代价计算进去　（原句开头：“They ask only…”）
 
 - **结尾句**：每一项建议都对应一个概念：回迁承诺对应在地失所，公布占比对应残余化，说明先例对应建造与栖居的区分，保留对应新建绅士化，语言的选择对应地域污名。
   - EN: Each recommendation answers a concept: the return promise answers emplaced displacement, the reported share answers residualisation, the explicit precedent answers the distinction between building and dwelling, retention answers new-build gentrification, and the choice of language answers territorial stigma.
 
 **证据与出处**：
-- Zanardo et al. (2024)；South Sydney Herald (2024)
+- Zanardo et al. (2024)；Sisson (2024)
 
 **概念检查**：
 - 见各节：每条建议对应：在地失所、残余化、建造与栖居、新建绅士化、地域污名
