@@ -285,7 +285,7 @@
 **展开顺序**
 
 1. 【主题句】住房是家还是资产，两个答案在 Waterloo 相互竞争　（原句开头：“The housing unit asks whether housing…”）
-2. 【概念】Madden & Marcuse：家与房地产的冲突；Aalbers：金融化　（原句开头：“Madden and Marcuse (2016, p. 4)…”）
+2. 【概念】Madden & Marcuse：家与房地产的冲突；Aalbers：金融化　（原句开头：“Madden and Marcuse (2016, 4)…”）
 3. 【概念检查】“金融化”一词没出现，但意思以别的说法出现　（原句开头：“The term financialisation does not appear…”）
 4. 【证据】Sisson：新自由主义资产管理逻辑、物有所值；Zanardo：地价、最高和最佳用途；Wynne & Rogers：土地价值上涨　（原句开头：“Sisson (2024) speaks of…”）
 5. 【回扣】本节要问：两个片区各自如何把住房当作土地　（原句开头：“The concepts are therefore present…”）
@@ -503,7 +503,7 @@
 
 1. 【主题句】隔离单元提供讲述 Waterloo 故事的词汇　（原句开头：“The segregation unit supplies…”）
 2. 【概念】Massey & Denton：隔离的定义　（原句开头：“Massey and Denton (1988) define…”）
-3. 【概念】Tammaru：分选 + 情境效应；社会住房的分布方式　（原句开头：“Tammaru et al. (2021, p. 68)…”）
+3. 【概念】Tammaru：分选 + 情境效应；社会住房的分布方式　（原句开头：“Tammaru et al. (2021, 68)…”）
 4. 【概念】Rosengren：五步链条　（原句开头：“The lecture develops this…”）
 5. 【概念检查】NSW 文件就是这样说话的：概念在政策里，不是课程强加的　（原句开头：“The NSW documents speak…”）
 6. 【回扣】本节问：这套语言如何被用来讲 Waterloo 的故事　（原句开头：“the question of this section…”）
@@ -531,7 +531,7 @@
 
 1. 【主题句】Future Directions 给出了支撑 Waterloo 故事的诊断　（原句开头：“Future Directions gives the diagnosis…”）
 2. 【证据】p.24：约 40%（41,000 套）在集中的住宅区；“多数运作良好”这半句；代代相传　（原句开头：“About 40 per cent…”）
-3. 【证据】PC (2017) p.205：社会环境加剧劣势、增加代际传递，引 Vinson (2009)　（原句开头：“The Productivity Commission (2017, p. 205)…”）
+3. 【证据】PC (2017) p.205：社会环境加剧劣势、增加代际传递，引 Vinson (2009)　（原句开头：“The Productivity Commission (2017, 205)…”）
 4. 【限定】p.24 的对策是 Place Plans，没提拆除　（原句开头：“The remedy in the passage…”）
 5. 【证据】同一文件 p.9：70:30“更融合的社区”；部长把 Communities Plus 与“aspirational, not generational”连起来　（原句开头：“But the same strategy proposes…”）
 6. 【回扣】诊断与对策在不同章节，连接由部长话语与随后的研究完成　（原句开头：“Diagnosis and remedy are in different…”）
@@ -742,7 +742,7 @@
 **展开顺序**
 
 1. 【主题句】汇集前面的概念，问谁承担被移植模式的代价　（原句开头：“The gentrification unit brings…”）
-2. 【概念】Stein：定义与“国家规划、开发商生产、公寓族消费”　（原句开头：“Stein (2019, p. 41)…”）
+2. 【概念】Stein：定义与“国家规划、开发商生产、公寓族消费”　（原句开头：“Stein (2019, 41)…”）
 3. 【概念】Smith：租金差　（原句开头：“Smith's (1979) rent gap…”）
 4. 【概念】Davidson：新建绅士化、间接置换；Lees：社会混合批评；Yrjänä：国家主导的绅士化　（原句开头：“Davidson (2018) extends…”）
 5. 【概念检查】Waterloo 文献里标签已在用：Wynne 2018“国家主导的绅士化”；W&R 引 Lees 与 Davidson　（原句开头：“In the Waterloo literature…”）
@@ -856,7 +856,7 @@
 4. 【解读】结构相同；差别在福利背景：芬兰依赖庞大的社会住房部门，Waterloo 依赖小的残余化部门　（原句开头：“The difference lies…”）
 5. 【限定】国家对地铁站的投资是否起补贴差距作用，只是类比，未找到文件　（原句开头：“The subsidy gap also raises…”）
 
-- **结尾句**：差别在福利背景：芬兰的混合政策依赖于庞大的社会住房部门和长期的社会混合实践（Rosengren, 2026），而 Waterloo 的混合依赖于一个小的、残余化的部门，这就是它的混合必须由私人开发来买单的原因。
+- **结尾句**：差别在福利背景：芬兰的混合政策依赖于庞大的社会住房部门和长期的社会混合实践（Rosengren 2026），而 Waterloo 的混合依赖于一个小的、残余化的部门，这就是它的混合必须由私人开发来买单的原因。
   - EN: The subsidy gap also raises a question about the cost of the transplanted model, namely whether the state's investment in the metro station works as such a first payment; I offer this as an analogy, and I have not found it documented.
 
 **证据与出处**：
