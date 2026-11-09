@@ -347,7 +347,8 @@ article h3 .zh{display:block;font-family:var(--font-zh);font-size:.9rem;color:va
 .bifig figcaption .zh{display:block;font-family:var(--font-zh);margin-top:.2rem}
 body.zh-only .bifig figcaption .en{display:none} body.en-only .bifig figcaption .zh{display:none}
 .bipara:last-child{border-bottom:none}
-.bipara p.en{margin:0 0 .55rem;color:var(--ink-soft);text-align:justify;hyphens:auto}
+.bipara p.en{margin:0 0 .55rem;color:var(--ink-soft);text-align:justify;hyphens:auto;overflow-wrap:anywhere}
+.bipara p.zh{overflow-wrap:anywhere}
 .bipara p.zh{margin:0;font-family:var(--font-zh);font-weight:600;color:var(--ink);font-size:.94rem;
              line-height:1.9;background:var(--zh-bg);padding:.7rem .85rem;border-radius:3px}
 
