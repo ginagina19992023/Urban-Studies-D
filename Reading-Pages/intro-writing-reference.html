@@ -1,0 +1,160 @@
+<title>引言写法参照</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap">
+<style>
+/* layout: reference breakdowns first, then a drafting desk with one box per paragraph */
+:root{--bg:#f4f6f5;--panel:#fff;--fg:#17211f;--mute:#566360;--line:#d6dedb;--acc:#0f6b5c;--acc2:#e8f2ef;--warn:#8a5a00;--serif:"Newsreader",Georgia,"Songti SC",serif;--sans:"IBM Plex Sans",system-ui,"PingFang SC","Microsoft YaHei",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101615;--panel:#18201f;--fg:#e3ebe8;--mute:#9aaaa6;--line:#2c3836;--acc:#6fd0bd;--acc2:#1c2b28;--warn:#e0b050;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101615;--panel:#18201f;--fg:#e3ebe8;--mute:#9aaaa6;--line:#2c3836;--acc:#6fd0bd;--acc2:#1c2b28;--warn:#e0b050;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.65 var(--sans);padding-block:20px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:980px;margin:0 auto}
+h1{font:600 28px/1.25 var(--serif);margin:0 0 6px;text-wrap:balance}
+h2{font:600 21px/1.3 var(--serif);margin:32px 0 8px;scroll-margin-top:60px;text-wrap:balance}
+h3{font:600 15px var(--sans);margin:0}
+.lead{color:var(--mute);max-width:72ch}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+.nav a{border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:999px;padding:3px 11px;font:500 13px var(--sans);text-decoration:none}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:10px 0}
+.box.note{background:var(--acc2);border-color:transparent}
+.scroll{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;min-width:680px;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{font:600 12px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+tr:last-child td{border-bottom:0}
+td.c{text-align:center;white-space:nowrap}
+q,.q{font:italic 400 15.5px/1.5 var(--serif)}
+details{background:var(--panel);border:1px solid var(--line);border-radius:6px;margin:10px 0}
+summary{cursor:pointer;padding:12px 16px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+summary b{font:600 16px var(--serif)}
+summary span{color:var(--mute);font-size:13px}
+details .in{padding:0 16px 14px}
+.cite{font-size:12.5px;color:var(--mute);overflow-wrap:anywhere}
+.warn{color:var(--warn)}
+.tpl{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tag{font:600 12px var(--sans);border-radius:4px;padding:1px 7px;background:var(--acc2);color:var(--acc)}
+.slot{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:14px 0}
+.slot h3{font:600 17px var(--serif);margin-bottom:4px}
+.slot .meta{color:var(--mute);font-size:13px;margin-bottom:6px}
+.slot ul{margin:4px 0 8px;padding-left:1.1em}
+.slot li{margin-bottom:3px}
+textarea{width:100%;min-height:150px;resize:vertical;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:6px;padding:10px 12px;font:16px/1.6 var(--serif)}
+.cnt{font-size:13px;color:var(--mute);margin-top:4px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+button.b{border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:6px;padding:5px 12px;font:500 13px var(--sans);cursor:pointer}
+button.b.pri{background:var(--acc);border-color:var(--acc);color:var(--bg)}
+.msg{color:var(--mute);font-size:13px}
+</style>
+<div class="wrap">
+<h1>引言写法参照</h1>
+<p class="lead">六篇文章的引言是怎么按段落搭的，各段做什么、第一句怎么开，再给你的引言一个段落骨架和写作区。我只拆解结构并摘录开头句，不替你写引言。</p>
+<div class="nav"><a href="#a">速览</a><a href="#b">逐篇拆解</a><a href="#c">开头句</a><a href="#d">你的骨架</a><a href="#e">写作区</a></div>
+
+<h2 id="a">1. 速览：六篇引言各做了哪些事</h2>
+<div class="scroll"><table>
+<tr><th>文章</th><th>长度</th><th>开场</th><th>案例事实</th><th>官方说法</th><th>缺口/定位</th><th>问题或目的句</th><th>方法</th><th>路线图</th></tr>
+<tr><td>Sisson (2024)</td><td>3 段 约 580 词</td><td class="c">大判断</td><td class="c">—</td><td class="c">—</td><td class="c">✓ 第 2 段</td><td class="c">✓ 第 1 段</td><td class="c">—</td><td class="c">✓ 第 3 段</td></tr>
+<tr><td>Wynne &amp; Rogers (2021)</td><td>4 段 约 780 词</td><td class="c">案例事实</td><td class="c">✓ 第 1 段</td><td class="c">✓ 政策语言</td><td class="c">✓ 第 2、3 段</td><td class="c">✓ 第 2、3 段</td><td class="c">✓ 第 4 段</td><td class="c">—</td></tr>
+<tr><td>Zanardo 等 (2024)</td><td>6 段 约 900 词</td><td class="c">大判断</td><td class="c">✓ 第 2、3 段</td><td class="c">✓ 第 1、4 段</td><td class="c">✓ 第 4 段</td><td class="c">✓ 第 5 段</td><td class="c">✓ 第 5、6 段</td><td class="c">✓ 第 5 段</td></tr>
+<tr><td>Yrjänä (2026)</td><td>8 段 约 1,200 词</td><td class="c">报纸引语</td><td class="c">✓ 第 3 段</td><td class="c">✓ 第 1、5 段</td><td class="c">✓ 第 5 段</td><td class="c">✓ 第 6 段</td><td class="c">✓ 第 7 段</td><td class="c">✓ 第 8 段</td></tr>
+<tr><td>Söderberg (2024)</td><td>至少 6 段 前 6 段约 970 词</td><td class="c">田野场景</td><td class="c">✓ 第 3、4 段</td><td class="c">第 4 段（法律）</td><td class="c">✓ 第 5、6 段</td><td class="c">✓ 第 2、4 段</td><td class="c">第 2 段提到</td><td class="c">未读到</td></tr>
+<tr><td>Lees (2008)</td><td>2 小段 约 270 词</td><td class="c">学术史</td><td class="c">—</td><td class="c">政策假设</td><td class="c">✓</td><td class="c">✓ 最后一句</td><td class="c">—</td><td class="c">—</td></tr>
+</table></div>
+<p class="cite" style="margin-top:6px">段落划分是我按原文版面读出来的。Söderberg 的引言我只读到第 6 段（缺口段），后面的段落没有读，表中不下判断。字数是粗算，含引语和脚注。</p>
+<div class="box note"><b>三个规律。</b><br>1. 同样研究 Waterloo 的 Zanardo 等和 Wynne &amp; Rogers，都在前两段内交代案例事实，再给自己的角度。Sisson 完全不讲案例，只讲问题和立场。<br>2. 开场有三种：大判断（Sisson、Zanardo）、别人的话（Yrjänä 的市长引语、Söderberg 的居民话）、直接案例事实（Wynne &amp; Rogers）。<br>3. 问题句或目的句都是明说的，通常出现在缺口之后。Sisson 和 Yrjänä 把问题写成疑问句，Zanardo 和 Wynne &amp; Rogers 用陈述的目的句。</div>
+
+<h2 id="b">2. 逐篇拆解</h2>
+<div id="arts"></div>
+
+<h2 id="c">3. 开头句可以借的写法</h2>
+<p class="lead">下面是几篇文章的开头句原文，用来看句子怎么搭。不要照搬，只借搭法。</p>
+<div class="scroll"><table>
+<tr><th>文章</th><th>开头句（原文）</th><th>搭法</th></tr>
+<tr><td>Zanardo 等</td><td class="q">The history of public housing in Australia is being rewritten by redevelopment.</td><td>一句话下大判断，主语是整个领域，谓语是正在发生的变化</td></tr>
+<tr><td>Sisson</td><td class="q">If academic literature gives any indication, some of the most stigmatized places in the Global North are public or social housing estates.</td><td>用"如果文献可以作指标"限定判断，再引出问题</td></tr>
+<tr><td>Söderberg</td><td class="q">‘You are talking about mixed neighbourhoods. Look around. We are mixed.’</td><td>先放居民的原话，再交代场合和日期</td></tr>
+<tr><td>Yrjänä</td><td class="q">“By looking at Sweden or France, you can see that segregation is a real danger. …” said the then mayor of Helsinki, Juhana Vartiainen, in an interview for Helsingin Sanomat</td><td>先放官员的原话，再交代出处，后面才展开政策</td></tr>
+<tr><td>Wynne &amp; Rogers</td><td class="q">This article reports on a study conducted in the neighborhood of Waterloo, a suburb 3 km south of the Central Business District (CBD) of Sydney, Australia.</td><td>直接交代对象和位置</td></tr>
+<tr><td>Lees</td><td class="q">Nearly 30 years ago now, Briavel Holcomb and Robert Beauregard (1981, p. 3) were critical of the way that it was assumed …</td><td>从一场旧争论开始</td></tr>
+</table></div>
+<div class="box note"><b>一个适合你主题的开场。</b>2026 年 5 月 ABC 的同一篇报道里，住房部长说这类住宅区 "they're not functional communities"，一位居民说 "Waterloo is my home, I want to stay here"（ABC News, 2026-05-25）。两句话并排，正好是"同一个地方被说成两样"。这只是一种可选的开法，用不用由你定，原文我已经核对过。</div>
+
+<h2 id="d">4. 给你的引言的段落骨架</h2>
+<p class="lead">作业只要求"a brief introduction"。六篇里，Lees 约 270 词，Sisson 约 580 词，其余 780 到 1,200 词。你的正文是 14 页，引言我建议 4 段、500 词上下。下面每段只写这段要做的事和可以用的材料，句子你自己写。</p>
+<div class="tpl"><span class="tag">开场</span>→<span class="tag">案例与策略</span>→<span class="tag">概念与缺口</span>→<span class="tag">问题与路线</span></div>
+<div id="slots"></div>
+
+<h2 id="e">5. 写作区</h2>
+<p class="lead">每一段一个框，字数自动统计，内容自动保存。写好后可以复制成一整段。</p>
+<div id="desk"></div>
+<div class="box"><div class="row"><span id="tot" class="msg"></span></div>
+<div class="row"><button class="b pri" id="bCopy">复制全文</button><button class="b" id="bDl">下载 .md</button><span class="msg" id="expMsg"></span></div></div>
+</div>
+<script>
+const ARTS=[
+{n:'Sisson (2024)',cite:'Sisson, A. (2024). Public housing and territorial stigma: Towards a symbolic and political economy. Housing Studies 39(5), 1199–1218',len:'3 段，约 580 词',paras:[
+ ['188','问题与主张','If academic literature gives any indication, some of the most stigmatized places in the Global North are public or social housing estates.','先说公屋在文献里是最被污名化的地方，再明说问题 "why do public housing estates have negative reputations?"，再说答案是特定历史与地理背景的产物，最后一句说这个论证对别处也有用。'],
+ ['169','文献里的两类解释与自己的站位','Some accounts attribute territorial stigmatization to the concentrated presence of stigmatized groups and deteriorating quality of built environments; …','先把已有解释分成两类（群体与建筑条件 / 话语与符号权力），指出各自单边的风险，再说 "I argue that … requires an equal engagement with …"。'],
+ ['223','路线图','This article contains four main sections. In the first, I give an overview of …','"In the first … In the second … In the third … In the fourth …" 逐节交代，最后一句预告结论。']],
+ take:'没有案例事实，也没有方法段。适合用来学"问题—站位—路线图"这三步。'},
+{n:'Wynne & Rogers (2021)',cite:'Wynne, L. & Rogers, D. (2021). Emplaced displacement … Housing Policy Debate 31(3–5), 395–410',len:'4 段，约 780 词',paras:[
+ ['243','案例事实与背景','This article reports on a study conducted in the neighborhood of Waterloo, a suburb 3 km south of the Central Business District (CBD) of Sydney, Australia.','位置、州政府持有的土地、全球城市背景下的"更新"政策语言、Redfern-Waterloo 在媒体里的形象、2018 年的人口数字、2015 年 12 月的公告与 30/70。'],
+ ['275','这个案例为什么特别','The redevelopment of the Waterloo estate is different to other public housing redevelopment projects in Sydney for two key reasons.','两点理由：高层公屋在悉尼是例外；土地价值高、密度可增加，所以租户有可能留下或回迁。最后一句说明要用"在地失所"这个概念来分析。'],
+ ['187','概念与争论','The Waterloo case, we argue, exposes a variety of displacement experiences including displacement that occurs in the absence of the physical relocation of people.','把案例接到概念争论：失所常被理解为身体移动，学者已质疑这个空间假设。'],
+ ['72','研究焦点','We focus here on the experiences of residents of public housing threatened with emplaced displacement.','一句话说清楚聚焦的人群，一句话说数据来自民族志。']],
+ take:'先事实后理论，最后收窄焦点。适合你的第 2 段（案例与策略）。'},
+{n:'Zanardo 等 (2024)',cite:'Zanardo, Sisson, Logan & McLaughlan (2024). Wilful ignorance at Waterloo. Planning Perspectives 39(6), 1207–1239',len:'6 段，约 900 词（含脚注，粗算）',paras:[
+ ['—','大判断与官方说法','The history of public housing in Australia is being rewritten by redevelopment.','先说估计的趋势，再说政策文件和政客的说法把旧住宅形容成 "outdated and unfit"、"failed experiments"，最后一句 "condemned as simply ‘unfit for purpose’"。'],
+ ['—','案例事实','Such is the case with the redevelopment of the Waterloo estate: the largest estate renewal proposal to date, …','约 2000 套、18 公顷；2015 年 12 月公告；Communities Plus；拟拆除并建 7000 到 8000 套新公寓，社会住房约 30%。'],
+ ['—','计划的效果与修订','The effect of the project would have been to increase slightly the number of social housing units, …','社会住房略增但户型更小；2023 年 8 月换政府后第一期修订为 30% 社会、50% 市场、20% 可负担。'],
+ ['—','官方说法与提问','In the face of a strong campaign by residents to stop or slow the redevelopment plans, the state government … has highlighted the failings of the estate.','引部长原话 "terrible"、"not fit for purpose"、"well past the renewal date"，然后三个连续的问句 "But are the units … really that bad?"，再指出公共讨论只争数量、没人考虑修缮。'],
+ ['—','目的与路线','The purpose of this paper is to evaluate whether the demolition-redevelopment approach favoured by recent governments is ineluctable.','一句话目的，随后说明方法（建筑品质检视加政策批判）和章节路线。'],
+ ['—','范围限定','This paper, however, is not a condition assessment nor an attempt to document exactly what residents want from their dwellings.','明说本文不做什么。']],
+ take:'直接引官员原话来证明"声誉"，这是和你的主题最接近的做法。最后一段的范围限定也值得借。'},
+{n:'Yrjänä (2026)',cite:'Yrjänä, H. (2026). By any means necessary … Cities 170, 106718',len:'8 段，约 1,200 词',paras:[
+ ['—','报纸引语与国家背景','“By looking at Sweden or France, you can see that segregation is a real danger. …” said the then mayor of Helsinki','市长引语；芬兰的隔离程度相对较低；Kortteinen 的观察。'],
+ ['—','政策历史','Social mix policies have historically responded to fears that the concentration of working-class people would lead to more open class conflict and social disorder','社会混合政策在赫尔辛基的历史。'],
+ ['—','案例与目的','To implement Helsinki’s strategic goal of maintaining its position as a European textbook example in how to prevent segregation, a ‘new urban regeneration model’ was launched in 2020.','2020 年的新模式及其目标；随后一句 "this article analyzes the role of anti-segregation discourse in … Mellunkylä and Meri-Rastila"。'],
+ ['—','住房体制背景','A few words on the Finnish housing regime are in order.','简要交代芬兰住房体制，以及租住形式的污名怎样变成地域污名。'],
+ ['—','缺口','If there is Finnish exceptionalism regarding the regulation of segregation (Kortteinen, 2022), this is perhaps even more so the case with gentrification.','赫尔辛基的绅士化少有研究；城市文件里曾直接写 "the possibility of the areas’ gentrification can be emphasized"。'],
+ ['—','语言变化与问题','Although policy language has since replaced the ‘dirty word’ (Smith, 1996) with terms that avoid class dispositions of the process, …','政策语言避开了"绅士化"这个词；随后疑问句 "What is the significance of policy in creating gentrifiable areas in Helsinki and how is the policy legitimated?"'],
+ ['—','取径与方法','Inspired by Maarten Hajer (1995), this article looks at how politically approved urban planning documents create the problem of segregation …','说明用政策文件加民族志笔记；回应 Gray 和 Kallin 的号召。'],
+ ['—','路线与结论预告','The article continues with an elaboration of a theoretical framework on state-led gentrification.','一段路线图，末句直接给出结论。']],
+ take:'官方文件里的措辞被拿来当证据（"绅士化"一词曾被直接写进规划文件）。你的"五类文件"思路和它最接近。路线图和结论预告放在同一段也值得借。'},
+{n:'Söderberg (2024)',cite:'Söderberg, R. (2024). ‘This is not a ghetto’. Radical Housing Journal 6(2), 75–96',len:'至少 6 段，前 6 段约 970 词',paras:[
+ ['—','田野场景','‘You are talking about mixed neighbourhoods. Look around. We are mixed.’ This comment was made by a resident of Mjølnerparken, …','居民的原话，加日期、地点和场合。'],
+ ['—','场景说明文章要做什么','What I observed at this meeting was an example of how the residents of Mjølnerparken have been resisting commodification and racialisation …','把场景和本文的论点接起来。'],
+ ['—','为什么选这个案例','Denmark and the neighbourhood of Mjølnerparken provide an interesting case of tenants’ struggle because …','国家主导的污名与绅士化。'],
+ ['—','立法背景与目的','Bill L38, commonly known as the ghetto legislation, was adopted in 2018 and defines criteria for designating neighbourhoods as ‘ghettos’','法律的内容，随后一句目的 "This article seeks to contribute to the questioning of hegemonic narratives …"。'],
+ ['—','文献分类','Due to a crisis in affordable housing under neoliberal urbanism, housing struggles have emerged in cities worldwide.','用 Reyes 等的三类视角整理文献。'],
+ ['—','缺口','Based on empirical findings emerging through fieldwork, this article builds on to these studies and addresses a research gap …','说明本文处在第二、三类视角之间。']],
+ take:'居民原话开场，和你的主题里"居民的居住感受"一致。注意这篇有访谈，你没有，所以只借开场的结构。'},
+{n:'Lees (2008)',cite:'Lees, L. (2008). Gentrification and social mixing. Urban Studies 45(12), 2449–2470',len:'2 小段，约 270 词',paras:[
+ ['—','旧争论与政策假设','Nearly 30 years ago now, Briavel Holcomb and Robert Beauregard (1981, p. 3) were critical of the way that it was assumed …','从 30 年前的争论讲起，再说政策仍然假设绅士化会带来更多社会混合。'],
+ ['—','问题','Yet there is a poor evidence base for the widespread policy assumption …','证据基础薄弱，所以 "It is this uneasy cohabitation that this paper investigates."']],
+ take:'最短的一种：只有争论和问题，没有案例。适合你想压缩引言时参考。'}
+];
+const SL=[
+{h:'第 1 段 · 开场',meta:'约 80–120 词',do:'让读者看到"同一个地方被说成两样"。',use:['选一种开法：别人的话（部长与居民）、大判断（像 Zanardo）、直接的问题（像 Sisson）。','材料：ABC 2026 的部长与居民话；Zanardo 等记录的 "terrible"、"not fit for purpose"；规划建议书的 "end of their economic life"。'],ask:'读者读完这一段，应该已经觉得"这个地方的说法有点不对劲"。你想用哪一对说法？'},
+{h:'第 2 段 · 案例与策略变化',meta:'约 120–150 词',do:'交代 Waterloo 是什么、策略怎样一步步变。',use:['事实：约 2,000 套、18 公顷、2015 年 12 月公告、30/70；Communities Plus。','策略转折只挑三四个：2019 年路径更换，2021 年州收回规划权，2023 年比例提到 50% 和回迁承诺，2026 年约 3,300 套。','每个转折附一个来源，数字口径要写清。'],ask:'这一段只交代事实，不下判断。判断留给下一段。'},
+{h:'第 3 段 · 概念与缺口',meta:'约 120–150 词',do:'说明用什么概念看这件事，以及前人没做到什么。',use:['概念：声誉差距（Kallin 经 Yrjänä；Zanardo：贬低现有用途、理想化未来用途）。','已有研究：Sisson 和 Zanardo 等讲了前半（贬低现状），Wynne &amp; Rogers 讲了居民的在地失所。','缺口：被理想化的未来是照着什么画的，它和居民的居住感受差多远。我检索过，没有找到专门分析先例机制的研究。'],ask:'缺口要说得具体。"已有研究没讲 X"，X 是什么？'},
+{h:'第 4 段 · 问题、主张、方法、路线',meta:'约 120–150 词',do:'明说问题，给出主张，说明用什么材料，预告结构。',use:['问题一句话，像 Yrjänä 那样用疑问句，或像 Zanardo 那样用目的句。','主张里把"被想象的未来是我的解释"说出来。','方法：五类文件加二手研究，没有新访谈（局限）。','路线：按四个课程单元逐节预告，每节一个短语。'],ask:'读者读完这一段，应该能说出你要证明什么、用什么证明、会按什么顺序。'}
+];
+const KEY='intro-draft-v1';let mine={},db=null,ref=null,timer=null,saving=false,dirty=false;
+try{mine=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+document.getElementById('arts').innerHTML=ARTS.map((a,i)=>`<details${i===2?' open':''}><summary><b>${esc(a.n)}</b><span>${esc(a.len)}</span></summary><div class="in"><div class="cite">${esc(a.cite)}</div><div class="scroll" style="margin-top:8px"><table><tr><th>段</th><th>词数</th><th>这一段做什么</th><th>开头句（原文）</th><th>内容</th></tr>${a.paras.map((p,j)=>`<tr><td>${j+1}</td><td>${esc(p[0])}</td><td>${esc(p[1])}</td><td class="q">${esc(p[2])}</td><td>${esc(p[3])}</td></tr>`).join('')}</table></div><p style="margin:8px 0 0"><b>可借的：</b>${esc(a.take)}</p></div></details>`).join('');
+document.getElementById('slots').innerHTML=SL.map(s=>`<div class="slot"><h3>${esc(s.h)}</h3><div class="meta">${esc(s.meta)}</div><div><b>这一段做什么：</b>${esc(s.do)}</div><ul>${s.use.map(u=>`<li>${u}</li>`).join('')}</ul><div class="warn">${esc(s.ask)}</div></div>`).join('');
+document.getElementById('desk').innerHTML=SL.map((s,i)=>`<div class="slot"><label for="d${i}"><h3>${esc(s.h)}</h3></label><textarea id="d${i}" data-i="${i}">${esc(mine[i]||'')}</textarea><div class="cnt" id="n${i}"></div></div>`).join('');
+const wc=t=>{const en=(t.match(/[A-Za-z0-9’'\-]+/g)||[]).length,zh=(t.match(/[一-鿿]/g)||[]).length;return {en,zh}};
+function count(){let T=0;SL.forEach((s,i)=>{const w=wc(mine[i]||'');T+=w.en;document.getElementById('n'+i).textContent=`${w.en} 个英文词${w.zh?`，${w.zh} 个汉字`:''}`});document.getElementById('tot').textContent=`合计 ${T} 个英文词（建议 500 上下）${db?'':' · 仅本机保存'}`}
+document.querySelectorAll('#desk textarea').forEach(t=>t.addEventListener('input',()=>{mine[t.dataset.i]=t.value;try{localStorage.setItem(KEY,JSON.stringify(mine))}catch(e){}count();dirty=true;clearTimeout(timer);timer=setTimeout(flush,900)}));
+async function flush(){if(!ref||saving){if(saving)timer=setTimeout(flush,900);return}saving=true;dirty=false;try{await ref.set({json:JSON.stringify(mine),updated:Date.now()})}catch(e){}saving=false;if(dirty)timer=setTimeout(flush,900)}
+const full=()=>SL.map((s,i)=>(mine[i]||'').trim()).filter(Boolean).join('\n\n');
+document.getElementById('bCopy').onclick=async()=>{const e=document.getElementById('expMsg');try{await navigator.clipboard.writeText(full());e.textContent='已复制'}catch(x){e.textContent='复制被拒绝，请改用下载'}};
+document.getElementById('bDl').onclick=async()=>{const e=document.getElementById('expMsg');try{const d=await claude.use('downloads');if(!d){e.textContent='此处不能下载，请用复制';return}await d.save({filename:'my-intro.md',data:'# Introduction\n\n'+full()+'\n'});e.textContent='已保存'}catch(x){e.textContent='未保存'}};
+count();
+(async()=>{try{db=await claude.use('db');if(!db){count();return}ref=db.doc('intro/main');const s=await ref.get();if(s.exists&&s.data().json){const r=JSON.parse(s.data().json);let ch=false;Object.keys(r).forEach(k=>{if(!(mine[k]||'').trim()&&(r[k]||'').trim()){mine[k]=r[k];ch=true}});if(ch&&!document.activeElement.matches?.('textarea')){document.querySelectorAll('#desk textarea').forEach(t=>{t.value=mine[t.dataset.i]||''});try{localStorage.setItem(KEY,JSON.stringify(mine))}catch(e){}}}count()}catch(e){db=null;count()}})();
+</script>
