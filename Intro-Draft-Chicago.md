@@ -6,11 +6,13 @@ Waterloo, with about 2,000 dwellings on 18 hectares, is among Sydney's largest i
 
 Its reputation has also kept changing, and it has been contested between the government and its residents. Zanardo et al. (2024, 1208–1209) record officials calling the estate "terrible" (Hazzard), "not fit for purpose" (Jackson) and "well past the renewal date" (Hoenig). The housing minister, Rose Jackson, has since said that "old style estates with thousands and thousands of public homes in the one place" are "not functional communities" (Bowring 2026), a remark about that kind of estate and not about Waterloo alone. Residents speak differently. Julie, a resident, said, "Waterloo is my home, I want to stay here," and the housing activist Karyn Brown, answering the minister, said, "It is very functional" (Bowring 2026).
 
-Zanardo et al. (2024, 1236) and Sisson (2024) describe this pattern as a reputational gap, a term Yrjänä (2026) attributes to Kallin: the present of a place is devalued and its imagined potential is set against it, which makes intervention easier to justify. These studies concentrate on how the present is devalued. Where the idealised future comes from, and how it sits beside what residents say about living there, is the question this paper takes up.
+Zanardo et al. (2024, 1236) and Sisson (2024) describe this pattern as a reputational gap, a term Yrjänä (2026) attributes to Kallin: the present of a place is devalued and its imagined potential is set against it, which makes intervention easier to justify. Wynne and Rogers (2021) show how residents experience the threat of displacement before any demolition.
 
-This paper turns to the other side of the reputational gap, the future. It asks how the reputation of the estate has been rewritten as planning strategy changed, and what future that reputation makes imaginable. The planning proposal for Waterloo South refers to Green Square for built-form precedent: its urban design study analyses precedents "throughout the broader Green Square area" (NSW Land and Housing Corporation [LAHC] 2020, §5.1.7) and lists Green Square Town Centre among its comparative cases (Turner Studio & Turf 2020, App. 6). The paper reads this precedent as a source of the imagined future and sets it beside residents' accounts of living in the estate. It draws on planning documents, media reports, housing agency evaluations, policy instruments and forward plans, together with published studies of residents, and follows the four units of the course: the global-city frame, the housing strategies, the literature on segregation and stigma, and gentrification.
+This paper brings the concepts of the segregation unit to the same case, because the official case for renewal rests on them: Future Directions describes disadvantage that clusters in estates and is "passed on through multiple generations" (NSW Government 2016, 24), and mixed tenure is its remedy. The paper asks whether the renewal of Waterloo breaks that circle or relocates it. It reads the plan's tenure mix, the destinations of relocated tenants and the promise of return against the five steps of the vicious circle of segregation (Rosengren 2026; Tammaru et al. 2021), in a city where the median price of attached dwellings more than doubled between 2006 and 2026 (Australian Bureau of Statistics 2026). The sections follow the four units of the course: the global city, housing, segregation and gentrification.
 
 ## References
+
+Australian Bureau of Statistics. 2026. "Total Value of Dwellings, June Quarter 2026." Released September 8, 2026. https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/total-value-dwellings/latest-release.
 
 Bowring, D. 2026. "Housing Minister Says Waterloo Community 'Not Functional' as Demolition Looms for Public Housing Estate." *ABC News*, May 25, 2026. https://www.abc.net.au/news/2026-05-25/waterloo-public-housing-estate-fenced-off-ahead-of-demolition/106718016.
 
@@ -22,7 +24,13 @@ NSW Government. 2023. "Waterloo South Social and Affordable Housing Boosted to 5
 
 NSW Land and Housing Corporation. 2020. *Waterloo South Planning Proposal Report*. Attachment B2. https://meetings.cityofsydney.nsw.gov.au/documents/s49951/.
 
+NSW Government. 2016. *Future Directions for Social Housing in NSW*. NSW Family and Community Services.
+
+Rosengren, K. 2026. "Segregation in a Retrenching Housing Regime." Lecture, Aalto University, January 27, 2026.
+
 Sisson, A. 2024. "Public Housing and Territorial Stigma: Towards a Symbolic and Political Economy." *Housing Studies* 39 (5): 1199–1218. https://doi.org/10.1080/02673037.2022.2108383.
+
+Tammaru, T., D. Knapp, S. Silm, M. van Ham, and F. Witlox. 2021. "Spatial Underpinnings of Social Inequalities: A Vicious Circles of Segregation Approach." *Social Inclusion* 9 (2): 65–76. https://doi.org/10.17645/si.v9i2.4345.
 
 Turner Studio & Turf. 2020. *Waterloo Estate – Waterloo South: Urban Design & Public Domain Study*. Part 1 (Attachment B7a) and Appendix 6 (Attachment B7i). City of Sydney meeting papers. https://meetings.cityofsydney.nsw.gov.au/documents/s50149/Attachment%20B7a%20Urban%20Design%20and%20Public%20Domain%20Study%201%20LaHC.pdf.
 
