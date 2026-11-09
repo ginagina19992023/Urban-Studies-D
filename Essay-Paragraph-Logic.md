@@ -933,7 +933,7 @@
 
 1. 【主题句】被想象的未来可以在五类文件里追踪；先例让比较变得具体　（原句开头：“The imagined future of Waterloo…”）
 2. 【证据】规划文件：过去写成成本与形态，未来写成“新的城市村落”　（原句开头：“The planning documents write the past…”）
-3. 【证据】部长与媒体：从“破旧”到“不是功能完善的社区”　（原句开头：“A minister repeats the first story…”）
+3. 【证据】部长与媒体：从“破旧”到“不是功能完善的社区”　（原句开头：“The local member repeats…”）
 4. 【证据】手段：规划建议书的先例陈述 + 附录 6 三个可比密度案例　（原句开头：“The instruments then tie…”）
 5. 【概念检查】Zanardo 等：声誉差距=贬低现有用途+理想化未来用途　（原句开头：“Zanardo et al. (2024) describe…”）
 6. 【证据】居民一侧：Wynne 2018：担心“没灵魂”；Green Square 式项目被视为不吸引人的居住地　（原句开头：“On the other side…”）

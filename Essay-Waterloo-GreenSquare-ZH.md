@@ -78,7 +78,7 @@ Yrjänä (2026) 对赫尔辛基的研究是一项课程阅读，它提供了一�
 
 郊区层级的人口普查数字有助于定位这两个地区，但无法裁定对这两个故事的比较。2021 年 Waterloo 郊区有 16,379 人，家庭周收入中位数 2,028 澳元；72.7% 的住宅被出租，91.1% 是公寓。包含 Green Square Town Centre 的 Zetland 有 12,622 人，家庭周收入中位数 2,192 澳元；70.5% 被出租，92.5% 是公寓（Australian Bureau of Statistics, 2021a, 2021b）。由此可以得出两点。Green Square 不是自住业主的地区：它和 Waterloo 一样，绝大部分是出租公寓，所以以权属为基础的对比会产生误导。而且，两者几乎相同的概貌表明，郊区数据稀释了公屋区——它在 2018 年约有 4,000 居民，而所在郊区有一万六千多人（Rogers & Wynne, 2020）。用隔离单元的话说，这类数据本可用来测量地区之间的相异程度（Rosengren, 2026），而在这里做不到，因为两个郊区都以出租公寓为主。因此，这一比较必须建立在公屋区自己的资料之上，如咨询和租户调查，这样才能看到居民所承担的代价。
 
-Waterloo 被想象的未来，可以在五类文件里追踪出来，而先例是与 Green Square 的比较变得具体的地方。规划文件用成本和形态来写这个住宅区的过去，说它的住房“处于经济寿命的终点”（LAHC, 2020, §2.2），是一座“与周边环境在物理上相隔的‘岛’”（Turner Studio & Turf, 2020, 第一部分, PDF p. 72），并把它的未来写成“一个新的城市村落和本地中心”（PDF p. 6）。部长用资产的语言重复了第一个故事（“许多建筑已经到了使用期限”，NSW Government, 2023），媒体则从最初的公告（“破旧的 1950 年代式住房”，ABC News, 2015）一直讲到 2026 年，那时住房部长说这类住宅区“不是功能完善的社区”（ABC News, 2026）。随后，手段把未来与一个样板连在一起：规划建议书说，它的城市设计研究“详细分析了更广泛的 Green Square 一带的建筑形态先例”（LAHC, 2020, §5.1.7），而在这项研究里，Green Square Town Centre 是三个本地“可比密度案例”之一，另两个是 Central Park 和 Crown Square（Turner Studio & Turf, 2020, App. 6, pp. 462–464）。Zanardo 等人 (2024) 把这类话语的效果描述为一种声誉差距，它通过“贬低其现有用途、理想化其未来用途”而形成；文件补充的是，被理想化的未来来自哪里。另一方面，Wynne (2018) 研究中的居民担心“我们会得到像 Danks St 一带那样没有灵魂的东西”，论文还报告说，“全球城市”更新项目，“如 Green Square，被居民视为不吸引人的居住地”。所以，文件显示 Green Square 被用作先例，居民则显示他们不想要它的结果。我把两者放在一起，解读为 Green Square 对 Waterloo 起着“被想象的未来”的作用，但没有哪份文件这样说，这是有待检验的解释，而不是发现。
+Waterloo 被想象的未来，可以在五类文件里追踪出来，而先例是与 Green Square 的比较变得具体的地方。规划文件用成本和形态来写这个住宅区的过去，说它的住房“处于经济寿命的终点”（LAHC, 2020, §2.2），是一座“与周边环境在物理上相隔的‘岛’”（Turner Studio & Turf, 2020, 第一部分, PDF p. 72），并把它的未来写成“一个新的城市村落和本地中心”（PDF p. 6）。当地议员用资产的语言重复了第一个故事（“许多建筑已经到了使用期限”，NSW Government, 2023），州长在宣布地铁站时说，没有人愿意租户“住在破旧的 1950 年代式住房里”（Gerathy, 2015）。2026 年，住房部长在被问到为什么 Waterloo 要采用混合租住结构时说，“成千上万套公屋集中在一个地方的老式住宅区”“不是功能完善的社区”（Bowring, 2026），这句话说的是这类住宅区，而不只是 Waterloo。随后，手段把未来与一个样板连在一起：规划建议书说，它的城市设计研究“详细分析了更广泛的 Green Square 一带的建筑形态先例”（LAHC, 2020, §5.1.7），而在这项研究里，Green Square Town Centre 是三个本地“可比密度案例”之一，另两个是 Central Park 和 Crown Square（Turner Studio & Turf, 2020, App. 6, pp. 462–464）。Zanardo 等人 (2024) 把这类话语的效果描述为一种声誉差距，它通过“贬低其现有用途、理想化其未来用途”而形成；文件补充的是，被理想化的未来来自哪里。另一方面，Wynne (2018) 研究中的居民担心“我们会得到像 Danks St 一带那样没有灵魂的东西”，论文还报告说，“全球城市”更新项目，“如 Green Square，被居民视为不吸引人的居住地”。我把两者放在一起，解读为 Green Square 对 Waterloo 起着“被想象的未来”的作用，但没有哪份文件这样说，这是有待检验的解释，而不是发现。
 
 回迁的承诺是可以检验“被移植模式的代价”这一论点的地方，但目前还无法检验。国家的承诺是，现有租户“将分小批搬迁……并在更新完成后获得回迁的权利”，Waterloo Metro Quarter 和 Redfern 的新建社会住房可以让一部分人在本地安置（NSW Government, 2023）。由于再开发要分阶段进行许多年，租户是否回迁，现在无从得知。倡导团体认为回迁权应当现在就给予，并称被搬迁者讲述的经历与政府宣传的不同（City Hub, n.d.）。能说的是“在地失所”这一概念所蕴含的：回迁的权利不能消除等待期间发生的失所，而且“回迁”需要被定义——回到同一个地方、同一套住宅，还是同一个社区。这表明一旦有了数据，回迁的承诺——也就是居民所承担的代价——如何可以被核查。
 
@@ -88,7 +88,7 @@ Waterloo 被想象的未来，可以在五类文件里追踪出来，而先例�
 
 Waterloo 与 Green Square 的比较表明，问题不在于哪个片区更好，而在于把一种模式移植到有人居住的地方会发生什么。两个片区都属于一份全球城市规划，这是导论单元的概念和 2014 年战略所提示的；它们的开发策略不同，差别在于谁拥有土地、谁来付费；它们的声誉由不同的过去叙事所生产，隔离单元的邻里效应与声誉差距概念有助于解读这一点；规划文件则把市场主导的片区当作国有土地片区的先例。关于 Waterloo 的既有研究——Sisson (2024) 和 Zanardo 等人 (2024)——已经确立了污名为更新提供正当性；本文增加的对比则显示了那个被理想化的未来是用什么构成的，以及它的社会代价不在文件的账目之内。
 
-对既有文献中概念的统计，显示了本文关于两个故事的论证在哪些地方有所补充。在三项 Waterloo 研究的英文正文里，“地域污名”在 Sisson 里出现 46 次，在另两项里一次也没有；“声誉差距”在 Sisson 里出现 1 次、在 Zanardo 等人里出现 2 次；“租金差”只出现 1 次，在 Sisson 里；以“gentrif-”为词根的词在 Wynne & Rogers 里出现 11 次，他们还用了 5 次“全球城市”并提出了“在地失所”；“社会混合”或“权属不可辨”设计则在三项研究里都出现了。Green Square 在三项里一次都没有出现，Sennett 的“建造与栖居”这一对概念也没有。Wynne (2018) 的论文用了五十多次“全球城市”、提到 3 次 Green Square，但没有做这种对比。这些统计只是强调重点的粗略指南，不是论证，因为一个概念可以不用术语也被使用。但它们确实表明：污名与声誉差距已经被很好地覆盖，而本文对文献的补充，是 Green Square 的对比、“建造与栖居”的区分，以及对回迁承诺的检验。
+对既有文献中概念的统计，显示了本文关于两个故事的论证在哪些地方有所补充。在三项 Waterloo 研究的英文正文里，“地域污名”在 Sisson 里出现 46 次，在另两项里一次也没有；“声誉差距”在 Sisson 里出现 1 次、在 Zanardo 等人里出现 2 次；“租金差”只出现 1 次，在 Sisson 里；以“gentrif-”为词根的词在 Wynne & Rogers 里出现 11 次；“社会混合”或“权属不可辨”设计则在三项研究里都出现了。Green Square 在三项里一次都没有出现，Sennett 的“建造与栖居”这一对概念也没有。Wynne (2018) 的论文用了五十多次“全球城市”、提到 3 次 Green Square，但没有做这种对比。这些统计只是强调重点的粗略指南，不是论证，因为一个概念可以不用术语也被使用。但它们确实表明：污名与声誉差距已经被很好地覆盖，而本文对文献的补充，是 Green Square 的对比、“建造与栖居”的区分，以及对回迁承诺的检验。
 
 福利承诺与全球城市雄心之间的张力——它隐藏在“同一个规划框架容纳两个故事”这一论点的背后——看起来比简单的对立更复杂。Zanardo 等人 (2024) 把澳大利亚的社会住房描述为高度残余化、存量小、准入严，所以按这个证据，悉尼并不是一个强福利城市，尽管它更广泛的福利供给程度并不是本文考察的内容。在这个很小的部门里，Communities Plus 的模式用公屋区的地价来为社会住房的重建付费。按这一读法，Waterloo 的社会住房依赖于全球城市框架所创造的同一种地价，因此它很难成为这一框架的制衡力量。这是我从已读文件中得出的解释，而不是文件中的陈述。这也解释了为什么混合的承诺和回迁的承诺在决定谁来承担被移植模式的代价时，承载着如此大的分量。
 
@@ -103,15 +103,15 @@ Waterloo 与 Green Square 的比较表明，问题不在于哪个片区更好，
 ## 参考文献（与英文版相同）
 
 Aalbers, M. B. (2016). The financialization of housing: A political economy approach. Routledge.  
-ABC News. (2015, December 16). Waterloo public housing to be replaced as part of new Sydney metro station plans. https://www.abc.net.au/news/2015-12-16/waterloo-metro-station-plans-to-see-public-housing-replaced/7033404  
-ABC News. (2026, May 25). Housing minister says Waterloo community ‘not functional’ as demolition looms for public housing estate. https://www.abc.net.au/news/2026-05-25/waterloo-public-housing-estate-fenced-off-ahead-of-demolition/106718016  
 Australian Bureau of Statistics. (2021a). 2021 Census QuickStats: Waterloo (NSW). https://abs.gov.au/census/find-census-data/quickstats/2021/SAL14201  
 Australian Bureau of Statistics. (2021b). 2021 Census QuickStats: Zetland. https://abs.gov.au/census/find-census-data/quickstats/2021/SAL14542  
+Bowring, D. (2026, May 25). Housing minister says Waterloo community ‘not functional’ as demolition looms for public housing estate. ABC News. https://www.abc.net.au/news/2026-05-25/waterloo-public-housing-estate-fenced-off-ahead-of-demolition/106718016  
 City Hub. (n.d.). Waterloo South residents reject Minister's claims as Save Waterloo rally goes ahead. https://cityhub.com.au/waterloo-south-residents-reject-ministers-claims-as-save-waterloo-rally-goes-ahead/  
 City of Sydney. (n.d.). Green Square. https://www.cityofsydney.nsw.gov.au/green-square  
 City of Sydney. (n.d.-b). Planning proposal: Affordable housing review – Green Square Town Centre (post exhibition), Attachment B. https://meetings.cityofsydney.nsw.gov.au/documents/s44648/  
 Davidson, M. (2018). New-build gentrification. In L. Lees & M. Phillips (Eds.), Handbook of gentrification studies (ch. 15). Edward Elgar.  
 Elton Consulting. (2019). Waterloo redevelopment: Options testing consultation report – key findings. Prepared for the Department of Family and Community Services. https://meetings.cityofsydney.nsw.gov.au/documents/s50165/  
+Gerathy, S. (2015, December 16). Waterloo public housing to be replaced as part of new Sydney metro station plans. ABC News. https://www.abc.net.au/news/2015-12-16/waterloo-metro-station-plans-to-see-public-housing-replaced/7033404  
 Homes NSW. (2026). Waterloo renewal project [Web page, updated 21 October 2026]. https://www.nsw.gov.au/homes-nsw/waterloo  
 Lees, L. (2008). Gentrification and social mixing: Towards an inclusive urban renaissance? Urban Studies, 45(12), 2449–2470.  
 Madden, D., & Marcuse, P. (2016). In defense of housing. Verso.  
