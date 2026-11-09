@@ -349,6 +349,7 @@ body.zh-only .bifig figcaption .en{display:none} body.en-only .bifig figcaption 
 .bipara:last-child{border-bottom:none}
 .bipara p.en{margin:0 0 .55rem;color:var(--ink-soft);text-align:justify;hyphens:auto;overflow-wrap:anywhere}
 .bipara p.zh{overflow-wrap:anywhere}
+.plabel{display:inline-block;font-family:var(--font-sans);font-size:.72rem;font-weight:700;letter-spacing:.04em;color:var(--accent,#2b6777);border:1px solid currentColor;border-radius:4px;padding:0 .4rem;margin-bottom:.35rem}
 .bipara p.zh{margin:0;font-family:var(--font-zh);font-weight:600;color:var(--ink);font-size:.94rem;
              line-height:1.9;background:var(--zh-bg);padding:.7rem .85rem;border-radius:3px}
 
@@ -2298,6 +2299,8 @@ def render(spec):
                 summaries_js[nid(doc_key, en)] = it["summary"]
         else:
             a(f'<div class="bipara" id="b-{i}">')
+            if it.get("label"):
+                a(f'<span class="plabel">{esc(it["label"])}</span>')
             a(f'<p class="en">{esc(en)}</p>')
             a(f'<p class="zh">{zh}</p>')
             a(note(en))
