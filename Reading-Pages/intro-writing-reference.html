@@ -27,7 +27,17 @@ tr:last-child td{border-bottom:0}
 td.c{text-align:center;white-space:nowrap}
 table.mat td:first-child{font-weight:600;min-width:120px}
 td.lk a{display:block;color:var(--acc);margin-bottom:4px}
-table.mat{min-width:640px}
+.sg{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,1fr);gap:16px;align-items:start;margin-top:8px}
+@media (max-width:820px){.sg{grid-template-columns:1fr}}
+.mats{display:flex;flex-direction:column;gap:8px;min-width:0}
+.mat{border:1px solid var(--line);border-radius:6px;padding:8px 10px;background:var(--bg);min-width:0}
+.mat .w{font-weight:600;font-size:14px}
+.mat .lk{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:4px}
+.mat .lk a{color:var(--acc);font-size:13px}
+.wr{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);min-width:0}
+@media (max-width:820px){.wr{position:static}}
+.wr label{display:block;font:600 14px var(--sans);margin-bottom:4px}
+.wr textarea{min-height:320px}
 q,.q{font:italic 400 15.5px/1.5 var(--serif)}
 details{background:var(--panel);border:1px solid var(--line);border-radius:6px;margin:10px 0}
 summary{cursor:pointer;padding:12px 16px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
@@ -53,7 +63,7 @@ button.b.pri{background:var(--acc);border-color:var(--acc);color:var(--bg)}
 <div class="wrap">
 <h1>引言写法参照</h1>
 <p class="lead">六篇文章的引言是怎么按段落搭的，各段做什么、第一句怎么开，再给你的引言一个段落骨架和写作区。我只拆解结构并摘录开头句，不替你写引言。</p>
-<div class="nav"><a href="#a">速览</a><a href="#b">逐篇拆解</a><a href="#c">开头句</a><a href="#d">你的骨架</a><a href="#e">写作区</a></div>
+<div class="nav"><a href="#a">速览</a><a href="#b">逐篇拆解</a><a href="#c">开头句</a><a href="#d">你的骨架</a><a href="#e">导出</a></div>
 
 <h2 id="a">1. 速览：六篇引言各做了哪些事</h2>
 <div class="scroll"><table>
@@ -84,14 +94,13 @@ button.b.pri{background:var(--acc);border-color:var(--acc);color:var(--bg)}
 </table></div>
 <div class="box note"><b>一个适合你主题的开场。</b>2026 年 5 月 ABC 的同一篇报道里，住房部长说这类住宅区 "they're not functional communities"，一位居民说 "Waterloo is my home, I want to stay here"（ABC News, 2026-05-25）。两句话并排，正好是"同一个地方被说成两样"。这只是一种可选的开法，用不用由你定，原文我已经核对过。</div>
 
-<h2 id="d">4. 给你的引言的段落骨架</h2>
+<h2 id="d">4. 你的引言：左边是材料，右边写</h2>
 <p class="lead">作业只要求"a brief introduction"。六篇里，Lees 约 270 词，Sisson 约 580 词，其余 780 到 1,200 词。你的正文是 14 页，引言我建议 4 段、500 词上下。下面每段只写这段要做的事和可以用的材料，句子你自己写。</p>
 <div class="tpl"><span class="tag">开场</span>→<span class="tag">案例与策略</span>→<span class="tag">概念与缺口</span>→<span class="tag">问题与路线</span></div>
 <div id="slots"></div>
 
-<h2 id="e">5. 写作区</h2>
-<p class="lead">每一段一个框，字数自动统计，内容自动保存。写好后可以复制成一整段。</p>
-<div id="desk"></div>
+<h2 id="e">5. 合计与导出</h2>
+<p class="lead">内容自动保存。写好后可以复制成一整段。</p>
 <div class="box"><div class="row"><span id="tot" class="msg"></span></div>
 <div class="row"><button class="b pri" id="bCopy">复制全文</button><button class="b" id="bDl">下载 .md</button><span class="msg" id="expMsg"></span></div></div>
 </div>
@@ -144,15 +153,14 @@ const KEY='intro-draft-v1';let mine={},db=null,ref=null,timer=null,saving=false,
 try{mine=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 document.getElementById('arts').innerHTML=ARTS.map((a,i)=>`<details${i===2?' open':''}><summary><b>${esc(a.n)}</b><span>${esc(a.len)}</span></summary><div class="in"><div class="cite">${esc(a.cite)}</div><div class="scroll" style="margin-top:8px"><table><tr><th>段</th><th>词数</th><th>这一段做什么</th><th>开头句（原文）</th><th>内容</th></tr>${a.paras.map((p,j)=>`<tr><td>${j+1}</td><td>${esc(p[0])}</td><td>${esc(p[1])}</td><td class="q">${esc(p[2])}</td><td>${esc(p[3])}</td></tr>`).join('')}</table></div><p style="margin:8px 0 0"><b>可借的：</b>${esc(a.take)}</p></div></details>`).join('');
-document.getElementById('slots').innerHTML=SL.map(s=>`<div class="slot"><h3>${esc(s.h)}</h3><div class="meta">${esc(s.meta)}</div><div><b>这一段做什么：</b>${esc(s.do)}</div><div style="margin:4px 0 8px;color:var(--mute)">${esc(s.opt)}</div><div class="scroll"><table class="mat"><tr><th>用什么</th><th>原文与出处</th><th>跳转</th></tr>${s.items.map(it=>`<tr><td>${esc(it.w)}</td><td><span class="q">${esc(it.q)}</span><div class="cite">${esc(it.c)}</div></td><td class="lk">${it.l.map(l=>`<a href="${esc(l[1])}" target="_blank" rel="noopener">${esc(l[0])}</a>`).join('')}</td></tr>`).join('')}</table></div><div class="warn" style="margin-top:8px">${esc(s.ask)}</div></div>`).join('');
-document.getElementById('desk').innerHTML=SL.map((s,i)=>`<div class="slot"><label for="d${i}"><h3>${esc(s.h)}</h3></label><textarea id="d${i}" data-i="${i}">${esc(mine[i]||'')}</textarea><div class="cnt" id="n${i}"></div></div>`).join('');
-const wc=t=>{const en=(t.match(/[A-Za-z0-9’'\-]+/g)||[]).length,zh=(t.match(/[一-鿿]/g)||[]).length;return {en,zh}};
+document.getElementById('slots').innerHTML=SL.map((s,i)=>`<div class="slot"><h3>${esc(s.h)}</h3><div class="meta">${esc(s.meta)}</div><div><b>这一段做什么：</b>${esc(s.do)}</div><div style="margin:4px 0 4px;color:var(--mute)">${esc(s.opt)}</div><div class="sg"><div class="mats">${s.items.map(it=>`<div class="mat"><div class="w">${esc(it.w)}</div><div class="q">${esc(it.q)}</div><div class="cite">${esc(it.c)}</div><div class="lk">${it.l.map(l=>`<a href="${esc(l[1])}" target="_blank" rel="noopener">${esc(l[0])}</a>`).join('')}</div></div>`).join('')}</div><div class="wr"><label for="d${i}">我写的${esc(s.h.replace(/^.*· /,''))}</label><textarea id="d${i}" data-i="${i}" placeholder="在这里写这一段">${esc(mine[i]||'')}</textarea><div class="cnt" id="n${i}"></div><div class="warn" style="margin-top:6px;font-size:13px">${esc(s.ask)}</div></div></div></div>`).join('');
+const wc=t=>{const en=(t.match(/[A-Za-z0-9’'\-]+/g)||[]).length,zh=(t.match(/[\u4e00-\u9fff]/g)||[]).length;return {en,zh}};
 function count(){let T=0;SL.forEach((s,i)=>{const w=wc(mine[i]||'');T+=w.en;document.getElementById('n'+i).textContent=`${w.en} 个英文词${w.zh?`，${w.zh} 个汉字`:''}`});document.getElementById('tot').textContent=`合计 ${T} 个英文词（建议 500 上下）${db?'':' · 仅本机保存'}`}
-document.querySelectorAll('#desk textarea').forEach(t=>t.addEventListener('input',()=>{mine[t.dataset.i]=t.value;try{localStorage.setItem(KEY,JSON.stringify(mine))}catch(e){}count();dirty=true;clearTimeout(timer);timer=setTimeout(flush,900)}));
+document.querySelectorAll('textarea[data-i]').forEach(t=>t.addEventListener('input',()=>{mine[t.dataset.i]=t.value;try{localStorage.setItem(KEY,JSON.stringify(mine))}catch(e){}count();dirty=true;clearTimeout(timer);timer=setTimeout(flush,900)}));
 async function flush(){if(!ref||saving){if(saving)timer=setTimeout(flush,900);return}saving=true;dirty=false;try{await ref.set({json:JSON.stringify(mine),updated:Date.now()})}catch(e){}saving=false;if(dirty)timer=setTimeout(flush,900)}
 const full=()=>SL.map((s,i)=>(mine[i]||'').trim()).filter(Boolean).join('\n\n');
 document.getElementById('bCopy').onclick=async()=>{const e=document.getElementById('expMsg');try{await navigator.clipboard.writeText(full());e.textContent='已复制'}catch(x){e.textContent='复制被拒绝，请改用下载'}};
 document.getElementById('bDl').onclick=async()=>{const e=document.getElementById('expMsg');try{const d=await claude.use('downloads');if(!d){e.textContent='此处不能下载，请用复制';return}await d.save({filename:'my-intro.md',data:'# Introduction\n\n'+full()+'\n'});e.textContent='已保存'}catch(x){e.textContent='未保存'}};
 count();
-(async()=>{try{db=await claude.use('db');if(!db){count();return}ref=db.doc('intro/main');const s=await ref.get();if(s.exists&&s.data().json){const r=JSON.parse(s.data().json);let ch=false;Object.keys(r).forEach(k=>{if(!(mine[k]||'').trim()&&(r[k]||'').trim()){mine[k]=r[k];ch=true}});if(ch&&!document.activeElement.matches?.('textarea')){document.querySelectorAll('#desk textarea').forEach(t=>{t.value=mine[t.dataset.i]||''});try{localStorage.setItem(KEY,JSON.stringify(mine))}catch(e){}}}count()}catch(e){db=null;count()}})();
+(async()=>{try{db=await claude.use('db');if(!db){count();return}ref=db.doc('intro/main');const s=await ref.get();if(s.exists&&s.data().json){const r=JSON.parse(s.data().json);let ch=false;Object.keys(r).forEach(k=>{if(!(mine[k]||'').trim()&&(r[k]||'').trim()){mine[k]=r[k];ch=true}});if(ch&&!document.activeElement.matches?.('textarea')){document.querySelectorAll('textarea[data-i]').forEach(t=>{t.value=mine[t.dataset.i]||''});try{localStorage.setItem(KEY,JSON.stringify(mine))}catch(e){}}}count()}catch(e){db=null;count()}})();
 </script>
