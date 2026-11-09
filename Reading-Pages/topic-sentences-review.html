@@ -1,0 +1,115 @@
+<title>主题句与核心论据</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap">
+<style>
+/* layout: intro paragraph first, then one card per body paragraph with review controls */
+:root{--bg:#f4f6f5;--panel:#fff;--fg:#17211f;--mute:#566360;--line:#d6dedb;--acc:#0f6b5c;--acc2:#e8f2ef;--warn:#8a5a00;--bad:#9b2c2c;--serif:"Newsreader",Georgia,"Songti SC",serif;--sans:"IBM Plex Sans",system-ui,"PingFang SC","Microsoft YaHei",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101615;--panel:#18201f;--fg:#e3ebe8;--mute:#9aaaa6;--line:#2c3836;--acc:#6fd0bd;--acc2:#1c2b28;--warn:#e0b050;--bad:#e89090;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101615;--panel:#18201f;--fg:#e3ebe8;--mute:#9aaaa6;--line:#2c3836;--acc:#6fd0bd;--acc2:#1c2b28;--warn:#e0b050;--bad:#e89090;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.65 var(--sans);padding-block:20px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:900px;margin:0 auto}
+h1{font:600 28px/1.25 var(--serif);margin:0 0 6px;text-wrap:balance}
+h2{font:600 21px/1.3 var(--serif);margin:30px 0 8px;scroll-margin-top:60px;text-wrap:balance}
+.lead{color:var(--mute);max-width:70ch}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:14px 0}
+.nav a{border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:999px;padding:3px 11px;font:500 13px var(--sans);text-decoration:none}
+.nav .sum{margin-left:auto;font-size:13px;color:var(--mute)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:10px 0}
+.box.note{background:var(--acc2);border-color:transparent}
+.en{font:400 17px/1.6 var(--serif);margin:0 0 6px}
+.zh{color:var(--mute);margin:0 0 6px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:12px 0}
+.card.ok{border-color:var(--acc)}.card.edit{border-color:var(--warn)}.card.cut{border-color:var(--bad)}
+.ch{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;margin-bottom:6px}
+.num{font:600 18px var(--serif);color:var(--acc)}
+.tag{font:600 11px var(--sans);border-radius:4px;padding:1px 7px;border:1px solid var(--line);color:var(--mute)}
+.tag.V{color:var(--acc);border-color:var(--acc)}.tag.I{color:var(--warn);border-color:var(--warn)}.tag.G{color:var(--bad);border-color:var(--bad)}
+.lab{font:600 12px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);margin:10px 0 3px}
+ul{margin:0;padding-left:1.1em}li{margin-bottom:3px;overflow-wrap:anywhere}
+.sc{background:var(--acc2);border-radius:4px;padding:6px 10px;margin-top:8px;font-size:14px}
+.rv{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+.rv button{border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:6px;padding:3px 11px;font:500 13px var(--sans);cursor:pointer}
+.rv button.on.ok{background:var(--acc);border-color:var(--acc);color:var(--bg)}
+.rv button.on.edit{background:var(--warn);border-color:var(--warn);color:var(--bg)}
+.rv button.on.cut{background:var(--bad);border-color:var(--bad);color:var(--bg)}
+.rv input{flex:1 1 200px;min-width:0;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:6px;padding:4px 8px;font:inherit;font-size:14px}
+button.b{border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:6px;padding:5px 12px;font:500 13px var(--sans);cursor:pointer}
+button.b.pri{background:var(--acc);border-color:var(--acc);color:var(--bg)}
+.msg{color:var(--mute);font-size:13px}
+</style>
+<div class="wrap">
+<h1>主题句与核心论据</h1>
+<p class="lead">围绕"声誉随规划策略改写，并让某种未来变得可以想象"这一条线，给后面每一节的每一段写出主题句、核心论据和范围。你逐段审视：通过、要改或删掉，可以写一句意见。尚未改正文。</p>
+<div class="nav"><a href="#i">引言末段</a><a href="#s2">2 全球城市</a><a href="#s3">3 住房</a><a href="#s4">4 隔离</a><a href="#s5">5 绅士化</a><a href="#s6">6 结论</a><span class="sum" id="sum"></span></div>
+
+<h2 id="i">引言最后一段（改后）</h2>
+<div class="box"><p class="en" id="iEn"></p><p class="zh" id="iZh"></p></div>
+<div class="box note"><b>为什么这样改</b><ul id="why"></ul></div>
+
+<div id="secs"></div>
+
+<h2>导出你的审视</h2>
+<div class="box"><div class="row"><button class="b pri" id="bCopy">复制为 Markdown</button> <button class="b" id="bDl">下载 .md</button> <span class="msg" id="expMsg"></span></div></div>
+<h3 style="font:600 14px var(--sans);margin-top:18px">标记说明</h3>
+<p class="msg"><span class="tag V">已核对</span> 论据我对回过原文。<span class="tag I">解释</span> 这是本文的读法。<span class="tag G">缺口</span> 证据不足，要写成限定。</p>
+</div>
+<script>
+const INTRO_EN='This paper asks how the reputation of the Waterloo estate has been rewritten as planning strategy changed, and what future that reputation makes imaginable. It reads the planning documents’ references to Green Square as one source of that future: the planning proposal reports that its urban design study analyses built-form precedents “throughout the broader Green Square area” (NSW Land and Housing Corporation [LAHC] 2020, §5.1.7), and the study lists Green Square Town Centre among its comparative cases (Turner Studio & Turf 2020, App. 6). No document describes Green Square as an imagined future for Waterloo. This is an interpretation, and the paper treats it as a reading to be tested against the documents and against what residents say. The evidence is documentary: planning documents, media reports, housing agency evaluations, policy instruments and forward plans, together with published studies of residents. The paper includes no new interviews, so residents’ experience is represented through existing research. The sections follow the four units of the course: the global-city frame, the housing strategies, the literature on segregation and stigma, and gentrification.';
+const INTRO_ZH='本文要问的是：Waterloo 住宅区的声誉怎样随规划策略的变化被改写，这种声誉又让什么样的未来变得可以想象。本文把规划文件对 Green Square 的引用读作这一未来的来源之一：规划建议书说，它的城市设计研究分析了“更广泛的 Green Square 一带”的建筑形态先例，而该研究把 Green Square Town Centre 列为可比案例之一。没有任何文件把 Green Square 描述为 Waterloo 被想象的未来。这是一种解释，本文把它当作要用文件和居民的说法去检验的读法。证据是文献性的：规划文件、媒体报道、住房机构评估、政策手段和前瞻规划，再加上已发表的居民研究。本文没有新的访谈，所以居民的体验通过已有研究来呈现。各节按课程的四个单元：全球城市框架、住房策略、隔离与污名的文献、绅士化。';
+const WHY=[
+ '去掉“我个人认为”。学术论文通常不用第一人称表态，而是用动词和范围句标明解释的地位：“reads … as”（把……读作）、“This is an interpretation”（这是一种解释）、“treats it as a reading to be tested”（把它当作要检验的读法）。',
+ '只说一次“没有任何文件这样说”，放在紧接着证据的位置，读者先看到证据，再看到边界。',
+ '把范围写成一句陈述：证据是文献性的、没有新访谈、居民经验靠已有研究。这样不用写“这只是我的看法”，边界也清楚。',
+ '把原来的“中产阶级化”改回“绅士化”（gentrification），并把四个单元的名字换成它们在论文里的实际作用。'];
+const SEC=[
+{n:2,t:'全球城市：想象的未来从哪里来（做分析）',p:[
+{ts:'The global-city frame explains why Waterloo is being reimagined now: a city that competes as an economic hub needs central land and infrastructure to carry that ambition.',zh:'全球城市框架解释了为什么现在要重新想象 Waterloo：靠经济枢纽竞争的城市，需要中心区的土地和基础设施来承载这种雄心。',ev:['Sassen (1991) 的全球城市、Brenner & Schmid 的斗争场域（课程讲义）','2014 年规划：全球经济走廊贡献州内生产总值逾 41%（NSW Planning and Environment 2014, 44），Green Square 被点名，全文没有出现 Waterloo','Wynne (2018) 用“全球城市”50 余次，讲居民在这个框架里的处境'],sc:'规划文本里的全球城市是经济竞争力。“土地成为雄心与居民相遇的地方”是我对概念的应用，讲义没有用到悉尼。',st:'V'},
+{ts:'In the planning documents the metro station is the trigger that turns the estate into a site for reimagining.',zh:'在规划文件里，地铁站是把这片住宅区变成“可重新想象之地”的触发点。',ev:['“The Waterloo Metro Station is the catalyst for the renewal”（Turner Studio & Turf 2020, Part 1, PDF p. 6）','维持现状会 “ignoring the potential catalytic effects of the new Metro station”（LAHC 2020, 92）','交通部长：“a part of Sydney which is in need of change”（Gerathy 2015）'],sc:'触发点是交通。这些文件没有把它说成“想象”。',st:'V'},
+{ts:'The concept that links reimagining to reputation is the reputational gap: the present of a place is devalued while its future is idealised.',zh:'把重新想象和声誉连起来的概念是声誉差距：现在被贬低，未来被理想化。',ev:['Yrjänä (2026)：Kallin (2017) 提出这个词，把地方“想象出来的潜力”与“当前被贬低的样子”相对照','Zanardo 等 (2024, 约 1235–1236)：“denigration of its present use and idealization of its future use”','Sisson (2024)：“between an estate’s supposedly deficient present and its idealized future”'],sc:'这个词不在讲义里，讲义只有租金差。我没有查到比 Kallin 更早的出处。',st:'V'},
+{ts:'What the existing studies leave open is where the idealised future comes from, and this paper reads the planning documents’ use of Green Square as one answer.',zh:'已有研究没有回答的是：被理想化的未来是从哪里来的。本文把规划文件对 Green Square 的使用读作一种回答。',ev:['LAHC (2020, §5.1.7)：设计研究 “provides a detailed analysis of built form precedents throughout the broader Green Square area”','Turner Studio & Turf (2020, App. 6, 462–464)：Green Square Town Centre 是三个本地可比密度案例之一','我检索过 Crossref 和 OpenAlex，没有找到专门分析“样板街区被用作先例”的研究','Wynne (2018) 提到 Green Square 三次，没有做比较'],sc:'这是解释，没有文件说 Green Square 是“想象的未来”。“没有找到”要写成检索说明，不是文献里的话。',st:'I'}]},
+{n:3,t:'住房：开发策略的实际变化，和每次对这片住宅区的描述',p:[
+{ts:'The 2015 announcement set the frame: renewal funded by mixed tenure, with the old estate described as housing that no one would want to stay in.',zh:'2015 年的公告定下了框架：靠混合租住来资助更新，旧住宅区被描述成没人愿意住的房子。',ev:['Baird（州长）：“I don\'t think any of us would want them sitting in run down 1950s-style accommodation”（Gerathy 2015）','2015 年 12 月公告，拆除重建，约 30% 社会住房、70% 私人住房（Zanardo et al. 2024, 1208）','Future Directions 的 70:30 目标和 “aspirational, not generational”（NSW Government 2016, 9）'],sc:'Baird 说的是房子，不是居民。Future Directions 是全州的政策，没有点名 Waterloo。',st:'V'},
+{ts:'Between 2019 and 2021 the planning route changed hands twice, while the documents described the estate in terms of age, cost and form.',zh:'2019 到 2021 年，规划路径两次易手，文件则用房龄、成本和形态来描述这片住宅区。',ev:['2019 年 11 月：从州重大场地研究改为市议会主导的规划建议书（Turner Studio & Turf 2020, Part 1, PDF p. 6）','2021 年 3 月：州规划部长任命规划部秘书为规划建议书的主管机关，取代市议会；Gateway 于 2021 年 6 月 23 日发出（NSW Department of Planning and Environment 2022, PDF p. 11）','“at the end of their economic life”（LAHC 2020, 23）','平均房龄 44 年，基准寿命 60 年（Turner Studio & Turf 2020, Part 1, PDF p. 6）','“an ‘island’, physically disconnected”（同上，PDF p. 72）'],sc:'同一组文件里“经济寿命终点”和“44 年对 60 年”并排出现，我没有看到文件解释这个差别。',st:'V'},
+{ts:'After 2022 the numbers move again, and each revision is presented as an improvement on the last.',zh:'2022 年以后数字再次变动，每一次修订都被表述为比上一次更好。',ev:['2022 年批准：3,012 套，其中 847 套社会住房、227 套可负担、1,938 套市场（NSW Department of Planning and Environment 2022, PDF p. 37），847÷3,012 约 28%（我的算术）','2023 年：社会与可负担合计提高到 50%（原 34%），承诺回迁（NSW Government 2023）','批评：LAHC 自己的数字显示自 2016 年起只建成 2,773 套，计划 23,000 套（Baker 2023）','总套数在 3,012、3,104、约 3,300 之间移动，口径不同'],sc:'这些是承诺和提案，不是结果。引用总套数要写明范围。',st:'V'},
+{ts:'By 2025–26 the future has a name and a place: a new town centre and a new inner-city neighbourhood.',zh:'到 2025–26 年，未来有了名字和位置：一个新的镇中心，一个新的市区街区。',ev:['“a vibrant new town centre”，Metro Quarter 70 套社会住房入住（NSW Government 2025）','“a vibrant new inner-city neighbourhood”，约 3,300 套，至少一半是社会或可负担住房（Scully 2026）','同一份稿子：“the Waterloo South renewal stalled for years”（Scully 2026）','整个住宅区分期 30 年，Waterloo South 约 10 到 15 年（Homes NSW 2026）'],sc:'提案阶段，尚未批准。',st:'V'},
+{ts:'Read through the housing concepts, each change moves the estate from housing as need toward housing as a site of value.',zh:'用住房概念来读，每一次变化都在把这片住宅区从“需要”推向“价值的场所”。',ev:['Ilmonen：需要到消费（讲义），Madden & Marcuse (2016, 4)：家与房地产','现有规划管制 “would not be capable of supporting a feasible redevelopment”（LAHC 2020, 92）','密度奖励以 30% 社会住房、20% 可负担住房为条件（LAHC 2021, Attachment A）','Green Square：City 主导、价值捕获的市场主导样板（White 2014；ArchitectureAU 2016）'],sc:'没有官方文件直接说明 Waterloo 的土地价值资助模型。“需要到消费”是我对讲义框架的应用。',st:'I'}]},
+{n:4,t:'隔离：这个声誉是怎样被造出来的（做声誉）',p:[
+{ts:'The reputation rests on a diagnosis, concentrated disadvantage, which official documents state for estates in general rather than for Waterloo.',zh:'这个声誉建立在“弱势集中”这一诊断上，官方文件说的是一类住宅区，不是专指 Waterloo。',ev:['“many estates experience high levels of crime, unemployment, domestic violence …”（NSW Government 2016, 24）','“the concentration of disadvantage within social housing estates”（Productivity Commission 2017, 217）','区域规划把 Waterloo 列在社会住房和弱势差异的段落里（Greater Sydney Commission 2018, PDF p. 31）'],sc:'全州或全国层面的诊断，不是 Waterloo 专属。',st:'V'},
+{ts:'The academic form of that diagnosis, neighbourhood effects, is contested, so it cannot carry the weight put on it.',zh:'这个诊断的学术形式“邻里效应”存在争议，所以它撑不起被放在它身上的分量。',ev:['Tammaru 等 (2021, 68–69)：选择性迁移加情境效应','Rosengren 讲义：从集中到邻里效应到选择性迁移的五步链','Sisson (2024)：这个概念 “controversially” 把原因放在住宅区上','Zanardo 等 (2024)：多数现有建筑只需相对适度的翻新就能延长寿命（板楼可能是例外）'],sc:'本文不判断邻里效应是否存在，只说明证据有争议。',st:'V'},
+{ts:'What the statements about Waterloo describe is buildings and function, and that is the extent of what the documents show.',zh:'关于 Waterloo 的陈述描述的是建筑和功能，这是这些文件能显示的全部。',ev:['Baird（Gerathy 2015）：房子','Hoenig：“many of the buildings have reached their use-by date”（NSW Government 2023）','LAHC (2020, 23)：产权的经济寿命','Jackson：一类 “old style estates”，不专指 Waterloo（Bowring 2026）','Zanardo 等 (2024, 1208–1209) 记录的 “terrible”“not fit for purpose”“well past the renewal date”'],sc:'“污名”是 Sisson 和 Zanardo 等人的概念，是解释。这里的证据只显示官方用成本、房龄和功能来描述。',st:'V'},
+{ts:'Across 2015–2026 the object of description changes: from the building, to the demographic, to the programme, to the community form.',zh:'2015 到 2026 年，被描述的对象在变：从建筑，到人口构成，到计划，再到社区形态。',ev:['建筑：“run down 1950s-style accommodation”（Gerathy 2015）','人口构成：“change the demographic”（SBS The Feed 2016，转述 Hazzard）','媒体自己的声音：“failed public housing experiment”（Teece-Johnson and Burton-Bradley 2016）','计划：“cannibalising”（Baker 2023）','社区形态：“not functional communities”（Bowring 2026）'],sc:'这是我挑选的文章，不是系统的媒体分析。系统做法可参照 Kearns 等 (2013)。SMH 与 Guardian 取不到。',st:'V'}]},
+{n:5,t:'绅士化：被想象的未来与居民的居住感受',p:[
+{ts:'The future is drawn from a built precedent: the Waterloo South study names Green Square Town Centre as one of three local density cases.',zh:'未来是照着一个已建成的先例画的：Waterloo South 研究把 Green Square Town Centre 列为三个本地密度案例之一。',ev:['LAHC (2020, §5.1.7)','Turner Studio & Turf (2020, App. 6, 462–464)：三个本地案例；Waterloo 与 Zetland 合并比较，143 人/公顷到 247 人/公顷','Green Square Town Centre：3,308 套中 104 套社会与可负担，约 3%；Crown Square 表中 20%，口径不明'],sc:'先例是形态和密度案例，规划书没有说它是“未来”。3% 只是一个镇中心。表格来自扫描件，需要对照原页。',st:'V'},
+{ts:'Green Square’s own story is told in the language of transformation, and its object is land rather than people.',zh:'Green Square 自己的故事用“转变”的语言来讲，它的对象是土地，不是人。',ev:['City 2015：“from a gritty industrial area into an urban, vibrant inner-city hub”（City of Sydney 2015, PDF p. 22）','City 现在的页面：“Sydney’s oldest industrial heartland has transformed into a vibrant, sustainable and connected community”（City of Sydney n.d.a）','White (2014)：问题是洪水、交通、资金和土地所有权'],sc:'2015 年同一份文件里已有 “one of Sydney’s oldest industrial area”，所以不能说“工业被改写成遗产”。我没有找到 Green Square 改造前被污名化的资料，搜索有限。',st:'V'},
+{ts:'Residents read the model differently, and their account is of dwelling rather than of land value.',zh:'居民对这个样板的读法不同，他们讲的是居住，不是土地价值。',ev:['Wynne (2018)：担心 “something soulless like what’s around Danks St”；“global city” 项目被居民视为不吸引人的居住地','Wynne and Rogers (2021)：在地失所，威胁本身已经伤害人与地方的关系','Karyn Brown：“It is very functional”；Julie：“Waterloo is my home, I want to stay here”（Bowring 2026）'],sc:'居民的声音来自二手研究和单篇报道，本文没有新访谈。Julie 和 Brown 是个别居民。',st:'V'},
+{ts:'The promise that joins the imagined future to the people who live there is the right to return, and it cannot yet be tested.',zh:'把被想象的未来和居住者连在一起的承诺是回迁权，目前还无法检验。',ev:['“All residents will be given the right to return when the renewal is complete”（NSW Government 2024）','“Residents will be provided with the right of return”（LAHC 2020, 123）','Waterloo South 现有 749 套社会住房，计划 847 套（NSW Department of Planning and Environment 2022, PDF pp. 8, 37）'],sc:'承诺不是结果。我没有找到回迁人数或时间的数字。',st:'G'},
+{ts:'Gentrification concepts show who bears the cost if the future is delivered as imagined.',zh:'绅士化的概念显示：如果未来按想象的样子实现，代价由谁承担。',ev:['Smith (1979) 租金差；Stein (2019, 41) 国家主导','Zanardo 等 (2024, 约 1236)：国有土地上的地租差与部分私有化','Davidson (2018)：新建绅士化与间接置换','Lees (2008)：社会混合是绅士化的正面包装','Yrjänä (2026)：声誉差距加补贴差距'],sc:'间接置换没有找到针对这两个片区的研究。这里是概念对照，不是发现。',st:'I'}]},
+{n:6,t:'结论与讨论',p:[
+{ts:'Reputation and planning strategy at Waterloo have changed together; the documents show that they occur together, not that one caused the other.',zh:'Waterloo 的声誉和规划策略一起变化。文件显示的是两者同时发生，不是一个导致另一个。',ev:['第 3 节的策略时间线，第 4 节对描述对象的变化'],sc:'因果是解释，要写明。',st:'I'},
+{ts:'The imagined future is assembled from a name, a precedent and a promise, and what it leaves out is the dwelling.',zh:'被想象的未来由三部分拼成：一个名字、一个先例、一个承诺。它遗漏的是居住。',ev:['名字：“new urban village”“world class urban precinct”（Turner Studio & Turf 2020, Part 1, PDF pp. 6, 72）','先例：Green Square（LAHC 2020, §5.1.7）','承诺：回迁权（NSW Government 2024）','Sennett (2018) 的建造与栖居；居民的话'],sc:'Sennett 的区分在三项 Waterloo 研究里都没有出现，是本文的应用。',st:'I'},
+{ts:'The argument has limits: documents rather than interviews, a selected sample of media, and an interpretive link between precedent and imagination.',zh:'这个论证有边界：用的是文件不是访谈，媒体是挑选的样本，先例和想象之间的联系是解释。',ev:['没有新访谈；SMH 与 Guardian 取不到','土地价值资助模型没有官方说明；回迁结果没有数字','引用的页码中有几处是推算的，需要对照原文'],sc:'这一段就是边界声明，放在结论里一次说清。',st:'G'},
+{ts:'What would change the argument is evidence that Green Square is cited only for form, or data showing that most tenants return; and the planning implications follow from the cost the argument identifies.',zh:'会改变这个论证的是：证明 Green Square 只被引用为形态，或数据显示多数租户回迁。规划含义则来自论证指出的那份代价。',ev:['可检验：规划文件对先例的措辞；回迁人数','含义：定义并报告回迁；公布社会住房占比而不只是数量；说明先例没有带走什么；考虑保留与翻新（Zanardo et al. 2024）'],sc:'含义不需要预设政策出于恶意。',st:'I'}]}
+];
+
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const STN={V:'已核对',I:'解释',G:'缺口'};
+document.getElementById('iEn').textContent=INTRO_EN;document.getElementById('iZh').textContent=INTRO_ZH;
+document.getElementById('why').innerHTML=WHY.map(w=>`<li>${esc(w)}</li>`).join('');
+const KEY='topic-review-v1';let rv={},db=null,ref=null,timer=null,saving=false,dirty=false;
+try{rv=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+document.getElementById('secs').innerHTML=SEC.map(s=>`<h2 id="s${s.n}">${s.n}. ${esc(s.t)}</h2>`+s.p.map((p,i)=>{const k=s.n+'.'+(i+1);return `<div class="card" id="c${s.n}_${i+1}" data-k="${k}"><div class="ch"><span class="num">¶${k}</span><span class="tag ${p.st}">${STN[p.st]}</span></div><p class="en">${esc(p.ts)}</p><p class="zh">${esc(p.zh)}</p><div class="lab">核心论据</div><ul>${p.ev.map(e=>`<li>${esc(e)}</li>`).join('')}</ul><div class="sc"><b>范围与限定：</b>${esc(p.sc)}</div><div class="rv"><button data-d="ok" class="ok">通过</button><button data-d="edit" class="edit">要改</button><button data-d="cut" class="cut">删掉</button><input type="text" placeholder="一句意见（可选）" aria-label="意见 ${k}"></div></div>`}).join('')).join('');
+function paint(){document.querySelectorAll('.card').forEach(c=>{const r=rv[c.dataset.k]||{};c.className='card'+(r.d?' '+r.d:'');c.querySelectorAll('.rv button').forEach(b=>b.classList.toggle('on',b.dataset.d===r.d));const inp=c.querySelector('input');if(document.activeElement!==inp)inp.value=r.c||''});
+ const all=Object.keys(rv).filter(k=>rv[k].d);const n=SEC.reduce((a,s)=>a+s.p.length,0);document.getElementById('sum').textContent=`已审 ${all.length}/${n}：通过 ${all.filter(k=>rv[k].d==='ok').length}，要改 ${all.filter(k=>rv[k].d==='edit').length}，删掉 ${all.filter(k=>rv[k].d==='cut').length}`}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(rv))}catch(e){}paint();dirty=true;clearTimeout(timer);timer=setTimeout(flush,800)}
+async function flush(){if(!ref||saving){if(saving)timer=setTimeout(flush,800);return}saving=true;dirty=false;try{await ref.set({json:JSON.stringify(rv),updated:Date.now()})}catch(e){}saving=false;if(dirty)timer=setTimeout(flush,800)}
+document.querySelectorAll('.rv button').forEach(b=>b.onclick=()=>{const k=b.closest('.card').dataset.k;(rv[k]=rv[k]||{});rv[k].d=rv[k].d===b.dataset.d?'':b.dataset.d;save()});
+document.querySelectorAll('.rv input').forEach(i=>i.addEventListener('input',()=>{const k=i.closest('.card').dataset.k;(rv[k]=rv[k]||{}).c=i.value;save()}));
+function md(){let o='# 主题句审视\n\n';SEC.forEach(s=>{o+=`## ${s.n}. ${s.t}\n\n`;s.p.forEach((p,i)=>{const k=s.n+'.'+(i+1),r=rv[k]||{};o+=`- ¶${k} ${({ok:'通过',edit:'要改',cut:'删掉'})[r.d]||'未审'}：${p.ts}${r.c?'\n  - 意见：'+r.c:''}\n`});o+='\n'});return o}
+document.getElementById('bCopy').onclick=async()=>{const e=document.getElementById('expMsg');try{await navigator.clipboard.writeText(md());e.textContent='已复制'}catch(x){e.textContent='复制被拒绝，请改用下载'}};
+document.getElementById('bDl').onclick=async()=>{const e=document.getElementById('expMsg');try{const d=await claude.use('downloads');if(!d){e.textContent='此处不能下载，请用复制';return}await d.save({filename:'topic-review.md',data:md()});e.textContent='已保存'}catch(x){e.textContent='未保存'}};
+paint();
+(async()=>{try{db=await claude.use('db');if(!db)return;ref=db.doc('topic/review');const s=await ref.get();if(s.exists&&s.data().json){const r=JSON.parse(s.data().json);Object.keys(r).forEach(k=>{if(!rv[k]||!rv[k].d)rv[k]=r[k]});try{localStorage.setItem(KEY,JSON.stringify(rv))}catch(e){}paint()}}catch(e){db=null}})();
+</script>
