@@ -1,0 +1,279 @@
+<title>被想象的未来</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap">
+<style>
+/* layout: one long reading column; each evidence channel shows Waterloo and Green Square side by side */
+:root{--bg:#f4f6f5;--panel:#fff;--fg:#17211f;--mute:#566360;--line:#d6dedb;--acc:#0f6b5c;--acc2:#e8f2ef;--w:#8a3b1f;--g:#1d4f91;--warn:#8a5a00;--serif:"Newsreader",Georgia,"Songti SC",serif;--sans:"IBM Plex Sans",system-ui,"PingFang SC","Microsoft YaHei",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101615;--panel:#18201f;--fg:#e3ebe8;--mute:#9aaaa6;--line:#2c3836;--acc:#6fd0bd;--acc2:#1c2b28;--w:#e69a78;--g:#8db6ee;--warn:#e0b050;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101615;--panel:#18201f;--fg:#e3ebe8;--mute:#9aaaa6;--line:#2c3836;--acc:#6fd0bd;--acc2:#1c2b28;--w:#e69a78;--g:#8db6ee;--warn:#e0b050;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.65 var(--sans);padding-block:20px 70px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1000px;margin:0 auto}
+h1{font:600 30px/1.2 var(--serif);margin:0 0 6px;text-wrap:balance}
+h2{font:600 22px/1.3 var(--serif);margin:34px 0 8px;text-wrap:balance;scroll-margin-top:60px}
+h3{font:600 14px var(--sans);margin:0 0 4px}
+p{margin:0 0 10px}
+.lead{color:var(--mute);max-width:70ch}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+.nav a,.chip{border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:999px;padding:3px 11px;font:500 13px var(--sans);text-decoration:none;cursor:pointer}
+.chip.on{background:var(--acc);border-color:var(--acc);color:var(--bg)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:10px 0}
+.box.note{background:var(--acc2);border-color:transparent}
+.interp{border-left:3px solid var(--warn);padding:2px 0 2px 10px;color:var(--mute);margin:8px 0;font-size:14px}
+.interp b{color:var(--warn)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:760px){.cols{grid-template-columns:1fr}}
+.col>h3{font-size:12px;letter-spacing:.07em;text-transform:uppercase;padding-bottom:4px;border-bottom:2px solid}
+.col.w>h3{color:var(--w);border-color:var(--w)}.col.g>h3{color:var(--g);border-color:var(--g)}
+.ev{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 12px;margin:10px 0;min-width:0}
+.ev .h{font-weight:600;font-size:14px;margin-bottom:4px}
+.ev blockquote{margin:0 0 6px;font:italic 400 16px/1.5 var(--serif);overflow-wrap:anywhere}
+.cite{font-size:12.5px;color:var(--mute);overflow-wrap:anywhere}
+.cite a{color:var(--acc)}
+.tag{display:inline-block;font:600 11px var(--sans);border-radius:4px;padding:0 6px;margin-right:6px;border:1px solid var(--line)}
+.tag.V{color:var(--acc);border-color:var(--acc)}.tag.W{color:var(--warn);border-color:var(--warn)}.tag.S{color:var(--mute)}
+.enote{font-size:13.5px;margin-top:6px;color:var(--fg)}
+.gap{background:var(--panel);border:1px dashed var(--line);border-radius:6px;padding:10px 12px;margin-top:12px;font-size:14px}
+.tl{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+.tl li{display:grid;grid-template-columns:78px 1fr;gap:10px;padding:5px 0 5px 12px;position:relative}
+.tl li::before{content:"";position:absolute;left:-6px;top:13px;width:10px;height:10px;border-radius:50%;background:var(--acc)}
+.tl .d{font:600 13px var(--sans);color:var(--acc)}
+.tl .k{font-size:12px;color:var(--mute)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:8px 8px;text-align:left;vertical-align:top}
+th{font:600 12px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.chain td:first-child{font-weight:600}
+.chain tr.last td{background:var(--acc2)}
+.cmp{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.cmp .ev{margin:0}
+.badge{font-size:12px;color:var(--mute)}
+.st{margin:10px 0}
+.st h3{font-size:15px}
+.st .m{color:var(--acc);font-weight:600}
+</style>
+<div class="wrap">
+<h1>被想象的未来</h1>
+<p class="lead">一个社区是怎样被重新定位的？下面用规划文件、媒体报道、住房部门评价、政策手段、未来规划五条证据线，把 Waterloo 和 Green Square 摆在一起，再补上更多对照案例和国外相似研究。每条引文都带出处、页码和核对状态。</p>
+<div class="box note"><b>先说明三件事。</b><br>1. "被想象的未来"是本文的说法，我没有找到任何文件或论文这样称呼它。<br>2. 下面的引文，凡是标"已对照原文"的，我都在下载的文本里逐句找到了。标"网页摘要"或"二手"的没有。<br>3. 带"我的读法"的黄线段落是解释，不是发现。</div>
+<div class="nav" id="nav">
+ <a href="#s1">是什么</a><a href="#s2">五条证据线</a><a href="#s3">时间线</a><a href="#s4">怎样拼起来</a><a href="#s5">更多对照案例</a><a href="#s6">相似研究</a><a href="#s7">缺口</a>
+ <span style="flex:1"></span><button class="chip" id="onlyV" aria-pressed="false">只看已对照原文</button>
+</div>
+
+<h2 id="s1">1. "被想象的未来"指什么</h2>
+<p>这里指的是：规划文件和政策把一个地方的过去写成问题，把它的未来写成一个具体的形象，用一个已有的片区作样板，再用手段让这个形象落地。居民被承诺会在其中，而他们自己怎样想象这个未来，是另一回事。</p>
+<p>所以这个说法有三个条件：未来要有形象（文件里写出来），要有来源（样板），要有人对它有看法（居民）。三者放在一起，才能说 Green Square 对 Waterloo 起着"被想象的未来"的作用。</p>
+<div class="interp"><b>我的读法。</b>规划书只说 Green Square 是建筑形态先例。居民担心的是 "something soulless like what's around Danks St"（Wynne, 2018）。把两者合成"被想象的未来"，是本文的解释，需要读者自己判断。</div>
+
+<h2 id="s2">2. 五条证据线</h2>
+<div class="tabs" id="tabs" role="tablist"></div>
+<p id="chWhat" class="lead"></p>
+<div class="cols">
+ <div class="col w"><h3>Waterloo</h3><div id="colW"></div></div>
+ <div class="col g"><h3>Green Square 对照</h3><div id="colG"></div></div>
+</div>
+<div class="gap" id="chGap"></div>
+
+<h2 id="s3">3. Waterloo 的时间线</h2>
+<p class="lead">每条都对应上面某条证据线。顺序看，可以看出同一个地方被不同的渠道一轮一轮地重新定位。</p>
+<ul class="tl" id="tl"></ul>
+
+<h2 id="s4">4. 它们怎样拼成"被想象的未来"</h2>
+<p class="lead">每一环都标了在哪类证据里能找到。最后一行是本文的解释，没有文件这样说。</p>
+<div class="scroll"><table class="chain" id="chain"></table></div>
+<div class="box"><h3>文件之间已经存在的三处不一致</h3>
+<p>1. 规划建议书写现有住房"at the end of their economic life"，同一组研究写平均房龄 44 年，基准寿命 60 年。<br>
+2. 2022 年批准的是 3,012 套中有 847 套社会住房（我算约 28%），2020 年的目标和 2026 年的最低值都是 30%。<br>
+3. 总套数在 6,800（整个住宅区，早期）、3,012、3,104、约 3,300 之间移动，口径不同。</p>
+<p class="enote">这些是文件自己的数字，我只是把它们并排放出来。是否构成问题，要看文件如何定义范围和口径。</p></div>
+
+<h2 id="s5">5. 更多对照案例</h2>
+<p class="lead">前三类是 Waterloo South 城市设计研究自己点名的比较对象，后几类是我按文献补的。规划文件没有把 Bonnyrigg、Pemulwuy、Claymore 称为先例，论文里应当写成"作者选取的比较"。</p>
+<div class="interp"><b>我的读法。</b>规划书里的本地案例大多是市场主导的片区，涉及公屋的比较对象来自国外或墨尔本。但 Crown Square 的 20% 提示，不能把 Green Square 的 3% 当作所有本地案例的代表。</div>
+<div class="cmp" id="cmp"></div>
+
+<h2 id="s6">6. 国外和其他地方的相似研究</h2>
+<div class="box note">我在 Crossref 和 OpenAlex 里按"先例"、"模型街区"、"HOPE VI"、"Regent Park"检索，<b>没有找到</b>把"样板街区被用作先例来论证公屋更新"作为主要对象的研究。所以先例这一环是本文自己的贡献，污名与再生这一半有现成文献可依靠。</div>
+<p class="enote">除 Soderberg (2024) 外，下面都只读到摘要，"结构"是根据摘要整理的，不是章节目录。每个 DOI 都在 Crossref 查到过。</p>
+<div id="st"></div>
+<div class="box"><h3>最适合参照的三种写法</h3>
+<p><span class="m">Mack (2026)</span>：沿时间追踪官方文件，从理想到问题再到拆除。适合读 Waterloo 的缺陷叙事。<br>
+<span class="m">Kallin &amp; Slater (2014)</span>：前半写污名怎样形成，后半写再生怎样利用它。适合接在声誉差距之后。<br>
+<span class="m">Arthurson (2001)</span>：问"按谁的形象重塑"。适合 Waterloo 与 Green Square 的比较。</p></div>
+<div class="interp"><b>术语提醒。</b>Slater &amp; Anderson (2012) 的题目是 "The reputational ghetto"。我只验证到 Kallin (2017) 有一章题为 "Opening the reputational gap"，没有查到"reputational gap"这个词最早出自谁。论文里这个词是借自课程讲义和 Sisson、Zanardo 等的用法，引用前需要核对。</div>
+<p class="enote">其他读到摘要的相关文献：Hastings &amp; Dean (2003, <i>Policy &amp; Politics</i> 31(2), DOI 10.1332/030557303765371663)；Kearns 等 (2013, <i>Housing Studies</i> 28(4), DOI 10.1080/02673037.2013.759546，设计了系统的报纸分析)；Wacquant (2007, <i>Thesis Eleven</i> 91(1), DOI 10.1177/0725513607082003)；Slater &amp; Anderson (2012, DOI 10.1111/j.1475-5661.2011.00490.x)。Hastings (2004)、August (2016)、Levin 等 (2014)、Goldstein (2017) 只确认了存在，没有读到摘要，不能引用其内容。</p>
+
+<h2 id="s7">7. 缺口</h2>
+<div class="box"><ul style="margin:0;padding-left:1.1em">
+<li>SMH、Guardian Australia、Domain 的文章正文没有取得，不能引用。</li>
+<li>没有找到官方文件直接说明 Waterloo 的土地价值资助模型。</li>
+<li>没有回迁人数或时间的结果数字。</li>
+<li>没有工程性建筑状况报告，也没有 Audit Office 对 Communities Plus 的评估。</li>
+<li>Redfern-Waterloo Authority 的法条原文返回 403，只有二手资料。</li>
+<li>Green Square 的外部媒体报道没有收集。</li>
+<li>Future Directions 的发布年份在抽取文本里没有出现，需要对照封面。</li>
+<li>Crown Square 与 Central Park 的社会住房比例，需要找到项目自己的文件才能确认。</li>
+</ul></div>
+</div>
+<script>
+const U={
+ b2:'https://meetings.cityofsydney.nsw.gov.au/documents/s49951/',
+ b7a:'https://meetings.cityofsydney.nsw.gov.au/documents/s50149/Attachment%20B7a%20Urban%20Design%20and%20Public%20Domain%20Study%201%20LaHC.pdf',
+ pa:'https://meetings.cityofsydney.nsw.gov.au/documents/s49854/',
+ pfr:'https://shared-drupal-s3fs.s3.ap-southeast-2.amazonaws.com/master-test/fapub_pdf/Keelie+Drupal+Documents/Plan+Finalisation+Report.pdf',
+ ecdp:'https://www.planning.nsw.gov.au/sites/default/files/2024-04/eastern-city-district-plan.pdf',
+ gsdraft:'https://meetings.cityofsydney.nsw.gov.au/Data/Planning%20and%20Development%20Committee/201503241403/Agenda/150324_PDC_ITEM04_ATTACHMENTA.pdf',
+ gscity:'https://www.cityofsydney.nsw.gov.au/green-square',
+ auda:'https://architectureau.com/articles/auda-green-square-town-centre/',
+ ahp:'https://meetings.cityofsydney.nsw.gov.au/documents/s19238/Attachment%20A2%20-%20Appendix%20A%20-%20Affordable%20Housing%20Program.pdf'
+};
+const CH=[
+{id:'plan',name:'规划文件',what:'规划文本先把过去写成"问题"，再把未来写成一个有名字的形象，并说明不动手为什么不可接受。',
+ W:[
+ {h:'过去：用成本和资产寿命来写',q:'These properties have high maintenance costs and are at the end of their economic life.',c:'LAHC，Planning Proposal Report（Att. B2），2020，§2.2，印刷页 p.23',u:U.b2,v:'V'},
+ {h:'过去：用形态来写（"岛"）',q:'Today, the Estate is an ‘island’, physically disconnected from the surrounding context and comprised of large blocks that discourage walking and cycling.',c:'Turner Studio，Urban Design and Public Domain Study Part 1（Att. B7a），2020，PDF p.72',u:U.b7a,v:'V'},
+ {h:'同一份文件里的另一组数字',q:'The social housing dwellings were constructed from the 1950s to the mid 1980s with an average age of 44 years against a benchmark economic life of 60 years.',c:'同上（B7a），PDF p.6',u:U.b7a,v:'V',n:'这与上面"end of their economic life"并列出现。两份文件各用各的口径，我没有看到文件对这一差别作解释。'},
+ {h:'不动手是不可接受的',q:'Doing nothing is not considered an appropriate outcome for Waterloo South.',c:'LAHC，Planning Proposal Report（B2），印刷页 p.92',u:U.b2,v:'V',n:'同一页还写道，维持现状会"ignoring the potential catalytic effects of the new Metro station"。'},
+ {h:'未来：一个有名字的形象',q:'With this connectivity Waterloo will become a new urban village and local centre',c:'B7a，PDF p.6。另见 PDF p.72："a world class urban precinct"',u:U.b7a,v:'V'},
+ {h:'未来：混合租住社区',q:'The Estate will be renewed over approximately 20 years into an integrated and inclusive mixed-tenure community, replacing and providing fit for purpose social (affordable rental) housing and private market housing.',c:'B2，印刷页 p.11',u:U.b2,v:'V'},
+ {h:'区域规划层面把 Waterloo 放在"弱势"一栏',q:'The District includes social housing in places such as Waterloo. Targeted local responses to address spatial variations in socioeconomic disadvantage across the Eastern City District are required',c:'Greater Sydney Commission，Eastern City District Plan，2018，PDF p.31（PDF 为分栏排版，句子在两栏间断开，请对照原页）',u:U.ecdp,v:'V'}
+ ],
+ G:[
+ {h:'2015：City 的内部文件',q:'Green Square is the City of Sydney’s showcase urban renewal project. The largest in Australia, it will see a transformation from a gritty industrial area into an urban, vibrant inner-city hub for people to live, work and play.',c:'City of Sydney，Draft Green Square Infrastructure Strategy and Plan，2015 年 3 月，PDF p.22',u:U.gsdraft,v:'V'},
+ {h:'现在：City 的网页',q:'Sydney’s oldest industrial heartland has transformed into a vibrant, sustainable and connected community.',c:'City of Sydney，Green Square 页面（访问于 2026-11）',u:U.gscity,v:'V',n:'2015 年写"gritty industrial area"，现在写"oldest industrial heartland"。这是同一个过去的两种写法。把前者读成后者的前身，是我的读法。'},
+ {h:'Green Square 被规划书当作先例',q:'The Urban Design and Public Domain Study (Attachment 5) provides a detailed analysis of built form precedents throughout the broader Green Square area.',c:'B2，§5.1.7',u:U.b2,v:'V'}
+ ],
+ gap:'2014 年大都市规划全文没有出现 Waterloo 一词（已核对）。区域规划里 Waterloo 以交通节点和"弱势"出现，措辞很简短。'},
+{id:'media',name:'媒体报道',what:'报道决定一个地方被怎样称呼。下面是我挑出的几篇，不是系统的媒体分析。',
+ W:[
+ {h:'2015：地铁站公告带出的第一次定调',q:'I don\'t think any of us would want them sitting in run down 1950s-style accommodation when we have the ability to upgrade them and deliver a better quality of life.',c:'ABC News，Sarah Gerathy，2015-12-16（引 Premier Mike Baird）',u:'https://www.abc.net.au/news/2015-12-16/waterloo-metro-station-plans-to-see-public-housing-replaced/7033404',v:'V'},
+ {h:'2016：用社会混合改变"人口构成"',q:'change the demographic',c:'SBS The Feed，2016-03-07。报道转述 Brad Hazzard：政府打算把公私住房混合，以"change the demographic"并带来"a very big downward push on anti-social behaviour"',u:'https://www.sbs.com.au/news/the-feed/the-destruction-of-the-towers-and-what-that-means-for-the-people-who-live-there',v:'V'},
+ {h:'2016：媒体自己的声音',q:'The last vestiges of NSW\'s failed public housing experiment are about to come down in Redfern-Waterloo.',c:'SBS NITV The Point，Danny Teece-Johnson，2016-03-09',u:'https://www.sbs.com.au/nitv/the-point/article/inner-sydneys-aboriginal-community-fear-they-are-being-pushed-out-for-white-hipsters/yl2xwmbo5',v:'V'},
+ {h:'2019：规划图纸发布时',q:'This masterplan will make Waterloo one of the most attractive suburbs in inner Sydney for people to live, work and play.',c:'ABC News，2019-01-25（引 Pru Goward）',u:'https://www.abc.net.au/news/2019-01-25/nsw-government-housing-plan-for-sydney-suburb-of-waterloo/10749420',v:'V'},
+ {h:'2023：问题从"地方"变成"净增数量"',q:'only 2,773 new social housing properties of a planned 23,000 had been built since 2016.',c:'ABC News，2023-03-22（引述 LAHC 数字）',u:'https://www.abc.net.au/news/2023-03-22/public-housing-residents-angry-and-uncertain-over-redevelopment/102125572',v:'V'},
+ {h:'2026：问题落到"社区形态"上',q:'The reality is, Craig, those old style estates with thousands and thousands of public homes in the one place, they\'re not functional communities,',c:'ABC News，2026-05-25（引 Housing Minister Rose Jackson）',u:'https://www.abc.net.au/news/2026-05-25/waterloo-public-housing-estate-fenced-off-ahead-of-demolition/106718016',v:'V',n:'同一篇里还有居民的话："Waterloo is my home, I want to stay here"。'},
+ {h:'居民一侧的措辞',q:'Many residents feel the project is a ploy to “move the poor people out of the city”, as one of them put it.',c:'The Conversation，"We still live here"，约 2018',u:'https://theconversation.com/we-still-live-here-public-housing-tenants-fight-for-their-place-in-the-city-107188',v:'V'}
+ ],
+ G:[
+ {h:'City 自己的新闻稿',q:'From wetlands to wool washing, dairies to designer apartments – Zetland and Green Square are constantly transforming.',c:'City of Sydney News，2021-09-07',u:'https://news.cityofsydney.nsw.gov.au/articles/discover-green-squares-history-on-foot-transform-sydney-culture-self-guided-walk',v:'W',n:'这一条只经网页摘要取得，未对照原文。'}
+ ],
+ gap:'没有取得 SMH、Guardian Australia、Domain 的文章正文（域名被拦或返回 403）。Green Square 的外部媒体报道没有收集。系统的报纸分析可以参照 Kearns 等 (2013) 的做法。'},
+{id:'agency',name:'住房部门评价',what:'住房机构把"地方"换算成资产状况、风险和财务可行性，这给重新定位提供技术性的理由。',
+ W:[
+ {h:'诊断：集中式住宅区',q:'While a range of social housing estates function relatively well, many estates experience high levels of crime, unemployment, domestic violence, tenancy management problems, poor educational outcomes and associated child protection issues.',c:'NSW Government，Future Directions for Social Housing in NSW，PDF p.24（该段没有点名 Waterloo）',u:'https://github.com/ginagina19992023/Urban-Studies-D/blob/claude/stoic-ritchie-s03bfb/External-Sources/NSW-Government-2016-Future-Directions-for-Social-Housing.pdf',v:'V'},
+ {h:'独立机构的类似说法',q:'Some social housing tenants are also negatively affected by the neighbourhood stigmatisation that comes with concentrations of disadvantage',c:'Productivity Commission，Report No. 85，2017，PDF p.217',u:'https://assets.pc.gov.au/inquiries/completed/human-services/reforms/report/human-services-reforms.pdf',v:'V',n:'这里的"stigmatisation"被当作住宅区集中的后果，而不是需要处理的对象。'},
+ {h:'部长对建筑状况的评价（2023）',q:'many of the buildings have reached their use-by date and are in desperate need of renewal.',c:'NSW Government 新闻稿，2023-08-21（引 Ron Hoenig）',u:'https://www.nsw.gov.au/media-releases/waterloo-affordable-housing-boost',v:'V'},
+ {h:'Homes NSW 的现行说法',q:'nearing the end of their intended lifespan of 40-70 years',c:'Homes NSW，Waterloo renewal project 页面',u:'https://www.nsw.gov.au/homes-nsw/waterloo',v:'V',n:'上面规划研究用的是 60 年的基准寿命，这里是 40 到 70 年的区间。'},
+ {h:'财务可行性由外部顾问出具',q:'the financial modelling results demonstrate a commercially viable development',c:'HillPDA，Feasibility and Economic Benefits Letter of Assurance（Att. B31），2020-03-26',u:'https://meetings.cityofsydney.nsw.gov.au/documents/s49915/Attachment%20B31%20Feasibility%20and%20Economic%20Benefits%20Letter%20of%20Assurance%20LaHC.pdf',v:'V',n:'这是对模型运算的复核，具体数字没有公开，我也没有看到比较其他方案的内容。'}
+ ],
+ G:[
+ {h:'Green Square 是 City 主导的新建',q:'Green Square is a major urban renewal project by the City of Sydney which will transform an older industrial area (80 hectares) into a major centre comprising residential, employment, and community uses and open space.',c:'White, D. A.，The Sustainable City IX，WIT Press，2014，p.75（摘要）',u:'https://doi.org/10.2495/SC140071',v:'V',n:'这里没有"住宅区评价"这一环，因为那里没有居民需要被评价。这是我的读法。'}
+ ],
+ gap:'没有找到工程性的建筑状况报告，也没有找到 NSW Audit Office 对 Communities Plus 或 Waterloo 的评估。唯一的执行结果数字（2,773/23,000）来自 ABC 对 LAHC 的转述。'},
+{id:'policy',name:'政策手段',what:'手段决定了未来怎样"落地"：谁拿地、给多少密度、用什么换。',
+ W:[
+ {h:'规划路径中途更换',q:'In November 2019, the NSW Department of Planning, Industry and Environment (DPIE) developed a new approach to precinct planning. This has led to a change in the planning approach for the Estate, from a State-led rezoning process (through a State Significant Precinct Study) to a Council-led Planning Proposal process.',c:'B7a，PDF p.6',u:U.b7a,v:'V'},
+ {h:'规划权又被州政府收回',q:'On 16 March 2021, the then Minister for Planning and Public Spaces appointed the Secretary of the Department as the Planning Proposal Authority (PPA) for Waterloo South instead of the Council.',c:'NSW DPE，Plan Finalisation Report PP-2021-3265，2022-11，PDF p.11',u:U.pfr,v:'V',n:'同一页：Gateway 于 2021-06-23 发出。理由写的是 "the site is of State and regional significance"。'},
+ {h:'密度奖励以租住结构为条件（City 草案）',q:'maps the Floor Space Ratio applying to land owned by LAHC to 1.5:1, with an opportunity to achieve an additional FSR of 1.26, but only if all of the following are satisfied: - 30% of residential floor area is used for social housing; - 20% of residential floor area is used for affordable housing;',c:'City of Sydney，Planning Proposal request（Att. A），2021-02，执行摘要 PDF p.6',u:U.pa,v:'V',n:'这是 City 时期的草案，后来被州的版本取代。'},
+ {h:'70:30 目标',q:'Ensure large redevelopments target a 70:30 ratio of private to social housing to enable more integrated communities',c:'Future Directions，PDF p.9',u:'https://github.com/ginagina19992023/Urban-Studies-D/blob/claude/stoic-ritchie-s03bfb/External-Sources/NSW-Government-2016-Future-Directions-for-Social-Housing.pdf',v:'V'},
+ {h:'私营伙伴和融资',q:'significant expansion and redevelopment of stock through partnerships with private sector developers and finance;',c:'Future Directions，PDF p.6',u:'https://github.com/ginagina19992023/Urban-Studies-D/blob/claude/stoic-ritchie-s03bfb/External-Sources/NSW-Government-2016-Future-Directions-for-Social-Housing.pdf',v:'V'},
+ {h:'回迁承诺',q:'All residents will be given the right to return when the renewal is complete.',c:'NSW Government 新闻稿，2024-08-09。规划建议书 B2 印刷页 p.123 有 "Residents will be provided with the right of return"',u:'https://nsw.gov.au/media-releases/next-step-complete-for-australias-largest-social-housing-build',v:'V',n:'我没有找到回迁人数或时间的数字。'}
+ ],
+ G:[
+ {h:'价值捕获',q:'Infrastructure is funded by a value capture scheme and capital allocations.',c:'ArchitectureAU，Australia Award for Urban Design，2016-10-13',u:U.auda,v:'V'},
+ {h:'小比例的可负担住房贡献',q:'3 per cent of the total floor area that is to be used for residential uses.',c:'City of Sydney，Affordable Housing Program，Att. A2 App. A，PDF p.12',u:U.ahp,v:'V',n:'该文件是草案（落款 "Adopted XX XX XX"），需要核对已通过的版本。'}
+ ],
+ gap:'没有找到官方文件直接说明 Waterloo 的"土地价值"资助模型。B2 只说现有规划管制"would not be capable of supporting a feasible redevelopment"。Redfern-Waterloo Authority 的原始法条返回 403，只有二手资料。'},
+{id:'future',name:'未来规划',what:'数字会随时间移动。每次的承诺都比上一次更具体，但口径不总是一致。',
+ W:[
+ {h:'2015：首次公告',q:'re-zoned and redeveloped over the next 15 to 20 years',c:'ABC News，2015-12-16',u:'https://www.abc.net.au/news/2015-12-16/waterloo-metro-station-plans-to-see-public-housing-replaced/7033404',v:'V'},
+ {h:'2020：规划建议书',q:'The Estate will be renewed over approximately 20 years',c:'B2，印刷页 p.11。目标 30% 社会住房（p.66）',u:U.b2,v:'V'},
+ {h:'2022：最终批准的数字',q:'deliver 3,012 dwellings in total, which aligns with Council’s expectation for the site as outlined in the LHS. This includes 847 social housing, 227 affordable housing, and 1,938 market dwellings',c:'Plan Finalisation Report，PDF p.37',u:U.pfr,v:'V',n:'847÷3,012 约为 28%（我的算术）。同一报告写明现有场地有 749 套社会住房。'},
+ {h:'2023：比例被提高',q:'An increase in delivery of 50% social and affordable housing across the Waterloo Estate, up from 34% resulting in an uplift of up to 500 homes.',c:'NSW Government 新闻稿，2023-08-21',u:'https://www.nsw.gov.au/media-releases/waterloo-affordable-housing-boost',v:'V'},
+ {h:'2025：Metro Quarter',q:'work is also underway to transform the Metro Quarter into a vibrant new town centre, complete with more homes, shops, and a public plaza.',c:'NSW Government，2025-10-29',u:'https://www.nsw.gov.au/departments-and-agencies/homes-nsw/news/new-social-homes-delivered-above-waterloo-metro-station',v:'V'},
+ {h:'2026：概念申请',q:'The proposal sets out a vision for a vibrant new inner-city neighbourhood that could enable around 3,300 new homes, where at least half would be delivered as social or affordable housing.',c:'Minister Paul Scully 新闻稿，2026-05-07',u:'https://paulscullymp.com.au/news/media-releases/first-look-at-new-waterloo-south-as-renewal-enters-next-stage/',v:'V',n:'同一份稿子写道："the Waterloo South renewal stalled for years, with little progress until 2022"。'},
+ {h:'整个住宅区的时间表',q:'The renewal of the estate will be staged over the next 30 years.',c:'Homes NSW，Waterloo renewal project 页面',u:'https://www.nsw.gov.au/homes-nsw/waterloo',v:'V'}
+ ],
+ G:[
+ {h:'Green Square 的未来数字',q:'comprising around 4,000 dwellings and 90,000m² of commercial and retail area',c:'A Plan for Growing Sydney，2014，p.113（中部分区）',u:'https://www.wollondilly.nsw.gov.au/assets/Documents/Planning-and-Development/Growth/Greater-Sydney-Region-Plan/A-plan-for-growing-sydney.pdf',v:'V',n:'Green Square 在 2014 年的规划里就有具体的住宅和商业面积数字，Waterloo 没有。'}
+ ],
+ gap:'各份文件的总套数口径不同：2022 年 3,012，Housing Australia 页面 3,104，2026 年约 3,300，早期整个住宅区曾写 6,800。引用时要写明范围。'}
+];
+const TL=[
+['2014','A Plan for Growing Sydney 点名 Green Square，全文没有 Waterloo。','规划'],
+['2015-12','地铁站公告，宣布塔楼将被拆除重建。','媒体'],
+['2016','Future Directions 发布；Hazzard 谈"改变人口构成"。','评价 / 媒体'],
+['2019-01','Waterloo 总体规划图发布，写"最有吸引力的郊区之一"。','媒体'],
+['2019-11','规划路径从州重大场地改为市议会主导的规划建议书。','手段'],
+['2020-04','规划建议书与城市设计研究提交，写入 Green Square 先例。','规划'],
+['2021-03','州政府把规划权从 City 收回；2021-06 Gateway。','手段'],
+['2022-11','最终批准：3,012 套，847 套社会住房。','未来'],
+['2023-08','社会与可负担比例提高到 50%，并承诺回迁。','未来 / 手段'],
+['2025-10','Metro Quarter 70 套社会住房入住。','未来'],
+['2026-05','概念申请约 3,300 套；部长称"not functional communities"。','未来 / 媒体']
+];
+const CHAIN=[
+['过去被写成缺陷','成本、寿命、"岛"、集中的弱势','规划 · 评价 · 媒体','文件有，说法不一致'],
+['有一个触发点','地铁站被称为 "catalyst"','规划 · 媒体','文件有'],
+['未来被写成一个形象','"new urban village"、"world class urban precinct"、"vibrant new inner-city neighbourhood"','规划 · 未来规划','文件有'],
+['有一个可以指认的样板','Green Square Town Centre 是三个本地密度案例之一','规划（城市设计研究）','文件有'],
+['有手段让它落地','路径更换、州收回规划权、密度奖励','手段','文件有'],
+['居民被承诺参与其中','right to return','手段 · 新闻稿','文件有承诺，没找到结果数字'],
+['居民把这个样板读成什么','担心 "something soulless like what\'s around Danks St"','Wynne (2018)','研究有，政府文件没有回应'],
+['把以上合成一条因果','"被想象的未来"：样板 + 居民的担忧 = 一个被设想而尚未发生的结果','作者的读法','没有任何文件这样说']
+];
+const CMP=[
+{n:'Green Square Town Centre',st:'规划书点名',b:'前工业用地，City 主导，价值捕获。B7i 记录 3,308 套住宅中有 104 套社会与可负担住房，约 3%。',q:'104 dwellings (3%)',s:'B7i 印刷页 p.463',v:'V'},
+{n:'Central Park（Chippendale）',st:'规划书点名',b:'前啤酒厂用地，私人开发，州重大项目权力。2007 年概念批准含 3,200 万澳元可负担住房贡献；B7i 表中社会与可负担栏为 "-"，共 2,200 套住宅。',q:'a contribution of $32 million for the provision of affordable housing within the locality',s:'NSW DP&E，Secretary’s Assessment Report，2015-08，PDF p.5（概括 2007 年批准）',v:'V'},
+{n:'Crown Square（Zetland）',st:'规划书点名',b:'B7i 表中显示 13,412 套、2,682 套（20%）。数字看起来是整个片区而不是项目本身，研究没有界定范围。',q:'2,682 dwellings (20%)',s:'B7i 印刷页 p.463',v:'V',nt:'这提示：规划书里的本地案例并非都像 Green Square Town Centre 那样比例很低。'},
+{n:'Montague（Melbourne）',st:'规划书点名',b:'城市设计研究把它的愿景写为 "vibrant mixed residential and business neighbourhood"。',q:'vibrant mixed residential and business neighbourhood',s:'B7i 印刷页 p.462',v:'V'},
+{n:'Atherton Gardens（Fitzroy）',st:'规划书点名（公屋）',b:'研究引用它的社区食品中心，写明与更新目标一致。',q:'reducing the stigma of public housing',s:'B7i 印刷页 p.501，PDF p.59',v:'V',nt:'这是规划文件里少见的直接谈"污名"。'},
+{n:'Regent Park、False Creek North、Joyce-Collingwood',st:'规划书点名（国际）',b:'选择标准写明："Contain a large proportion of social housing"，"Located in major areas of renewal"。',q:'Located in major areas of renewal',s:'B7i 印刷页 p.458',v:'V'},
+{n:'Bonnyrigg（西悉尼）',st:'规划书未点名',b:'公私合营，公私住房比例计划从约 90:10 降到约 30:70；开发伙伴 2013 年破产，项目 2015 年终止。',q:'the ratio of public to privately owned housing stock in the neighbourhood will be reduced from the 2004 ratio of about 90% public and 10% private to about 30% public and 70% private',s:'Rogers (2011) 博士论文摘要，西悉尼大学',v:'V',nt:'只读到摘要和 UNSW 项目页。'},
+{n:'Pemulwuy / The Block + Redfern-Waterloo Authority',st:'规划书未点名',b:'原住民住房公司主导，与 Waterloo 同在 Redfern-Waterloo 地区。',q:'The push to develop the area was formalised by the state government with the creation of the Redfern-Waterloo Authority in 2004.',s:'Dictionary of Sydney，"Aboriginal Housing Company"，2008（子代理摘录，我没有对照原页）',v:'W'},
+{n:'Claymore（Campbelltown）',st:'规划书未点名',b:'更新为混合租住社区，约 1,600 套，其中 30% 为社会住房。',q:'around 1,600 homes including 30% for social housing tenants',s:'NSW Government，Claymore renewal project 页面',v:'V'},
+{n:'Carlton（Melbourne）',st:'规划书只引用其可持续项目',b:'学术评价集中在社会混合：后来被认为是利用市场资本、吸引高收入居民的手段。',q:'perceived as a means to harness market capital and attract higher income residents to the inner city',s:'Arthurson, Levin & Ziersch (2015)，Australian Geographer 46(4)，摘要',v:'S'}
+];
+const ST=[
+{n:'Mack (2026)',t:'丹麦"隔都"文件，1960–2018',a:'Journal of Modern European History 24(2), 164–193。DOI 10.1177/16118944261439682',s:'问题：政府话语怎样让拆除成为首选。数据：六十年的政府文件和统计。论证三步：先是福利国家的成就，再变成"问题"和资本积累的场地，最后在污名化的描述和可疑的统计下被标记拆除。',r:'最接近"用规划文件读 Waterloo 的缺陷叙事"的设计。',m:1},
+{n:'Kallin & Slater (2014)',t:'Craigmillar，爱丁堡',a:'Environment and Planning A 46(6), 1351–1368。DOI 10.1068/a45634',s:'两段式：污名怎样被生产、加深和争夺；然后再生项目的主要意图是吸引更富的居民。结论：污名与通过绅士化的再生是同一枚硬币的两面。',r:'契合"州先制造污名再宣布要去除它"的论证。',m:2},
+{n:'Arthurson (2001)',t:'澳大利亚六个住宅区',a:'Housing Studies 16(6), 807–826。DOI 10.1080/02673030120090557',s:'三个明确的问题：住宅区被按谁的形象重塑（住房机构、开发商还是居民）、形象是被强加还是被民主化、政策后果。',r:'适合做两个"形象工程"（Waterloo 与 Green Square）的比较。',m:3},
+{n:'Lees (2014)',t:'Aylesbury，伦敦',a:'Antipode 46(4), 921–947。DOI 10.1111/anti.12020',s:'租户支持被"操纵和歪曲"，选择被压缩为"不想要的再生"与"衰败"之间的假选择，随后是居民的看法和抵抗。',r:'可与 Waterloo 的咨询记录对照。',m:0},
+{n:'Lees & Ferreri (2016)',t:'Heygate，伦敦',a:'Cities 57, 14–24。DOI 10.1016/j.cities.2015.12.005',s:'三种抵抗：参与规划、在迁出期间保持开放、对强制收购令提出法律挑战。',r:'若要写"官方叙事如何被争夺"，这篇有用。',m:0},
+{n:'Kipfer & Petrunia (2009)',t:'Regent Park，多伦多',a:'Studies in Political Economy 83(1), 111–139。DOI 10.1080/19187033.2009.11675058',s:'批评"第三条道路城市主义"，把重建理解为对一个被病理化却有价值的中心城区空间的"再殖民"。',r:'"被病理化但有价值"呼应租金差的读法。',m:0},
+{n:'Uitermark 等 (2007)',t:'Hoogvliet，鹿特丹',a:'Environment and Planning A 39(1), 125–141。DOI 10.1068/a39142',s:'论证绅士化的驱动力不是税基或开发商利润，而是国家与住房协会对社会秩序的追求。',r:'可作为对照解释，用来检验 Waterloo。',m:0},
+{n:'Soderberg (2024)',t:'Mjolnerparken，哥本哈根',a:'Radical Housing Journal 6(2), 75–96。DOI 10.54825/cyoc8202',s:'全文已读：研究问题、18 位居民的民族志与步行访谈、"ABC of resistance"框架；章节路线图为：引言，理论，背景，方法，分析，讨论，结论。',r:'最安全的章节写法参照，虽然本文没有访谈。',m:0}
+];
+
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const VL={V:'已对照原文',W:'网页摘要',S:'二手或仅摘要'};
+let cur=0,onlyV=false;
+try{cur=+localStorage.getItem('iff-ch')||0;onlyV=localStorage.getItem('iff-v')==='1'}catch(e){}
+function ev(e){
+ return `<div class="ev"><div class="h">${esc(e.h)}</div><blockquote>“${esc(e.q)}”</blockquote><div class="cite"><span class="tag ${e.v}">${VL[e.v]}</span>${esc(e.c)}${e.u?` · <a href="${esc(e.u)}" target="_blank" rel="noopener">打开来源</a>`:''}</div>${e.n?`<div class="enote">${esc(e.n)}</div>`:''}</div>`}
+const keep=e=>!onlyV||e.v==='V';
+function chan(){
+ document.getElementById('tabs').innerHTML=CH.map((c,i)=>`<button class="chip${i===cur?' on':''}" role="tab" aria-selected="${i===cur}" data-i="${i}">${esc(c.name)}</button>`).join('');
+ document.querySelectorAll('#tabs .chip').forEach(b=>b.onclick=()=>{cur=+b.dataset.i;try{localStorage.setItem('iff-ch',cur)}catch(e){}chan()});
+ const c=CH[cur];
+ document.getElementById('chWhat').textContent=c.what;
+ const w=c.W.filter(keep),g=c.G.filter(keep);
+ document.getElementById('colW').innerHTML=w.length?w.map(ev).join(''):'<p class="enote">没有符合条件的条目。</p>';
+ document.getElementById('colG').innerHTML=g.length?g.map(ev).join(''):'<p class="enote">没有符合条件的条目。</p>';
+ document.getElementById('chGap').innerHTML='<b>缺口与提醒。</b> '+esc(c.gap)}
+function tl(){document.getElementById('tl').innerHTML=TL.map(t=>`<li><span class="d">${esc(t[0])}</span><span>${esc(t[1])}<br><span class="k">${esc(t[2])}</span></span></li>`).join('')}
+function chain(){
+ document.getElementById('chain').innerHTML='<tr><th>环节</th><th>文件里写了什么</th><th>证据来自</th><th>状态</th></tr>'+CHAIN.map((r,i)=>`<tr${i===CHAIN.length-1?' class="last"':''}>${r.map(x=>`<td>${esc(x)}</td>`).join('')}</tr>`).join('')}
+function cmp(){
+ const l=CMP.filter(keep);
+ document.getElementById('cmp').innerHTML=l.map(c=>`<div class="ev"><div class="h">${esc(c.n)}</div><div class="badge">${esc(c.st)}</div><p style="margin:6px 0">${esc(c.b)}</p><blockquote>“${esc(c.q)}”</blockquote><div class="cite"><span class="tag ${c.v}">${VL[c.v]}</span>${esc(c.s)}</div>${c.nt?`<div class="enote">${esc(c.nt)}</div>`:''}</div>`).join('')}
+function st(){document.getElementById('st').innerHTML=ST.map(s=>`<div class="ev st"><h3>${s.m?`<span class="m">推荐 ${s.m} · </span>`:''}${esc(s.n)}：${esc(s.t)}</h3><div class="cite">${esc(s.a)}</div><p style="margin:6px 0">${esc(s.s)}</p><div class="enote"><b>与本文的关系（我的读法）：</b>${esc(s.r)}</div></div>`).join('')}
+const b=document.getElementById('onlyV');
+function setV(){b.classList.toggle('on',onlyV);b.setAttribute('aria-pressed',onlyV);chan();cmp()}
+b.onclick=()=>{onlyV=!onlyV;try{localStorage.setItem('iff-v',onlyV?'1':'0')}catch(e){}setV()};
+tl();chain();st();setV();
+</script>
