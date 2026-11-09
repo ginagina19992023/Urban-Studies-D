@@ -925,33 +925,38 @@
 **改写提示**：
 - 这一段是数据，你想把数字做成一个小表放在正文里吗？
 
-### ¶35 　先例：两边证据合起来读成“被想象的未来”，并明确这是待检验的解释。
+### ¶35 　被想象的未来：五类文件合起来追踪，再与居民一侧合读，并明确这是待检验的解释。
 
-- **主题句**：先例是与 Green Square 的比较变得具体的地方。
-  - EN: The precedent is where the comparison with Green Square becomes concrete.
+- **主题句**：Waterloo 被想象的未来，可以在五类文件里追踪出来，而先例是与 Green Square 的比较变得具体的地方。
+  - EN: The imagined future of Waterloo can be traced through five kinds of document, and the precedent is where the comparison with Green Square becomes concrete.
 
 **展开顺序**
 
-1. 【主题句】先例是与 Green Square 的比较变得具体的地方　（原句开头：“The precedent is where…”）
-2. 【证据】LAHC：设计研究“详细分析了 Green Square 一带的建筑形态先例”　（原句开头：“The planning proposal for Waterloo South…”）
-3. 【证据】附录 6：三个可比密度案例（Central Park、Green Square Town Centre、Crown Square）；Waterloo+Zetland 密度 143→247 人/公顷　（原句开头：“In that study…”）
-4. 【证据】居民一侧：Wynne 2018：担心“没灵魂”；Green Square 式项目被视为不吸引人的居住地　（原句开头：“On the other side…”）
-5. 【解读】两边合读：Green Square 对 Waterloo 起“被想象的未来”作用　（原句开头：“I read the two together…”）
-6. 【限定】没有文件这样说，这是待检验的解释　（原句开头：“but no document says so…”）
+1. 【主题句】被想象的未来可以在五类文件里追踪；先例让比较变得具体　（原句开头：“The imagined future of Waterloo…”）
+2. 【证据】规划文件：过去写成成本与形态，未来写成“新的城市村落”　（原句开头：“The planning documents write the past…”）
+3. 【证据】部长与媒体：从“破旧”到“不是功能完善的社区”　（原句开头：“A minister repeats the first story…”）
+4. 【证据】手段：规划建议书的先例陈述 + 附录 6 三个可比密度案例　（原句开头：“The instruments then tie…”）
+5. 【概念检查】Zanardo 等：声誉差距=贬低现有用途+理想化未来用途　（原句开头：“Zanardo et al. (2024) describe…”）
+6. 【证据】居民一侧：Wynne 2018：担心“没灵魂”；Green Square 式项目被视为不吸引人的居住地　（原句开头：“On the other side…”）
+7. 【解读】两边合读：Green Square 对 Waterloo 起“被想象的未来”作用　（原句开头：“I read the two together…”）
+8. 【限定】没有文件这样说，这是待检验的解释　（原句开头：“but no document says so…”）
 
-- **结尾句**：这正是本文所关注的那个移植，但没有哪份文件这样说，这是有待检验的解释，而不是发现。
-  - EN: I read the two together as Green Square functioning for Waterloo as an imagined future, but no document says so, which is the transplant at the centre of this essay, but no document says so, and this is an interpretation to be tested rather than a finding.
+- **结尾句**：我把两者放在一起，解读为 Green Square 对 Waterloo 起着“被想象的未来”的作用，但没有哪份文件这样说，这是有待检验的解释，而不是发现。
+  - EN: I read the two together as Green Square functioning for Waterloo as an imagined future, but no document says so, and this is an interpretation to be tested rather than a finding.
 
 **证据与出处**：
-- LAHC (2020) §5.1.7
-- Turner Studio & Turf (2020) App.6 pp.462–464
-- Wynne (2018)
+- LAHC (2020) §2.2、§5.1.7
+- Turner Studio & Turf (2020) Part 1 PDF pp.6、72；App.6 pp.462–464
+- NSW Government (2023)；ABC News (2015, 2026)
+- Zanardo 等 (2024)；Wynne (2018)
 
 **概念检查**：
-- 被想象的未来：本文的解释；基于声誉差距（Kallin）的“被想象的潜力”
+- 声誉差距：Zanardo 等 (2024) 与 Yrjänä (2026) 都用，Yrjänä 把词的来源记为 Kallin (2017)；讲义里没有这个词，只有租金差
+- 被想象的未来：本文的解释；对应声誉差距的后半（理想化的未来）
 
 **改写提示**：
-- 这一段是全文最重要的解释，你想让它的限定放在段首还是段尾？
+- 这一段现在有五类文件，你想把它们分成两段（过去与未来 / 手段与先例）吗？
+- 限定放在段尾，还是在引入先例时就先说？
 
 ### ¶36 　回迁承诺：能检验对比的地方，但目前还无法检验。
 
@@ -1122,8 +1127,8 @@
 7. 【概念】每条建议对应一个概念　（原句开头：“Each recommendation answers…”）
 8. 【回扣】这些建议只要求把居民所承担的代价计算进去　（原句开头：“They ask only…”）
 
-- **结尾句**： 它们只要求把居民所承担的代价计算进去。
-  - EN: They ask only that the cost to residents be counted.
+- **结尾句**：每一项建议都对应一个概念：回迁承诺对应在地失所，公布占比对应残余化，说明先例对应建造与栖居的区分，保留对应新建绅士化，语言的选择对应地域污名。
+  - EN: Each recommendation answers a concept: the return promise answers emplaced displacement, the reported share answers residualisation, the explicit precedent answers the distinction between building and dwelling, retention answers new-build gentrification, and the choice of language answers territorial stigma.
 
 **证据与出处**：
 - Zanardo et al. (2024)；South Sydney Herald (2024)
