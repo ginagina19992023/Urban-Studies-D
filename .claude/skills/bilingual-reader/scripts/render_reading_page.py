@@ -282,6 +282,14 @@ body[data-ai-snap="1"] #aiSidebar .sb-label-row{top:0}
   #noteSidebar{display:block;position:sticky;top:5.5rem;
                max-height:calc(100vh - 7.5rem);overflow-y:auto}
 }
+#sideCmp{border:1px solid var(--line);border-radius:6px;padding:.6rem .7rem;margin-bottom:.9rem;background:var(--accent-soft)}
+#sideCmp .sc-label{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.45rem}
+#sideCmp .blk{margin:0 0 .7rem}
+#sideCmp .tag{display:inline-block;font-size:.62rem;font-weight:700;color:var(--accent);border:1px solid currentColor;padding:0 .35rem;border-radius:3px;margin-bottom:.1rem}
+#sideCmp .tag.lim{color:#8a4a12}
+#sideCmp h4{margin:0 0 .1rem;font-size:.78rem}
+#sideCmp p{margin:0;font-family:var(--font-zh);font-size:.78rem;line-height:1.7;color:var(--ink-soft)}
+@media (min-width:1400px){#noteSidebar{width:23rem}}
 .ns-row{position:relative;padding:.55rem 3.4rem .55rem .1rem;border-bottom:1px dashed var(--line)}
 .ns-row:last-child{border-bottom:none}
 .ns-q{font-size:.71rem;color:var(--muted);line-height:1.5;cursor:pointer;margin-bottom:.3rem}
@@ -359,6 +367,7 @@ body.zh-only .bifig figcaption .en{display:none} body.en-only .bifig figcaption 
 .fig-art .cmp2 .cr h4{margin:0 0 .15rem;font-size:.88rem}
 .fig-art .cmp2 .cr p{margin:0;font-size:.86rem;line-height:1.65}
 @media(max-width:760px){.fig-art .cmp2{grid-template-columns:minmax(0,1fr)}}
+@media (min-width:1040px){.bifig:has(.cmp2){display:none}}
 .pstruct{font-family:var(--font-sans);font-size:.78rem;line-height:1.55;color:var(--muted,#6b6a66);border-left:3px solid var(--accent,#2b6777);padding:.15rem .6rem;margin:.1rem 0 .5rem;background:rgba(127,127,127,.07);border-radius:0 4px 4px 0}
 .pstruct b{color:var(--accent,#2b6777);font-weight:700;margin-right:.2rem}
 .pstruct span{display:block}
@@ -1974,6 +1983,40 @@ document.addEventListener('scroll', function(){
   });
 })();
 
+/* ---------------- section companion in the right column ---------------- */
+(function(){
+  var box=document.getElementById('sideCmp');
+  var tpls=[].slice.call(document.querySelectorAll('template.sidetpl'));
+  if(!box || !tpls.length) return;
+  var cur=null, tick=false;
+  function pick(){
+    var line=window.innerHeight*0.38, best=null;
+    tpls.forEach(function(t){
+      var h=document.getElementById(t.dataset.sec);
+      if(h && h.getBoundingClientRect().top<=line) best=t;
+    });
+    /* a heading without a template (e.g. the introduction) ends the previous section's companion */
+    var heads=[].slice.call(document.querySelectorAll('article h2'));
+    var last=null;
+    heads.forEach(function(h){ if(h.getBoundingClientRect().top<=line) last=h; });
+    if(best && last && last.id!==best.dataset.sec) best=null;
+    return best;
+  }
+  function render(){
+    tick=false;
+    var t=pick();
+    var id=t?t.dataset.sec:null;
+    if(id===cur) return;
+    cur=id;
+    if(!t){ box.hidden=true; box.innerHTML=''; return; }
+    box.innerHTML='<div class="sc-label">本节伴读 · '+t.dataset.title+'</div>'+t.innerHTML;
+    box.hidden=false;
+  }
+  window.addEventListener('scroll',function(){ if(!tick){ tick=true; requestAnimationFrame(render); } },{passive:true});
+  window.addEventListener('resize',render);
+  render();
+})();
+
 /* ---------------- AI paragraph-summary column ---------------- */
 (function(){
   var sidebar=document.getElementById('aiSidebar');
@@ -2298,6 +2341,8 @@ def render(spec):
         if k in ("h2", "h3"):
             sec_id = f"sec-{i}"
             a(f'<{k} id="{sec_id}"><span class="en">{esc(en)}</span><span class="zh">{esc(zh)}</span></{k}>')
+            if it.get("side"):
+                a(f'<template class="sidetpl" data-sec="{sec_id}" data-title="{esc(zh or en)}">{it["side"]}</template>')
         elif k == "quote":
             a(f'<blockquote class="cited" id="b-{i}">')
             a(f'<p class="en">{esc(en)}</p>')
@@ -2401,7 +2446,7 @@ def render(spec):
       '</button></div>'
       '<div id="aiSummaryInner"></div>'
       '</nav>')
-    a('<nav id="noteSidebar"><div class="sb-label">我的批注</div><div id="nsList"></div></nav>')
+    a('<nav id="noteSidebar"><div id="sideCmp" hidden></div><div class="sb-label">我的批注</div><div id="nsList"></div></nav>')
     a("</div>")  # .layout
 
     a('<button id="navBtn" type="button">☰ 导航 <span class="n" data-zero="1">0</span></button>')
