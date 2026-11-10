@@ -18,8 +18,9 @@
   - 4.2 检验第 1 步
   - 4.3 药方从哪里来
   - 4.4 检验第 1、3 步：去向
-  - 4.5 本文自己的角度：条文锁定了什么
-  - 4.6 检验第 2–5 步
+  - 4.5 规则保证了什么
+  - 4.6 回迁和搬迁只是声明
+  - 4.7 检验第 2–5 步
 - 5. 绅士化：价格、代价与承诺
   - 5.1 定位绅士化单元：谁获益、谁承担
   - 5.2 社会混合的批评
@@ -35,10 +36,10 @@
 
 - **A 家 ↔ 房地产（Home ↔ real estate）**：住房作为生活空间，与住房作为盈利工具之间的冲突（Madden and Marcuse 2016）。 见 ¶3.1, 3.3, 5.1。3.3 为两边各列证据（可行性成本、早期容积奖励 ↔ 回迁权、更多社会住房），5.1 用租金差说明谁获益。作为并列的张力保留，不宣布哪一边赢。
 - **B 混合 ↔ 搬走（Mixing ↔ moving）**：同一个措施，在一个场地上稀释聚集，在另一些场地上可能只是把聚集放到别处。这是核心问题。 见 ¶4.2, 4.3, 4.4, 6.1。4.2 给稀释的数字（86%→28%），4.4 给去向的名称，4.3 说明 Bonnyrigg 的去向不能照搬；6.1 的回答取决于去向、回迁和市场这三件文件没回答的事。
-- **C 诊断 ↔ 证据（Diagnosis ↔ evidence）**：官方把住宅区的弱势读成代代相传的循环，药方是混合租住；但药方的比例出自融资条件，邻里效应也有争议。 见 ¶2.3, 4.1, 4.3, 4.5。2.3、4.1 摆出诊断；4.3 追溯 70:30 的出处；4.5 引 Sisson 与 Zanardo 说明证据并不确定。
+- **C 诊断 ↔ 证据（Diagnosis ↔ evidence）**：官方把住宅区的弱势读成代代相传的循环，药方是混合租住；但药方的比例出自融资条件，邻里效应也有争议。 见 ¶2.3, 4.1, 4.3, 4.7。2.3、4.1 摆出诊断；4.3 追溯 70:30 的出处；4.5 引 Sisson 与 Zanardo 说明证据并不确定。
 - **D 承诺 ↔ 记录（Promise ↔ record）**：2023 年以来保护增多（回迁权、通知期），但回迁人数、永久性和时间没有公布。 见 ¶3.2, 5.3, 6.2, 6.3。3.2、5.3 分别写承诺与缺口；6.3 把缺口变成可以对照文件检查的建议。
-- **E 想象的未来 ↔ 居民的经验（Imagined future ↔ lived experience）**：现在被贬低、未来被理想化（声誉差距），而居民经历的是在地失所与等待。 见 ¶1.3, 1.4, 3.2, 4.5, 6.1。作为支线：1.3–1.4 引出，3.2 显示负面描述跨两届政府连续，4.5 写居民的等待，6.1 承认这是检验得最少的部分。
-- **F 锁定 ↔ 声明（Secured ↔ announced）**：规划条文用楼面积下限锁定了混合租住，回迁、通知和搬迁却只以声明出现。这是本文自己的角度。 见 ¶4.5, 5.3, 6.1, 6.3。4.5 逐条分层：专用控制、设计指南、声明；5.3 说明保护不在控制里；6.3 建议把对楼面积做的事也对人做。
+- **E 想象的未来 ↔ 居民的经验（Imagined future ↔ lived experience）**：现在被贬低、未来被理想化（声誉差距），而居民经历的是在地失所与等待。 见 ¶1.3, 1.4, 3.2, 4.7, 6.1。作为支线：1.3–1.4 引出，3.2 显示负面描述跨两届政府连续，4.5 写居民的等待，6.1 承认这是检验得最少的部分。
+- **F 锁定 ↔ 声明（Secured ↔ announced）**：规划条文用楼面积下限锁定了混合租住，回迁、通知和搬迁却只以声明出现。这是本文自己的角度。 见 ¶4.5–4.6, 5.3, 6.1, 6.3。4.5 逐条分层：专用控制、设计指南、声明；5.3 说明保护不在控制里；6.3 建议把对楼面积做的事也对人做。
 
 ### 实在的锚点
 
@@ -46,7 +47,7 @@
 |---|---|---|---|
 | 价格压力 | 悉尼附属住宅中位转手价 $390,000 → $840,000（2006→2026） | ABS 2026 | ¶2.2 |
 | 规划控制 | 社会住房 ≥26.5%、可负担 ≥7.0% 的住宅建筑面积；社区/健康/托育 ≥5,000 平方米 | DPE 2022, PDF p. 7 | ¶4.5 |
-| 回迁与搬迁的位置 | LAHC “has noted” 回迁权；“appropriate relocation strategies will be developed” | Hassell 2022a, PDF p. 59；DPE 2022, PDF p. 14 | ¶4.5 |
+| 回迁与搬迁的位置 | LAHC “has noted” 回迁权；“appropriate relocation strategies will be developed” | Hassell 2022a, PDF p. 59；DPE 2022, PDF p. 14 | ¶4.6 |
 | 占比 | 社会住房 86% → 28%（749/869 → 847/3,012） | DPE 2022, PDF pp. 8, 37；占比由计算得出 | ¶4.2 |
 | 先例 | Green Square Town Centre 104/3,308，约 3% | Turner Studio & Turf 2020, App. 6, 463 | ¶4.2, 5.2 |
 | 药方的出处 | 70:30 追溯到 Bonnyrigg；Bonnyrigg 833 套 / 2,330 套 | Khor 等 2023, 77；Benedict 等 2022 | ¶4.3 |
@@ -154,7 +155,7 @@ The promises to tenants grew after 2023, but the planning rules were written bef
 
 ### ¶3.3
 
-The strategy can be sorted into measures that protect the money and measures that protect the tenants’ homes. On the money side, the planning proposal says that the existing planning rules “would not be capable of supporting a feasible redevelopment of the entire site given the costs of demolition and construction” (LAHC 2020, 92), an early proposal offered extra floor space only if 30 per cent of residential floor area were social housing and 20 per cent affordable (NSW Land and Housing Corporation 2021, Attachment A), and the sale of private dwellings carries the cost. On the tenants’ side are the right to return, more social homes in Waterloo South than there are now (Homes NSW 2026) and at least 15 per cent of new social and affordable homes for Aboriginal people (NSW Government 2023). No official document describes the funding in these terms; the sorting is mine. Section 4.5 asks which side the binding rules protect.
+The strategy can be sorted into measures that protect the money and measures that protect the tenants’ homes. On the money side, the planning proposal says that the existing planning rules “would not be capable of supporting a feasible redevelopment of the entire site given the costs of demolition and construction” (LAHC 2020, 92), an early proposal offered extra floor space only if 30 per cent of residential floor area were social housing and 20 per cent affordable (NSW Land and Housing Corporation 2021, Attachment A), and the sale of private dwellings carries the cost. On the tenants’ side are the right to return, more social homes in Waterloo South than there are now (Homes NSW 2026) and at least 15 per cent of new social and affordable homes for Aboriginal people (NSW Government 2023). No official document describes the funding in these terms; the sorting is mine. Sections 4.5 and 4.6 ask which side the binding rules protect.
 
 > 作用：用对立读这套策略  
 > 辩证：商品一边 ↔ 使用一边  
@@ -203,14 +204,23 @@ Where displaced tenants go decides whether the cluster is dissolved or only move
 
 ### ¶4.5
 
-The planning rules guarantee how much social housing is built, but not who lives in it and not whether tenants can come back. The site-specific controls that the plan finalisation report lists for Waterloo South require no less than 26.5 per cent of residential floor area as social housing, no less than 7.0 per cent as affordable housing, and no less than 5,000 square metres for community, health and childcare facilities (NSW Department of Planning and Environment 2022, PDF p. 7). These are minimum amounts of floor area. If a person’s relation to housing shapes their class position, as housing class theory holds (Ruonavaara 2025), such minimums fix which kinds of housing the new buildings contain, not which households hold them. The Design Guide, where the tenure and Aboriginal housing provisions sit, is only to be considered in development applications “but not to elevate the guidance within the design guide to development standards” (PDF p. 7). Its principle that social and affordable housing be provided “so that a socially diverse residential population, representative of all income groups, is created” (Hassell 2022b, PDF p. 22) comes closest to the people the housing is for, and it does not mention return. Return and relocation appear only as statements. The final planning proposal records that the Land and Housing Corporation “has noted” that current residents have a right of return (Hassell 2022a, PDF p. 59), and in assessing the rezoning the department accepted a response stating that “appropriate relocation strategies will be developed” (NSW Department of Planning and Environment 2022, PDF p. 14). The report adds that state significant developments must include a social impact assessment (PDF p. 31), which is done when applying, and neither document requires anyone to track what happens to tenants after they move. In terms of the five steps, the rules reach step 1 and, through the facilities, the services side of step 4. Steps 3 and 5, which concern where people go and what happens to them, depend on promises outside the rules. Table 1 sorts the measures by where they sit. These controls may change: the 2025 evaluation panel report describes a proposal to amend the Sydney local plan by “increasing building heights, redistributing floor space, and introducing flexibility to the application of the design guide” (NSW Department of Planning, Housing and Infrastructure 2025, 1), exhibited in May and June 2026 (NSW Planning Portal n.d.). I read the 2022 documents; I did not read the gazetted rules or the 2026 proposal.
+The planning rules guarantee how much social housing is built, but not who lives in it and not whether tenants can come back. The site-specific controls that the plan finalisation report lists for Waterloo South require no less than 26.5 per cent of residential floor area as social housing, no less than 7.0 per cent as affordable housing, and no less than 5,000 square metres for community, health and childcare facilities (NSW Department of Planning and Environment 2022, PDF p. 7). These are minimum amounts of floor area. If a person’s relation to housing shapes their class position, as housing class theory holds (Ruonavaara 2025), such minimums fix which kinds of housing the new buildings contain, not which households hold them. The Design Guide, where the tenure and Aboriginal housing provisions sit, is only to be considered in development applications “but not to elevate the guidance within the design guide to development standards” (PDF p. 7). Its principle that social and affordable housing be provided “so that a socially diverse residential population, representative of all income groups, is created” (Hassell 2022b, PDF p. 22) comes closest to the people the housing is for, and it does not mention return.
 
-> 作用：本文自己的角度：条文锁定了什么  
-> 辩证：锁定（楼面积）↔ 声明（回迁、搬迁）  
-> 实在：PDF p. 7 的专用控制；设计指南 p. 22；Hassell 2022a p. 59；DPE 2022 p. 14  
-> 课件：课件：隔离单元（五步链）+ 绅士化单元（国家主导的政策手段）。展开：本文自己的角度——规划条文锁定了什么、把什么留给声明。证据：计划定稿报告 PDF p. 7、p. 14；最终规划建议书 PDF p. 59。限定：只核对了两份文件；最终 LEP、设计指南、后续批准条件没查；“第 4 步供给一侧”是我的读法。
+> 作用：规则保证了什么  
+> 辩证：保证（楼面积下限）↔ 没保证（谁来住）  
+> 实在：DPE 2022, PDF p. 7；设计指南 PDF p. 22  
+> 课件：课件：隔离单元（五步链）+ 住房单元（住房阶级）。展开：规划规则保证了什么：楼面积下限，但不管谁来住。证据：计划定稿报告 PDF p. 7；设计指南 PDF p. 22。
 
 ### ¶4.6
+
+Return and relocation appear only as statements. The final planning proposal records that the Land and Housing Corporation “has noted” that current residents have a right of return (Hassell 2022a, PDF p. 59), and in assessing the rezoning the department accepted a response stating that “appropriate relocation strategies will be developed” (NSW Department of Planning and Environment 2022, PDF p. 14). The report adds that state significant developments must include a social impact assessment (PDF p. 31), which is done when applying, and neither document requires anyone to track what happens to tenants after they move. In terms of the five steps, the rules reach step 1 and, through the facilities, the services side of step 4. Steps 3 and 5, which concern where people go and what happens to them, depend on promises outside the rules. Table 1 sorts the measures by where they sit. These controls may change: the 2025 evaluation panel report describes a proposal to amend the Sydney local plan by “increasing building heights, redistributing floor space, and introducing flexibility to the application of the design guide” (NSW Department of Planning, Housing and Infrastructure 2025, 1), exhibited in May and June 2026 (NSW Planning Portal n.d.). I read the 2022 documents; I did not read the gazetted rules or the 2026 proposal.
+
+> 作用：回迁和搬迁只是声明  
+> 辩证：规则 ↔ 声明  
+> 实在：Hassell 2022a, PDF p. 59；DPE 2022, PDF pp. 14, 31；2025 评估小组报告  
+> 课件：课件：隔离单元（五步链）+ 绅士化单元（国家主导的政策手段）。展开：回迁和搬迁只以声明出现，规则也可能改变。证据：最终规划建议书 PDF p. 59；报告 PDF pp. 14、31；2025 年评估小组报告。限定：只核对了 2022 年的文件；2025 年报告是看图读的。
+
+### ¶4.7
 
 Steps 2 to 5 are where the evidence is thinnest. Sisson (2024) notes that the concept of neighbourhood effects behind “concentrated disadvantage” “controversially” places the cause in the estate. Hirvonen and Lilius (2019), in a Finnish survey, find only small differences in neighbour ties between house types and a need to develop social ties “also in rental houses”, which suggests that contact across tenures has to be built and does not follow from proximity; the survey is Finnish and does not address mixed tenure. Uncertainty already acts on steps three and five. Wynne and Rogers (2021) argue that the threat of eviction “has already done significant damage to their relationship to place” before any move, and a resident, Julie, said that she heard of the demolition work when she woke to find fences going up, and that her relocation had been delayed (Bowring 2026). Read through the chain, residents neither choose nor time their moves, and the wait is part of the circle. This is my reading; no document measures residents’ mobility or opportunities.
 
