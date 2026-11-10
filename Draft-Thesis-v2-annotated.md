@@ -28,7 +28,8 @@
 - 6. 结论与讨论
   - 6.1 回答论文问题
   - 6.2 说明限度
-  - 6.3 提出可检查的建议
+  - 6.3 说明局限
+  - 6.4 提出可检查的建议
 
 ![图 0](Reading-Pages/figures/f0.png)
 
@@ -266,23 +267,32 @@ On paper tenants are better protected than in 2015, but most of the protections 
 
 ### ¶6.1
 
-The renewal does on step 1 what its remedy intends, and the planning rules guarantee it: social housing is diluted on the site. Whether it breaks the circle or only moves it is decided where the rules say nothing: where the displaced tenants live, how many return, and what the market around the estate does. On the evidence here, the renewal places some tenants in other social housing nearby and promises return to the rest, in a market where gentrification has widened the gap between households in private housing and in public housing estates (City of Sydney n.d.). The remedy has moved through twenty years of Sydney estate renewal (Shrestha, Ruming and Rogers 2025) and arrives in the inner city with its guarantees in statements and no outcome measures that I could find. The reputational gap that Zanardo et al. (2024) and Sisson (2024) describe may explain why the remedy is accepted. That is my suggestion, and it is the least tested part of the argument.
+The renewal mixes the site, and the planning rules guarantee only the mixing. Social housing falls from 86 to 28 per cent of the dwellings on the site, and the rules fix minimum floor areas for it, so step 1 of the chain is addressed. Whether the circle is broken or only moved depends on what the rules leave out: where the displaced tenants live, how many return, and what the market around the estate does. The evidence here shows some tenants placed in other social housing nearby and return promised to the rest, in a market where gentrification has widened the gap between households in private housing and in public housing estates (City of Sydney n.d.). So I cannot say that the circle is broken, and I cannot say that it is only moved. I can say that nothing in the planning documents I read would show which. The reputational gap that Zanardo et al. (2024) and Sisson (2024) describe may explain why the remedy is accepted. That is my suggestion, and it is the least tested part of the argument.
 
 > 作用：回答论文问题  
 > 辩证：打破 ↔ 搬走：取决于条文沉默的地方  
 > 实在：前面各节的汇总；Shrestha 等  
-> 课件：课件：收回隔离与绅士化两个单元。展开：回答论文问题——第 1 步被条文锁定，能不能打破循环取决于条文沉默的地方（去向、回迁、市场）；声誉差距作为支线放在末尾。
+> 课件：课件：回收四个理论。展开：回答问题——更新在场地上做到了混合，规划规则也只保证了混合；能否打破循环，规则没有答案。
 
 ### ¶6.2
 
-This argument has limits. It rests on documents and published studies, not on interviews, so residents’ experience comes through other researchers and single news reports. Destinations are named but not counted. The price series turned in 2026, so the claim concerns two decades of rise, not the present. The five-step chain is my way of reading the case, and the documents do not use it. No official document explains the land-value funding model. Finally, I read two planning documents from 2022, the plan finalisation report and the final planning proposal, and the Design Guide, so a measure I describe as “not among the rules” means only that it is not in those documents.
+This paper adds three small things to existing work on Waterloo. First, it reads the renewal through the chain of segregation. The studies of Waterloo that I used (Zanardo et al. 2024; Sisson 2024; Wynne and Rogers 2021; Sisson and Ruming 2025) deal with reputation, land value, displacement and housing supply, and none of them uses the vocabulary of segregation. Second, it sorts each protection for tenants by where it sits in the planning documents (Table 1) and finds that the rules guarantee floor area while return and relocation are statements. Third, it separates two things that are often run together: a plan can be described as dilution or as growth depending on whether it counts share or number, and tenants can lose their homes through the market around an estate or directly through their landlord, and only the second is covered by the promise of return. These are findings about documents. They do not test what happens to tenants.
 
 > 作用：说明限度  
 > 辩证：已有 ↔ 缺失  
 > 实在：无访谈；去向无人数；价格转向；链条是读法  
-> 课件：课件：边界说明（对应课程要求的 discussion）。把限定一次说清：无访谈、去向无人数、价格 2026 年转向、五步链是读法、土地价值模型无官方说明、普查租金反例。
+> 课件：课件：论文的贡献（讨论部分）。展开：三点：用隔离链读 Waterloo（已有四篇研究的文本里“segregat-”出现 0 次，已核对）；把保护措施按所在层次分类（表 1）；区分占比与套数、两条置换通道。限定：是对文件的发现，没有检验租户的结果。
 
 ### ¶6.3
+
+This argument has limits. It rests on documents and published studies, not on interviews, so residents’ experience comes through other researchers and single news reports. I read two planning documents from 2022, the plan finalisation report and the final planning proposal, and the Design Guide. The 2026 proposal, the gazetted rules and the Homes NSW relocation policy I did not read, so “not among the rules” means only that a measure is not in those documents, and the finding may change if the 2026 proposal writes return into the rules. Two sources, Shrestha, Ruming and Rogers (2025) and Hochstenbach (2017), I read as abstracts. Destinations are named but not counted, and I found no counts of returning tenants and no measures of neighbourhood effects. The price series is for the whole city and turned in 2026, so the claim concerns two decades of rise, not the present. The five-step chain is my way of reading the case, and the documents do not use it. No official document explains the land-value funding model.
+
+> 作用：说明局限  
+> 辩证：已有 ↔ 缺失  
+> 实在：无访谈；只读 2022 年文件；去向无人数；部分文献只读摘要  
+> 课件：课件：局限（讨论部分）。展开：无访谈；只读 2022 年的文件，2026 年提案、公报版规则、搬迁政策没读；两篇文献只读摘要；去向无人数；价格是全市数字；五步链是我的读法。
+
+### ¶6.4
 
 Planning could do for people what it already does for floor space. The rules fix floor space by tenure; they could also require reporting on how many tenants return, when, and to the same place or only the same area, and where those who do not return live. The share of social housing should be published beside the number of social homes, because the number rises while the share falls. The permanence of the affordable homes should be confirmed. Where the existing buildings can be renovated, retention should be considered (Zanardo et al. 2024). None of this assumes bad faith. It asks that the cost of the remedy to the people it is meant to help be counted.
 
