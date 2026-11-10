@@ -28,8 +28,9 @@
 - 6. 结论与讨论
   - 6.1 回答论文问题
   - 6.2 说明限度
-  - 6.3 说明局限
-  - 6.4 提出可检查的建议
+  - 6.3 讨论：案例对各框架的意义
+  - 6.4 说明局限
+  - 6.5 提出可检查的建议
 
 ![图 0](Reading-Pages/figures/f0.png)
 
@@ -293,6 +294,15 @@ This paper adds three small things to existing work on Waterloo. First, it reads
 
 ### ¶6.3
 
+The case supports some frameworks and limits others. It is consistent with the view of Stein and Davidson that the state plans and justifies large-scale redevelopment (Davidson 2018, 249), and it extends the global-city account by showing that the pressure reached Waterloo through a metro station and not through the strategy that frames the corridor. It limits two accounts. In Yrjänä’s (2026) Helsinki the state pays a subsidy gap to de-risk private investment, while in the Waterloo documents I read the money runs the other way, with private sales paying for social homes. And accounts of home against real estate (Madden and Marcuse 2016), or of mixing against segregation, treat the two sides as opposed, while Waterloo’s policy has kept changing: the share of social and affordable housing rose from 34 to 50 per cent in 2023 (NSW Government 2023), the right to return was added, and a 2025 proposal would loosen how the Design Guide applies (NSW Department of Planning, Housing and Infrastructure 2025, 1). A single case and a set of documents can show such mechanisms. They cannot test the theories.
+
+> 作用：讨论：案例对各框架的意义  
+> 辩证：赞同／拓展 ↔ 限定  
+> 实在：Davidson 2018, 249；Yrjänä 2026；NSW Government 2023；2025 评估小组报告  
+> 课件：课件：讨论部分。展开：案例赞同、拓展、限定了谁的框架（Stein、Davidson、Sassen、Yrjänä、Madden and Marcuse）。限定：一个案例只能显示机制，不能检验理论；详见伴读报告。
+
+### ¶6.4
+
 This argument has limits. It rests on documents and published studies, not on interviews, so residents’ experience comes through other researchers and single news reports. I read two planning documents from 2022, the plan finalisation report and the final planning proposal, and the Design Guide. The 2026 proposal, the gazetted rules and the Homes NSW relocation policy I did not read, so “not among the rules” means only that a measure is not in those documents, and the finding may change if the 2026 proposal writes return into the rules. Two sources, Shrestha, Ruming and Rogers (2025) and Hochstenbach (2017), I read as abstracts. Destinations are named but not counted, and I found no counts of returning tenants and no measures of neighbourhood effects. The price series is for the whole city and turned in 2026, so the claim concerns two decades of rise, not the present. The five-step chain is my way of reading the case, and the documents do not use it. No official document explains the land-value funding model. The conclusion therefore holds for the 2022 planning documents, and it may change when the 2026 proposal is read.
 
 > 作用：说明局限  
@@ -300,7 +310,7 @@ This argument has limits. It rests on documents and published studies, not on in
 > 实在：无访谈；只读 2022 年文件；去向无人数；部分文献只读摘要  
 > 课件：课件：局限（讨论部分）。展开：无访谈；只读 2022 年的文件，2026 年提案、公报版规则、搬迁政策没读；两篇文献只读摘要；去向无人数；价格是全市数字；五步链是我的读法。
 
-### ¶6.4
+### ¶6.5
 
 Planning could do for people what it already does for floor space. The rules fix floor space by tenure; they could also require reporting on how many tenants return, when, and to the same place or only the same area, and where those who do not return live. The share of social housing should be published beside the number of social homes, because the number rises while the share falls. The permanence of the affordable homes should be confirmed. Where the existing buildings can be renovated, retention should be considered (Zanardo et al. 2024). None of this assumes bad faith. It asks that the cost of the remedy to the people it is meant to help be counted.
 
