@@ -27,7 +27,7 @@
 | Hirvonen and Lilius 2019（摘要，课程住房周阅读，讲师自己的论文） | 芬兰全国调查：住宅类型之间邻里联系差别很小；需要在租赁住宅里发展社会联系 | §4.6 一句：接触要靠建立，不是靠挨得近 | 贴合摘要；明写是芬兰、没有涉及混合租住 |
 | Ruonavaara 2025，“housing class”（住房周阅读，摘要） | Rex and Moore 的住房阶级理论及其修订与批评：与住房的关系是形成阶级的因素，不能还原为与生产资料的关系 | §4.5 一句：按租住类型规定楼面积，固定的是住房位置，不是占据者 | 贴合摘要；“固定位置不固定家庭”是我的读法 |
 | Kern 2007、Ronald and Kadi 2017、Paadam 等（编著《Ways of Residing in Transformation》，只看封底） | 多伦多公寓与性别；英国小房东；欧洲居住实践 | 未用 | 主题不涉及租住混合的政策工具 |
-| Shaw 2008、De Verteuil（课程阅读，已看开头） | Shaw：国家与市场推动的“阶级重塑”连续体；De Verteuil：移民与绅士化的五种关系类型 | 未用 | Shaw 只读了摘要，与本文角度关系不大；De Verteuil 讲移民，与本文无关 |
+| Shaw 2008（课程阅读，全文已读）；De Verteuil（已看开头两页） | Shaw：绅士化的争论与“国家与市场推动的阶级重塑”；全文没有讨论公共住房和社会混合（检索 public housing、social mix 均为 0）；De Verteuil：移民与绅士化的五种关系 | 未用 | 与本文的政策工具角度无关，不为凑数而引 |
 | Madden and Marcuse 2016；Sassen 1991；Stein 2019；Tammaru 等 2021；Rosengren 2026；Aalbers 2016 | 据讲义引用，没读全文 | 概念框架 | 作为框架引用；Aalbers 只用了“金融化”这个词 |
 
 ## 本次改掉的“套用不是这个意思的信息”

@@ -80,6 +80,6 @@
 | 引言 1.3–1.4 是否压缩 | — | 你要求保留引言 | 回复“压缩”，我就把新角度提到 1.2 之后 |
 
 ## 八、课程阅读核对（Readings-20260706）
-- 绅士化周：Davidson 2018（看扫描页）用于 §5.2；Lees 2008、Yrjänä 2026、Hochstenbach 2017 已用；Shaw 2008（只读摘要）和 De Verteuil 与本文角度无关，未用。
+- 绅士化周：Davidson 2018（看扫描页）用于 §5.2；Lees 2008、Yrjänä 2026、Hochstenbach 2017 已用；Shaw 2008（全文已读，没有涉及公共住房和社会混合）和 De Verteuil（移民）与本文角度无关，未用。
 - 住房周：Hirvonen and Lilius 2019（讲师自己的论文）用于 §4.6；Ruonavaara 2025（住房阶级）用于 §4.5；Kern 2007、Ronald and Kadi 2017、Paadam 等（编著，只看封底）与本文政策工具角度无关，未用。
 - 完整工作稿现为 15 页，在约 15 页的目标内。
