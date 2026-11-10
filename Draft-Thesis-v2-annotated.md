@@ -95,6 +95,14 @@ Existing work on Waterloo concerns reputation and displacement. Zanardo et al. (
 
 ### ¶1.5
 
+The paper is a document analysis. Its materials are the planning documents for Waterloo South (the plan finalisation report, the final planning proposal and the Design Guide, all from 2022), government statements and media releases from 2015 to 2026, news reports, and published studies of Waterloo and of other Sydney estates. I sorted each protection for tenants by where it appears: in a binding planning control, in the Design Guide, in a statement inside the planning record, or only in an announcement.
+
+> 作用：材料与方法  
+> 辩证：文件的层次：条文 ↔ 设计指南 ↔ 声明 ↔ 公告  
+> 实在：2022 年三份规划文件；2015–2026 年声明与新闻  
+
+### ¶1.6
+
 This paper reads the plan’s tenure mix, the destinations of relocated tenants and the promise of return against the five steps of the vicious circle of segregation (Rosengren 2026; Tammaru et al. 2021), and asks which of them the planning rules guarantee and which are only promised in announcements. The sections take four bodies of urban theory in turn: the global city, housing, segregation and gentrification.
 
 > 作用：路线  
