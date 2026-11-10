@@ -44,3 +44,9 @@
 
 ## Zanardo (2024) 页码核对
 对照上传的期刊 PDF：Hazzard “terrible”、Jackson “not fit for purpose”、Hoenig “well past the renewal date” 在 PDF 第 3 页（期刊页码 1208）；1209 在第 4 页；“reputational gap” 在 1236 页（PDF 第 31 页）；1207 在 PDF 第 1–2 页。引用的页码与期刊页码一致。
+
+## 第五轮：EIS 附录 A–E（2026 年 4 月，核对原文）
+| 资料 | 原文语境 | 本文怎么用 | 处理 |
+|---|---|---|---|
+| Beam Planning 2026（EIS 附录 A–E；作者按页脚推定，待确认） | 申请方提交的环境影响报告附录。C：为后续详细申请列出的减缓措施，p.11 “Current social housing residents are to be supported during relocations”；D：p.1 咨询反馈“relocation certainty”；E：设计指南评估，p.6 至少 7% 住宅楼面积为可负担住房、由社区住房机构永久持有，其余至少 25 年，“预期”作为同意条件；Aboriginal 优先 20%/15% | §4.6（搬迁支持是减缓措施，没有回迁）、§5.3（永久性部分回答）、§6.4/6.5、表 1 新增一行 | 这是申请方的文件，不是规划部门的决定；“预期作为同意条件”是申请方的理解（原文 “It is understood”）。EIS 正文和 SIA 仍未读 |
+| 为保持 15 页删去 | Pinnegar, Liu and Randolph 2013（Bonnyrigg 对照）、Elton Consulting 2019 | 不再引用，参考文献已同步删除 | 内容仍在 Source 台账旧条目中，可恢复 |
