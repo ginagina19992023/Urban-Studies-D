@@ -50,3 +50,16 @@
 |---|---|---|---|
 | Beam Planning 2026（EIS 附录 A–E；作者按页脚推定，待确认） | 申请方提交的环境影响报告附录。C：为后续详细申请列出的减缓措施，p.11 “Current social housing residents are to be supported during relocations”；D：p.1 咨询反馈“relocation certainty”；E：设计指南评估，p.6 至少 7% 住宅楼面积为可负担住房、由社区住房机构永久持有，其余至少 25 年，“预期”作为同意条件；Aboriginal 优先 20%/15% | §4.6（搬迁支持是减缓措施，没有回迁）、§5.3（永久性部分回答）、§6.4/6.5、表 1 新增一行 | 这是申请方的文件，不是规划部门的决定；“预期作为同意条件”是申请方的理解（原文 “It is understood”）。EIS 正文和 SIA 仍未读 |
 | 为保持 15 页删去 | Pinnegar, Liu and Randolph 2013（Bonnyrigg 对照）、Elton Consulting 2019 | 不再引用，参考文献已同步删除 | 内容仍在 Source 台账旧条目中，可恢复 |
+
+## 第六轮：隔离的材料补充（2026-11-10，均核对原文）
+| 资料 | 原文语境 | 本文怎么用 | 处理 |
+|---|---|---|---|
+| GHD 2020，*Social Baseline Report – Waterloo*（住房公司委托，2020 年 3 月）PDF pp. 3、30、31、32、34、35 | 社会可持续研究的第一阶段。pp.30、34：2019 年 9 月住房公司数据（749 套；68% 户主 50 岁以上；73% 独居；平均周收入 $525；33% 靠残疾抚恤金）；2016 普查对比（原住民 9%/3%/1%；单亲 35%/15%/10%；SEIFA 十分位 1–2 对 8）；p.35 郊区周家庭收入中位数 $1,503；p.3 周边“significant redevelopment”；pp.30–31 Waterloo East 十分位 8 以上“could be attributed to the renewed areas”，更新“highly likely to attract a similar demographic” | §4.2b、§4.2c | 贴合。“Waterloo South 地区”是 SA1 的自定义组合，含少量私人住宅，不等于住宅区；$525 是住房公司数据，不是普查 |
+| ABS 2021，Waterloo 郊区 QuickStats | 人口 16,379；家庭周收入中位数 $2,028 | §4.2c 与 GHD 的 $1,503 对比（名义 +35%） | 两个数来自不同文件；郊区数含私人住户，写明“不描述住宅区” |
+| Porter 等 2023，AHURI 413，p.30 | 综述租户搬迁；引 Levin 等 2018（Carlton 约 40%）和 Shaw 等 2013（Kensington 20%）；Box 3：Bonnyrigg 社会住房少约 200 套；“预期 Waterloo 采用类似模式” | §4.6b | 是二手转述，原文已写“citing”；Levin、Shaw 原文没读 |
+| Joseph and Chaskin 2012，pp.378–379 | 芝加哥转型计划：到 2010 年底 1,896/16,846（<11%）在新混合收入住区；引 Comey 2007：四个 HOPE VI 地点平均 5% | §4.6b | 贴合；Comey 为转引 |
+| Goetz 2010（国会证词） | “So few return…”，原因：搬迁到完工的年数、新的审查条件 | §4.6b | 是证词，不是同行评议文章 |
+| Pinnegar, Liu and Randolph 2013，p.50 | Bonnyrigg 追踪研究；分阶段在地搬迁；警告远距离搬迁后“往往不可避免地”留在原处 | §4.6b | 页码核对为 p.50（不是 p.86） |
+| Sautkina, Bond and Kearns 2012（摘要）；Manley, van Ham and Doherty 2011（摘要） | 混合租住的系统综述：社会和居住方面有些正面影响，社会资本无；社会混合证据“far from robust” | §4.7 | 只读摘要 |
+| 删去 | 表 2；表中“City of Sydney 绅士化”引文在 5.1；Hazzard/Jackson/Brown 对照（引言）；Elton 2019；LAHC 2021 | 为保持 15 页 | 内容仍在台账旧条目与 Git 历史中 |
+

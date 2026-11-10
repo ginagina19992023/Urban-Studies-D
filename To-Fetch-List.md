@@ -27,6 +27,15 @@
 | B8 | Davidson (2018) 这一章的**页码范围**（从第 247 页开始，到哪一页） | 参考文献 |
 | B9 | Sisson (2024) 的期刊页码（我有 PDF，但引文只写了年份） | 引文 |
 
+## B2. 第六轮新增（隔离的比较材料）
+| # | 要找的 | 为什么 |
+|---|---|---|
+| B10 | Levin, Arthurson and Ziersch (2018)，Carlton 租户搬迁；Shaw 等 (2013)，Kensington 评估 | 目前 40% 和 20% 是 AHURI 413 的转述 |
+| B11 | Comey (2007) Urban Institute HOPE VI 面板研究 | 5% 是 Joseph & Chaskin 的转引 |
+| B12 | 2021 普查 DataPack/TableBuilder：Waterloo 的社会住房比例、政府津贴收入比例、65+ 比例；GHD 报告列出的 SA1（1133801、1133804、1133806、1133841） | 郊区层面的数字不等于住宅区 |
+| B13 | Bonnyrigg 第二轮研究（Pinnegar and Liu, 2018）；Elton 社会可持续研究 2020 年 9 月版（文件超过 10MB，需要你下载） | 在地分阶段搬迁的回迁数 |
+| B14 | Homes NSW 或 REDWatch 的搬迁原始数字（2025 年 3 月 150 户、2026 年 4 月 99 户通知、70 户进新房） | 目前只有 ABC 和倡导团体的转述 |
+
 ## C. 行政和格式
 | # | 要找的 | 说明 |
 |---|---|---|
