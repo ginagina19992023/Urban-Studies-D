@@ -78,3 +78,8 @@
 | Homes NSW 搬迁与回迁政策 | 搜索 + nsw.gov.au | 只有“所有租户有回迁权”的声明页，没有书面条款 | 向 Homes NSW 要或在其网站找 Relocation Policy |
 | rubric.pdf | 未提供 | — | 放进仓库，我对照评分标准再查一遍 |
 | 引言 1.3–1.4 是否压缩 | — | 你要求保留引言 | 回复“压缩”，我就把新角度提到 1.2 之后 |
+
+## 八、课程阅读核对（Readings-20260706）
+- 绅士化周：Davidson 2018（看扫描页）用于 §5.2；Lees 2008、Yrjänä 2026、Hochstenbach 2017 已用；Shaw 2008（只读摘要）和 De Verteuil 与本文角度无关，未用。
+- 住房周：Hirvonen and Lilius 2019（讲师自己的论文）用于 §4.6；Kern、Paadam 等、Ronald and Kadi 只看题目，未用。
+- 完整工作稿现为 15 页，在约 15 页的目标内。
