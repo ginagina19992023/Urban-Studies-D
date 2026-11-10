@@ -18,7 +18,8 @@
   - 4.2 检验第 1 步
   - 4.3 药方从哪里来
   - 4.4 检验第 1、3 步：去向
-  - 4.5 检验第 2–5 步
+  - 4.5 本文自己的角度：条文锁定了什么
+  - 4.6 检验第 2–5 步
 - 5. 绅士化：价格、代价与承诺
   - 5.1 定位绅士化单元：谁获益、谁承担
   - 5.2 社会混合的批评
@@ -37,12 +38,15 @@
 - **C 诊断 ↔ 证据（Diagnosis ↔ evidence）**：官方把住宅区的弱势读成代代相传的循环，药方是混合租住；但药方的比例出自融资条件，邻里效应也有争议。 见 ¶2.3, 4.1, 4.3, 4.5。2.3、4.1 摆出诊断；4.3 追溯 70:30 的出处；4.5 引 Sisson 与 Zanardo 说明证据并不确定。
 - **D 承诺 ↔ 记录（Promise ↔ record）**：2023 年以来保护增多（回迁权、通知期），但回迁人数、永久性和时间没有公布。 见 ¶3.2, 5.3, 6.2, 6.3。3.2、5.3 分别写承诺与缺口；6.3 把缺口变成可以对照文件检查的建议。
 - **E 想象的未来 ↔ 居民的经验（Imagined future ↔ lived experience）**：现在被贬低、未来被理想化（声誉差距），而居民经历的是在地失所与等待。 见 ¶1.3, 1.4, 3.2, 4.5, 6.1。作为支线：1.3–1.4 引出，3.2 显示负面描述跨两届政府连续，4.5 写居民的等待，6.1 承认这是检验得最少的部分。
+- **F 锁定 ↔ 声明（Secured ↔ announced）**：规划条文用楼面积下限锁定了混合租住，回迁、通知和搬迁却只以声明出现。这是本文自己的角度。 见 ¶4.5, 5.3, 6.1, 6.3。4.5 逐条分层：专用控制、设计指南、声明；5.3 说明保护不在控制里；6.3 建议把对楼面积做的事也对人做。
 
 ### 实在的锚点
 
 | 项目 | 内容 | 出处 | 位置 |
 |---|---|---|---|
 | 价格压力 | 悉尼附属住宅中位转手价 $390,000 → $840,000（2006→2026） | ABS 2026 | ¶2.2 |
+| 规划控制 | 社会住房 ≥26.5%、可负担 ≥7.0% 的住宅建筑面积；社区/健康/托育 ≥5,000 平方米 | DPE 2022, PDF p. 7 | ¶4.5 |
+| 回迁与搬迁的位置 | LAHC “has noted” 回迁权；“appropriate relocation strategies will be developed” | Hassell 2022a, PDF p. 59；DPE 2022, PDF p. 14 | ¶4.5 |
 | 占比 | 社会住房 86% → 28%（749/869 → 847/3,012） | DPE 2022, PDF pp. 8, 37；占比由计算得出 | ¶4.2 |
 | 先例 | Green Square Town Centre 104/3,308，约 3% | Turner Studio & Turf 2020, App. 6, 463 | ¶4.2, 5.2 |
 | 药方的出处 | 70:30 追溯到 Bonnyrigg；Bonnyrigg 833 套 / 2,330 套 | Khor 等 2023, 77；Benedict 等 2022 | ¶4.3 |
@@ -89,7 +93,7 @@ Zanardo et al. (2024, 1236) and Sisson (2024) describe this pattern as a reputat
 
 ### ¶1.5
 
-Sydney's council describes the market in which this renewal takes place: "Gentrification of inner city neighbourhoods has exacerbated relative inequality among those who can and cannot afford housing," and there is "a growing disconnect between affluent households able to afford private market housing and highly socio-economically disadvantaged households living in inner city public housing estates" (City of Sydney n.d.). The official case for renewing such estates answers a version of the same divide. Future Directions describes disadvantage that clusters in estates and is "passed on through multiple generations" (NSW Government 2016, 24), and mixed tenure is its remedy. This paper asks whether the renewal of Waterloo breaks that circle or relocates it. It reads the plan's tenure mix, the destinations of relocated tenants and the promise of return against the five steps of the vicious circle of segregation (Rosengren 2026; Tammaru et al. 2021), in a city where the median price of attached dwellings more than doubled between 2006 and 2026 (Australian Bureau of Statistics 2026). The sections follow the four units of the course: the global city, housing, segregation and gentrification.
+Sydney's council describes the market in which this renewal takes place: "Gentrification of inner city neighbourhoods has exacerbated relative inequality among those who can and cannot afford housing," and there is "a growing disconnect between affluent households able to afford private market housing and highly socio-economically disadvantaged households living in inner city public housing estates" (City of Sydney n.d.). The official case for renewing such estates answers a version of the same divide. Future Directions describes disadvantage that clusters in estates and is "passed on through multiple generations" (NSW Government 2016, 24), and mixed tenure is its remedy. This paper asks whether the renewal of Waterloo breaks that circle or relocates it. It reads the plan's tenure mix, the destinations of relocated tenants and the promise of return against the five steps of the vicious circle of segregation (Rosengren 2026; Tammaru et al. 2021), and asks which of these the planning instrument secures and which it leaves to announcements, in a city where the median price of attached dwellings more than doubled between 2006 and 2026 (Australian Bureau of Statistics 2026). The sections follow the four units of the course: the global city, housing, segregation and gentrification.
 
 > 作用：提出问题与路线  
 > 辩证：打破循环 ↔ 搬到别处  
@@ -181,12 +185,12 @@ The renewal acts most clearly on the first step. Waterloo South now has 749 soci
 
 ### ¶4.3
 
-Sydney’s other estates show what the remedy has been built on. Shrestha, Ruming and Rogers (2025) find that estate-renewal models in Sydney have moved “from periphery, through middle ring, towards core”, using mixed tenure to create new land value on public land. The 70:30 ratio is traced by Khor et al. (2023, 77), citing Darcy and Rogers (2019), to Bonnyrigg, a suburban estate, where social-mixing outcomes “was not a determinant of decision-making”. Bonnyrigg was to replace 833 public dwellings within 2,330 homes (Benedict et al. 2022). On the sites that Sisson and Ruming (2025, 1825) examine, the number of social dwellings decreased while net additions were in private tenures, and for the whole of Waterloo under the previous government’s plan they calculate a net gain of 148 social dwellings, an uplift of 7 per cent (2025, 1839). I read this as a remedy that travelled from the fringe to the core with a ratio set by financing rather than by evidence of results. Counts of returning tenants and measured neighbourhood effects for these estates are not in the sources used here.
+Sydney’s other estates show what the instrument was built on. Khor et al. (2023, 77), citing Darcy and Rogers (2019), trace the 70:30 ratio to Bonnyrigg, a suburban estate, where social-mixing outcomes “was not a determinant of decision-making”, and Shrestha, Ruming and Rogers (2025) find that Sydney’s estate-renewal models have moved “from periphery, through middle ring, towards core”. On the sites that Sisson and Ruming (2025, 1825) examine, the number of social dwellings on site decreased while net additions were in private tenures. I read this as a remedy specified in quantities of tenure, with its ratio set by financing rather than by results, a case of the financialisation of housing that the housing unit describes (Aalbers 2016). Counts of returning tenants and measured neighbourhood effects for these estates are not in the sources used here.
 
 > 作用：药方从哪里来  
 > 辩证：药方的出处 ↔ 效果证据  
-> 实在：Shrestha 等；AHURI 412；Bonnyrigg 833/2,330；Sisson and Ruming  
-> 课件：课件：隔离单元（药方从哪里来）。展开：把 Waterloo 放回悉尼二十年的更新里：药方从郊区搬到市中心，70:30 来自融资而不是效果证据。证据：Shrestha 等的摘要、AHURI 412、AHURI 388、Sisson & Ruming。限定：“比例由融资决定”是我的读法；没有回迁人数和邻里效应的测量。
+> 实在：AHURI 412；Shrestha 等；Sisson and Ruming  
+> 课件：课件：隔离单元（药方从哪里来）。展开：70:30 来自融资而不是效果证据，药方从郊区搬到核心，因此条文是用数量写的。证据：AHURI 412、Shrestha 等的摘要、Sisson & Ruming。限定：“用数量规定”是我的读法；没有回迁人数和邻里效应的测量。
 
 ### ¶4.4
 
@@ -199,12 +203,21 @@ Where displaced households go decides whether a cluster is dissolved or moved. C
 
 ### ¶4.5
 
-The later steps rest on evidence that is less settled. Sisson (2024) notes that the concept of neighbourhood effects behind “concentrated disadvantage” “controversially” places the cause in the estate, and Zanardo et al. (2024) conclude that most of the existing buildings, with the possible exception of the slab blocks, could have their lives extended with relatively modest renovation. Tenure mix changes who lives where. It does not by itself change services, schooling or employment, which steps four and five concern. Meanwhile uncertainty already acts on steps three and five. Wynne and Rogers (2021) argue that the threat of eviction “has already done significant damage to their relationship to place” before any move. A resident, Julie, said that she heard of the demolition work when she woke to find fences going up, and that her relocation had been delayed, and another, Karyn Brown, said of the estate, “It is very functional” (Bowring 2026). The planning minister’s release says that the renewal “stalled for years” (Scully 2026). Read through the chain, residents neither choose nor time their mobility, and the wait is part of the circle. This is a reading. The documents do not measure residents’ mobility or opportunities.
+The planning instrument secures some parts of the remedy and leaves others to statements. The site-specific controls that the plan finalisation report lists for Waterloo South require no less than 26.5 per cent of residential floor area as social housing, no less than 7.0 per cent as affordable housing, and no less than 5,000 square metres for community, health and childcare facilities (NSW Department of Planning and Environment 2022, PDF p. 7). These are floor-space minima. They fix how much social housing is built, not who lives in it. The Design Guide, where the tenure and Aboriginal housing provisions sit, is to be considered in development applications “but not to elevate the guidance within the design guide to development standards” (PDF p. 7). Its principle that social and affordable housing be provided “so that a socially diverse residential population, representative of all income groups, is created” (Hassell 2022b, PDF p. 22) comes closest to the people the housing is for, and it does not mention return. Return and relocation appear as statements. The final planning proposal records that the Land and Housing Corporation “has noted” that current residents have a right of return (Hassell 2022a, PDF p. 59), and in assessing the rezoning the department found adequate a response stating that “appropriate relocation strategies will be developed” (NSW Department of Planning and Environment 2022, PDF p. 14). The report adds that applications for state significant development must include a social impact assessment (PDF p. 31), which is an assessment at the application stage, and neither document requires monitoring of what happens to tenants after they move. In the chain’s terms, the controls reach step 1 and, through facilities, the supply side of step 4, while steps 3 and 5, which concern where people go and what happens to them, rest on promises outside the instrument. This is my reading of two documents, and the gazetted LEP text and later approvals were not checked.
+
+> 作用：本文自己的角度：条文锁定了什么  
+> 辩证：锁定（楼面积）↔ 声明（回迁、搬迁）  
+> 实在：PDF p. 7 的专用控制；设计指南 p. 22；Hassell 2022a p. 59；DPE 2022 p. 14  
+> 课件：课件：隔离单元（五步链）+ 绅士化单元（国家主导的政策手段）。展开：本文自己的角度——规划条文锁定了什么、把什么留给声明。证据：计划定稿报告 PDF p. 7、p. 14；最终规划建议书 PDF p. 59。限定：只核对了两份文件；最终 LEP、设计指南、后续批准条件没查；“第 4 步供给一侧”是我的读法。
+
+### ¶4.6
+
+The later steps rest on evidence that is less settled. Sisson (2024) notes that the concept of neighbourhood effects behind “concentrated disadvantage” “controversially” places the cause in the estate. Uncertainty already acts on steps three and five. Wynne and Rogers (2021) argue that the threat of eviction “has already done significant damage to their relationship to place” before any move, and a resident, Julie, said that she heard of the demolition work when she woke to find fences going up, and that her relocation had been delayed (Bowring 2026). Read through the chain, residents neither choose nor time their mobility, and the wait is part of the circle. This is a reading. The documents do not measure residents’ mobility or opportunities.
 
 > 作用：检验第 2–5 步  
-> 辩证：已知（建筑、等待）↔ 未知（服务、学校、就业）  
-> 实在：Sisson、Zanardo、Wynne and Rogers、Bowring 2026  
-> 课件：课件：隔离单元第 2–5 步；并连到在地失所（Wynne & Rogers）。展开：邻里效应有争议（Sisson）、建筑质量不一（Zanardo），混合租住处理不到服务、学校、就业；不确定性作用于第 3、5 步。限定：这是读法，没有测量。
+> 辩证：已知（等待）↔ 未知（服务、学校、就业的结果）  
+> 实在：Sisson、Wynne and Rogers、Bowring 2026  
+> 课件：课件：隔离单元第 2–5 步；并连到在地失所（Wynne & Rogers）。展开：邻里效应有争议；不确定性作用于第 3、5 步。限定：这是读法，没有测量。
 
 ## 5. Gentrification: price, cost and promise
 
@@ -221,20 +234,20 @@ The gentrification unit asks who gains when land is reinvested in and who bears 
 
 ### ¶5.2
 
-The unit’s critique of social mixing bears on the remedy. Lees (2008) argues that policy treats gentrification as a route to more mixed and less segregated communities on a poor evidence base, and describes social mixing as a positive packaging of gentrification. Yrjänä (2026) shows in Helsinki how an anti-segregation policy can serve state-led gentrification, with a subsidy gap in which the state pays the difference to de-risk private investment. Waterloo’s documents use the language of mixing, and Homes NSW states that “part of the success of mixed housing communities is that social and private housing are indistinguishable” (Homes NSW 2026). The planning documents also cite Green Square as a precedent for built form (LAHC 2020, §5.1.7), and its town centre has about 3 per cent social and affordable housing (Turner Studio & Turf 2020, App. 6, 463). Whether a mix of 28 per cent social housing, within a market-led development, dilutes the cluster or prepares the area for higher-income residents is the question of the unit. The documents describe the intention and do not yet show the result.
+The unit’s critique of social mixing bears on the remedy. Lees (2008) argues that policy treats gentrification as a route to more mixed and less segregated communities on a poor evidence base, and describes social mixing as a positive packaging of gentrification. Yrjänä (2026) shows in Helsinki how an anti-segregation policy can serve state-led gentrification, with a subsidy gap in which the state pays the difference to de-risk private investment. Hochstenbach (2017, 399) finds for Amsterdam that the instruments of social mixing moved from the renewal of declining post-war neighbourhoods to high-demand neighbourhoods where housing policy pushes gentrification, the direction that Shrestha, Ruming and Rogers (2025) trace in Sydney. Waterloo’s documents use the language of mixing, and Homes NSW states that “part of the success of mixed housing communities is that social and private housing are indistinguishable” (Homes NSW 2026). The planning documents also cite Green Square as a precedent for built form (LAHC 2020, §5.1.7), and its town centre has about 3 per cent social and affordable housing (Turner Studio & Turf 2020, App. 6, 463). Whether a mix of 28 per cent social housing, within a market-led development, dilutes the cluster or prepares the area for higher-income residents is the question of the unit. The documents describe the intention and do not yet show the result.
 
 > 作用：社会混合的批评  
 > 辩证：混合的话语 ↔ 绅士化的话语  
-> 实在：Lees、Yrjänä；Homes NSW 的 “indistinguishable”；Green Square 约 3%  
+> 实在：Lees、Yrjänä、Hochstenbach；Homes NSW 的 “indistinguishable”；Green Square 约 3%  
 > 课件：课件：绅士化单元。概念：Lees 对社会混合的批评；Yrjänä 的国家主导绅士化。展开：用文献的论点读 Waterloo 的“混合”；Green Square 先例出现在这里（支线）。限定：这是文献的论点用来读案例，不是发现。
 
 ### ¶5.3
 
-Protections have grown on paper since 2015. They include the right to return, six months’ notice, staged relocation, more social homes and a share for Aboriginal households (NSW Government 2023, 2024; Homes NSW 2026). The reported gaps are also clear. The plan replaces 749 social dwellings with 847, an increase of 98 (NSW Department of Planning and Environment 2022, PDF pp. 8, 37; difference calculated), and under the previous government’s plan for the whole estate Sisson and Ruming (2025, 1839) calculated a net gain of 148, an uplift of 7 per cent. The minister could not confirm how much of the 20 per cent affordable housing would be permanent (Bowring 2026), and activists said that at least ten people were still living on the site while the minister said that the remaining people were not tenants (Bowring 2026). No figures are published on how many tenants return or how soon. For the gentrification unit the question is therefore not whether the new buildings will exist but who will live in them and near them in ten years’ time. The documents promise return and do not yet show it.
+Protections have grown on paper since 2015. They include the right to return, six months’ notice, staged relocation, more social homes and a share for Aboriginal households (NSW Government 2023, 2024; Homes NSW 2026). Of these, the right to return, notice and staging are not among the site-specific controls listed in the plan finalisation report (NSW Department of Planning and Environment 2022, PDF p. 7). The reported gaps are also clear. The plan replaces 749 social dwellings with 847, an increase of 98 (NSW Department of Planning and Environment 2022, PDF pp. 8, 37; difference calculated), and under the previous government’s plan for the whole estate Sisson and Ruming (2025, 1839) calculated a net gain of 148, an uplift of 7 per cent. The minister could not confirm how much of the 20 per cent affordable housing would be permanent (Bowring 2026), and activists said that at least ten people were still living on the site while the minister said that the remaining people were not tenants (Bowring 2026). No figures are published on how many tenants return or how soon. For the gentrification unit the question is therefore not whether the new buildings will exist but who will live in them and near them in ten years’ time. The documents promise return and do not yet show it.
 
 > 作用：保护与缺口  
-> 辩证：承诺 ↔ 记录  
-> 实在：749→847（+98）；整个住宅区 +148、7%；Bowring 2026  
+> 辩证：承诺 ↔ 记录；声明 ↔ 条文  
+> 实在：回迁等不在专用控制里；749→847（+98）；整个住宅区 +148、7%  
 > 课件：课件：绅士化单元（置换：直接与间接）。展开：纸面上的保护多于 2015 年；记录到的缺口；回迁没有数据。限定：新闻里的说法要写成“据报道”；增加 98 套是计算差；间接置换在这两个片区没有找到研究。
 
 ## 6. Conclusion and discussion
@@ -243,16 +256,16 @@ Protections have grown on paper since 2015. They include the right to return, si
 
 ### ¶6.1
 
-The renewal changes the first step of the chain by diluting the social housing on the site. Whether it breaks the circle depends on three things that the documents leave open: where the displaced tenants live, how many return, and what the market around the estate does. On the evidence assembled here, the renewal places some tenants in other social housing nearby and promises the return of the rest, in a market where gentrification has widened the gap between households in private housing and in public housing estates (City of Sydney n.d.). The reputational gap that Zanardo et al. (2024) and Sisson (2024) describe, a devalued present set against an idealised future, offers one explanation for why the remedy is accepted. The planning documents point to precincts such as Green Square for the future they offer (LAHC 2020, §5.1.7). The remedy has travelled across twenty years of Sydney estate renewal (Shrestha, Ruming and Rogers 2025) and arrives at the core with no outcome measures found. That reading is mine, and the reputational part of it is the least tested part of the argument.
+The renewal changes the first step of the chain by diluting the social housing on the site, and the planning controls lock that change in floor space. Whether it breaks the circle is decided where the instrument is silent: where the displaced tenants live, how many return, and what the market around the estate does. On the evidence assembled here, the renewal places some tenants in other social housing nearby and promises the return of the rest, in a market where gentrification has widened the gap between households in private housing and in public housing estates (City of Sydney n.d.). The remedy has travelled across twenty years of Sydney estate renewal (Shrestha, Ruming and Rogers 2025) and arrives at the core with its guarantees in statements and no outcome measures found. The reputational gap that Zanardo et al. (2024) and Sisson (2024) describe offers one explanation for why it is accepted. That reading is mine, and it is the least tested part of the argument.
 
 > 作用：回答论文问题  
-> 辩证：打破 ↔ 搬走：取决于去向、回迁、市场  
+> 辩证：打破 ↔ 搬走：取决于条文沉默的地方  
 > 实在：前面各节的汇总；Shrestha 等  
-> 课件：课件：收回隔离与绅士化两个单元。展开：回答论文问题——“取决于去向、回迁和周围的市场”，不是“已经打破”或“只是搬走”；声誉差距与先例作为支线放在这里。
+> 课件：课件：收回隔离与绅士化两个单元。展开：回答论文问题——第 1 步被条文锁定，能不能打破循环取决于条文沉默的地方（去向、回迁、市场）；声誉差距作为支线放在末尾。
 
 ### ¶6.2
 
-The argument has limits. It rests on documents and published studies rather than interviews, so residents’ experience is represented through other people’s research and single news reports. Relocation destinations are named but not counted. The price series turned in 2026, so the claim concerns two decades of rise and not the present. The five-step chain is a way of reading the case, and the documents do not use it. No official document sets out the land-value funding model, and the rents of Waterloo and Zetland did not rise between the 2016 and 2021 censuses.
+The argument has limits. It rests on documents and published studies rather than interviews, so residents’ experience is represented through other people’s research and single news reports. Relocation destinations are named but not counted. The price series turned in 2026, so the claim concerns two decades of rise and not the present. The five-step chain is a way of reading the case, and the documents do not use it. No official document sets out the land-value funding model, and the rents of Waterloo and Zetland did not rise between the 2016 and 2021 censuses. The planning documents were read in the versions on the planning portal, the plan finalisation report and the final planning proposal, so that a protection is “not among the controls” is a finding about those two documents.
 
 > 作用：说明限度  
 > 辩证：已有 ↔ 缺失  
@@ -261,10 +274,10 @@ The argument has limits. It rests on documents and published studies rather than
 
 ### ¶6.3
 
-Several things follow for planning, and each can be checked against the documents. The return promise should be defined and reported: how many tenants return, when, and to the same place or only the same area. The share of social housing should be published alongside the number of social homes, because the number rises while the share falls. The destinations of relocated tenants should be reported. The permanence of the affordable homes should be confirmed. Where the existing buildings can be renovated, retention should be considered (Zanardo et al. 2024). These suggestions do not require that the policy acts in bad faith. They ask that the cost of the remedy to the people it is meant to help be counted.
+Several things follow for planning, and each can be checked against the documents. The planning instrument now fixes floor space by tenure. It could also require reporting on the people the floor space is for: how many tenants return, when, and to the same place or only the same area, and where those who do not return live. The share of social housing should be published alongside the number of social homes, because the number rises while the share falls. The permanence of the affordable homes should be confirmed. Where the existing buildings can be renovated, retention should be considered (Zanardo et al. 2024). These suggestions do not require that the policy acts in bad faith. They ask that the cost of the remedy to the people it is meant to help be counted.
 
 > 作用：提出可检查的建议  
-> 辩证：说出 ↔ 可检查  
-> 实在：回迁、占比、去向、永久性、翻新  
-> 课件：课件：讨论部分，连回四个单元：回迁（绅士化单元）、占比与去向（隔离单元）、保留与翻新（住房单元）。每一条都可以对照文件检验。
+> 辩证：楼面积 ↔ 人：把对楼面积做的事也对人做  
+> 实在：回迁、去向、占比、永久性、翻新  
+> 课件：课件：讨论部分，连回四个单元：回迁与去向（隔离、绅士化单元）、占比（隔离单元）、保留与翻新（住房单元）。核心建议：把条文已经为楼面积做的事，也为人做一遍——报告回迁和去向。
 
