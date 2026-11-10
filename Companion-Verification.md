@@ -11,7 +11,8 @@
 | §5 绅士化 | 1,595 |
 | §6 结论与讨论 | 1,148 |
 
-## 已核对到原文的论断（31 条，全部找到）
+## 已核对到原文的论断（31 条）
+第一次自动比对有 3 条没匹配上，原因不是原文里没有，下面一节逐条说明；排除这 3 条的匹配问题后，31 条都有原文依据。
 | 论断 | 来源 | 状态 |
 |---|---|---|
 | 2014 年战略“生成 41% 以上的 GSP”，点名 Green Square | NSW Planning and Environment 2014, 44 | 原文 |
@@ -34,6 +35,33 @@
 | 社会住房 26.5%、可负担 7.0%、市场 66.5% 住宅建筑面积 | Hassell 2022a, PDF p. 19 | 原文 |
 | 新建绅士化：国家“被要求为自己的行动提供理由”；Smith 的“阶级重塑” | Davidson 2018, 248–249 | 扫描页，看图核对 |
 | Communities Plus 挑选高价值地块以获得“物有所值” | Sisson 2024 | 原文（此条已从论文正文删去，伴读里不再用） |
+
+
+## 第一次比对没匹配上的 3 条，怎样解决的
+| 论断 | 没匹配的原因 | 解决：原文原句 |
+|---|---|---|
+| 给原住民至少 15%（NSW Government 2023） | 我搜的是 “15 per cent”，原文写的是 “15%” | 新闻稿原句：“A minimum of at least 15% of all new social and affordable homes dedicated for Aboriginal people”。另外，Homes NSW 2026 页面现在写的是：给 Birribee Housing 的原住民租户“20% of all new social homes、15% of all new affordable homes”，数字和 2023 年的不同，伴读和论文里引的是 2023 年的说法，已标年份 |
+| 恢复 30%/20%（计划定稿报告 PDF p. 30） | PDF 表格分栏，句子被拆在两列，整句匹配不到 | 用分栏版面读到：“At a minimum, restore the requirement in the publicly exhibited planning proposal that at least 30% of gross residential floor space on LAHC owned land be for social housing and 20% be for affordable housing.”答复栏：“…no less than 26.5%… no less than 7.0%… These minimums align with the Gateway determination that required a minimum 847 social housing dwellings…” |
+| Davidson 2018, 249 的“被要求提供理由” | 这是扫描页，没有文字层，没法检索 | 我看页面图读到第 249 页原句：“And in order to take this role, the state – at least in democratic forms – has been required to provide justifications for its actions.”；第 248 页引 Smith (1996, 39)：“the class remake of the central urban landscape” |
+
+## 伴读与正文段落的对应
+每一块伴读都对应论文里具体的段落，不只是按字数凑：
+
+| 伴读（节·块） | 对应的论文段落 | 它加深或检验的是什么 |
+|---|---|---|
+| §2 框架、案例、赞同与拓展 | 2.1、2.2、2.3 | 战略没点名 Waterloo；价格；地铁站是推动力 |
+| §2 局限 | 3.2、2.2 | 规划路径转来转去、部长自述停滞、房价回落时围栏仍在搭 |
+| §3 框架、案例 | 3.1、3.3 | 家与房地产；比例的改写（30:70、30/20、26.5/7.0、34→50） |
+| §3 拓展与深化 | 3.1、3.2 | 冲突在国家内部；房屋状况（44 年对 60 年）也是争论材料 |
+| §3 局限 | 4.2、4.3 | 同一计划按套数是增长、按占比是稀释；金融化一词用得宽松 |
+| §4 框架、案例 | 4.1、4.2、4.4 | 国家自己用这条链；第 1、3 步的检验 |
+| §4 赞同、拓展与深化 | 4.3、4.4、4.7 | Wynne and Rogers 的等待；被安排的流动；药方来自郊区 |
+| §4 局限 | 4.5、4.6、4.7 | 邻里效应有争议；居民说法不一；规则保证楼面积，回迁只是声明 |
+| §5 框架、案例 | 5.1、5.2 | 租金差、Stein、Lees、Yrjänä、Hochstenbach、Davidson；66.5% 市场住房 |
+| §5 赞同、反对、拓展 | 5.2、5.1 | Yrjänä 的补贴差距在这里更像交叉补贴；两条置换通道 |
+| §5 局限 | 5.3、5.2 | 国家不是铁板一块；比例被谈判改过；749→847 |
+| §6 框架、案例、汇总 | 6.1、6.2、6.3、表 2 | 每个二分在不同层次上成立；各框架的判断 |
+| §6 局限 | 6.4 | 只用文件、2026 年提案没读 |
 
 ## 没有读原文、只据讲义引用的
 Sassen (1991)、Brenner and Schmid、Madden and Marcuse (2016, 4)、Aalbers (2016)、Tammaru et al. (2021)、Rosengren (2026)、Stein (2019)、Smith (1979)。伴读报告里每处都写了“据讲义”。
