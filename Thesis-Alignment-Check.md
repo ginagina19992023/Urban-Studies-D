@@ -21,7 +21,7 @@
 | 4.2 | On step 1 the plan works: social housing falls from 86 per cent of the site’s dwellings to 28 per cent. | Either way, step 1 is the part of the remedy that the planning rules fix (section 4.5). | 第 1 步有效，且是规则固定的部分 |
 | 4.3 | The 70:30 remedy was not designed from evidence about what mixing achieves. | My inference, which these authors do not state, is that the ratio was set by what financing required, a case of the financialisation of housing (Aalbers 2016), and so the rules enforce a quantity of t | 药方不是按效果证据设计的；规则强制数量 |
 | 4.4 | Where displaced tenants go decides whether the cluster is dissolved or only moved. | What can be said is that the plan dilutes social housing on the site while also placing social housing nearby. | 去向决定打散还是搬走 |
-| 4.5 | The planning rules guarantee how much social housing is built, but not who lives in it and not whether tenants can come back. | Its principle that social and affordable housing be provided “so that a socially diverse residential population, representative of all income groups, is created” (Hassell 2022b, PDF p. 22) comes close | 规则保证楼面积，不保证谁来住 |
+| 4.5 | The planning rules guarantee how much social housing is built, but not who lives in it and not whether tenants can come back. | So the rules say how much social housing there will be, and say nothing about who will live in it or whether tenants can come back. | 规则保证楼面积，不保证谁来住 |
 | 4.6 | Return and relocation appear only as statements. | Steps 3 and 5, which concern where people go and what happens to them, depend on promises outside the rules (Table 1). | 回迁和搬迁只是声明；第 3、5 步靠规则之外的承诺 |
 | 4.7 | Steps 2 to 5 are where the evidence is thinnest. | This is my reading; no document measures residents’ mobility or opportunities. | 第 2–5 步证据薄弱，等待是循环的一部分 |
 | 5.1 | Tenants can lose their homes in two ways, and the promise of return covers only one of them. | None of the documents I read addresses the first. | 两条置换通道，回迁承诺只管一条 |
@@ -29,7 +29,7 @@
 | 5.3 | On paper tenants are better protected than in 2015, but most of the protections are promises and not rules. | The documents promise return and do not show it. | 保护多是承诺不是规则 |
 | 6.1 | The renewal mixes the site, and the planning rules guarantee only the mixing. | On what the documents show, I cannot say that the circle is broken, and I cannot say that it is only moved: nothing in the planning documents I read would show which. | 结论 |
 | 6.2 | This paper adds three small things to existing work on Waterloo. | They do not test what happens to tenants. | 贡献 |
-| 6.3 | This argument has limits. | No official document explains the land-value funding model. | 局限 |
+| 6.3 | This argument has limits. | The conclusion therefore holds for the 2022 planning documents, and it may change when the 2026 proposal is read. | 局限 |
 | 6.4 | Planning could do for people what it already does for floor space. | It asks that the cost of the remedy to the people it is meant to help be counted. | 建议：为人做规则已为楼面积做的事 |
 
 ## 结论
@@ -40,5 +40,5 @@
 - 3.2 里的 Hazzard 和 Jackson、5.2 里重复的 Green Square 先例已删去：声誉只在 1.4 和 6.1 出现，Green Square 只在 4.2。
 
 ## 仍要注意
-- 4.5 的末句落在设计指南的原则上（“没有提到回迁”），是在引出 4.6，而不是单独的观点句。
-- 6.3（局限）的末句是“没有官方文件说明土地价值的资金模式”，是一条次要局限；最重要的局限（只读 2022 年的文件）在该段中部。
+- 之前记录的两处例外已改：4.5 的末句现在是“规则说了会有多少社会住房，却没有说谁来住，也没有说租户能不能回来”；6.3 的末句现在是“结论对 2022 年的规划文件成立，读到 2026 年的提案之后可能会变”。两句都直接说出核心论点或它的适用范围。
+- 这份对照还没有经你确认。
