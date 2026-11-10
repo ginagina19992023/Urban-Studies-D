@@ -349,6 +349,21 @@ body.zh-only .bifig figcaption .en{display:none} body.en-only .bifig figcaption 
 .bipara:last-child{border-bottom:none}
 .bipara p.en{margin:0 0 .55rem;color:var(--ink-soft);text-align:justify;hyphens:auto;overflow-wrap:anywhere}
 .bipara p.zh{overflow-wrap:anywhere}
+.pstruct{font-family:var(--font-sans);font-size:.78rem;line-height:1.55;color:var(--muted,#6b6a66);border-left:3px solid var(--accent,#2b6777);padding:.15rem .6rem;margin:.1rem 0 .5rem;background:rgba(127,127,127,.07);border-radius:0 4px 4px 0}
+.pstruct b{color:var(--accent,#2b6777);font-weight:700;margin-right:.2rem}
+.pstruct span{display:block}
+.fig-art .fcard{font-family:var(--font-sans);font-size:.88rem;line-height:1.55;text-align:left}
+.fig-art .fcard h4{margin:.2rem 0 .3rem;font-size:.95rem}
+.fig-art .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.6rem}
+.fig-art .fbox{border:1px solid rgba(127,127,127,.35);border-radius:6px;padding:.5rem .7rem;background:rgba(127,127,127,.06)}
+.fig-art .fbox b{display:block}
+.fig-art .fbox small{display:block;color:var(--muted,#6b6a66)}
+.fig-art ul.toc{list-style:none;margin:0;padding:0}
+.fig-art ul.toc>li{margin:.35rem 0}
+.fig-art ul.toc ul{list-style:none;margin:.1rem 0 0 .2rem;padding-left:.7rem;border-left:2px solid rgba(127,127,127,.3)}
+.fig-art ul.toc a{text-decoration:none}
+.fig-art ul.toc a:hover{text-decoration:underline}
+.fig-art .tcl{color:var(--muted,#6b6a66);font-size:.8rem}
 .plabel{display:inline-block;font-family:var(--font-sans);font-size:.72rem;font-weight:700;letter-spacing:.04em;color:var(--accent,#2b6777);border:1px solid currentColor;border-radius:4px;padding:0 .4rem;margin-bottom:.35rem}
 .bipara p.zh{margin:0;font-family:var(--font-zh);font-weight:600;color:var(--ink);font-size:.94rem;
              line-height:1.9;background:var(--zh-bg);padding:.7rem .85rem;border-radius:3px}
@@ -2301,6 +2316,8 @@ def render(spec):
             a(f'<div class="bipara" id="b-{i}">')
             if it.get("label"):
                 a(f'<span class="plabel">{esc(it["label"])}</span>')
+            if it.get("struct"):
+                a(f'<div class="pstruct">{it["struct"]}</div>')
             a(f'<p class="en">{esc(en)}</p>')
             a(f'<p class="zh">{zh}</p>')
             a(note(en))

@@ -1,6 +1,34 @@
 # 混合还是搬迁？隔离、绅士化与 Waterloo 公屋区的更新
 
-*Mixing or Moving? Segregation, Gentrification and the Renewal of the Waterloo Estate*
+> Waterloo 的混合租住更新，是打破了它本想解决的隔离恶性循环，还是把它搬到了别处？背景是一座房价已涨了二十年的城市。
+
+## 目录
+
+- 1. 引言
+- 2. 全球城市：为什么 Waterloo 被卷进这场纠纷
+  - 2.1 给案例定位：这块地为什么被需要
+  - 2.2 给雄心以分量：价格
+  - 2.3 触发点与官方诊断，转向第 4 节
+- 3. 住房：策略，以及家与房地产的矛盾
+  - 3.1 给出住房单元的对立，写 2015–2021 年的策略
+  - 3.2 写策略怎样变：2022–2026
+  - 3.3 用对立读这套策略
+- 4. 隔离：用链条检验药方
+  - 4.1 全文中心：链条与官方理由
+  - 4.2 检验第 1 步
+  - 4.3 药方从哪里来
+  - 4.4 检验第 1、3 步：去向
+  - 4.5 检验第 2–5 步
+- 5. 绅士化：价格、代价与承诺
+  - 5.1 定位绅士化单元：谁获益、谁承担
+  - 5.2 社会混合的批评
+  - 5.3 保护与缺口
+- 6. 结论与讨论
+  - 6.1 回答论文问题
+  - 6.2 说明限度
+  - 6.3 提出可检查的建议
+
+![图 0](Reading-Pages/figures/f0.png)
 
 ## 1. 引言
 
@@ -36,9 +64,11 @@
 
 **[4.2]** 更新作用得最明显的是第一步。Waterloo South 现有 749 套社会住房和 120 套私人住房，社会住房约占 86%；获批的计划在 3,012 套中有 847 套社会住房，约 28%（NSW Department of Planning and Environment 2022, PDF pp. 8, 37；占比由这些数字计算；图 4）。这就是讲义所说的、让居住隔离变得不那么显眼的社会混合的稀释。城市设计研究用来说明密度的先例，在混合上说得更少。Green Square Town Centre 的表格显示 3,308 套住宅中有 104 套社会与可负担住房，约 3%，Waterloo 与 Zetland 合在一起的人口密度从每公顷 143 人升到 247 人（Turner Studio & Turf 2020, App. 6, 463–464）。这种比较有局限，因为这个镇中心只是 Green Square 的一部分，而市议会自己的目标是在其辖区内达到 7.5% 的社会住房和 7.5% 的可负担租赁住房（City of Sydney n.d.）。
 
-**[4.3]** 被搬迁的家庭去哪里，决定了一个聚集是被打散了，还是被搬走了。现有租户已被安置到其他公共住房，其中至少 70 人搬进了 Waterloo 地铁站旁的新房（Bowring 2026）。政府点出了两个本区的去向：Metro Quarter 的 70 套社会住房，以及 Redfern 的 Elizabeth Street 约 95 套（Homes NSW 2026），2023 年它还把 Elizabeth Street 说成是让 Waterloo South 租户在本区安置的一种方式（NSW Government 2023；图 5）。按链条的说法，这等于把社会住房集中放在了附近的另外几栋楼里。文件没有给出各去向的租户人数。可以说的是，第一步在一个场地上被稀释了，而社会住房被放到了其他场地上。
+**[4.3]** 悉尼的其他住宅区显示出这个药方建立在什么上。Shrestha, Ruming and Rogers (2025) 发现，悉尼的住宅区更新模式经历了“从外围，经中环，走向核心”的移动，并利用混合租住在公共土地上创造新的土地价值。70:30 的比例，Khor et al. (2023, 77) 引 Darcy and Rogers (2019) 追溯到郊区住宅区 Bonnyrigg，那里社会混合的结果“不是决策的决定因素”。Bonnyrigg 原计划在 2,330 套住宅中替换 833 套公共住宅（Benedict et al. 2022）。在 Sisson and Ruming (2025, 1825) 考察的场地上，场地内的社会住房套数减少，净增的住房属于私人租住；对整个 Waterloo，按前一届政府的计划，他们算出净增 148 套社会住房，增幅 7%（2025, 1839）。我把这读成：药方从边缘搬到了核心，比例由融资条件而不是由效果证据决定。这些住宅区的回迁人数和测得的邻里效应，不在这里用到的资料里。
 
-**[4.4]** 后面几步依靠的证据没那么确定。Sisson (2024) 指出，“集中的弱势”背后的邻里效应概念“有争议地”把原因放在住宅区上；Zanardo et al. (2024) 则认为，除板楼可能是例外外，大多数现有建筑只需相对适度的翻新就能延长寿命。租住混合改变的是谁住在哪里，它本身并不改变服务、学校或就业，而第四、第五步关心的正是这些。与此同时，不确定性已经在作用于第三和第五步。Wynne and Rogers (2021) 认为，在任何搬迁发生之前，被驱逐的威胁就已经“对他们与地方的关系造成了重大伤害”。居民 Julie 说，她是醒来看到围栏在搭才知道要拆除，而她的搬迁被推迟了；另一位居民 Karyn Brown 说，这片住宅区“非常有功能”（Bowring 2026）。规划部长的新闻稿说这次更新“停滞了好几年”（Scully 2026）。用链条来读，居民既不能选择也无法决定自己何时流动，等待本身就是循环的一部分。这是一种读法，文件并没有测量居民的流动或机会。
+**[4.4]** 被搬迁的家庭去哪里，决定了一个聚集是被打散了，还是被搬走了。现有租户已被安置到其他公共住房，其中至少 70 人搬进了 Waterloo 地铁站旁的新房（Bowring 2026）。政府点出了两个本区的去向：Metro Quarter 的 70 套社会住房，以及 Redfern 的 Elizabeth Street 约 95 套（Homes NSW 2026），2023 年它还把 Elizabeth Street 说成是让 Waterloo South 租户在本区安置的一种方式（NSW Government 2023；图 5）。这些是本区的去向。在 Bonnyrigg，一项追踪研究的第一轮发现，离开住宅区的家庭（访谈人数很少）安置到了公共住房不占多数的郊区环境里（Pinnegar, Liu and Randolph 2013），所以这个发现不能搬到 Waterloo 上来。文件没有给出 Waterloo 各去向的租户人数。可以说的是，第一步在一个场地上被稀释了，同时社会住房也被放到了附近。
+
+**[4.5]** 后面几步依靠的证据没那么确定。Sisson (2024) 指出，“集中的弱势”背后的邻里效应概念“有争议地”把原因放在住宅区上；Zanardo et al. (2024) 则认为，除板楼可能是例外外，大多数现有建筑只需相对适度的翻新就能延长寿命。租住混合改变的是谁住在哪里，它本身并不改变服务、学校或就业，而第四、第五步关心的正是这些。与此同时，不确定性已经在作用于第三和第五步。Wynne and Rogers (2021) 认为，在任何搬迁发生之前，被驱逐的威胁就已经“对他们与地方的关系造成了重大伤害”。居民 Julie 说，她是醒来看到围栏在搭才知道要拆除，而她的搬迁被推迟了；另一位居民 Karyn Brown 说，这片住宅区“非常有功能”（Bowring 2026）。规划部长的新闻稿说这次更新“停滞了好几年”（Scully 2026）。用链条来读，居民既不能选择也无法决定自己何时流动，等待本身就是循环的一部分。这是一种读法，文件并没有测量居民的流动或机会。
 
 ## 5. 绅士化：价格、代价与承诺
 
@@ -46,50 +76,13 @@
 
 **[5.2]** 这个单元对社会混合的批评，与药方有关。Lees (2008) 认为，政策把绅士化当作通向更混合、更少隔离的社区的路径，而证据基础薄弱，她把社会混合描述为绅士化的一种正面包装。Yrjänä (2026) 展示了赫尔辛基的反隔离政策如何服务于国家主导的绅士化，其中的补贴差距(subsidy gap)是国家补上差额，以降低私人投资的风险。Waterloo 的文件使用混合的语言，Homes NSW 说，“混合住房社区成功的一部分，在于社会住房与私人住房无法区分”（Homes NSW 2026）。规划文件还把 Green Square 作为建筑形态的先例（LAHC 2020, §5.1.7），而它的镇中心社会与可负担住房约占 3%（Turner Studio & Turf 2020, App. 6, 463）。在一个由市场主导的开发里，28% 的社会住房混合，是稀释了聚集，还是在为更高收入的居民准备这片地区，这是这个单元的问题。文件描述了意图，还没有显示结果。
 
-**[5.3]** 自 2015 年以来，纸面上的保护增加了。包括回迁权、六个月通知、分阶段搬迁、更多社会住房，以及给原住民家庭的份额（NSW Government 2023, 2024；Homes NSW 2026）。被报道的缺口同样清楚。该计划用 847 套社会住房取代 749 套，只增加 98 套（NSW Department of Planning and Environment 2022, PDF pp. 8, 37；差值由计算得出），部长不能确认 20% 的可负担住房里有多少是永久的（Bowring 2026），活动人士说至少还有十个人住在场地上，而部长说剩下的人不是租户（Bowring 2026）。没有公布回迁租户的人数或时间。对绅士化单元来说，问题因此不在于新房会不会建成，而在于十年后谁住在里面、谁住在附近。文件承诺了回迁，还没有显示回迁。
+**[5.3]** 自 2015 年以来，纸面上的保护增加了。包括回迁权、六个月通知、分阶段搬迁、更多社会住房，以及给原住民家庭的份额（NSW Government 2023, 2024；Homes NSW 2026）。被报道的缺口同样清楚。该计划用 847 套社会住房取代 749 套，只增加 98 套（NSW Department of Planning and Environment 2022, PDF pp. 8, 37；差值由计算得出），而按前一届政府对整个住宅区的计划，Sisson and Ruming (2025, 1839) 算出净增 148 套，增幅 7%。部长不能确认 20% 的可负担住房里有多少是永久的（Bowring 2026），活动人士说至少还有十个人住在场地上，而部长说剩下的人不是租户（Bowring 2026）。没有公布回迁租户的人数或时间。对绅士化单元来说，问题因此不在于新房会不会建成，而在于十年后谁住在里面、谁住在附近。文件承诺了回迁，还没有显示回迁。
 
 ## 6. 结论与讨论
 
-**[6.1]** 更新通过稀释场地上的社会住房，改变了链条的第一步。它能不能打破这个循环，取决于文件没有回答的三件事：被搬迁的租户住在哪里，有多少人回迁，以及这片住宅区周围的市场会怎样。根据这里汇集的证据，更新把一部分租户安置到附近的其他社会住房，并承诺其余的人会回迁，而所处的市场里，绅士化已经拉大了住在私人住房的家庭和住在公共住宅区的家庭之间的差距（City of Sydney n.d.）。Zanardo et al. (2024) 和 Sisson (2024) 所描述的声誉差距，即被贬低的现在与被理想化的未来相对照，为这个药方为什么被接受提供了一种解释。规划文件把 Green Square 这样的片区当作它们所提供的未来的参照（LAHC 2020, §5.1.7）。这种读法是我的，也是整个论证里检验得最少的部分。
+**[6.1]** 更新通过稀释场地上的社会住房，改变了链条的第一步。它能不能打破这个循环，取决于文件没有回答的三件事：被搬迁的租户住在哪里，有多少人回迁，以及这片住宅区周围的市场会怎样。根据这里汇集的证据，更新把一部分租户安置到附近的其他社会住房，并承诺其余的人会回迁，而所处的市场里，绅士化已经拉大了住在私人住房的家庭和住在公共住宅区的家庭之间的差距（City of Sydney n.d.）。Zanardo et al. (2024) 和 Sisson (2024) 所描述的声誉差距，即被贬低的现在与被理想化的未来相对照，为这个药方为什么被接受提供了一种解释。规划文件把 Green Square 这样的片区当作它们所提供的未来的参照（LAHC 2020, §5.1.7）。药方在悉尼二十年的住宅区更新里一路搬过来（Shrestha, Ruming and Rogers 2025），到了核心，而没有找到它的效果测量。这种读法是我的，其中声誉的部分是整个论证里检验得最少的。
 
 **[6.2]** 这个论证有边界。它依据的是文件和已发表的研究，而不是访谈，所以居民的经验是通过别人的研究和个别新闻报道来呈现的。搬迁的去向有名称，但没有人数。价格序列在 2026 年转向，所以这里的主张涉及的是二十年的上涨，不是现在。五步链是读这个案例的一种方式，文件本身并不使用它。没有官方文件说明土地价值的资金模式，而 Waterloo 与 Zetland 的租金在 2016 与 2021 年两次普查之间并没有上涨。
 
 **[6.3]** 对规划有几点启示，每一点都可以对照文件来检验。回迁的承诺应当被界定并报告：多少租户回迁，什么时候，回到同一个地方还是只回到同一个区域。社会住房的占比应当与社会住房的数量一起公布，因为数量在上升而占比在下降。被搬迁租户的去向应当报告。可负担住房是否永久应当得到确认。在现有建筑可以翻新的地方，应当考虑保留（Zanardo et al. 2024）。这些建议并不需要以政策出于恶意为前提。它们只要求把这个药方对它想要帮助的人所造成的代价计算进去。
 
-## 参考文献（与英文版相同）
-
-Atkinson, R., M. Wulff, M. Reynolds, and A. Spinney. 2011. *Gentrification and Displacement: The Household Impacts of Neighbourhood Change*. AHURI Final Report No. 160. Australian Housing and Urban Research Institute.  
-Australian Bureau of Statistics. 2016a. "2016 Census QuickStats: Waterloo (NSW)." https://www.abs.gov.au/census/find-census-data/quickstats/2016/SSC14183.  
-Australian Bureau of Statistics. 2016b. "2016 Census QuickStats: Zetland." https://www.abs.gov.au/census/find-census-data/quickstats/2016/SSC14524.  
-Australian Bureau of Statistics. 2021a. "2021 Census QuickStats: Waterloo (NSW)." https://abs.gov.au/census/find-census-data/quickstats/2021/SAL14201.  
-Australian Bureau of Statistics. 2021b. "2021 Census QuickStats: Zetland." https://abs.gov.au/census/find-census-data/quickstats/2021/SAL14542.  
-Australian Bureau of Statistics. 2026. "Total Value of Dwellings, June Quarter 2026." Released September 8, 2026. https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/total-value-dwellings/latest-release.  
-Bowring, D. 2026. "Housing Minister Says Waterloo Community ‘Not Functional’ as Demolition Looms for Public Housing Estate." *ABC News*, May 25, 2026. https://www.abc.net.au/news/2026-05-25/waterloo-public-housing-estate-fenced-off-ahead-of-demolition/106718016.  
-Chatterjee, P., A. Sisson, J. Condie, and L. Wynne. 2018. "We Still Live Here: Public Housing Tenants Fight for Their Place in the City." *The Conversation*, November 19, 2018. https://theconversation.com/we-still-live-here-public-housing-tenants-fight-for-their-place-in-the-city-107188.  
-City of Sydney. n.d. "Planning Proposal: Affordable Housing Review – Green Square Town Centre (Post Exhibition), Attachment B." Accessed November 2026. https://meetings.cityofsydney.nsw.gov.au/documents/s44648/.  
-Cotality. 2026. *Cotality Home Value Index, November 2026*. https://discover.cotality.com/hubfs/COTALITY%20HVI%20NOV%202026%20FINAL.pdf.  
-Gerathy, S. 2015. "Waterloo Public Housing to Be Replaced as Part of New Sydney Metro Station Plans." *ABC News*, December 16, 2015. https://www.abc.net.au/news/2015-12-16/waterloo-metro-station-plans-to-see-public-housing-replaced/7033404.  
-Homes NSW. 2026. "Waterloo Renewal Project." Last modified October 21, 2026. https://www.nsw.gov.au/homes-nsw/waterloo.  
-Lees, L. 2008. "Gentrification and Social Mixing: Towards an Inclusive Urban Renaissance?" *Urban Studies* 45 (12): 2449–2470.  
-Madden, D., and P. Marcuse. 2016. *In Defense of Housing*. Verso.  
-NSW Department of Communities and Justice. 2026. "Rent and Sales Report: Rent Tables, June 2026 Quarter." https://dcj.nsw.gov.au/about-us/families-and-communities-statistics/housing-and-rent-sales/rent-and-sales-report.html.  
-NSW Department of Planning and Environment. 2022. *Plan Finalisation Report: Waterloo Estate (South), PP-2021-3265*. https://shared-drupal-s3fs.s3.ap-southeast-2.amazonaws.com/master-test/fapub_pdf/Keelie+Drupal+Documents/Plan+Finalisation+Report.pdf.  
-NSW Government. 2016. *Future Directions for Social Housing in NSW*. NSW Family and Community Services.  
-NSW Government. 2023. "Waterloo South Social and Affordable Housing Boosted to 50%." Media release, August 21, 2023. https://www.nsw.gov.au/media-releases/waterloo-affordable-housing-boost.  
-NSW Government. 2024. "Next Step Complete for Australia’s Largest Social Housing Build." Media release, August 9, 2024. https://nsw.gov.au/media-releases/next-step-complete-for-australias-largest-social-housing-build.  
-NSW Government. 2025. "New Social Homes Delivered above Waterloo Metro Station." Media release, October 29, 2025. https://www.nsw.gov.au/departments-and-agencies/homes-nsw/news/new-social-homes-delivered-above-waterloo-metro-station.  
-NSW Land and Housing Corporation. 2020. *Waterloo South Planning Proposal Report*. Attachment B2. https://meetings.cityofsydney.nsw.gov.au/documents/s49951/.  
-NSW Land and Housing Corporation. 2021. *Planning Proposal: Waterloo Estate (South) – Sydney Local Environmental Plan 2012 Amendment*. Attachment A. https://meetings.cityofsydney.nsw.gov.au/documents/s49854/.  
-NSW Planning and Environment. 2014. *A Plan for Growing Sydney: A Strong Global City, a Great Place to Live*. NSW Government.  
-Rosengren, K. 2026. "Segregation in a Retrenching Housing Regime." Lecture, Aalto University, January 27, 2026.  
-Sassen, S. 1991. *The Global City: New York, London, Tokyo*. Princeton University Press.  
-Scully, P. 2026. "First Look at New Waterloo South as Renewal Enters Next Stage." Media release, May 7, 2026. https://paulscullymp.com.au/news/media-releases/first-look-at-new-waterloo-south-as-renewal-enters-next-stage/.  
-Sisson, A. 2024. "Public Housing and Territorial Stigma: Towards a Symbolic and Political Economy." *Housing Studies* 39 (5): 1199–1218. https://doi.org/10.1080/02673037.2022.2108383.  
-Smith, N. 1979. "Toward a Theory of Gentrification: A Back to the City Movement by Capital, Not People." *Journal of the American Planning Association* 45 (4): 538–548.  
-Stein, S. 2019. *Capital City: Gentrification and the Real Estate State*. Verso.  
-Tammaru, T., D. Knapp, S. Silm, M. van Ham, and F. Witlox. 2021. "Spatial Underpinnings of Social Inequalities: A Vicious Circles of Segregation Approach." *Social Inclusion* 9 (2): 65–76. https://doi.org/10.17645/si.v9i2.4345.  
-Turner Studio & Turf. 2020. *Waterloo Estate – Waterloo South: Urban Design & Public Domain Study*. Part 1 and Appendix 6 case studies; planning proposal Attachment 5. City of Sydney meeting papers, Attachments B7a and B7i.  
-Wynne, L. 2018. "Trying to Stay Local in Sydney’s ‘Global Arc’: Social Housing Tenant Perspectives." Paper presented at the 8th State of Australian Cities National Conference, 1–11. https://opus.lib.uts.edu.au/handle/10453/133423.  
-Wynne, L., and D. Rogers. 2021. "Emplaced Displacement and Public Housing Redevelopment: From Physical Displacement to Social, Cultural, and Economic Replacement." *Housing Policy Debate* 31 (3–5): 395–410. https://doi.org/10.1080/10511482.2020.1772337.  
-Yrjänä, H. 2026. "By Any Means Necessary: The Anti-Segregation Efforts and State-Led Gentrification in Helsinki." *Cities* 170: 106718. https://doi.org/10.1016/j.cities.2025.106718.  
-Zanardo, M., A. Sisson, C. Logan, and R. McLaughlan. 2024. "Wilful Ignorance at Waterloo: Public Housing Quality and Political Stigma in Sydney’s Largest Estate Renewal." *Planning Perspectives* 39 (6): 1207–1239. https://doi.org/10.1080/02665433.2024.2337268.  

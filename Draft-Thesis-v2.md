@@ -1,5 +1,37 @@
 # Mixing or Moving? Segregation, Gentrification and the Renewal of the Waterloo Estate
 
+> Does the mixed-tenure renewal of Waterloo break the vicious circle of segregation it is meant to address, or relocate it, in a city where housing prices have risen for two decades?
+
+## Contents
+
+- 1. Introduction
+- 2. The global city: why Waterloo is drawn into the dispute
+  - 2.1 
+  - 2.2 
+  - 2.3 
+- 3. Housing: the strategy, and the conflict between home and real estate
+  - 3.1 
+  - 3.2 
+  - 3.3 
+- 4. Segregation: testing the remedy against the chain
+  - 4.1 
+  - 4.2 
+  - 4.3 
+  - 4.4 
+  - 4.5 
+- 5. Gentrification: price, cost and promise
+  - 5.1 
+  - 5.2 
+  - 5.3 
+- 6. Conclusion and discussion
+  - 6.1 
+  - 6.2 
+  - 6.3 
+
+![Figure 0](Reading-Pages/figures/f0.png)
+
+*Figure 0. Theoretical structure: four course units frame one test of the chain of segregation.*
+
 ## 1. Introduction
 
 Public housing is often discussed as if its quality were a plain fact, yet the way it is understood changes with the plans made for it. Zanardo et al. (2024, 1207) open their study of the Waterloo estate in Sydney with a claim: "The history of public housing in Australia is being rewritten by redevelopment." In a district planned as part of a global city, the imagined future of a place and the planning treatment given to it are closely tied, because a plan needs a past to replace and a future to deliver.
@@ -34,7 +66,9 @@ The segregation unit gives the course’s account of how segregation reproduces 
 
 The renewal acts most clearly on the first step. Waterloo South now has 749 social and 120 private dwellings, about 86 per cent social housing, and the approved plan has 847 social dwellings among 3,012, about 28 per cent (NSW Department of Planning and Environment 2022, PDF pp. 8, 37; shares calculated from these figures; Figure 4). This is the dilution by social mixing that the lecture names as the way residential segregation becomes less visible. The precedent that the urban design study uses for density says less about mix. Green Square Town Centre is tabulated with 104 social and affordable dwellings among 3,308, about 3 per cent, and Waterloo and Zetland together are shown rising from 143 to 247 people per hectare (Turner Studio & Turf 2020, App. 6, 463–464). The comparison is limited, because the town centre is one part of Green Square and the City’s own target is 7.5 per cent social and 7.5 per cent affordable rental housing across its area (City of Sydney n.d.).
 
-Where displaced households go decides whether a cluster is dissolved or moved. Current tenants have been relocated to other public housing, including at least 70 into the new homes beside the Waterloo metro station (Bowring 2026). The government names two local destinations, the 70 social homes at the Metro Quarter and about 95 more at Elizabeth Street, Redfern (Homes NSW 2026), and in 2023 it presented Elizabeth Street as a way for Waterloo South tenants to be relocated in the local area (NSW Government 2023; Figure 5). In the chain’s terms, these place social housing together in separate buildings nearby. The documents do not give the number of tenants at each destination. What can be said is that the first step is diluted on one site while social housing is placed on others.
+Sydney’s other estates show what the remedy has been built on. Shrestha, Ruming and Rogers (2025) find that estate-renewal models in Sydney have moved “from periphery, through middle ring, towards core”, using mixed tenure to create new land value on public land. The 70:30 ratio is traced by Khor et al. (2023, 77), citing Darcy and Rogers (2019), to Bonnyrigg, a suburban estate, where social-mixing outcomes “was not a determinant of decision-making”. Bonnyrigg was to replace 833 public dwellings within 2,330 homes (Benedict et al. 2022). On the sites that Sisson and Ruming (2025, 1825) examine, the number of social dwellings decreased while net additions were in private tenures, and for the whole of Waterloo under the previous government’s plan they calculate a net gain of 148 social dwellings, an uplift of 7 per cent (2025, 1839). I read this as a remedy that travelled from the fringe to the core with a ratio set by financing rather than by evidence of results. Counts of returning tenants and measured neighbourhood effects for these estates are not in the sources used here.
+
+Where displaced households go decides whether a cluster is dissolved or moved. Current tenants have been relocated to other public housing, including at least 70 into the new homes beside the Waterloo metro station (Bowring 2026). The government names two local destinations, the 70 social homes at the Metro Quarter and about 95 more at Elizabeth Street, Redfern (Homes NSW 2026), and in 2023 it presented Elizabeth Street as a way for Waterloo South tenants to be relocated in the local area (NSW Government 2023; Figure 5). These are local destinations. At Bonnyrigg, the first wave of a panel study found that households who had left the estate, a small group of interviews, had resettled in suburban settings where public housing is not the majority tenure (Pinnegar, Liu and Randolph 2013), so that finding cannot be carried over to Waterloo. The documents do not give the number of tenants at each Waterloo destination. What can be said is that the first step is diluted on one site while social housing is also placed nearby.
 
 The later steps rest on evidence that is less settled. Sisson (2024) notes that the concept of neighbourhood effects behind “concentrated disadvantage” “controversially” places the cause in the estate, and Zanardo et al. (2024) conclude that most of the existing buildings, with the possible exception of the slab blocks, could have their lives extended with relatively modest renovation. Tenure mix changes who lives where. It does not by itself change services, schooling or employment, which steps four and five concern. Meanwhile uncertainty already acts on steps three and five. Wynne and Rogers (2021) argue that the threat of eviction “has already done significant damage to their relationship to place” before any move. A resident, Julie, said that she heard of the demolition work when she woke to find fences going up, and that her relocation had been delayed, and another, Karyn Brown, said of the estate, “It is very functional” (Bowring 2026). The planning minister’s release says that the renewal “stalled for years” (Scully 2026). Read through the chain, residents neither choose nor time their mobility, and the wait is part of the circle. This is a reading. The documents do not measure residents’ mobility or opportunities.
 
@@ -44,11 +78,11 @@ The gentrification unit asks who gains when land is reinvested in and who bears 
 
 The unit’s critique of social mixing bears on the remedy. Lees (2008) argues that policy treats gentrification as a route to more mixed and less segregated communities on a poor evidence base, and describes social mixing as a positive packaging of gentrification. Yrjänä (2026) shows in Helsinki how an anti-segregation policy can serve state-led gentrification, with a subsidy gap in which the state pays the difference to de-risk private investment. Waterloo’s documents use the language of mixing, and Homes NSW states that “part of the success of mixed housing communities is that social and private housing are indistinguishable” (Homes NSW 2026). The planning documents also cite Green Square as a precedent for built form (LAHC 2020, §5.1.7), and its town centre has about 3 per cent social and affordable housing (Turner Studio & Turf 2020, App. 6, 463). Whether a mix of 28 per cent social housing, within a market-led development, dilutes the cluster or prepares the area for higher-income residents is the question of the unit. The documents describe the intention and do not yet show the result.
 
-Protections have grown on paper since 2015. They include the right to return, six months’ notice, staged relocation, more social homes and a share for Aboriginal households (NSW Government 2023, 2024; Homes NSW 2026). The reported gaps are also clear. The plan replaces 749 social dwellings with 847, an increase of 98 (NSW Department of Planning and Environment 2022, PDF pp. 8, 37; difference calculated), the minister could not confirm how much of the 20 per cent affordable housing would be permanent (Bowring 2026), and activists said that at least ten people were still living on the site while the minister said that the remaining people were not tenants (Bowring 2026). No figures are published on how many tenants return or how soon. For the gentrification unit the question is therefore not whether the new buildings will exist but who will live in them and near them in ten years’ time. The documents promise return and do not yet show it.
+Protections have grown on paper since 2015. They include the right to return, six months’ notice, staged relocation, more social homes and a share for Aboriginal households (NSW Government 2023, 2024; Homes NSW 2026). The reported gaps are also clear. The plan replaces 749 social dwellings with 847, an increase of 98 (NSW Department of Planning and Environment 2022, PDF pp. 8, 37; difference calculated), and under the previous government’s plan for the whole estate Sisson and Ruming (2025, 1839) calculated a net gain of 148, an uplift of 7 per cent. The minister could not confirm how much of the 20 per cent affordable housing would be permanent (Bowring 2026), and activists said that at least ten people were still living on the site while the minister said that the remaining people were not tenants (Bowring 2026). No figures are published on how many tenants return or how soon. For the gentrification unit the question is therefore not whether the new buildings will exist but who will live in them and near them in ten years’ time. The documents promise return and do not yet show it.
 
 ## 6. Conclusion and discussion
 
-The renewal changes the first step of the chain by diluting the social housing on the site. Whether it breaks the circle depends on three things that the documents leave open: where the displaced tenants live, how many return, and what the market around the estate does. On the evidence assembled here, the renewal places some tenants in other social housing nearby and promises the return of the rest, in a market where gentrification has widened the gap between households in private housing and in public housing estates (City of Sydney n.d.). The reputational gap that Zanardo et al. (2024) and Sisson (2024) describe, a devalued present set against an idealised future, offers one explanation for why the remedy is accepted. The planning documents point to precincts such as Green Square for the future they offer (LAHC 2020, §5.1.7). That reading is mine, and it is the least tested part of the argument.
+The renewal changes the first step of the chain by diluting the social housing on the site. Whether it breaks the circle depends on three things that the documents leave open: where the displaced tenants live, how many return, and what the market around the estate does. On the evidence assembled here, the renewal places some tenants in other social housing nearby and promises the return of the rest, in a market where gentrification has widened the gap between households in private housing and in public housing estates (City of Sydney n.d.). The reputational gap that Zanardo et al. (2024) and Sisson (2024) describe, a devalued present set against an idealised future, offers one explanation for why the remedy is accepted. The planning documents point to precincts such as Green Square for the future they offer (LAHC 2020, §5.1.7). The remedy has travelled across twenty years of Sydney estate renewal (Shrestha, Ruming and Rogers 2025) and arrives at the core with no outcome measures found. That reading is mine, and the reputational part of it is the least tested part of the argument.
 
 The argument has limits. It rests on documents and published studies rather than interviews, so residents’ experience is represented through other people’s research and single news reports. Relocation destinations are named but not counted. The price series turned in 2026, so the claim concerns two decades of rise and not the present. The five-step chain is a way of reading the case, and the documents do not use it. No official document sets out the land-value funding model, and the rents of Waterloo and Zetland did not rise between the 2016 and 2021 censuses.
 
@@ -62,12 +96,14 @@ Australian Bureau of Statistics. 2016b. "2016 Census QuickStats: Zetland." https
 Australian Bureau of Statistics. 2021a. "2021 Census QuickStats: Waterloo (NSW)." https://abs.gov.au/census/find-census-data/quickstats/2021/SAL14201.  
 Australian Bureau of Statistics. 2021b. "2021 Census QuickStats: Zetland." https://abs.gov.au/census/find-census-data/quickstats/2021/SAL14542.  
 Australian Bureau of Statistics. 2026. "Total Value of Dwellings, June Quarter 2026." Released September 8, 2026. https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/total-value-dwellings/latest-release.  
+Benedict, R., N. Gurran, C. Gilbert, C. Hamilton, S. Rowley, and S. Liu. 2022. *Private Sector Involvement in Social and Affordable Housing*. AHURI Final Report No. 388. Australian Housing and Urban Research Institute. https://doi.org/10.18408/ahuri7326901.  
 Bowring, D. 2026. "Housing Minister Says Waterloo Community ‘Not Functional’ as Demolition Looms for Public Housing Estate." *ABC News*, May 25, 2026. https://www.abc.net.au/news/2026-05-25/waterloo-public-housing-estate-fenced-off-ahead-of-demolition/106718016.  
 Chatterjee, P., A. Sisson, J. Condie, and L. Wynne. 2018. "We Still Live Here: Public Housing Tenants Fight for Their Place in the City." *The Conversation*, November 19, 2018. https://theconversation.com/we-still-live-here-public-housing-tenants-fight-for-their-place-in-the-city-107188.  
 City of Sydney. n.d. "Planning Proposal: Affordable Housing Review – Green Square Town Centre (Post Exhibition), Attachment B." Accessed November 2026. https://meetings.cityofsydney.nsw.gov.au/documents/s44648/.  
 Cotality. 2026. *Cotality Home Value Index, November 2026*. https://discover.cotality.com/hubfs/COTALITY%20HVI%20NOV%202026%20FINAL.pdf.  
 Gerathy, S. 2015. "Waterloo Public Housing to Be Replaced as Part of New Sydney Metro Station Plans." *ABC News*, December 16, 2015. https://www.abc.net.au/news/2015-12-16/waterloo-metro-station-plans-to-see-public-housing-replaced/7033404.  
 Homes NSW. 2026. "Waterloo Renewal Project." Last modified October 21, 2026. https://www.nsw.gov.au/homes-nsw/waterloo.  
+Khor, L.-A., L. Taylor, S. Glackin, S. Rowley, S. Siebel, D. Tinios, and R. Azizi. 2023. *From Mixed Tenure Development to Mixed Tenure Neighbourhoods*. AHURI Final Report No. 412. Australian Housing and Urban Research Institute. https://doi.org/10.18408/ahuri5229701.  
 Lees, L. 2008. "Gentrification and Social Mixing: Towards an Inclusive Urban Renaissance?" *Urban Studies* 45 (12): 2449–2470.  
 Madden, D., and P. Marcuse. 2016. *In Defense of Housing*. Verso.  
 NSW Department of Communities and Justice. 2026. "Rent and Sales Report: Rent Tables, June 2026 Quarter." https://dcj.nsw.gov.au/about-us/families-and-communities-statistics/housing-and-rent-sales/rent-and-sales-report.html.  
@@ -79,10 +115,13 @@ NSW Government. 2025. "New Social Homes Delivered above Waterloo Metro Station."
 NSW Land and Housing Corporation. 2020. *Waterloo South Planning Proposal Report*. Attachment B2. https://meetings.cityofsydney.nsw.gov.au/documents/s49951/.  
 NSW Land and Housing Corporation. 2021. *Planning Proposal: Waterloo Estate (South) – Sydney Local Environmental Plan 2012 Amendment*. Attachment A. https://meetings.cityofsydney.nsw.gov.au/documents/s49854/.  
 NSW Planning and Environment. 2014. *A Plan for Growing Sydney: A Strong Global City, a Great Place to Live*. NSW Government.  
+Pinnegar, S., E. Liu, and B. Randolph. 2013. *Bonnyrigg Longitudinal Panel Study: First Wave Report*. City Futures Research Centre, University of New South Wales.  
 Rosengren, K. 2026. "Segregation in a Retrenching Housing Regime." Lecture, Aalto University, January 27, 2026.  
 Sassen, S. 1991. *The Global City: New York, London, Tokyo*. Princeton University Press.  
 Scully, P. 2026. "First Look at New Waterloo South as Renewal Enters Next Stage." Media release, May 7, 2026. https://paulscullymp.com.au/news/media-releases/first-look-at-new-waterloo-south-as-renewal-enters-next-stage/.  
+Shrestha, P., K. Ruming, and D. Rogers. 2025. "Dispersing the Public Housing 'Estate': Evolution of Public Housing Estate Renewal Projects in Sydney, NSW." *International Journal of Housing Policy*. Advance online publication, December 29, 2025. https://doi.org/10.1080/19491247.2025.2599101.  
 Sisson, A. 2024. "Public Housing and Territorial Stigma: Towards a Symbolic and Political Economy." *Housing Studies* 39 (5): 1199–1218. https://doi.org/10.1080/02673037.2022.2108383.  
+Sisson, A., and K. Ruming. 2025. "Calculating the System-Wide Supply Impacts of Social Housing Estate Renewal: New Measures and Methods." *Housing Studies* 40 (8): 1821–1845. https://doi.org/10.1080/02673037.2024.2378852.  
 Smith, N. 1979. "Toward a Theory of Gentrification: A Back to the City Movement by Capital, Not People." *Journal of the American Planning Association* 45 (4): 538–548.  
 Stein, S. 2019. *Capital City: Gentrification and the Real Estate State*. Verso.  
 Tammaru, T., D. Knapp, S. Silm, M. van Ham, and F. Witlox. 2021. "Spatial Underpinnings of Social Inequalities: A Vicious Circles of Segregation Approach." *Social Inclusion* 9 (2): 65–76. https://doi.org/10.17645/si.v9i2.4345.  
