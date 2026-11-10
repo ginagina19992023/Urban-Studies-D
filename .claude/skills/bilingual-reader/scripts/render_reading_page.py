@@ -349,6 +349,16 @@ body.zh-only .bifig figcaption .en{display:none} body.en-only .bifig figcaption 
 .bipara:last-child{border-bottom:none}
 .bipara p.en{margin:0 0 .55rem;color:var(--ink-soft);text-align:justify;hyphens:auto;overflow-wrap:anywhere}
 .bipara p.zh{overflow-wrap:anywhere}
+.fig-art .cmp2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:16px;font-family:var(--font-sans);text-align:left}
+.fig-art .cmp2 h5{margin:0 0 8px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted,#6b6a66)}
+.fig-art .cmp2 .cl p{font-family:var(--font-serif,Georgia,serif);font-size:.86rem;line-height:1.5;margin:0 0 .55rem}
+.fig-art .cmp2 .cl .pid{font-family:var(--font-sans);font-size:.68rem;font-weight:700;color:var(--accent,#2b6777);margin-right:.3rem}
+.fig-art .cmp2 .cr .blk{margin:0 0 .8rem}
+.fig-art .cmp2 .cr .tag{display:inline-block;font-size:.68rem;font-weight:700;color:var(--accent,#2b6777);background:var(--accent-soft,#eef4f5);padding:0 .45rem;border-radius:3px;margin-bottom:.15rem}
+.fig-art .cmp2 .cr .tag.lim{color:#8a4a12;background:rgba(200,140,60,.18)}
+.fig-art .cmp2 .cr h4{margin:0 0 .15rem;font-size:.88rem}
+.fig-art .cmp2 .cr p{margin:0;font-size:.86rem;line-height:1.65}
+@media(max-width:760px){.fig-art .cmp2{grid-template-columns:minmax(0,1fr)}}
 .pstruct{font-family:var(--font-sans);font-size:.78rem;line-height:1.55;color:var(--muted,#6b6a66);border-left:3px solid var(--accent,#2b6777);padding:.15rem .6rem;margin:.1rem 0 .5rem;background:rgba(127,127,127,.07);border-radius:0 4px 4px 0}
 .pstruct b{color:var(--accent,#2b6777);font-weight:700;margin-right:.2rem}
 .pstruct span{display:block}
