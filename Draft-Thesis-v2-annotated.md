@@ -44,7 +44,7 @@
 - **C 诊断 ↔ 证据（Diagnosis ↔ evidence）**：官方把住宅区的弱势读成代代相传的循环，药方是混合租住；但药方的比例出自融资条件，邻里效应也有争议。 见 ¶2.3, 4.1, 4.3, 4.7。2.3、4.1 摆出诊断；4.3 追溯 70:30 的出处；4.5 引 Sisson 与 Zanardo 说明证据并不确定。
 - **D 承诺 ↔ 记录（Promise ↔ record）**：2023 年以来保护增多（回迁权、通知期），但回迁人数、永久性和时间没有公布。 见 ¶3.2, 5.3, 6.2, 6.3。3.2、5.3 分别写承诺与缺口；6.3 把缺口变成可以对照文件检查的建议。
 - **E 想象的未来 ↔ 居民的经验（Imagined future ↔ lived experience）**：现在被贬低、未来被理想化（声誉差距），而居民经历的是在地失所与等待。 见 ¶1.3, 1.4, 3.2, 4.7, 6.1。作为支线：1.3–1.4 引出，3.2 显示负面描述跨两届政府连续，4.5 写居民的等待，6.1 承认这是检验得最少的部分。
-- **F 锁定 ↔ 声明（Secured ↔ announced）**：规划条文用楼面积下限锁定了混合租住，回迁、通知和搬迁却只以声明出现。这是本文自己的角度。 见 ¶4.5–4.6, 5.3, 6.1, 6.3。4.5 逐条分层：专用控制、设计指南、声明；5.3 说明保护不在控制里；6.3 建议把对楼面积做的事也对人做。
+- **F 写进规则 ↔ 只是承诺（Written into rules ↔ only promised）**：规划文件用最低楼面积保证了混合租住；回迁、通知和搬迁只是承诺。这是本文自己的角度。 见 ¶4.5–4.6, 5.3, 6.1, 6.3。4.5 逐条分层：专用控制、设计指南、声明；5.3 说明保护不在控制里；6.3 建议把对楼面积做的事也对人做。
 
 ### 实在的锚点
 
@@ -67,7 +67,7 @@
 
 ### ¶1.1
 
-Mixing tenures is a standard remedy for the concentration of disadvantage in public housing estates. The NSW Government justified renewing its estates with a diagnosis, that disadvantage clusters in estates and is “passed on through multiple generations” (NSW Government 2016, PDF p. 24), and with a remedy, a 70:30 split between private and social dwellings “to enable more integrated communities” (NSW Government 2016, PDF p. 9). This paper asks whether the renewal of the Waterloo estate in Sydney breaks that circle of segregation or only moves it, and argues that the answer depends on what the planning rules actually guarantee: they fix how much floor space goes to social housing, but the right of return appears only as a statement of intent.
+Mixing tenures is a standard remedy for the concentration of disadvantage in public housing estates. The NSW Government justified renewing its estates with a diagnosis, that disadvantage clusters in estates and is “passed on through multiple generations” (NSW Government 2016, PDF p. 24), and with a remedy, a 70:30 split between private and social dwellings “to enable more integrated communities” (NSW Government 2016, PDF p. 9). This paper asks whether the renewal of the Waterloo estate in Sydney breaks that circle of segregation or only moves it, and argues that the approved plan dilutes the estate, while whether it breaks the circle depends on tenants returning, which the planning documents do not secure: they set minimum floor areas for social housing and state relocation and return only as intentions.
 
 > 作用：题目与论点：诊断、药方、问题和答案  
 > 辩证：打破循环 ↔ 搬到别处  
@@ -101,13 +101,13 @@ Existing work on Waterloo concerns reputation and displacement. Zanardo et al. (
 
 The paper is a document analysis. Its materials are the planning documents for Waterloo South (the plan finalisation report, the final planning proposal and the Design Guide, all from 2022) and for the concept application of 2025–26 (the proponent’s scoping report, the issued assessment requirements, the exhibition notice and appendices A–E of the impact statement), government statements and media releases from 2015 to 2026, news reports, the 2020 social baseline report and census figures for Waterloo, and published studies of Waterloo and of estates elsewhere in Australia and the United States. Each protection for tenants is sorted by where it appears: in a binding planning control, in the Design Guide, in a statement inside the planning record, or only in an announcement.
 
-> 作用：材料与方法  
-> 辩证：文件的层次：条文 ↔ 设计指南 ↔ 声明 ↔ 公告  
-> 实在：2022 年三份规划文件；2015–2026 年声明与新闻  
+> 作用：路线  
+> 辩证：写进规则 ↔ 只是承诺  
+> 实在：五步链；四组理论  
 
 ### ¶1.6
 
-This paper reads the plan’s tenure mix, the destinations of relocated tenants and the promise of return against the five steps of the vicious circle of segregation (Rosengren 2026; Tammaru et al. 2021), and asks which of them the planning rules guarantee and which are only promised in announcements. The sections take four bodies of urban theory in turn: the global city, housing, segregation and gentrification.
+The argument has three steps. First, the plan changes the tenure mix on the site, and binding minimum floor areas secure that change (section 4). Second, the tenants it moves appear in the documents examined only through promises of return and support, with no count and no follow-up, and where return has been counted elsewhere, between 5 and about 40 per cent of tenants came back (section 4). Third, the market around the estate was already changing the neighbourhood, so the plan adds private housing to the estate where the market had added it around it (sections 4 and 5). The sections take four bodies of urban theory in turn: the global city, housing, segregation and gentrification.
 
 > 作用：路线  
 > 辩证：条文锁定 ↔ 声明  
@@ -128,7 +128,7 @@ The strategy that frames Sydney as a global city does not name Waterloo. The sta
 
 ### ¶2.2
 
-The renewal is paid for by selling new private flats, so the price those flats can fetch matters, and that price has risen strongly. The median transfer price of attached dwellings in Sydney rose from $390,000 in June 2006 to $840,000 in June 2026, and that of houses from $495,000 to $1,487,600 (Australian Bureau of Statistics 2026; Figure 1). The rise has paused: Sydney values fell 9.4 per cent in the year to October 2026 but remain 34.5 per cent above their level ten years earlier (Cotality 2026). These figures show the pressure on the plan, not what happens to tenants, and they are for the whole city and the postcode. The documents examined give no price or rent figures for the Waterloo site itself.
+The renewal is paid for by selling new private flats, so the price those flats can fetch matters, and that price has risen strongly. The median transfer price of attached dwellings in Sydney rose from $390,000 in June 2006 to $840,000 in June 2026, and that of houses from $495,000 to $1,487,600 (Australian Bureau of Statistics 2026; Figure 1). The rise has paused: Sydney values fell 9.4 per cent in the year to October 2026 but remain 34.5 per cent above their level ten years earlier (Cotality 2026). The documents examined give no price or rent figures for the Waterloo site itself.
 
 > 作用：给雄心以分量：价格  
 > 辩证：上涨 ↔ 2026 年回调与局部租金没涨  
@@ -159,7 +159,7 @@ From the start the plan has treated Waterloo both as people’s homes and as a w
 
 ### ¶3.2
 
-The promises to tenants grew after 2023, but the planning rules were written before them (Figure 2). The plan approved in 2022 provides 3,012 dwellings, of which 847 are social housing, and its planning controls date from November 2022 (NSW Department of Planning and Environment 2022, PDF p. 37). After a change of government in March 2023, the share of social and affordable housing across the estate was raised from 34 to 50 per cent, tenants were promised the right to return, and relocation was to proceed in small stages (NSW Government 2023). In 2024 the government promised at least six months’ notice and dedicated support, and repeated that all residents would be given the right to return (NSW Government 2024). By 2026 a new concept application proposed about 3,300 homes, at least half of them social or affordable (Scully 2026). So the promises moved ahead of the rules. The floor-area part has since reached the planning documents: the proponent’s 2025 scoping report describes 50 per cent of residential floor area as committed to social and affordable housing (Beam Planning 2025, PDF pp. 4, 20), and the 2026 concept application proposes at least 30 per cent of residential floor area as social housing and no more than 50 per cent as market housing (NSW Department of Planning, Housing and Infrastructure 2026). None of the three documents for this stage mentions a right of return.
+The promises to tenants grew after 2023, but the planning rules were written before them (Figure 2). The plan approved in 2022 provides 3,012 dwellings, of which 847 are social housing, and its planning controls date from November 2022 (NSW Department of Planning and Environment 2022, PDF p. 37). After a change of government in March 2023, the share of social and affordable housing across the estate was raised from 34 to 50 per cent, tenants were promised the right to return, and relocation was to proceed in small stages (NSW Government 2023). In 2024 it added at least six months’ notice and dedicated support (NSW Government 2024). By 2026 a new concept application proposed about 3,300 homes, at least half of them social or affordable (Scully 2026). So the promises moved ahead of the rules. The floor-area part has since reached the planning documents: the proponent’s 2025 scoping report describes 50 per cent of residential floor area as committed to social and affordable housing (Beam Planning 2025, PDF pp. 4, 20), and the 2026 concept application proposes at least 30 per cent of residential floor area as social housing and no more than 50 per cent as market housing (NSW Department of Planning, Housing and Infrastructure 2026). None of the three documents for this stage mentions a right of return.
 
 > 作用：写策略怎样变：2022–2026  
 > 辩证：条件在变 ↔ 负面描述连续  
@@ -226,7 +226,7 @@ The 70:30 remedy was not designed from evidence about what mixing achieves. Khor
 
 ### ¶4.4
 
-Where displaced tenants go decides whether the cluster is dissolved or only moved. Current tenants have moved into other public housing, at least 70 of them into the new homes beside the Waterloo metro station (Bowring 2026). The government names two local destinations, the 70 social homes at the Metro Quarter and about 95 more at Elizabeth Street, Redfern (Homes NSW 2026), and in 2023 it presented Elizabeth Street as a way to rehouse Waterloo South tenants locally (NSW Government 2023; Figure 5). No document gives the number of tenants at each Waterloo destination. What can be said is that the plan dilutes social housing on the site while also placing social housing nearby.
+Where displaced tenants go decides whether the cluster is dissolved or only moved. Current tenants have moved into other public housing, at least 70 of them into the new homes beside the Waterloo metro station (Bowring 2026). The government names two local destinations, the 70 social homes at the Metro Quarter and about 95 more at Elizabeth Street, Redfern (Homes NSW 2026), and in 2023 it presented Elizabeth Street as a way to rehouse Waterloo South tenants locally (NSW Government 2023; Figure 5). What can be said is that the plan dilutes social housing on the site while also placing social housing nearby.
 
 > 作用：检验第 1、3 步：去向  
 > 辩证：打散 ↔ 搬走  
@@ -306,7 +306,7 @@ On paper tenants are better protected than in 2015, but most of the protections 
 
 ### ¶6.1
 
-The renewal mixes the site, and the planning rules guarantee only the mixing. Social housing falls from 86 to 28 per cent of the dwellings on the site, and the rules fix minimum floor areas for it, so step 1 of the chain is addressed. Whether the circle is broken or only moved depends on what the rules leave out: where the displaced tenants live, how many return, and what the market around the estate does. The evidence here shows some tenants placed in other social housing nearby and return promised to the rest, in a market where gentrification has widened the gap between households in private housing and in public housing estates (City of Sydney n.d.). The reputational gap that Zanardo et al. (2024) and Sisson (2024) describe may explain why the remedy is accepted. This explanation is the least tested part of the argument. The planning documents do not show whether the circle is broken or only moved, and where return has been counted in other cities it has been low (section 4).
+The approved plan mixes the site, and the planning rules secure only the mixing. Social housing falls from 86 to 28 per cent of the dwellings on the site, and binding minimum floor areas guarantee that step 1 of the chain is addressed. Whether the circle is broken or only moved is decided by what the rules do not cover: where the displaced tenants live, how many return, and what the market around the estate does. The evidence here shows some tenants placed in other social housing nearby and return promised to the rest, in a market where gentrification has widened the gap between households in private housing and in public housing estates (City of Sydney n.d.). The reputational gap that Zanardo et al. (2024) and Sisson (2024) describe may explain why the remedy is accepted. This explanation is the least tested part of the argument. The planning documents do not show whether the circle is broken or only moved, and where return has been counted in other cities it has been low (section 4).
 
 > 作用：回答论文问题  
 > 辩证：打破 ↔ 搬走：取决于条文沉默的地方  
