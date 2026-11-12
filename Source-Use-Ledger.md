@@ -90,3 +90,8 @@
 | Davidson, Bradbury and Wong 2023，PDF p.8 | 2019–20 单身成年人贫困线 489 澳元/周；公共住房租户 52% 贫困 | §4.2b | 全国数据；口径与 525 澳元不同，文中写“接近” |
 | 删去 | 表 2 之后，Hirvonen and Lilius 2019、Pinnegar 等 2013、Stein 2019、Ruonavaara 2025、City of Sydney n.d.、2025 年评估小组报告、图 5（地图） | 为保持 15 页 | 内容仍在 Git 历史中；伴读仍引用的几条补进了伴读的参考文献 |
 
+## 第九轮：四种置换作为主线，其余作铺垫（2026-11-12）
+- 第 5 节中心：Marcuse 的四种置换逐一整理 2019–2026 年的证据，汇总为表 2。直接：Homes NSW 2025c（PDF p.2）145 人收到通知；2025b（PDF p.3）约 60 人已搬迁；2026b（PDF pp.14、16）保障条款。连锁：2025a、2026b、2026c。排他性：2026a 项目页；Beam Planning 2026 App. E（PDF p.6）。压力：GHD 2020；ABS 2021；Hulse 等 2014；Atkinson 等 2011；Davidson 2008。
+- 删去：生命表和年龄推算、Price and Popkin 2010、ABS 生命表、Pawson 等 2015、Morris 2017、Scully 2026、DPHI 2025b 的表 1 行与引用。
+- 不采用：Waterloo 与 The Block 的对比、“设计对照回迁率低的原因”的版本（用户判断过于复杂）。
+
