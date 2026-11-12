@@ -36,6 +36,14 @@
 | B13 | Bonnyrigg 第二轮研究（Pinnegar and Liu, 2018）；Elton 社会可持续研究 2020 年 9 月版（文件超过 10MB，需要你下载） | 在地分阶段搬迁的回迁数 |
 | B14 | Homes NSW 或 REDWatch 的搬迁原始数字（2025 年 3 月 150 户、2026 年 4 月 99 户通知、70 户进新房） | 目前只有 ABC 和倡导团体的转述 |
 
+## B3. 第七轮新增（悉尼全区）
+| # | 要找的 | 为什么 |
+|---|---|---|
+| B15 | Randolph and Tice (2014) *J Urban Affairs*、(2017) *Urban Policy and Research* 全文 | 悉尼内城贫困向外迁移的原始数据（1986–2006/2011），目前只见摘要和博客转述 |
+| B16 | 2021 普查：大悉尼各 LGA 的社会住房比例（含 Fairfield、Canterbury-Bankstown、City of Sydney） | 没有找到可验证的分区表 |
+| B17 | Morris (2017) *Urban Policy and Research* 35(4) 全文，看 Millers Point 租户去向的具体地点 | 目前只有“10 公里以内”一句 |
+| B18 | 任何跟踪 Waterloo 或内城租户在大悉尼范围内去向的研究 | 目前没有找到 |
+
 ## C. 行政和格式
 | # | 要找的 | 说明 |
 |---|---|---|

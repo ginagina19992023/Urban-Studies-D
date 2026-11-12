@@ -63,3 +63,14 @@
 | Sautkina, Bond and Kearns 2012（摘要）；Manley, van Ham and Doherty 2011（摘要） | 混合租住的系统综述：社会和居住方面有些正面影响，社会资本无；社会混合证据“far from robust” | §4.7 | 只读摘要 |
 | 删去 | 表 2；表中“City of Sydney 绅士化”引文在 5.1；Hazzard/Jackson/Brown 对照（引言）；Elton 2019；LAHC 2021 | 为保持 15 页 | 内容仍在台账旧条目与 Git 历史中 |
 
+## 第七轮：悉尼全区尺度（2026-11-12，核对原文，引 PDF 页码）
+| 资料 | 原文语境 | 本文怎么用 | 处理 |
+|---|---|---|---|
+| Hulse 等 2014，AHURI 225，PDF pp. 16、38、40 | 悉尼、墨尔本、布里斯班 177 个弱势郊区；14 个以社会住房为主、13 个在悉尼，位置与西部大型住宅区吻合；聚类时 Waterloo 和 Haymarket 是两个异常值，Waterloo 因“快速绅士化” | §4.2d | 贴合；2001–2011 年数据 |
+| Sarkar 等 2024，AHURI 414，PDF p. 34（另 p. 46） | 五个首府城市，SA2 层面，2011–2016 年；悉尼隔离加剧由极高收入家庭聚集驱动，“而不是”极低收入家庭 | §4.2d | 测的是收入和 SEIFA，不是租住；没有讨论 Waterloo |
+| Greater Sydney Commission 2018，PDF p. 61 | 城市更新备选标准含“社会住房集中、服务交通就业可达性好的地区” | §4.2d | 引文原样 |
+| Pawson, Hulse and Cheshire 2015，AHURI 247，PDF p. 12 | “scalar mismatch”（引 Rae 2011） | §4.2d | 贴合 |
+| Morris 2017，AJSI，PDF p. 7 | Millers Point 租户“大多数被安置在离市中心 10 公里以内” | §4.2d | 是一句定性说法，不是人数 |
+| 未能核对全文 | Randolph and Tice 2014、2017；Azpitarte 等 2021；van den Nouwelant 等 2023 的页码 | 未引用 | 在待查清单里 |
+| 为保持 15 页删去 | Cotality 2026 的一句、Wynne 2018 的一句、表 1 的搬迁支持一行、6.1 里声誉差距的一句 | | 内容仍在 Git 历史中 |
+
