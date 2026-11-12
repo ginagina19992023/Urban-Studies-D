@@ -70,6 +70,10 @@ Waterloo 先显示的是：这条链不只是学者的说法，国家自己用�
 
 ## §5 绅士化
 
+**【类型、阶段与四种置换】类型、阶段与四种置换**
+
+Davidson and Lees (2005, 1170) 给出当代绅士化的四个要素：资本的再投入、高收入者迁入带来的社会升级、景观的改变，以及对低收入者的直接或间接置换。Waterloo 的前三项很明显，第四项是争议所在。Hackworth and Smith (2001, 468–469) 把绅士化分成几波，第三波的特点是国家“比以前更深地参与”、大开发商来组织再投入；Waterloo 的做法（国家出地、卖房出钱）符合这些特点。但没有已发表的作者把 Waterloo 放在某个阶段，Hulse 等 (2014) 只在统计上把它标为“快速绅士化”的异常值，所以“后段、国家主导、新建式”是本文自己的判断，依据要列出来。衡量公平，Marcuse (1985, 205–208) 的四种置换最有用：直接置换、连锁置换、排他性置换和置换压力，而且四种都要算，只算一种会低估。Davidson (2008) 补充说，社会住房租户可能不受某些间接置换压力的影响，但不是全部，所以“还住在原地”不等于没有被挤压。Waterloo 的保护并不均衡：排他性置换保护得最好（社会住房从 749 套增加到约 1,050 套）；直接置换只有个人选择的回迁权，而重建要用 10 到 15 年，62% 的户里有 55 岁以上的租户，时间本身就会让一部分人用不上这项权利；置换压力没有任何规划文件处理。Freeman (2005) 认为绅士化的邻里可以没有大量置换，但他的数据看不出房东为重建而搬走自己的租户，所以这个反方观点不能直接用在 Waterloo 上。
+
 **【框架】框架**
 
 这一节用的是绅士化研究里的几个框架。Smith (1979) 的租金差：潜在地租与现有用途下被资本化的地租之间的差距。Stein (2019, 41)：绅士化由国家规划、由开发商生产、由公寓族消费（据讲义）。Lees (2008)：把绅士化当作促进社会混合的政策，证据基础薄弱。Yrjänä (2026)：赫尔辛基的反隔离政策服务于国家主导的绅士化，其中有补贴差距。Hochstenbach (2017)：阿姆斯特丹的社会混合手段，从衰败街区的更新，转向了政策在推动绅士化的高需求街区。Davidson (2018)：新建绅士化是大规模资本与国家权力的合作。
@@ -120,3 +124,9 @@ Waterloo 对这些框架的价值，在于业主是国家，这让“谁获益�
 
 - NSW Land and Housing Corporation. 2018. *Claymore Renewal Project: Infrastructure Services Delivery Plan*. January 2018. Works listed in Schedule 3 of the Planning Agreement between NSW Land and Housing Corporation and Campbelltown City Council.
 - Porter, L., L. Davies, K. Ruming, D. Kelly, D. Rogers, and K. Flanagan. 2023. *Understanding the Drivers and Outcomes of Public Housing Tenant Relocation*. AHURI Final Report No. 413. Australian Housing and Urban Research Institute. https://doi.org/10.18408/ahuri5328701.
+- Stein, S. 2019. *Capital City: Gentrification and the Real Estate State*. Verso.
+- NSW Department of Planning, Housing and Infrastructure. 2025a. *Evaluation Panel Outcome Report: Waterloo Estate (South)*. Panel meeting June 10, 2025. https://shared-drupal-s3fs.s3.ap-southeast-2.amazonaws.com/master-test/fapub_pdf/*PPR/Waterloo+Estate+(South)+Evaluation+Panel+Outcome+Report.pdf.
+- Cotality. 2026. *Cotality Home Value Index, November 2026*. https://discover.cotality.com/hubfs/COTALITY%20HVI%20NOV%202026%20FINAL.pdf.
+- Wynne, L. 2018. "Trying to Stay Local in Sydney’s ‘Global Arc’: Social Housing Tenant Perspectives." Paper presented at the 8th State of Australian Cities National Conference, 1–11. https://opus.lib.uts.edu.au/handle/10453/133423.
+- NSW Land and Housing Corporation. 2021. *Planning Proposal: Waterloo Estate (South) – Sydney Local Environmental Plan 2012 Amendment*. Attachment A. https://meetings.cityofsydney.nsw.gov.au/documents/s49854/.
+- NSW Planning Portal. n.d. "Waterloo Estate (South): Post-Exhibition." Accessed November 10, 2026. https://www.planningportal.nsw.gov.au/ppr/post-exhibition/waterloo-estate-south.
