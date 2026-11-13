@@ -19,18 +19,17 @@
   - 4.2b 住的是什么人
   - 4.2c 周边已被市场混合
   - 4.2d 悉尼全区的尺度
-  - 4.2e 混合不是尺子
   - 4.3 药方从哪里来
-  - 4.4 检验第 1、3 步：去向
   - 4.5 规则保证了什么
   - 4.6 回迁和搬迁只是声明
-  - 4.6b 别处的回迁
   - 4.7 检验第 2–5 步
+  - 4.2e 混合不是尺子
 - 5. 绅士化：价格、代价与承诺
   - 5.1 类型与阶段
   - 5.2 社会混合的批评
-  - 5.3 直接置换与时间
-  - 5.3b 另外三种置换
+  - 5.3 直接置换：过程
+  - 5.3a 直接置换：结果
+  - 5.3b 连锁置换
   - 5.3c 排他性置换
   - 5.3d 置换压力
   - 5.4 成本与收益
@@ -143,7 +142,7 @@ The renewal is paid for by selling new private flats, and the price of those fla
 
 ### ¶2.3
 
-What brought the pressure to Waterloo was a metro station, which the urban design study calls “the catalyst for the renewal” (Turner Studio & Turf 2020, Part 1, PDF p. 6) and the planning proposal cites for its “potential catalytic effects” (NSW Land and Housing Corporation [LAHC] 2020, 92). The reason given for replacing the housing is a different one. Future Directions, a statewide strategy, says that “many estates experience high levels of crime, unemployment…” (NSW Government 2016, PDF p. 24). This describes estates in general, not Waterloo, and section 4 tests it.
+What brought the pressure to Waterloo was a metro station, which the urban design study calls “the catalyst for the renewal” (Turner Studio & Turf 2020, Part 1, PDF p. 6). The reason given for replacing the housing is a different one, a statewide diagnosis that “many estates experience high levels of crime, unemployment…” (NSW Government 2016, PDF p. 24), which section 4 tests.
 
 > 作用：触发点与官方诊断，转向第 4 节  
 > 辩证：催化剂（土地）↔ 诊断（房子）  
@@ -156,7 +155,7 @@ What brought the pressure to Waterloo was a metro station, which the urban desig
 
 ### ¶3.1
 
-The plan has treated Waterloo both as people’s homes and as a way to pay for new housing. In December 2015 the state announced that the estate would be demolished and rebuilt with about 30 per cent social and 70 per cent private housing, the sale of the private dwellings funding the project (Zanardo et al. 2024, 1208), in line with a statewide target of 70:30 (NSW Government 2016, PDF p. 9). The planning proposal says the existing properties are “at the end of their economic life” (LAHC 2020, 23), yet the same study gives their average age as 44 years against a benchmark life of 60 (Turner Studio & Turf 2020, Part 1, PDF p. 6). Madden and Marcuse (2016) call this tension a conflict between home and real estate: housing as lived, social space against housing as an instrument for profit-making.
+The plan has treated Waterloo both as people’s homes and as a way to pay for new housing. In December 2015 the state announced that the estate would be demolished and rebuilt with about 30 per cent social and 70 per cent private housing, the sale of the private dwellings funding the project (Zanardo et al. 2024, 1208). The planning proposal says the existing properties are “at the end of their economic life” (LAHC 2020, 23), yet the same study gives their average age as 44 years against a benchmark life of 60 (Turner Studio & Turf 2020, Part 1, PDF p. 6). Madden and Marcuse (2016) call this tension a conflict between home and real estate: housing as lived, social space against housing as an instrument for profit-making.
 
 > 作用：给出住房单元的对立，写 2015–2021 年的策略  
 > 辩证：家 ↔ 房地产  
@@ -165,7 +164,7 @@ The plan has treated Waterloo both as people’s homes and as a way to pay for n
 
 ### ¶3.2
 
-The promises to tenants grew after 2023, but the planning rules were written before them (Figure 2). The plan approved in 2022 provides 3,012 dwellings, of which 847 are social housing, and its planning controls date from November 2022 (NSW Department of Planning and Environment 2022, PDF p. 37). After a change of government in March 2023, the share of social and affordable housing across the estate was raised from 34 to 50 per cent, tenants were promised the right to return, and relocation was to proceed in small stages (NSW Government 2023); in 2024 it added at least six months’ notice and dedicated support (NSW Government 2024). So the promises moved ahead of the rules. The floor-area part has since reached the planning documents: the proponent’s 2025 scoping report describes 50 per cent of residential floor area as committed to social and affordable housing (Beam Planning 2025, PDF pp. 4, 20), and the 2026 concept application proposes at least 30 per cent of residential floor area as social housing and no more than 50 per cent as market housing (NSW Department of Planning, Housing and Infrastructure 2026). None of the three documents for this stage mentions a right of return.
+The promises to tenants grew after 2023, but the planning rules were written before them (Figure 2). The plan approved in 2022 provides 3,012 dwellings, of which 847 are social housing, and its controls date from November 2022 (NSW Department of Planning and Environment 2022, PDF p. 37). After a change of government in March 2023, the share of social and affordable housing across the estate was raised from 34 to 50 per cent, tenants were promised the right to return, and relocation was to proceed in small stages (NSW Government 2023); in 2024 at least six months’ notice and dedicated support were added (NSW Government 2024). The 2026 concept application proposes at least 30 per cent of residential floor area as social housing and no more than 50 per cent as market housing (NSW Department of Planning, Housing and Infrastructure 2026), and none of the planning documents for this stage mentions a right of return.
 
 > 作用：写策略怎样变：2022–2026  
 > 辩证：条件在变 ↔ 负面描述连续  
@@ -205,7 +204,7 @@ On step 1 the plan works: social housing falls from 86 per cent of the site’s 
 
 ### ¶4.2b
 
-Who lives on the site shapes what step 1 dilutes. In February 2026, 607 tenant households with 836 residents remained on Waterloo South: 77 per cent were single-person households, 62 per cent had a tenant over 55 (or over 45 for Aboriginal tenants), and 19 per cent of tenants were Aboriginal (Homes NSW 2026b, PDF p. 7). In September 2019 their households had an average income of $525 a week, 73 per cent lived alone and 33 per cent drew their main income from a disability pension (GHD 2020, PDF pp. 30, 34). The poverty line for a single adult in 2019–20 was $489 a week (Davidson, Bradbury and Wong 2023, PDF p. 8), so the average household was near it. Nationally 25 per cent of public housing households receive a disability pension (Porter et al. 2023, 21). Its neighbourhoods ranked in the two lowest deciles of disadvantage in the state (GHD 2020, PDF p. 30). The concentration is therefore one of low income, age, disability and living alone. Steps 4 and 5 of the chain concern schools, work and the next generation, and 149 of the 995 tenants in July 2025 were under 18 (Homes NSW 2025a, PDF p. 19).
+Who lives on the site shapes what step 1 dilutes. In February 2026, 607 tenant households with 836 residents remained on Waterloo South: 77 per cent were single-person households, 62 per cent had a tenant over 55 (or over 45 for Aboriginal tenants), and 19 per cent of tenants were Aboriginal (Homes NSW 2026b, PDF p. 7). In September 2019 their households had an average income of $525 a week, 73 per cent lived alone and 33 per cent drew their main income from a disability pension (GHD 2020, PDF pp. 30, 34). The poverty line for a single adult in 2019–20 was $489 a week (Davidson, Bradbury and Wong 2023, PDF p. 8), so the average household was near it. Its neighbourhoods ranked in the two lowest deciles of disadvantage in the state (GHD 2020, PDF p. 30). The concentration is therefore one of low income, age, disability and living alone. Steps 4 and 5 of the chain concern schools, work and the next generation, and 149 of the 995 tenants in July 2025 were under 18 (Homes NSW 2025a, PDF p. 19).
 
 > 作用：住的是什么人  
 > 辩证：集中的是年龄与残疾 ↔ 链条的后几步面向工作年龄和儿童  
@@ -223,43 +222,25 @@ The area around the estate has already been mixed by the market. The social base
 
 ### ¶4.2d
 
-The chain also runs at the scale of the whole city, and the remedy acts on the estate. In Greater Sydney the large social-housing estates that dominate a disadvantaged suburb lie mainly in the western suburbs: of 177 disadvantaged suburbs in Sydney, Melbourne and Brisbane, 14 are dominated by social housing and 13 of those are in Sydney (Hulse et al. 2014, PDF pp. 16, 40). Waterloo is not one of them. The same study had to set aside Waterloo and Haymarket as statistical outliers, Waterloo for “rapid gentrification” (PDF p. 38). The latest metropolitan study finds Sydney’s segregation rising because very-high-income households cluster in the least disadvantaged areas “rather than” because very-low-income households cluster (Sarkar et al. 2024, PDF p. 34). The state’s metropolitan plan lists “areas of high social housing concentration where there is good access to services, transport and jobs” as candidates for renewal (Greater Sydney Commission 2018, PDF p. 61), which points renewal at well-served locations such as Waterloo’s. Renewing Waterloo can therefore reduce concentration on the estate without changing the metropolitan pattern.
+The chain also runs at the scale of the whole city, and the remedy acts on the estate. In Greater Sydney the large social-housing estates that dominate a disadvantaged suburb lie mainly in the western suburbs: of 177 disadvantaged suburbs in Sydney, Melbourne and Brisbane, 14 are dominated by social housing and 13 of those are in Sydney (Hulse et al. 2014, PDF pp. 16, 40). The same study had to set aside Waterloo and Haymarket as statistical outliers, Waterloo for “rapid gentrification” (PDF p. 38). The latest metropolitan study finds Sydney’s segregation rising because very-high-income households cluster in the least disadvantaged areas “rather than” because very-low-income households cluster (Sarkar et al. 2024, PDF p. 34). The state’s metropolitan plan lists “areas of high social housing concentration where there is good access to services, transport and jobs” as candidates for renewal (Greater Sydney Commission 2018, PDF p. 61), which points renewal at well-served locations such as Waterloo’s. Renewing Waterloo can therefore reduce concentration on the estate without changing the metropolitan pattern.
 
 > 作用：悉尼全区的尺度  
 > 辩证：住宅区尺度的药方 ↔ 大都会尺度的格局  
 > 实在：Hulse 等 2014；Sarkar 等 2024；GSC 2018；Pawson 等 2015；Morris 2017  
 > 课件：悉尼全区的尺度：Hulse 等 2014（14/177 以社会住房为主，13 在悉尼，在西部；Waterloo 是“快速绅士化”的异常值）；Sarkar 等 2024（悉尼隔离由富裕端集中驱动）；大都会规划（GSC 2018）；“尺度错配”；Morris 2017。
 
-### ¶4.2e
-
-Taken together, these facts change what step 1 achieves. The estate is a pocket of low-income, older and disabled households inside a neighbourhood the market has already mixed, and Sydney’s concentrations of disadvantage lie elsewhere. Adding private housing to the estate mixes at the scale of the block what the neighbourhood already mixes at the scale of the street, so the mix cannot be the measure of success. What the estate’s residents stand to keep or lose is their place, and the test that the chain implies is retention: whether the households now there remain.
-
-> 作用：混合不是尺子  
-> 辩证：口袋 ↔ 已混合的邻里  
-> 实在：GHD 2020；Hulse 等；Sarkar 等  
-> 课件：论点转折：混合不是成功的尺子，留住才是；依据 4.2b–4.2d
-
 ### ¶4.3
 
-The 70:30 remedy was not designed from evidence about what mixing achieves. Khor et al. (2023, 77), citing Darcy and Rogers (2019), trace the ratio to Bonnyrigg, a suburban estate, where social-mixing outcomes “was not a determinant of decision-making”. None of these sources counts returning tenants or measures neighbourhood effects. That outcomes were not a determinant fits the financialisation of housing (Aalbers 2016), and the rules then enforce a quantity of tenure and not an outcome.
+The 70:30 ratio was not designed from evidence about what mixing achieves. Khor et al. (2023, 77), citing Darcy and Rogers (2019), trace it to Bonnyrigg, a suburban estate, where social-mixing outcomes “was not a determinant of decision-making”, which fits the financialisation of housing (Aalbers 2016): the rules enforce a quantity of tenure, not an outcome.
 
 > 作用：药方从哪里来  
 > 辩证：药方的出处 ↔ 效果证据  
 > 实在：AHURI 412；Shrestha 等；Sisson and Ruming  
 > 课件：课件：隔离单元（药方从哪里来）。展开：70:30 来自融资而不是效果证据，药方从郊区搬到核心，因此条文是用数量写的。证据：AHURI 412、Shrestha 等的摘要、Sisson & Ruming。限定：“用数量规定”是我的读法；没有回迁人数和邻里效应的测量。
 
-### ¶4.4
-
-Where displaced tenants go decides whether the cluster is dissolved or only moved. By November 2025 about 60 tenants of Stage 1 had been relocated, “either to a home in the local area or to another area of their choice in NSW” (Homes NSW 2025b, PDF p. 3), and in mid-2026 the ABC reported that at least 70 current tenants had moved into the new homes beside the Waterloo metro station (Bowring 2026). Homes NSW names two local destinations, the 70 social homes at the Metro Quarter and about 95 more at Elizabeth Street, Redfern (Homes NSW 2026a). The counts differ in date and source, and no document gives the number of tenants at each destination.
-
-> 作用：检验第 1、3 步：去向  
-> 辩证：打散 ↔ 搬走  
-> 实在：Metro Quarter 70 套、Elizabeth St 约 95 套；Bonnyrigg 小样本  
-> 课件：课件：隔离单元第 1 步和第 3 步（谁移动、移到哪里）。展开：被搬走的人去了其他社会住房，是把聚集搬了地方的证据。限定：只有去向的名称，没有各去向的人数，所以只能写“可以说的是……”。
-
 ### ¶4.5
 
-The planning rules guarantee how much social housing is built, but not who lives in it and not whether tenants can come back. The site-specific controls that the plan finalisation report lists for Waterloo South require no less than 26.5 per cent of residential floor area as social housing, no less than 7.0 per cent as affordable housing, and at least 5,000 square metres for community, health and childcare facilities (NSW Department of Planning and Environment 2022, PDF p. 7). These are minimum amounts of floor area. Such minimums fix which kinds of housing the new buildings contain, not which households hold them. The Design Guide, where the tenure and Aboriginal housing provisions sit, is only to be considered in development applications “but not to elevate the guidance within the design guide to development standards” (PDF p. 7).
+The planning rules guarantee how much social housing is built, but not who lives in it and not whether tenants can come back. The site-specific controls that the plan finalisation report lists for Waterloo South require no less than 26.5 per cent of residential floor area as social housing, no less than 7.0 per cent as affordable housing, and at least 5,000 square metres for community, health and childcare facilities (NSW Department of Planning and Environment 2022, PDF p. 7). Such minimums fix which kinds of housing the new buildings contain, not which households hold them. The Design Guide, where the tenure and Aboriginal housing provisions sit, is only to be considered in development applications “but not to elevate the guidance within the design guide to development standards” (PDF p. 7).
 
 > 作用：规则保证了什么  
 > 辩证：保证（楼面积下限）↔ 没保证（谁来住）  
@@ -268,30 +249,30 @@ The planning rules guarantee how much social housing is built, but not who lives
 
 ### ¶4.6
 
-Return and relocation appear as guidance and statements, not as planning controls. The final planning proposal records that the Land and Housing Corporation “has noted” that current residents have a right of return (Hassell 2022a, PDF p. 59), and the department accepted a response that “appropriate relocation strategies will be developed” (NSW Department of Planning and Environment 2022, PDF p. 14). Neither document requires anyone to track what happens to tenants after they move. The strategy has since been written down in Homes NSW’s support guide of February 2026, which gives existing tenants a right to return that “will be an individual choice for each tenant” (Homes NSW 2026b, PDF p. 16). The guide is not a planning control and sets no deadline for return. The body of the environmental impact statement, the social impact assessment (its Appendix EE) and the gazetted rules are outside this reading (section 6.4). In terms of the five steps, the rules reach step 1; steps 3 and 5, which concern where people go and what happens to them, depend on guidance and promises (Table 1).
+Return and relocation appear as guidance and statements, not as planning controls. The final planning proposal records that the Land and Housing Corporation “has noted” that current residents have a right of return (Hassell 2022a, PDF p. 59), and the department accepted a response that “appropriate relocation strategies will be developed” (NSW Department of Planning and Environment 2022, PDF p. 14). Neither document requires anyone to track what happens to tenants after they move. The strategy has since been written down in Homes NSW’s support guide of February 2026, which gives existing tenants a right to return that “will be an individual choice for each tenant” (Homes NSW 2026b, PDF p. 16). The guide is not a planning control and sets no deadline for return. The rules reach step 1; steps 3 and 5 depend on guidance and promises (Table 1).
 
 > 作用：回迁和搬迁只是声明  
 > 辩证：规则 ↔ 声明  
 > 实在：Hassell 2022a, PDF p. 59；DPE 2022, PDF pp. 14, 31；2025 评估小组报告  
 > 课件：课件：隔离单元（五步链）+ 绅士化单元（国家主导的政策手段）。展开：回迁和搬迁只以声明出现，规则也可能改变。证据：最终规划建议书 PDF p. 59；报告 PDF pp. 14、31；2025 年评估小组报告。限定：只核对了 2022 年的文件；2025 年报告是看图读的。
 
-### ¶4.6b
-
-Where return has been counted elsewhere, it has been low. About 40 per cent of residents came back to Carlton in Melbourne, after being moved first to other estates or to dwellings elsewhere, and 20 per cent to Kensington (Porter et al. 2023, 30, citing Levin et al. 2018 and Shaw et al. 2013). In Chicago, fewer than 11 per cent of the 16,846 relocated family households lived in the new mixed-income developments at the end of 2010 (Joseph and Chaskin 2012, 378), and the average return rate at four HOPE VI sites was 5 per cent (Comey 2007, cited in Joseph and Chaskin 2012, 379). Goetz (2010) ties low return to the years between displacement and completion. Bonnyrigg in Sydney is the closest model, since staged building let tenants move within the estate, and Porter et al. (2023, 30) expect Waterloo to follow it. These are other cities and other programmes, and none gives a Waterloo figure.
-
-> 作用：别处的回迁  
-> 辩证：回迁率 ↔ 承诺  
-> 实在：Porter 等 2023；Joseph & Chaskin 2012；Goetz 2010；Pinnegar 等 2013  
-> 课件：别处统计过的回迁率：Carlton 约 40%、Kensington 20%（Porter 等 2023, 30）；芝加哥 <11%、HOPE VI 四个点平均 5%（Joseph & Chaskin 2012）；Goetz 2010；Bonnyrigg 分阶段在地搬迁，社会住房少约 200 套，Waterloo 749→847。
-
 ### ¶4.7
 
-Steps 2 to 5 are where the evidence is thinnest. Sisson (2024) notes that the concept of neighbourhood effects behind “concentrated disadvantage” “controversially” places the cause in the estate. Reviews offer limited evidence on steps 2 to 5: a systematic review of 27 UK studies found some positive effects of mixed tenure in the social and residential domains but none on social capital (Sautkina, Bond and Kearns 2012), and Manley, van Ham and Doherty (2011) conclude that the evidence base for social mixing is “far from robust”. Uncertainty already acts on steps three and five. Wynne and Rogers (2021) argue that the threat of eviction “has already done significant damage to their relationship to place” before any move. No document measures residents’ mobility or opportunities.
+Steps 2 to 5 are where the evidence is thinnest. Sisson (2024) notes that the concept of neighbourhood effects behind “concentrated disadvantage” “controversially” places the cause in the estate. Reviews offer limited evidence on steps 2 to 5: a systematic review of 27 UK studies found some positive effects of mixed tenure in the social and residential domains but none on social capital (Sautkina, Bond and Kearns 2012), and Manley, van Ham and Doherty (2011) conclude that the evidence base for social mixing is “far from robust”. No document measures residents’ mobility or opportunities.
 
 > 作用：检验第 2–5 步  
 > 辩证：已知（等待）↔ 未知（接触、服务、学校、就业的结果）  
 > 实在：Sisson、Hirvonen and Lilius、Wynne and Rogers、Bowring 2026  
 > 课件：课件：隔离单元第 2–5 步；并连到在地失所（Wynne & Rogers）。展开：邻里效应有争议；不确定性作用于第 3、5 步。限定：这是读法，没有测量。
+
+### ¶4.2e
+
+Taken together, these facts change what step 1 achieves. The estate is a pocket of low-income, older and disabled households inside a neighbourhood the market has already mixed, so the mix cannot be the measure of success. What the residents stand to keep or lose is their place, and the test is whether the households now there remain, which section 5 takes up through four forms of displacement.
+
+> 作用：混合不是尺子  
+> 辩证：口袋 ↔ 已混合的邻里  
+> 实在：GHD 2020；Hulse 等；Sarkar 等  
+> 课件：论点转折：混合不是成功的尺子，留住才是；依据 4.2b–4.2d
 
 ## 5. Gentrification: price, cost and promise
 
@@ -299,7 +280,7 @@ Steps 2 to 5 are where the evidence is thinnest. Sisson (2024) notes that the co
 
 ### ¶5.1
 
-The renewal is a case of state-led, new-build gentrification. Davidson and Lees (2005, 1170) give four defining elements: reinvestment of capital, social upgrading of the locale by incoming high-income groups, landscape change, and direct or indirect displacement of low-income groups. The first three are present at Waterloo. The sale of private dwellings reinvests capital in public land and closes Smith’s (1979) rent gap, between potential and actual ground rent, through the state itself; the landlord’s consultants expect the renewal to attract “a similar demographic” to Waterloo East (GHD 2020, PDF p. 31); and the buildings are replaced. The fourth is the question of this section. Hackworth and Smith (2001, 468–469) describe a third wave in which the state is “more involved in the process” and large developers orchestrate reinvestment. The surrounding area has been rebuilt, so the estate is renewed late in the process, not at its start. No published author places Waterloo on a named stage, so this placement is the paper’s own, and it rests on the features listed.
+The renewal is a case of state-led, new-build gentrification. Davidson and Lees (2005, 1170) give four defining elements: reinvestment of capital, social upgrading of the locale by incoming high-income groups, landscape change, and direct or indirect displacement of low-income groups. The first three are present at Waterloo. The sale of private dwellings reinvests capital in public land and closes Smith’s (1979) rent gap, between potential and actual ground rent, through the state itself; the landlord’s consultants expect the renewal to attract “a similar demographic” to Waterloo East (GHD 2020, PDF p. 31); and the buildings are replaced. The fourth is the question of this section. Hackworth and Smith (2001, 468–469) describe a third wave in which the state is “more involved in the process” and large developers orchestrate reinvestment. No published author places Waterloo on a named stage, so this placement is the paper’s own, and it rests on the features listed.
 
 > 作用：类型与阶段  
 > 辩证：国家主导＋新建；后段  
@@ -317,25 +298,34 @@ Mixing is the policy that this remedy shares with “positive gentrification”,
 
 ### ¶5.3
 
-Marcuse (1985, 205–208) separates four forms of displacement and says that all four must be counted. The rest of this section asks what evidence from 2019 to 2026 exists for each at Waterloo South (Table 2). Direct displacement is the landlord moving its own tenants. Notices went to 145 Stage 1 tenants in February 2025 (Homes NSW 2025c, PDF p. 2), and about 60 had been relocated by November 2025, “either to a home in the local area or to another area of their choice in NSW” (Homes NSW 2025b, PDF p. 3). The safeguards are written down: at least six months’ notice, up to two offers of housing, check-ins soon after a move and about three and six months later, and a right for existing tenants to return (Homes NSW 2026b, PDF pp. 14, 16). What is missing is the outcome. No document counts where tenants went, and return cannot be counted until the first new buildings are finished; where it has been counted elsewhere it has been low (section 4). The process itself is also disputed: activists said that at least ten people were still living in the fenced block, and the minister said the remaining people were not tenants (Bowring 2026).
+Marcuse (1985, 205–208) separates four forms of displacement and says that all four must be counted. The rest of this section asks what evidence from 2019 to 2026 exists for each at Waterloo South (Table 2). Direct displacement is the landlord moving its own tenants, and here the process is well documented. Notices went to 145 Stage 1 tenants in February 2025 (Homes NSW 2025c, PDF p. 2), and about 60 had been relocated by November 2025, “either to a home in the local area or to another area of their choice in NSW” (Homes NSW 2025b, PDF p. 3). Tenants receive at least six months’ notice and up to two offers, may ask to move to a different part of Sydney or NSW, can appeal an offer first within Homes NSW and then to the independent Housing Appeals Committee, and are visited about three and six months after moving (Homes NSW 2026b, PDF pp. 14, 16). Two local destinations are named, 70 social homes at the Metro Quarter and about 95 at Elizabeth Street, Redfern (Homes NSW 2026a), and in May 2026 the ABC reported that at least 70 tenants had moved into the homes beside the metro station (Bowring 2026). In 2020 the landlord’s consultants had listed, among features the relocation approach “could include”, that “the majority of residents will be provided alternative dwellings on site during the construction phase” (Elton Consulting 2020, PDF p. 88); the documents of 2025 and 2026 speak instead of the local area or an area of the tenant’s choice. The process is also disputed: activists said that at least ten people were still living in the fenced block, and the minister said the remaining people were not tenants (Bowring 2026).
 
-> 作用：直接置换与时间  
-> 辩证：个人选择 ↔ 等待的年数  
-> 实在：Homes NSW 2026b、d；ABS 生命表；Price and Popkin 2010；Porter 等 2023  
+> 作用：直接置换：过程  
+> 辩证：通知、机会、申诉、回访 ↔ 去向  
+> 实在：Homes NSW 2025b、c，2026a、b、c；Elton 2020；Bowring 2026  
 > 课件：课件：绅士化单元（置换：直接与间接）。展开：纸面上的保护多于 2015 年；记录到的缺口；回迁没有数据。限定：新闻里的说法要写成“据报道”；增加 98 套是计算差；间接置换在这两个片区没有找到研究。
+
+### ¶5.3a
+
+What the evidence does not show is the outcome. No document counts how many tenants went to each destination, and none can yet count returns, because return is possible only once the new buildings are finished and is “an individual choice for each tenant” (Homes NSW 2026b, PDF p. 16). Where return has been counted elsewhere it has been low: about 40 per cent of residents came back to Carlton in Melbourne and 20 per cent to Kensington (Porter et al. 2023, 30), fewer than 11 per cent of the 16,846 relocated family households in Chicago lived in the new mixed-income developments at the end of 2010 (Joseph and Chaskin 2012, 378), and the average at four HOPE VI sites was 5 per cent (Comey 2007, cited in Joseph and Chaskin 2012, 379). Goetz (2010) ties low return to the years between displacement and completion. Not returning is not always a loss. Popkin et al. (2004, 29) note that it “does not automatically mean that residents are worse off”, and in a 2023 survey of about 300 Waterloo tenants 45 per cent agreed that, given the opportunity, they would move out of the neighbourhood, against 35 per cent who disagreed (Meikle et al. 2024, PDF p. 15). A return rate at Waterloo would therefore have to be read beside where tenants went and whether they chose it, and neither is recorded.
+
+> 作用：直接置换：结果  
+> 辩证：回迁率 ↔ 去向与选择  
+> 实在：Porter 等 2023；Joseph and Chaskin 2012；Goetz 2010；Popkin 等 2004；Meikle 等 2024  
+> 课件：直接置换：结果——去向无统计、回迁无法观察；别处 5–40%；不回来不等于更糟；45% 想搬离
 
 ### ¶5.3b
 
-Chain displacement counts households that leave before the last resident is moved. Relocation runs in phases over 10 to 15 years, and the high-rise buildings of Waterloo North and Central are to stay for at least another ten (Homes NSW 2026c, PDF p. 2), so the estate empties slowly. The count was 995 tenants in July 2025 (Homes NSW 2025a, PDF p. 19) and 836 residents in 607 households in February 2026 (Homes NSW 2026b, PDF p. 7), but the two figures use different labels, and no document says how many tenants left before they were notified. Wynne and Rogers (2021) argue that the threat of eviction changes residents’ relationship to place before any move. The evidence for this form is thin.
+Chain displacement counts households that leave before the last resident is moved. Relocation began in February 2025 and runs in phases over 10 to 15 years, and the high-rise buildings of Waterloo North and Central are to stay for at least another ten (Homes NSW 2026c, PDF p. 2), so the estate empties slowly. The count was 995 tenants in July 2025 (Homes NSW 2025a, PDF p. 19) and 836 residents in 607 households in February 2026 (Homes NSW 2026b, PDF p. 7), but the two figures carry different labels, and no document says how many tenants left before they were notified. In 2020 the landlord’s consultants listed “anxiety associated with relocation” and “current inability to age in place” among the issues of older residents (Elton Consulting 2020, PDF p. 77), and Wynne and Rogers (2021) argue that the threat of eviction “has already done significant damage to their relationship to place” before any move. These describe a pressure to leave early; they do not count who did. The evidence for this form is thin.
 
-> 作用：另外三种置换  
-> 辩证：数量受保护 ↔ 压力无保护  
-> 实在：Beam Planning 2026 App. E；Atkinson 等 2011；Homes NSW 2025b  
+> 作用：连锁置换  
+> 辩证：提前离开的压力 ↔ 没有人数  
+> 实在：Homes NSW 2025a，2026b、c；Elton 2020；Wynne and Rogers 2021  
 > 课件：四种置换中另外三种：连锁、排他性、压力；排他性保护最好，压力没有保护
 
 ### ¶5.3c
 
-Exclusionary displacement keeps similar households from moving in, and it is where the evidence of protection is strongest. The number of social homes rises from 749 to about 1,050 (Homes NSW 2026a). At least 7 per cent of residential floor area is to be affordable housing held in perpetuity by a community housing provider, other affordable housing is to be kept for at least 25 years, and 20 per cent of the social housing floor area is to be prioritised for First Nations tenants, all of which the applicant expects to be imposed as consent conditions (Beam Planning 2026, App. E, PDF p. 6). The share of social housing nonetheless falls from 86 to about 32 per cent, and the documents examined do not say how the additional homes will be allocated.
+Exclusionary displacement keeps similar households from moving in, and it is where the evidence of protection is strongest. The number of social homes rises from 749 to about 1,050 (Homes NSW 2026a). At least 7 per cent of residential floor area is to be affordable housing held in perpetuity by a community housing provider, other affordable housing is to be kept for at least 25 years, affordable homes are to go to “a mix of households on very low to moderate incomes” at “no more than 30% of gross household income”, and 20 per cent of the social housing floor area is to be prioritised for First Nations tenants, all of which the applicant expects to be imposed as consent conditions (Beam Planning 2026, App. E, PDF p. 6). A rising number is unusual. Bonnyrigg lost about 200 social dwellings (Porter et al. 2023, 30), and on 50 London estates the number of homes almost doubled while some 8,000 social rented homes were lost (London Assembly Housing Committee 2015, 3). The share of social housing nonetheless falls from 86 to about 32 per cent, and the documents examined do not say how the additional homes will be allocated.
 
 > 作用：排他性置换  
 > 辩证：数量受保护 ↔ 占比下降、分配规则未见  
@@ -344,7 +334,7 @@ Exclusionary displacement keeps similar households from moving in, and it is whe
 
 ### ¶5.3d
 
-Displacement pressure is the strain of watching the neighbourhood change around you. The area around the estate has already been rebuilt (section 4), the suburb’s median household income rose about 35 per cent between 2016 and 2021 (GHD 2020, PDF p. 35; Australian Bureau of Statistics 2021), and the landlord’s consultants expect the renewal to attract “a similar demographic” to Waterloo East (GHD 2020, PDF p. 31). Hulse et al. (2014, PDF p. 38) name Waterloo an outlier for “rapid gentrification”, and Atkinson et al. (2011, PDF p. 10) found that in gentrified parts of Sydney and Melbourne public renters moved out at a higher rate than expected, a change they link to “estate remodelling and demolitions”. Davidson (2008, 2391–2392) adds that social housing tenants “may be insulated from some indirect displacement pressures” but not from changes in community and neighbourhood services. These show that the area has changed. None measures what the change did to tenants, and none of the planning documents examined addresses it.
+Displacement pressure is the strain of watching the neighbourhood change around you. The area around the estate has already been rebuilt (section 4), the suburb’s median household income rose about 35 per cent between 2016 and 2021 (GHD 2020, PDF p. 35; Australian Bureau of Statistics 2021), and the landlord’s consultants expect the renewal to attract “a similar demographic” to Waterloo East (GHD 2020, PDF p. 31). Hulse et al. (2014, PDF p. 38) name Waterloo an outlier for “rapid gentrification”, and Atkinson et al. (2011, PDF p. 10) found that in gentrified parts of Sydney and Melbourne public renters moved out at a higher rate than expected, a change they link to “estate remodelling and demolitions”. Davidson (2008, 2391–2392) adds that social housing tenants “may be insulated from some indirect displacement pressures” but not from changes in community and neighbourhood services. In a 2023 survey 58 per cent of tenants said they felt part of their community (Meikle et al. 2024, PDF p. 15), which is what community and neighbourhood-resource displacement would wear away. These show that the area has changed. None measures what the change did to tenants, and none of the planning documents examined addresses it.
 
 > 作用：置换压力  
 > 辩证：地区变化 ↔ 对租户的影响  
@@ -366,7 +356,7 @@ Marcuse (1984–85, 933–934) observes that the costs and benefits of gentrific
 
 ### ¶6.1
 
-The approved plan dilutes the estate, and the evidence from 2019 to 2026 protects the number of social homes better than the people who live there. Social housing falls from 86 to 28 per cent of the dwellings on the site in the 2022 plan, and binding minimum floor areas guarantee that step 1 of the chain is addressed. Counting Marcuse’s four forms of displacement, the evidence is strongest for exclusionary displacement, where the number of social homes rises from 749 to about 1,050. It records a process without an outcome for direct displacement, is thin for chain displacement, and describes the area but not the tenants for displacement pressure (Table 2). Return cannot yet be observed, and where it has been counted elsewhere between 5 and about 40 per cent of tenants came back. In a neighbourhood the market has already mixed, and in a metropolis where disadvantage lies elsewhere, adding richer neighbours does not by itself break the circle at Waterloo. Whether it is broken or only moved is decided by who is still there when the buildings are finished, and the evidence available in 2026 cannot say.
+The approved plan dilutes the estate, and the evidence from 2019 to 2026 protects the number of social homes better than the people who live there. Counting Marcuse’s four forms of displacement, the evidence is strongest for exclusionary displacement, where the number of social homes rises from 749 to about 1,050. It records a process without an outcome for direct displacement, is thin for chain displacement, and describes the area but not the tenants for displacement pressure (Table 2). Return cannot yet be observed, and where it has been counted elsewhere between 5 and about 40 per cent of tenants came back. In a neighbourhood the market has already mixed, and in a metropolis where disadvantage lies elsewhere, adding richer neighbours does not by itself break the circle at Waterloo. Whether it is broken or only moved is decided by who is still there when the buildings are finished, and the evidence available in 2026 cannot say.
 
 > 作用：回答论文问题  
 > 辩证：打破 ↔ 搬走：取决于条文沉默的地方  
@@ -384,7 +374,7 @@ This paper adds three small things to existing work on Waterloo. First, it reads
 
 ### ¶6.3
 
-The case supports some frameworks and limits others. It is consistent with the view of Stein and Davidson that the state plans and justifies large-scale redevelopment (Davidson 2018, 249), and it extends the global-city account: the pressure reached Waterloo through a metro station, not through the corridor strategy. It limits two accounts. In Yrjänä’s (2026) Helsinki the state pays a subsidy gap to de-risk private investment, while in the Waterloo documents the money runs the other way, with private sales paying for social homes. And accounts of home against real estate (Madden and Marcuse 2016), or of mixing against segregation, treat the two sides as opposed, while Waterloo’s policy kept changing: the share of social and affordable housing rose from 34 to 50 per cent in 2023 (NSW Government 2023), and the right to return was added.
+The case supports some frameworks and limits others. It is consistent with the view of Stein and Davidson that the state plans and justifies large-scale redevelopment (Davidson 2018, 249), and it extends the global-city account: the pressure reached Waterloo through a metro station, not through the corridor strategy. It limits two accounts. In Yrjänä’s (2026) Helsinki the state pays a subsidy gap to de-risk private investment, while in the Waterloo documents the money runs the other way, with private sales paying for social homes. And accounts that set home against real estate (Madden and Marcuse 2016) treat the two sides as opposed, while Waterloo’s policy kept changing, raising the social and affordable share from 34 to 50 per cent in 2023 (NSW Government 2023).
 
 > 作用：讨论：案例对各框架的意义  
 > 辩证：赞同／拓展 ↔ 限定  
@@ -393,7 +383,7 @@ The case supports some frameworks and limits others. It is consistent with the v
 
 ### ¶6.4
 
-This argument has limits. It rests on documents and published studies, not on interviews, so residents’ experience comes through other researchers and single news reports. Return cannot yet be observed, because the first new buildings are not finished, so the paper collects evidence on safeguards and process and not on outcomes. The body of the environmental impact statement, the social impact assessment, the gazetted rules and the Homes NSW relocation policy beyond its guides were not read (of the impact statement only appendices A to E were), so “not among the rules” means only that a measure is not in the documents examined. Shrestha, Ruming and Rogers (2025) and Hochstenbach (2017) are known here from their abstracts. Destinations are named but not counted, and the figures on return come from other cities, where tenure, programme and period differ. The documents do not use the five-step chain or Marcuse’s four forms; they are the frames applied to them, and no study applying the chain to Sydney, or following inner-city tenants’ destinations across the metropolitan area, was found. The placement of Waterloo as late-stage, state-led, new-build gentrification is the paper’s own. The conclusion therefore holds for the documents examined and may change when the exhibited proposal is read in full.
+This argument has limits. It rests on documents and published studies, not on interviews, so residents’ experience comes through other researchers and single news reports. Return cannot yet be observed, because the first new buildings are not finished, so the paper collects evidence on safeguards and process and not on outcomes. The body of the environmental impact statement, the social impact assessment, the gazetted rules and the Homes NSW relocation policy beyond its guides were not read (of the impact statement only appendices A to E were), so “not among the rules” means only that a measure is not in the documents examined. Shrestha, Ruming and Rogers (2025) and Hochstenbach (2017) are known here from their abstracts. Destinations are named but not counted, and the figures on return come from other cities, where tenure, programme and period differ. The five-step chain and Marcuse’s four forms are frames applied to the documents, not terms the documents use. The placement of Waterloo as late-stage, state-led, new-build gentrification is the paper’s own. The conclusion therefore holds for the documents examined and may change when the exhibited proposal is read in full.
 
 > 作用：说明局限  
 > 辩证：已有 ↔ 缺失  
@@ -402,7 +392,7 @@ This argument has limits. It rests on documents and published studies, not on in
 
 ### ¶6.5
 
-Planning could do for people what it already does for floor space. The rules fix floor space by tenure; they could also require reporting on how many tenants return, when, and to the same place or only the same area, and where those who do not return live. The share of social housing should be published beside the number of social homes, and the rules for allocating the additional homes should be published. The permanence of the affordable homes beyond the first 7 per cent, which the applicant says will be held in perpetuity, should be confirmed. Where the existing buildings can be renovated, retention should be considered (Zanardo et al. 2024). None of this assumes bad faith. It asks that the cost of the remedy to the people it is meant to help be counted.
+Planning could do for people what it already does for floor space. The rules fix floor space by tenure; they could also require reporting on how many tenants return, when, and to the same place or only the same area, and where those who do not return live. The share of social housing should be published beside the number of social homes, and the rules for allocating the additional homes should be published. The permanence of the affordable homes beyond the first 7 per cent, which the applicant says will be held in perpetuity, should be confirmed. Where the existing buildings can be renovated, retention should be considered (Zanardo et al. 2024). It asks that the cost of the remedy to the people it is meant to help be counted.
 
 > 作用：提出可检查的建议  
 > 辩证：楼面积 ↔ 人：把对楼面积做的事也对人做  
